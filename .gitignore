@@ -18,16 +18,15 @@ log.txt
 npm-debug.log*
 
 /.angular
-/.idea
-/.ionic
-/.sass-cache
-/.sourcemaps
-/.versions
-/.vscode/*
+/**/.ionic
+/**/**/.sass-cache
+/**/.sourcemaps
+/**/.versions
+/**/.vscode/*
 !/.vscode/extensions.json
-/coverage
-/dist
-/node_modules
-/platforms
-/plugins
-/www
+/**/coverage
+/**/dist
+/**/node_modules
+/**/platforms
+/**/plugins
+/**/www
