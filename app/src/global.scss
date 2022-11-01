@@ -24,3 +24,14 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+ion-title.title-large {
+  font-family: "Times New Roman", Times, serif;
+  text-shadow:  4px 0px 2px rgba(var(--ion-text-color-rgb), 0.8);
+}
+
+ion-title {
+  font-family: "Times New Roman", Times, serif;
+  text-shadow:  2px 0px 4px rgba(var(--ion-text-color-rgb), 0.8);
+}
