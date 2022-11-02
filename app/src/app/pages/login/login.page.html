@@ -1,0 +1,69 @@
+<ion-header>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-grid class="pos_titel" align="center" [fixed]="true">
+
+    <ion-row>
+      <ion-col>
+        <ion-title class="big-title">Almanify</ion-title>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-img class="img" src="assets/launch_icons/android/mipmap-xxxhdpi/ic_launcher.png"></ion-img>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <ion-grid class="pos_login_mask" align="center" [fixed]="true">
+
+    <ion-row>
+      <ion-col>
+        <ion-title style="font-size:200%">Login</ion-title>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item class="round">
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="text"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item class="round">
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block">Login</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-item class="round">
+          <ion-label>Remember</ion-label>
+          <ion-toggle [checked]="true"></ion-toggle>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-button fill="clear">Account erstellen</ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>
