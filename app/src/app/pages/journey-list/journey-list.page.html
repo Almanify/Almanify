@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Your Journeys</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-footer [translucent]="true" collapse="fade">
+  <ion-toolbar>
+    <ion-buttons style="justify-content: space-evenly">
+      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-button routerLink="/" routerDirection="forward">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/notifications" routerDirection="forward">
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<ion-content>
+  <!-- new journey button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/create">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <!-- choose to see active, past or all journeys -->
+  <ion-segment [(ngModel)]="journeyType" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="all">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="active">
+      <ion-label>Active</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="archived">
+      <ion-label>Past</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <!-- choose to see created or joined journeys -->
+  <ion-segment [(ngModel)]="journeyRole" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="joined">
+      <ion-label>Joined</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="created">
+      <ion-label>Created</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <!-- one card for each journey -->
+  <ion-card *ngFor="let journey of filteredJourneys">
+    <ion-card-header>
+      <ion-card-title>
+        {{journey.name}}
+        <ion-chip *ngIf="journey.status === 'active'" color="success">
+          Active
+        </ion-chip>
+        <ion-chip *ngIf="journey.status === 'archived'" color="danger">
+          Archived
+        </ion-chip>
+      </ion-card-title>
+      <ion-button (click)="editJourney(journey)">
+        <ion-icon name="create"></ion-icon>
+      </ion-button>
+      <ion-button (click)="deleteJourney(journey)">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+      <ion-button (click)="viewJourney(journey)">
+        <ion-icon name="eye"></ion-icon>
+      </ion-button>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item-group>
+        <ion-label>Start</ion-label>
+        <ion-chip>{{journey.start}}</ion-chip>
+        <ion-label>End</ion-label>
+        <ion-chip>{{journey.end}}</ion-chip>
+      </ion-item-group>
+      <!-- people -->
+      <ion-item-group>
+        <ion-label>People</ion-label>
+        <ion-chip>
+          <ion-icon name="caret-up-outline"
+                    color="primary"></ion-icon>
+          <p>{{journey.creator}}</p>
+        </ion-chip>
+        <span *ngFor="let person of journey.people">
+          <ion-chip *ngIf="journey.creator !== person">
+          <p>{{person}}</p>
+          </ion-chip>
+        </span>
+      </ion-item-group>
+    </ion-card-content>
+  </ion-card>
+  <!-- text if no journeys -->
+  <ion-text *ngIf="filteredJourneys.length === 0">
+    <div class="ion-text-center">
+      <h2>No journeys to show</h2>
+      <p>Click the button below to create a new journey</p>
+    </div>
+  </ion-text>
+</ion-content>
