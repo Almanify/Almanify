@@ -15,11 +15,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/debt-calculator/debt-calculator.module').then( m => m.DebtCalculatorPageModule)
   },
   {
+    path: 'journeys',
+    loadChildren: () => import('./pages/journey-list/journey-list.module').then( m => m.JourneyListPageModule)
+  },
+  {
     path: '',
     redirectTo: 'folder/Inbox',
     pathMatch: 'full'
   }
-
 ];
 
 @NgModule({
