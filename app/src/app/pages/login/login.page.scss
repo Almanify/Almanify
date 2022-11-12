@@ -1,25 +1,9 @@
-.img{
-  height:60%;
-  width: 60%;
-  margin: auto;
-  justify-content: center;
-  align-items: center;
-}
+
 .big-title {
   font-family: "Times New Roman", Times, serif;
   color: var(--ion-color-primary);
   text-shadow: 4px 0px 16px rgba(var(--ion-color-primary-rgb), 0.8);
   font-size: 400%;
-}
-
-.pos_titel{
-  position: absolute;
-  top: 10%;
-}
-
-.pos_login_mask{
-  position: absolute;
-  bottom:20%;
 }
 
 .round{
