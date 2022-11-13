@@ -2,9 +2,9 @@
 
 </ion-header>
 
-<ion-content>
+<ion-content style="align-content: center; top: 10%">
 
-  <ion-grid class="pos_titel" align="center" [fixed]="true">
+  <ion-grid align="center" [fixed]="true">
 
     <ion-row>
       <ion-col>
@@ -12,47 +12,43 @@
       </ion-col>
     </ion-row>
 
-    <ion-row>
-      <ion-col>
-        <ion-img class="img" src="assets/launch_icons/android/mipmap-xxxhdpi/ic_launcher.png"></ion-img>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size='6' size-md="4" size-lg="2" size-xl="2">
+        <ion-img src="assets/launch_icons/android/mipmap-xxxhdpi/ic_launcher.png"></ion-img>
       </ion-col>
     </ion-row>
 
-  </ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-sm="12" size-md="8">
 
-  <ion-grid class="pos_login_mask" align="center" [fixed]="true">
-
-    <ion-row>
-      <ion-col>
         <ion-title style="font-size:200%">Login</ion-title>
       </ion-col>
     </ion-row>
 
-    <ion-row>
-      <ion-col>
-        <ion-item class="round">
-          <ion-label position="floating">Email</ion-label>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-sm="12" size-md="8">
+        <ion-item class="round ion-margin-top">
+          <ion-label position="floating">E-Mail</ion-label>
           <ion-input type="text"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
 
-    <ion-row>
-      <ion-col>
-        <ion-item class="round">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-sm="12" size-md="8">
+        <ion-item class="round ion-margin-top">
           <ion-label position="floating">Password</ion-label>
           <ion-input type="password"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
-
-    <ion-row>
-      <ion-col>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-sm="4">
         <ion-button expand="block">Login</ion-button>
       </ion-col>
-      <ion-col>
+      <ion-col size="12" size-sm="4">
         <ion-item class="round">
-          <ion-label>Remember</ion-label>
+          <ion-label>Remember me</ion-label>
           <ion-toggle [checked]="true"></ion-toggle>
         </ion-item>
       </ion-col>
@@ -60,7 +56,21 @@
 
     <ion-row>
       <ion-col>
-        <ion-button fill="clear">Account erstellen</ion-button>
+        <ion-button fill="clear">creat account</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <!-- information -->
+
+    <ion-row class="ion-align-items-center">
+      <ion-col>
+        <ion-button fill="clear">Impressum</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button fill="clear">Datenschutz</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button fill="clear">AGB</ion-button>
       </ion-col>
     </ion-row>
 
