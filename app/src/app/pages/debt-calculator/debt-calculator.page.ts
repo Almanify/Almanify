@@ -34,7 +34,10 @@ export class DebtCalculatorPage implements OnInit {
       'Bob',
       'Sally',
       'John',
-      'Jane'
+      'Jane',
+      'Mike',
+      'Günter',
+      'Hans'
     ];
 
     this.debt = {
