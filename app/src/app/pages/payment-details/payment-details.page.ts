@@ -26,7 +26,12 @@ export class PaymentDetailsPage implements OnInit {
       'Jane',
       'Max',
       'Hendrik',
-      'Sven'
+      'Sven',
+      'Günter',
+      'Peter',
+      'Jürgen',
+      'Anna',
+      'Karl Heinz',
     ];
     this.currencys = [
       '€',
