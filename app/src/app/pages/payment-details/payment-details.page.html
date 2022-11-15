@@ -8,7 +8,7 @@
   <ion-card>
     <ion-card-header>
       <ion-toolbar>
-        <ion-card-title>Details: {{payment.title}}</ion-card-title>
+        <ion-card-title>Details:  <ion-input disabled="{{!isEditMode}}" placeholder="{{payment.title}}"></ion-input></ion-card-title>
         <ion-buttons slot="end">
           <ion-button on-click="toggleEditMode()">
             <ion-icon slot="icon-only" name="{{isEditMode ? 'save-outline':  'hammer-outline'}}"></ion-icon>
@@ -25,7 +25,7 @@
             <ion-label>
               Payer
             </ion-label>
-            <ion-select slot="end" placeholder="{{payment.payerID === undefined ? 'Select' : payment.payerID}}">
+            <ion-select slot="end" placeholder="{{payment.payerID === undefined ? 'Select' : payment.payerID}}" >
               <ion-select-option *ngFor="let item of people" value="{{item}}">{{item}}</ion-select-option>
             </ion-select>
           </ion-item>
@@ -72,7 +72,7 @@
             </ion-label>
             <ion-grid >
               <ion-row>
-                <ion-col size-xs="4" size-sm="2" size-md="2" size-lg="auto" size-xl="12"
+                <ion-col size-xs="4" size-sm="2" size-md="2" size-lg="auto" size-xl="2"
                          *ngFor="let item of payment.involvedIDs">
                   <ion-chip>
                     {{item}}
