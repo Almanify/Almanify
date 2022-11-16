@@ -1,0 +1,140 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{journeyTitle}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-toolbar>
+        <ion-card-title>Details:
+          <div *ngIf="!isEditMode; else titleInput">
+            {{payment.title}}
+          </div>
+          <ng-template #titleInput>
+            <ion-input disabled="{{!isEditMode}}" placeholder="{{payment.title}}"></ion-input>
+          </ng-template>
+        </ion-card-title>
+        <ion-buttons slot="end">
+          <ion-button on-click="toggleEditMode()">
+            <ion-icon slot="icon-only" name="{{isEditMode ? 'save-outline':  'hammer-outline'}}"></ion-icon>
+          </ion-button>
+          <ion-button>
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-card-content>
+        <ion-list>
+
+          <ion-item>
+            <ion-icon slot="start" name="person"></ion-icon>
+            <ion-label>
+              Payer
+            </ion-label>
+            <div *ngIf="!isEditMode; else payerDropdown">
+              {{payment.payerID}}
+            </div>
+            <ng-template #payerDropdown>
+              <ion-select slot="end" placeholder="{{payment.payerID === undefined ? 'Select' : payment.payerID}}">
+                <ion-select-option *ngFor="let item of people" value="{{item}}">{{item}}</ion-select-option>
+              </ion-select>
+            </ng-template>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon slot="start" name="cash-outline"></ion-icon>
+            <ion-label>
+              Value
+            </ion-label>
+            <div *ngIf="!isEditMode; else valueCurrencyInput">
+              {{payment.value + payment.currency}}
+            </div>
+            <ng-template #valueCurrencyInput>
+              <ion-input class="ion-text-right" slot="end" type="number"
+                         [(ngModel)]="payment.value">
+              </ion-input>
+            </ng-template>
+          </ion-item>
+          <ion-item *ngIf="isEditMode">
+            <ion-icon slot="start" name="logo-yen"></ion-icon>
+            <ion-label>
+              Currency
+            </ion-label>
+            <ion-select slot="end" placeholder="{{payment.currency === undefined ? 'Select' : payment.currency}}">
+              <ion-select-option *ngFor="let item of currencys" value="{{item}}">{{item}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon slot="start" name="calendar-outline"></ion-icon>
+            <ion-label>
+              Payday
+            </ion-label>
+            <div *ngIf="!isEditMode; else dateInput">
+              {{payment.payday.getDate() + '.' + payment.payday.getMonth() + '.' + payment.payday.getFullYear()}}
+            </div>
+            <ng-template #dateInput>
+              <ion-datetime-button datetime="datetime"></ion-datetime-button>
+              <ion-modal [keepContentsMounted]="true">
+                <ng-template>
+                  <ion-datetime presentation="date" id="datetime"></ion-datetime>
+                </ng-template>
+              </ion-modal>
+            </ng-template>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon slot="start" name="pricetags"></ion-icon>
+            <ion-label>
+              Category
+            </ion-label>
+            <div *ngIf="!isEditMode; else categoryDropdown">
+              {{payment.category}}
+            </div>
+            <ng-template #categoryDropdown>
+              <ion-select slot="end" placeholder="{{payment.category === undefined ? 'Select' : payment.category}}">
+                <ion-select-option *ngFor="let item of categorys" value="{{item}}">{{item}}</ion-select-option>
+              </ion-select>
+            </ng-template>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked" text-wrap class="ion-text-center ion-align-self-center">
+              <h1 class="ion-text-center">
+                <ion-icon name="people"></ion-icon>
+                Involved
+              </h1>
+
+            </ion-label>
+            <ion-grid>
+              <ion-row>
+                <ion-col size-xs="4" size-sm="2" size-md="2" size-lg="auto" size-xl="2"
+                         *ngFor="let item of payment.involvedIDs">
+                  <ion-chip>
+                    {{item}}
+                    <ion-icon color="danger" *ngIf="isEditMode" name="close-circle-outline"></ion-icon>
+                  </ion-chip>
+                </ion-col>
+                <ion-fab-button *ngIf="isEditMode" color="success" size="small">
+                  <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+
+          <ion-button *ngIf="isEditMode && (payment.img === undefined)" fill="outline" expand="block">
+            <ion-icon name="add"></ion-icon>
+            <ion-icon name="camera-outline"></ion-icon>
+          </ion-button>
+
+          <ion-img *ngIf="!isEditMode"
+                   src="https://www.stuttgarter-zeitung.de/media.media.5de4dbed-0458-4e9f-9c90-9164a07d9088.original1024.jpg"></ion-img>
+
+        </ion-list>
+
+      </ion-card-content>
+    </ion-card-header>
+  </ion-card>
+</ion-content>
