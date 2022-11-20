@@ -31,7 +31,7 @@ export class PaymentDetailsPage implements OnInit {
       'Peter',
       'Jürgen',
       'Anna',
-      'Karl Heinz',
+      'Karl Heinz der IV',
     ];
     this.currencys = [
       '€',
@@ -56,5 +56,10 @@ export class PaymentDetailsPage implements OnInit {
   save() {
     //save stuff
     console.log("saved");
+  }
+
+  removeInvolved(userID: string){
+    let index = this.payment.involvedIDs.indexOf(userID);
+    this.payment.involvedIDs.splice(index,1);
   }
 }

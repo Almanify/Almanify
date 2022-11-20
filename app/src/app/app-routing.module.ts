@@ -34,8 +34,11 @@ const routes: Routes = [
   {
     path: 'journey-editor',
     loadChildren: () => import('./pages/journey-editor/journey-editor.module').then( m => m.JourneyEditorPageModule)
+  },
+  {
+    path: 'journey-details',
+    loadChildren: () => import('./pages/journey-details/journey-details.module').then( m => m.JourneyDetailsPageModule)
   }
-
 ];
 
 @NgModule({
