@@ -22,9 +22,18 @@ const routes: Routes = [
     path: '',
     redirectTo: 'folder/Inbox',
     pathMatch: 'full'
-  },  {
+  },
+  {
     path: 'payment-details',
     loadChildren: () => import('./pages/payment-details/payment-details.module').then( m => m.PaymentDetailsPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'journey-editor',
+    loadChildren: () => import('./pages/journey-editor/journey-editor.module').then( m => m.JourneyEditorPageModule)
   }
 
 ];

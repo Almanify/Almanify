@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Almanify</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-footer [translucent]="true" collapse="fade">
+  <ion-toolbar>
+    <ion-buttons style="justify-content: space-evenly">
+      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-button routerLink="/" routerDirection="forward">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/notifications" routerDirection="forward">
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<ion-content>
+  
+  <ion-grid align="center" [fixed]="true">
+    
+    <ion-row style="height: 10vh"></ion-row>
+    
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="8" size-md="6" size-lg="4" size-xl="3">
+        <ion-img src="assets/launch_icons/android/mipmap-xxxhdpi/ic_launcher.png"></ion-img>
+      </ion-col>
+    </ion-row>
+
+    <ion-row style="height: 5vh"></ion-row>
+
+    <ion-row class="ion-justify-content-center">
+      <ion-col>
+        <ion-button style="height: 125%" size="large" shape="round" expand="block" fill="outline" expand="block">
+          <ion-text>Create Journey</ion-text>
+          <ion-icon style="font-size: 7vh" slot="end" name="caret-forward-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row style="height: 7vh"></ion-row>
+    
+    <ion-row class="ion-justify-content-center">
+      <ion-col>
+        <ion-button style="height: 125%" size="large" shape="round" expand="block" fill="outline" expand="block">
+          <ion-text>Join Journey</ion-text>
+          <ion-icon style="font-size: 7vh" slot="end" name="enter-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row style="height: 7vh"></ion-row>
+
+  </ion-grid>
+</ion-content>
