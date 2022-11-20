@@ -119,8 +119,8 @@ ion-item.selected {
   --color: var(--ion-color-primary);
 }
 
+
 ion-menu::part(container) {
   border-radius: 0 30px 30px 0;
-  box-shadow: 4px 0px 16px rgba(var(--ion-color-primary-rgb), 0.8);
+  box-shadow: 30px 5px 45px 5px rgba(var(--ion-color-tertiary-rgb), 0.08);
 }
-
