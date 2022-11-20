@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-footer [translucent]="true" collapse="fade">
-  <ion-button expand="block"> 
+  <ion-button expand="block">
     <ion-text>Save</ion-text>
     <ion-icon slot="end" name="save"></ion-icon>
   </ion-button>
@@ -35,22 +35,25 @@
         <!-- header with exit button -->
         <ion-row class="ion-justify-content-center">
           <ion-toolbar>
-            <ion-card-title>New Journey</ion-card-title>
-            <ion-button slot="end" shape="round">
-              <ion-icon size="large" slot="icon-only" name="close-outline"></ion-icon>
+            <ion-card-title>
+              New Journey
+            </ion-card-title>
+            <ion-button slot="end">
+              <ion-icon slot="icon-only" name="close"></ion-icon>
             </ion-button>
-          </ion-toolbar>        
+          </ion-toolbar>
         </ion-row>
         <!-- journey name -->
         <ion-row class="ion-justify-content-center">
           <ion-col>
-            <ion-item fill="outline">
-              <ion-input type="text" maxlength="20" placeholder="Journey name" required="true"></ion-input>
+            <ion-item lines="full" fill="outline">
+              <ion-label>Title:</ion-label>
+              <ion-input type="text" maxlength="20" placeholder="My Journey" required="true"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
 
-        <ion-row style="height: 5vh"></ion-row>
+        <ion-row style="height: 3vh"></ion-row>
 
         <ion-row class="ion-justify-content-center">
           <ion-col>
@@ -68,12 +71,14 @@
               <ion-item lines="full" id="date">
                 <ion-icon name="calendar-outline" slot="start"></ion-icon>
                 <ion-label>Start date:</ion-label>
-                <ion-input value="{{ date | date: 'dd.MM.yyyy' }}" class="ion-text-end" required="true"></ion-input>
-                <ion-popover trigger="date" size="auto">
+
+                <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+                <ion-modal [keepContentsMounted]="true">
                   <ng-template>
-                    <ion-datetime presentation="date" [(ngModel)]="date"></ion-datetime>
+                    <ion-datetime presentation="date" id="datetime"></ion-datetime>
                   </ng-template>
-                </ion-popover>
+                </ion-modal>
               </ion-item>
               <!-- "invite code" field -->
               <ion-item lines="full">
@@ -110,10 +115,10 @@
                   </ion-chip>
                 </ion-col>
         </ion-row>
-        
-        
+
+
       </ion-grid>
     </ion-card-content>
-    
+
   </ion-card>
 </ion-content>
