@@ -22,7 +22,11 @@ const routes: Routes = [
     path: '',
     redirectTo: 'folder/Inbox',
     pathMatch: 'full'
+  },  {
+    path: 'debt-view',
+    loadChildren: () => import('./pages/debt-view/debt-view/debt-view.module').then( m => m.DebtViewPageModule)
   }
+
 ];
 
 @NgModule({
