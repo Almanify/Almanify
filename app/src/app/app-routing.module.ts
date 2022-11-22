@@ -36,6 +36,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/journey-editor/journey-editor.module').then( m => m.JourneyEditorPageModule)
   },
   {
+    path: 'journey-editor/:edit/:name/:cur/:start/:code/:people', 
+    loadChildren: () => import('./pages/journey-editor/journey-editor.module').then( m => m.JourneyEditorPageModule)
+  },
+  {
     path: 'journey-details',
     loadChildren: () => import('./pages/journey-details/journey-details.module').then( m => m.JourneyDetailsPageModule)
   }

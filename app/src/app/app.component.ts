@@ -10,6 +10,7 @@ export class AppComponent {
   public userName: string = 'Exa_User';
 
   public appPages = [
+    {title: 'Home', url: `/home`, icon: 'home'},
     {title: 'Journeys', url: `/journeys`, icon: 'earth'},
     {title: 'Debts', url: '/debts', icon: 'cash'},
     {title: 'Options', url: '/options', icon: 'construct'},
