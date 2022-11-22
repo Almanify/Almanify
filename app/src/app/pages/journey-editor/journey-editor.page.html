@@ -64,7 +64,8 @@
               <ion-item lines="full">
                 <ion-icon name="key" slot="start"></ion-icon>
                 <ion-label>Invite code:</ion-label>
-                <ion-input style="text-align: end" type="numeric" minlength="5" maxlength="5" placeholder="{{journey.invite_code}}" required="true"></ion-input>
+                <ion-input style="text-align: end" type="numeric" minlength="5" maxlength="5"
+                           placeholder="{{journey.invite_code}}" required="true"></ion-input>
               </ion-item>
             </ion-item-group>
           </ion-col>
@@ -86,14 +87,13 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size-xs="4" size-sm="2" size-md="2" size-lg="auto" size-xl="2"
-                         *ngFor="let per of journey.people">
-                  <ion-chip>
-                    <ion-icon name="caret-up-outline" *ngIf="per == journey.creator"></ion-icon>
-                    {{per}}
-                    <ion-icon color="danger" name="close-circle-outline"></ion-icon>
-                  </ion-chip>
-                </ion-col>
+          <span *ngFor="let per of journey.people">
+            <ion-chip>
+              <ion-icon name="caret-up-outline" *ngIf="per == journey.creator"></ion-icon>
+              {{per}}
+              <ion-icon color="danger" name="close-circle-outline"></ion-icon>
+            </ion-chip>
+          </span>
         </ion-row>
 
 
