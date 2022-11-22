@@ -24,6 +24,10 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'debt-view',
+    loadChildren: () => import('./pages/debt-view/debt-view/debt-view.module').then( m => m.DebtViewPageModule)
+  },
+  {
     path: 'payment-details',
     loadChildren: () => import('./pages/payment-details/payment-details.module').then( m => m.PaymentDetailsPageModule)
   },
@@ -43,6 +47,7 @@ const routes: Routes = [
     path: 'journey-details',
     loadChildren: () => import('./pages/journey-details/journey-details.module').then( m => m.JourneyDetailsPageModule)
   }
+
 ];
 
 @NgModule({
