@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>{{journeyTitle}}</ion-title>
+    <ion-button slot="end">
+      <ion-back-button defaultHref="" icon="close"></ion-back-button>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -17,14 +20,12 @@
             <ion-input disabled="{{!isEditMode}}" placeholder="{{payment.title}}"></ion-input>
           </ng-template>
         </ion-card-title>
-        <ion-buttons slot="end">
-          <ion-button *ngIf="!isEditMode" on-click="toggleEditMode()">
-            <ion-icon slot="icon-only" name="{{'hammer-outline'}}"></ion-icon>
-          </ion-button>
-          <ion-button on-click="exit()">
-            <ion-icon slot="icon-only" name="close"></ion-icon>
-          </ion-button>
-        </ion-buttons>
+        <ion-button slot="end" *ngIf="!isEditMode" on-click="toggleEditMode()">
+          <ion-icon slot="icon-only" name="{{'create'}}"></ion-icon>
+        </ion-button>
+        <ion-button slot="end" *ngIf="isEditMode" on-click="toggleEditMode()">
+          <ion-icon slot="icon-only" name="{{'arrow-back'}}"></ion-icon>
+        </ion-button>
       </ion-toolbar>
     </ion-card-header>
     <ion-card-content>
@@ -139,4 +140,18 @@
     <ion-icon slot="start" name="save-outline"></ion-icon>
     Save
   </ion-button>
+</ion-footer>
+
+<ion-footer [translucent]="true" collapse="fade">
+  <ion-toolbar>
+    <ion-buttons style="justify-content: space-evenly">
+      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-button routerLink="/" routerDirection="forward">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/notifications" routerDirection="forward">
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-footer>

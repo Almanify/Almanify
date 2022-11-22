@@ -25,13 +25,20 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+ion-title.big-title {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: var(--ion-color-primary);
+  text-shadow: 4px 0px 16px rgba(var(--ion-color-primary-rgb), 0.4);
+  text-align: center;
+  font-size: 400%;
+}
 
 ion-title.title-large {
-  font-family: "Times New Roman", Times, serif;
-  text-shadow:  4px 0px 2px rgba(var(--ion-text-color-rgb), 0.8);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-shadow:  4px 0px 2px rgba(var(--ion-text-color-rgb), 0.2);
 }
 
 ion-title {
-  font-family: "Times New Roman", Times, serif;
-  text-shadow:  2px 0px 4px rgba(var(--ion-text-color-rgb), 0.8);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-shadow:  2px 0px 4px rgba(var(--ion-text-color-rgb), 0.2);
 }

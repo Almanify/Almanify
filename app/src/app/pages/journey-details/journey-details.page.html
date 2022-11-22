@@ -2,12 +2,11 @@
   <ion-toolbar>
     <ion-menu-button slot="start"></ion-menu-button>
     <ion-title>{{journeyTitle}}</ion-title>
-    <ion-button slot="end" fill="outline" shape="round">
-      <ion-icon slot="icon-only" name="create-outline" on-click="editJourney()"></ion-icon>
+    <ion-button slot="end">
+      <ion-back-button defaultHref="/journeys" icon="close"></ion-back-button>
     </ion-button>
   </ion-toolbar>
 </ion-header>
-
 
 <ion-content>
 
@@ -39,7 +38,7 @@
           <ion-icon name="{{getCategoryIcon(payment.category)}}"></ion-icon>
         </ion-card-title>
         <ion-buttons slot="end">
-          <ion-button color="success" shape="round" fill="outline" (click)="editPayment(payment)">
+          <ion-button color="success" shape="round" fill="outline" routerLink="/payment-details" routerDirection="forward" (click)="editPayment(payment)">
             <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
           <ion-button color="danger" shape="round" fill="outline" (click)="deletePayment(payment)">
@@ -75,5 +74,18 @@
     <ion-icon slot="start" name="add-circle"></ion-icon>
     add payment
   </ion-button>
+</ion-footer>
 
+<ion-footer [translucent]="true" collapse="fade">
+  <ion-toolbar>
+    <ion-buttons style="justify-content: space-evenly">
+      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-button routerLink="/" routerDirection="forward">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/notifications" routerDirection="forward">
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-footer>

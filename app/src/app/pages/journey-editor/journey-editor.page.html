@@ -4,29 +4,11 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Journey-Editor</ion-title>
+    <ion-button slot="end">
+      <ion-back-button defaultHref="/journeys" icon="close"></ion-back-button>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
-
-<ion-footer [translucent]="true" collapse="fade">
-  <ion-button expand="block">
-    <ion-text>Save</ion-text>
-    <ion-icon slot="end" name="save"></ion-icon>
-  </ion-button>
-</ion-footer>
-
-<ion-footer [translucent]="true" collapse="fade">
-  <ion-toolbar>
-    <ion-buttons style="justify-content: space-evenly">
-      <ion-back-button defaultHref="/"></ion-back-button>
-      <ion-button routerLink="/" routerDirection="forward">
-        <ion-icon slot="icon-only" name="home"></ion-icon>
-      </ion-button>
-      <ion-button routerLink="/notifications" routerDirection="forward">
-        <ion-icon slot="icon-only" name="notifications"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
 
 <ion-content>
   <ion-card>
@@ -35,12 +17,10 @@
         <!-- header with exit button -->
         <ion-row class="ion-justify-content-center">
           <ion-toolbar>
-            <ion-card-title>
-              New Journey
-            </ion-card-title>
-            <ion-button slot="end">
-              <ion-icon slot="icon-only" name="close"></ion-icon>
-            </ion-button>
+            <ion-card-title *ngIf="!isEditMode; else editMode">New Journey</ion-card-title>
+            <ng-template #editMode>
+              <ion-card-title>Edit Journey</ion-card-title>
+            </ng-template>
           </ion-toolbar>
         </ion-row>
         <!-- journey name -->
@@ -48,7 +28,7 @@
           <ion-col>
             <ion-item lines="full" fill="outline">
               <ion-label>Title:</ion-label>
-              <ion-input type="text" maxlength="20" placeholder="My Journey" required="true"></ion-input>
+              <ion-input type="text" maxlength="30" placeholder={{journey.name}} required="true"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -63,7 +43,7 @@
               <ion-item lines="full">
                 <ion-icon name="logo-euro" slot="start"></ion-icon>
                 <ion-label>Default currency:</ion-label>
-                <ion-select interface="popover" placeholder="€">
+                <ion-select interface="popover" placeholder="{{journey.def_currency}}">
                   <ion-select-option *ngFor="let cur of this.currencies">{{cur}}</ion-select-option>
                 </ion-select>
               </ion-item>
@@ -84,7 +64,7 @@
               <ion-item lines="full">
                 <ion-icon name="key" slot="start"></ion-icon>
                 <ion-label>Invite code:</ion-label>
-                <ion-input style="text-align: end" type="numeric" minlength="5" maxlength="5" placeholder="12345" required="true"></ion-input>
+                <ion-input style="text-align: end" type="numeric" minlength="5" maxlength="5" placeholder="{{journey.invite_code}}" required="true"></ion-input>
               </ion-item>
             </ion-item-group>
           </ion-col>
@@ -107,9 +87,9 @@
         </ion-row>
         <ion-row>
           <ion-col size-xs="4" size-sm="2" size-md="2" size-lg="auto" size-xl="2"
-                         *ngFor="let per of journeys[0].people">
+                         *ngFor="let per of journey.people">
                   <ion-chip>
-                    <ion-icon name="caret-up-outline" *ngIf="per == journeys[0].creator"></ion-icon>
+                    <ion-icon name="caret-up-outline" *ngIf="per == journey.creator"></ion-icon>
                     {{per}}
                     <ion-icon color="danger" name="close-circle-outline"></ion-icon>
                   </ion-chip>
@@ -122,3 +102,24 @@
 
   </ion-card>
 </ion-content>
+
+<ion-footer [translucent]="true" collapse="fade">
+  <ion-button expand="block">
+    <ion-text>Save</ion-text>
+    <ion-icon slot="end" name="save"></ion-icon>
+  </ion-button>
+</ion-footer>
+
+<ion-footer [translucent]="true" collapse="fade">
+  <ion-toolbar>
+    <ion-buttons style="justify-content: space-evenly">
+      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-button routerLink="/" routerDirection="forward">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/notifications" routerDirection="forward">
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

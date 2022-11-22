@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-journey-list',
@@ -10,18 +11,22 @@ export class JourneyListPage implements OnInit {
   user = 'Bob';
   journeys: Array<{
     name: string;
+    def_currency: string;
     start: string;
     end: string;
     people: Array<string>;
+    invite_code: number;
     creator: string;
     status: string;
   }> = undefined;
 
   filteredJourneys: Array<{
     name: string;
+    def_currency: string;
     start: string;
     end: string;
     people: Array<string>;
+    invite_code: number;
     creator: string;
     status: string;
   }> = undefined;
@@ -29,10 +34,11 @@ export class JourneyListPage implements OnInit {
   journeyType = 'all';
   journeyRole = 'joined';
 
-  constructor() {
+  constructor(private router: Router) {
     this.journeys = [
       {
         name: 'Frankreich 2021',
+        def_currency: '€',
         start: '2021-01-01',
         end: '2021-01-02',
         people: [
@@ -41,22 +47,26 @@ export class JourneyListPage implements OnInit {
           'John',
           'Jane'
         ],
+        invite_code: 12345,
         creator: 'Bob',
         status: 'active'
       },
       {
         name: 'Malle 2020',
+        def_currency: '€',
         start: '2020-04-01',
         end: '2020-04-08',
         people: [
           'Bob',
           'Sally',
         ],
+        invite_code: 23456,
         creator: 'Sally',
         status: 'archived'
       },
       {
         name: 'Quarantäne 2020',
+        def_currency: '🍑',
         start: '2020-03-01',
         end: '2020-03-08',
         people: [
@@ -64,6 +74,7 @@ export class JourneyListPage implements OnInit {
           'Sally',
           'John',
           ],
+        invite_code: 34567,
         creator: 'John',
         status: 'archived'
       }
@@ -101,6 +112,9 @@ export class JourneyListPage implements OnInit {
     }
   }
 
+  sendJourneyDetails(editMode, name, cur, start, code, people, creator) {
+    this.router.navigate(['/journey-editor', {edit: editMode, name: name, cur: cur, start: start, code: code, people: [people], creator: creator}]);
+  }
 
   ngOnInit() {
   }

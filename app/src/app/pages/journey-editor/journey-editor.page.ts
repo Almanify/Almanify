@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-journey-editor',
@@ -7,23 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class JourneyEditorPage implements OnInit {
   
-  journeys: Array<{
+  private isEditMode: boolean = false;
+
+  journey: {
     name: string;
     def_currency: string;
     start: string;
+    end: string;
     people: Array<string>;
     invite_code: number;
     creator: string;
-  }> = undefined;
+    status: string;
+  } = undefined;
 
   currencies: Array<string> = undefined;
 
-  constructor() { 
-    this.journeys = [
+  constructor(private route: ActivatedRoute) { 
+    this.journey =
       {
-        name: 'Test-Reise',
-        def_currency: '€',
-        start: '2022-01-01',
+        name: 'Title here',
+        def_currency: '',
+        start: '',
+        end: '',
         people: [
           'Bob',
           'Sally',
@@ -31,9 +37,10 @@ export class JourneyEditorPage implements OnInit {
           'Jane'
         ],
         invite_code: 12345,
-        creator: 'Bob'
+        creator: 'Bob',
+        status: 'active'
       }
-    ];
+    ;
     this.currencies = [
       '€',
       '$',
@@ -42,6 +49,15 @@ export class JourneyEditorPage implements OnInit {
   }
 
   ngOnInit() {
+    this.isEditMode = Boolean(this.route.snapshot.paramMap.get('edit'));
+    if(this.isEditMode) {
+      this.journey.name = this.route.snapshot.paramMap.get('name');
+      this.journey.def_currency = this.route.snapshot.paramMap.get('cur');
+      this.journey.start = this.route.snapshot.paramMap.get('start');
+      this.journey.invite_code = parseInt(this.route.snapshot.paramMap.get('code'));
+      const str = this.route.snapshot.paramMap.get('people');
+      this.journey.people = str.split(/[,]+/);
+      this.journey.creator = this.route.snapshot.paramMap.get('creator');
+    }
   }
-
 }
