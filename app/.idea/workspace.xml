@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b2050a7b-0338-4b65-94fa-cfae0222ca0e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/data/Payment.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/payment-details/payment-details-routing.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/payment-details/payment-details.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/payment-details/payment-details.page.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/payment-details/payment-details.page.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/payment-details/payment-details.page.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/payment-details/payment-details.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/extensions.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.idea/misc.xml" beforeDir="false" />
+    <list default="true" id="b2050a7b-0338-4b65-94fa-cfae0222ca0e" name="Changes" comment="Changes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/debt-calculator/debt-calculator.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/debt-calculator/debt-calculator.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/login/login.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/login/login.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/data/Journey.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/data/Journey.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,21 +30,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.javascript.linters.eslint",
-    "ts.external.directory.path": "C:\\Users\\biebl\\Documents\\almanify\\app\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="C:\Users\biebl\Documents\almanify\app\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
   <component name="RunManager" selected="npm.Angular CLI Server">
     <configuration name="Tests (app)" type="JavaScriptTestRunnerKarma">
       <config-file value="$PROJECT_DIR$/karma.conf.js" />
@@ -98,7 +74,13 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1668339213206</updated>
-      <workItem from="1668339214455" duration="14308000" />
+      <workItem from="1668339214455" duration="16364000" />
+      <workItem from="1668437918353" duration="421000" />
+      <workItem from="1668438474700" duration="4963000" />
+      <workItem from="1668508123067" duration="4403000" />
+      <workItem from="1668515938926" duration="2730000" />
+      <workItem from="1668614159112" duration="1863000" />
+      <workItem from="1668696064819" duration="15399000" />
     </task>
     <servers />
   </component>
@@ -115,5 +97,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

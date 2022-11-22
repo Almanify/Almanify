@@ -30,6 +30,18 @@ const routes: Routes = [
   {
     path: 'payment-details',
     loadChildren: () => import('./pages/payment-details/payment-details.module').then( m => m.PaymentDetailsPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'journey-editor',
+    loadChildren: () => import('./pages/journey-editor/journey-editor.module').then( m => m.JourneyEditorPageModule)
+  },
+  {
+    path: 'journey-details',
+    loadChildren: () => import('./pages/journey-details/journey-details.module').then( m => m.JourneyDetailsPageModule)
   }
 
 ];

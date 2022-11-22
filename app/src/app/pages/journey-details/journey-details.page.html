@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-menu-button slot="start"></ion-menu-button>
+    <ion-title>{{journeyTitle}}</ion-title>
+    <ion-button slot="end" fill="outline" shape="round">
+      <ion-icon slot="icon-only" name="create-outline" on-click="editJourney()"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <ion-segment [ngModel]="sortBy">
+    <ion-segment-button value="person">
+      <ion-icon name="person"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="money">
+      <ion-icon name="cash-outline"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="date">
+      <ion-icon name="calendar"></ion-icon>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-segment [ngModel]="sortOrder">
+    <ion-segment-button value="highToLow">
+      <ion-icon name="caret-down-outline"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="lowToHigh">
+      <ion-icon name="caret-up-outline"></ion-icon>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-card *ngFor="let payment of payments" on-click="viewPayment(payment)">
+    <ion-card-header>
+      <ion-toolbar>
+        <ion-card-title>{{payment.title}}
+          <ion-icon name="{{getCategoryIcon(payment.category)}}"></ion-icon>
+        </ion-card-title>
+        <ion-buttons slot="end">
+          <ion-button color="success" shape="round" fill="outline" (click)="editPayment(payment)">
+            <ion-icon slot="icon-only" name="create"></ion-icon>
+          </ion-button>
+          <ion-button color="danger" shape="round" fill="outline" (click)="deletePayment(payment)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-chip>
+        <ion-icon name="person"></ion-icon>
+        <ion-label>{{payment.payerID}}</ion-label>
+      </ion-chip>
+
+      <ion-chip>
+        <ion-icon name="calendar"></ion-icon>
+        <ion-label>{{payment.payday.getDate() + '.' + payment.payday.getMonth() + '.' + payment.payday.getFullYear()}}</ion-label>
+      </ion-chip>
+
+      <ion-chip>
+        <ion-icon name="cash-outline"></ion-icon>
+        <ion-label>{{payment.value + payment.currency}}</ion-label>
+      </ion-chip>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-button shape="round" size="large" expand="block" on-click="addPayment()">
+    <ion-icon slot="start" name="add-circle"></ion-icon>
+    add payment
+  </ion-button>
+
+</ion-footer>
