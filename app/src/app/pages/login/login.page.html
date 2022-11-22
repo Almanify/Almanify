@@ -18,61 +18,95 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center">
-      <ion-col size-sm="12" size-md="8">
+    <ng-container *ngIf="isLoginMode; else register">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="12" size-md="8">
 
-        <ion-title style="font-size:200%">Login</ion-title>
-      </ion-col>
-    </ion-row>
+          <ion-title style="font-size:200%">Login</ion-title>
+        </ion-col>
+      </ion-row>
 
-    <ion-row class="ion-justify-content-center">
-      <ion-col size-sm="12" size-md="8">
-        <ion-item class="round ion-margin-top">
-          <ion-label position="floating">E-Mail</ion-label>
-          <ion-input type="text"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="12" size-md="8">
+          <ion-item class="round ion-margin-top">
+            <ion-label position="floating">E-Mail</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
 
-    <ion-row class="ion-justify-content-center">
-      <ion-col size-sm="12" size-md="8">
-        <ion-item class="round ion-margin-top">
-          <ion-label position="floating">Password</ion-label>
-          <ion-input type="password"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-sm="4">
-        <ion-button expand="block">Login</ion-button>
-      </ion-col>
-      <ion-col size="12" size-sm="4">
-        <ion-item class="round">
-          <ion-label>Remember me</ion-label>
-          <ion-toggle [checked]="true"></ion-toggle>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="12" size-md="8">
+          <ion-item class="round ion-margin-top">
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="12" size-md="8">
+          <ion-item [color]="false" lines="none">
+            <ion-toggle [checked]="true"></ion-toggle>
+            <ion-label>Remember me</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="12" size-md="8">
+          <ion-button expand="block">Login</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
+        <ion-col>
+          Don't have an account yet? <a style="text-decoration: underline" (click)="isLoginMode = false">Sign up</a>
+        </ion-col>
+      </ion-row>
+    </ng-container>
 
-    <ion-row>
-      <ion-col>
-        <ion-button fill="clear">creat account</ion-button>
-      </ion-col>
-    </ion-row>
+    <ng-template #register>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="12" size-md="8">
 
-    <!-- information -->
+          <ion-title style="font-size:200%">Create Account</ion-title>
+        </ion-col>
+      </ion-row>
 
-    <ion-row class="ion-align-items-center">
-      <ion-col>
-        <ion-button fill="clear">Impressum</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button fill="clear">Datenschutz</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button fill="clear">AGB</ion-button>
-      </ion-col>
-    </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="12" size-md="8">
+          <ion-item class="round ion-margin-top">
+            <ion-label position="floating">E-Mail</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="12" size-md="8">
+          <ion-item class="round ion-margin-top">
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="12" size-md="8">
+          <ion-item class="round ion-margin-top">
+            <ion-label position="floating">Confirm Password</ion-label>
+            <ion-input type="password"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-sm="12" size-md="8">
+          <ion-button expand="block">Sign up</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
+        <ion-col>
+          Already have an account? <a style="text-decoration: underline" (click)="isLoginMode = true">Login</a>
+        </ion-col>
+      </ion-row>
+    </ng-template>
 
   </ion-grid>
 
