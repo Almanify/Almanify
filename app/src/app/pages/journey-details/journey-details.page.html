@@ -34,8 +34,11 @@
   <ion-card *ngFor="let payment of payments" on-click="viewPayment(payment)">
     <ion-card-header>
       <ion-toolbar>
-        <ion-card-title>{{payment.title}}
-          <ion-icon name="{{getCategoryIcon(payment.category)}}"></ion-icon>
+        <ion-card-title>
+          <ion-item>
+            <ion-icon name="{{getCategoryIcon(payment.category)}}" class="ion-margin-end"></ion-icon>
+            {{payment.title}}
+          </ion-item>
         </ion-card-title>
         <ion-buttons slot="end">
           <ion-button color="success" shape="round" fill="outline" routerLink="/payment-details" routerDirection="forward" (click)="editPayment(payment)">
