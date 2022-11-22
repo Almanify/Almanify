@@ -43,34 +43,21 @@
       </ion-col>
     </ion-row>
     <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-sm="4">
-        <ion-button expand="block">Login</ion-button>
-      </ion-col>
-      <ion-col size="12" size-sm="4">
-        <ion-item class="round">
-          <ion-label>Remember me</ion-label>
+      <ion-col size-sm="12" size-md="8">
+        <ion-item [color]="false" lines="none">
           <ion-toggle [checked]="true"></ion-toggle>
+          <ion-label>Remember me</ion-label>
         </ion-item>
       </ion-col>
     </ion-row>
-
-    <ion-row>
-      <ion-col>
-        <ion-button fill="clear">creat account</ion-button>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-sm="12" size-md="8">
+        <ion-button expand="block">Login</ion-button>
       </ion-col>
     </ion-row>
-
-    <!-- information -->
-
-    <ion-row class="ion-align-items-center">
+    <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
       <ion-col>
-        <ion-button fill="clear">Impressum</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button fill="clear">Datenschutz</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button fill="clear">AGB</ion-button>
+        Don't have an account yet? <a href="">Sign up</a>
       </ion-col>
     </ion-row>
 
