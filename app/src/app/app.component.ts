@@ -15,7 +15,7 @@ export class AppComponent {
     {title: 'Debts', url: '/debts', icon: 'cash'},
     {title: 'Options', url: '/options', icon: 'construct'},
     {title: "Logout", url: '/login', icon: "exit"}, //TODO: Real logout
-    {title: 'Theme-Testing', url: '/folder/Inbox', icon: 'color-palette'},
+    {title: 'Theme-Testing', url: '/testing', icon: 'color-palette'},
   ];
 
   constructor() {

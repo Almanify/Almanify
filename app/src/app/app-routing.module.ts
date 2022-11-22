@@ -3,7 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'folder/:id',
+    path: 'testing',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {
@@ -17,11 +17,6 @@ const routes: Routes = [
   {
     path: 'journeys',
     loadChildren: () => import('./pages/journey-list/journey-list.module').then( m => m.JourneyListPageModule)
-  },
-  {
-    path: '',
-    redirectTo: 'folder/Inbox',
-    pathMatch: 'full'
   },
   {
     path: 'debt-view',
@@ -40,12 +35,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/journey-editor/journey-editor.module').then( m => m.JourneyEditorPageModule)
   },
   {
-    path: 'journey-editor/:edit/:name/:cur/:start/:code/:people', 
+    path: 'journey-editor/:edit/:name/:cur/:start/:code/:people',
     loadChildren: () => import('./pages/journey-editor/journey-editor.module').then( m => m.JourneyEditorPageModule)
   },
   {
     path: 'journey-details',
     loadChildren: () => import('./pages/journey-details/journey-details.module').then( m => m.JourneyDetailsPageModule)
+  },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
   }
 
 ];

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b2050a7b-0338-4b65-94fa-cfae0222ca0e" name="Changes" comment="Changes">
+    <list default="true" id="b2050a7b-0338-4b65-94fa-cfae0222ca0e" name="Changes" comment="Add Menu button to debt calculator">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/data/Journey.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/data/Journey.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/login/login.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/login/login.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/login/login.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/login/login.page.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,27 +20,38 @@
       </list>
     </option>
   </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="master" />
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="16-presentation-dummy" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2HUUWjYTAuENZzmzBfSLC8vzGYE" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="ts.external.directory.path" value="C:\Users\biebl\Documents\almanify\app\node_modules\typescript\lib" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "nodejs.protractor.protractor_package": "C:/Users/hendrik/Documents/Code/ema/almanify/app/node_modules/protractor",
+    "ts.external.directory.path": "C:\\Users\\hendrik\\Documents\\Code\\ema\\almanify\\app\\node_modules\\typescript\\lib"
+  }
+}]]></component>
   <component name="RunManager" selected="npm.Angular CLI Server">
     <configuration name="Tests (app)" type="JavaScriptTestRunnerKarma">
       <config-file value="$PROJECT_DIR$/karma.conf.js" />
+      <karma-package-dir value="$PROJECT_DIR$/node_modules/@angular/cli" />
       <working-directory value="$PROJECT_DIR$" />
       <node-interpreter value="project" />
       <envs />
@@ -47,6 +60,7 @@
     <configuration name="E2E Tests (app)" type="JavaScriptTestRunnerProtractor">
       <config-file value="$PROJECT_DIR$/e2e/protractor.conf.js" />
       <node-interpreter value="project" />
+      <protractor-package value="$PROJECT_DIR$/node_modules/protractor" />
       <protractor-options value="" />
       <envs />
       <scope-kind value="ALL" />
@@ -82,6 +96,14 @@
       <workItem from="1668614159112" duration="1863000" />
       <workItem from="1668696064819" duration="15399000" />
     </task>
+    <task id="LOCAL-00001" summary="Add Menu button to debt calculator">
+      <created>1669144463323</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1669144463323</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -97,6 +119,9 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add Menu button to debt calculator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Menu button to debt calculator" />
   </component>
 </project>
