@@ -46,7 +46,12 @@ const routes: Routes = [
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
+  },
+  {
+    path: 'journey-evaluate',
+    loadChildren: () => import('./pages/journey-evaluate/journey-evaluate.module').then(m => m.JourneyEvaluatePageModule)
   }
+
 
 ];
 

@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Evaluate Journey</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+<ion-card-header>
+  <ion-card-title>Reise in die Tschechische Republik</ion-card-title>
+</ion-card-header>
+    <ion-card-content class ="ion-align-self-center">
+    <ion-grid [fixed] = "true">
+      <ion-list>
+        <ion-item>
+      <ion-row class = "ion-justify-content-center">
+        <ion-col><ion-chip>Mike</ion-chip></ion-col>
+        <ion-col class = "got_to_pay"><ion-icon name="arrow-forward"></ion-icon>-10€</ion-col>
+        <ion-col><ion-chip>Hanz</ion-chip></ion-col>
+      </ion-row>
+        </ion-item>
+
+        <ion-item>
+        <ion-row class = "ion-justify-content-center">
+          <ion-col><ion-chip>Mike</ion-chip></ion-col>
+          <ion-col class = "got_to_pay"><ion-icon name="arrow-forward"></ion-icon>-8€</ion-col>
+          <ion-col><ion-chip>Anna</ion-chip></ion-col>
+        </ion-row>
+        </ion-item>
+
+        <ion-item>
+          <ion-row class = "ion-justify-content-center">
+            <ion-col><ion-chip>Hanz</ion-chip></ion-col>
+            <ion-col class = "got_to_pay"><ion-icon name="arrow-forward"></ion-icon>-5,50€</ion-col>
+            <ion-col><ion-chip>Anna</ion-chip></ion-col>
+          </ion-row>
+        </ion-item>
+
+        <ion-item>
+          <ion-row class = "ion-justify-content-center">
+            <ion-col><ion-chip>Willi</ion-chip></ion-col>
+            <ion-col class = "got_to_pay"><ion-icon name="arrow-forward"></ion-icon>-100€</ion-col>
+            <ion-col><ion-chip>Magret</ion-chip></ion-col>
+          </ion-row>
+        </ion-item>
+
+      </ion-list>
+
+
+
+
+      <ion-row class="ion-justify-content-center">
+        <ion-col>
+          <ion-button _ngcontent-aaq-c145="" color="primary" ng-reflect-color="primary" class="ion-color ion-color-primary md button button-solid ion-activatable ion-focusable hydrated">Schulden anpassen und Reise archivieren</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button _ngcontent-aaq-c145="" color="primary" ng-reflect-color="primary" class="ion-color ion-color-primary md button button-solid ion-activatable ion-focusable hydrated">Abbrechen und Reise fortfahren</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+
+
+</ion-content>
+
+
+
+
+
+
+<ion-footer [translucent]="true" collapse="fade">
+  <ion-toolbar>
+    <ion-buttons style="justify-content: space-evenly">
+      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-button routerLink="/home" routerDirection="forward">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/notifications" routerDirection="forward">
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -1,32 +1,88 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Debt View</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-
-<ion-content style="align-content: center; top: 10%">
-  <ion-row>
-    <ion-col>
-      <ion-title class = "big-title">Schuldenübersicht</ion-title>
-    </ion-col>
+<ion-content>
+<ion-grid [fixed] = "true">
+  <ion-row class = "ion-align-items-center">
+    <ion-col><ion-chip><ion-icon name="person-sharp"></ion-icon><ion-icon name="swap-vertical-sharp"></ion-icon></ion-chip></ion-col>
+    <ion-col><ion-chip><ion-icon name="wallet"></ion-icon><ion-icon name="swap-vertical-sharp"></ion-icon></ion-chip></ion-col>
+    <ion-col><ion-chip><ion-icon name="calendar"></ion-icon><ion-icon name="swap-vertical-sharp"></ion-icon></ion-chip></ion-col>
   </ion-row>
+</ion-grid>
+
+      <ion-card>
+
+  <ion-grid [fixed] = "true">
+    <ion-row class = "ion-justify-content-center">
+      <ion-col><ion-chip>Dennis</ion-chip></ion-col>
+      <ion-col class = "get_payed"><ion-icon name="arrow-back"></ion-icon>+256,37€ </ion-col>
+      <ion-col>  <ion-chip>Jaqueline</ion-chip></ion-col>
+
+    </ion-row>
+
+
+
   <ion-row class="ion-justify-content-center">
     <ion-col>
-      <ion-card _ngcontent-aaq-c145="" class="md hydrated"><ion-card-header _ngcontent-aaq-c145="" class="ion-inherit-color md hydrated">
-        <ion-chip><ion-icon name="person-sharp"></ion-icon><ion-icon name="swap-vertical-sharp"></ion-icon></ion-chip>
-        <ion-chip><ion-icon name="wallet"></ion-icon><ion-icon name="swap-vertical-sharp"></ion-icon></ion-chip>
-        <ion-chip><ion-icon name="calendar"></ion-icon><ion-icon name="swap-vertical-sharp"></ion-icon></ion-chip>
-        <ion-card-title _ngcontent-aaq-c145="" role="heading" aria-level="2" class="ion-inherit-color md hydrated">Schulden</ion-card-title>
-        <ion-card-subtitle _ngcontent-aaq-c145="" role="heading" aria-level="3" class="ion-inherit-color md hydrated">Schulden aus Reise "Venezuela"</ion-card-subtitle></ion-card-header>
-        <ion-chip>Dennis</ion-chip>
-        <ion-icon name="arrow-back"></ion-icon>
-        <ion-chip>Jaqueline</ion-chip>
-        <br>
-        <ion-chip>Dennis</ion-chip>
-        <ion-icon name="arrow-forward"></ion-icon>
-        <ion-chip>Demar</ion-chip>
-        <br>
-
         <ion-button _ngcontent-aaq-c145="" color="primary" ng-reflect-color="primary" class="ion-color ion-color-primary md button button-solid ion-activatable ion-focusable hydrated">Um Geduld bitten</ion-button>
+    </ion-col>
+  </ion-row>
+  </ion-grid>
       </ion-card>
 
-  </ion-col>
-</ion-row>
+  <ion-card>
+
+    <ion-grid [fixed] = "true">
+      <ion-row class = "ion-justify-content-center">
+        <ion-col><ion-chip>Dennis</ion-chip></ion-col>
+        <ion-col class = "got_to_pay"><ion-icon name="arrow-forward"></ion-icon>-26,37€ </ion-col>
+        <ion-col>  <ion-chip>Peter</ion-chip></ion-col>
+
+      </ion-row>
+
+
+
+    <ion-row>
+      <ion-col>
+    <ion-button _ngcontent-aaq-c145="" color="primary" ng-reflect-color="primary" class="ion-color ion-color-primary md button button-solid ion-activatable ion-focusable hydrated">Zahlung eingegangen</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button _ngcontent-aaq-c145="" class ="got_to_pay_button" ng-reflect-color="" class="ion-color ion-color-primary md button button-solid ion-activatable ion-focusable hydrated">Erinnerung schicken</ion-button>
+      </ion-col>
+    </ion-row>
+    </ion-grid>
+  </ion-card>
+
+
+
+
+
+
+
 
 </ion-content>
+
+
+
+
+
+
+<ion-footer [translucent]="true" collapse="fade">
+  <ion-toolbar>
+    <ion-buttons style="justify-content: space-evenly">
+      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-button routerLink="/home" routerDirection="forward">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/notifications" routerDirection="forward">
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
