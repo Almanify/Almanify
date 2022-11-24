@@ -50,7 +50,11 @@ const routes: Routes = [
   {
     path: 'journey-evaluate',
     loadChildren: () => import('./pages/journey-evaluate/journey-evaluate.module').then(m => m.JourneyEvaluatePageModule)
+  },  {
+    path: 'join-journey',
+    loadChildren: () => import('./pages/join-journey/join-journey.module').then( m => m.JoinJourneyPageModule)
   }
+
 
 
 ];
