@@ -9,13 +9,13 @@
 
 <ion-content>
   <!-- new journey button -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button routerLink="/journey-editor" routerDirection="forward">
+  <ion-fab horizontal="end" slot="fixed" vertical="bottom">
+    <ion-fab-button routerDirection="forward" routerLink="/journey-editor">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   <!-- choose to see active, past or all journeys -->
-  <ion-segment [(ngModel)]="journeyType" (ionChange)="segmentChanged($event)">
+  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="journeyType">
     <ion-segment-button value="all">
       <ion-label>All</ion-label>
     </ion-segment-button>
@@ -27,7 +27,7 @@
     </ion-segment-button>
   </ion-segment>
   <!-- choose to see created or joined journeys -->
-  <ion-segment [(ngModel)]="journeyRole" (ionChange)="segmentChanged($event)">
+  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="journeyRole">
     <ion-segment-button value="joined">
       <ion-label>Joined</ion-label>
     </ion-segment-button>
@@ -35,37 +35,35 @@
       <ion-label>Created</ion-label>
     </ion-segment-button>
   </ion-segment>
-  <ion-card *ngFor="let journey of filteredJourneys"
-            (click)="viewJourney(journey)">
-    <ion-card-header>
+  <ion-card (click)="viewJourney(journey)"
+            *ngFor="let journey of filteredJourneys">
+    <!-- image with ion-chip placed in top right corner -->
+    <!--img src="https://images.unsplash.com/photo-1545529468-42764ef8c85f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=873&q=80"  alt=""/-->
+    <svg height="150" width="auto">
+      <rect height="300" style="fill:rgb(50,25,50);stroke-width:0;stroke:rgb(0,0,0)" width="10000"/>
+      <text fill="red" style="font-size: larger" transform="rotate(10)" x="100" y="50">{{journey.name}}</text>
+    </svg>
+    <span style="position: absolute; top: 8px; right: 8px;">
+      <ion-chip color="primary" style="font-size: large">
+        <ion-label>{{journey.start | date:'y'}}</ion-label>
+      </ion-chip>
+      <ion-chip *ngIf="journey.status === 'active'" color="success" style="font-size: large">
+        Active
+      </ion-chip>
+      <ion-chip *ngIf="journey.status === 'archived'" color="danger" style="font-size: large">
+        Archived
+      </ion-chip>
+    </span>
+    <!--ion-card-header>
+      <ion-card-subtitle>
+        {{journey.start | date:'y'}}</ion-card-subtitle>
       <ion-card-title>
         {{journey.name}}
-        <ion-chip *ngIf="journey.status === 'active'" color="success">
-          Active
-        </ion-chip>
-        <ion-chip *ngIf="journey.status === 'archived'" color="danger">
-          Archived
-        </ion-chip>
-        <!-- right aligned buttons-->
-        <span
-          style="float: right;"
-        >
-      <ion-button
-        *ngIf="journey.creator === user"
-        (click)="sendJourneyDetails(true, journey.name, journey.def_currency, journey.start, journey.invite_code, journey.people, journey.creator)">
-        <ion-icon name="create"></ion-icon>
-      </ion-button>
-      <ion-button
-        *ngIf="journey.creator === user"
-        (click)="deleteJourney(journey)">
-        <ion-icon name="trash"></ion-icon>
-      </ion-button>
-        </span>
       </ion-card-title>
-    </ion-card-header>
+    </ion-card-header-->
     <ion-card-content>
       <ion-item-group>
-        <ion-row class="ion-align-items-center">
+        <!--ion-row class="ion-justify-content-end">
           <ion-col>
             <ion-label>Start Date</ion-label>
             <ion-chip style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
@@ -78,14 +76,14 @@
               {{journey.end}}
             </ion-chip>
           </ion-col>
-        </ion-row>
+        </ion-row-->
         <!-- people -->
         <ion-row>
           <ion-col>
             <ion-label>People</ion-label>
             <ion-chip>
-              <ion-icon name="caret-up-outline"
-                        color="primary"></ion-icon>
+              <ion-icon color="primary"
+                        name="caret-up-outline"></ion-icon>
               <p>{{journey.creator}}</p>
             </ion-chip>
             <span *ngFor="let person of journey.people">
@@ -93,8 +91,21 @@
           <p>{{person}}</p>
           </ion-chip>
         </span>
-          </ion-col>
-        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <span>
+      <ion-button
+        (click)="sendJourneyDetails(true, journey.name, journey.def_currency, journey.start, journey.invite_code, journey.people, journey.creator)"
+        *ngIf="journey.creator === user">
+        <ion-icon name="create"></ion-icon>
+      </ion-button>
+      <ion-button
+        (click)="deleteJourney(journey)"
+        *ngIf="journey.creator === user">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </span>
       </ion-item-group>
     </ion-card-content>
   </ion-card>
@@ -111,11 +122,11 @@
   <ion-toolbar>
     <ion-buttons style="justify-content: space-evenly">
       <ion-back-button defaultHref="/"></ion-back-button>
-      <ion-button routerLink="/home" routerDirection="forward">
-        <ion-icon slot="icon-only" name="home"></ion-icon>
+      <ion-button routerDirection="forward" routerLink="/home">
+        <ion-icon name="home" slot="icon-only"></ion-icon>
       </ion-button>
-      <ion-button routerLink="/notifications" routerDirection="forward">
-        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      <ion-button routerDirection="forward" routerLink="/notifications">
+        <ion-icon name="notifications" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
