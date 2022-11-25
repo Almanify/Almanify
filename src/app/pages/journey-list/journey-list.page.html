@@ -35,8 +35,8 @@
       <ion-label>Created</ion-label>
     </ion-segment-button>
   </ion-segment>
-  <!-- one card for each journey -->
-  <ion-card *ngFor="let journey of filteredJourneys">
+  <ion-card *ngFor="let journey of filteredJourneys"
+            (click)="viewJourney(journey)">
     <ion-card-header>
       <ion-card-title>
         {{journey.name}}
@@ -46,37 +46,55 @@
         <ion-chip *ngIf="journey.status === 'archived'" color="danger">
           Archived
         </ion-chip>
-      </ion-card-title>
-      <ion-button (click)="sendJourneyDetails(true, journey.name, journey.def_currency, journey.start, journey.invite_code, journey.people, journey.creator)">
+        <!-- right aligned buttons-->
+        <span
+          style="float: right;"
+        >
+      <ion-button
+        *ngIf="journey.creator === user"
+        (click)="sendJourneyDetails(true, journey.name, journey.def_currency, journey.start, journey.invite_code, journey.people, journey.creator)">
         <ion-icon name="create"></ion-icon>
       </ion-button>
-      <ion-button (click)="deleteJourney(journey)">
+      <ion-button
+        *ngIf="journey.creator === user"
+        (click)="deleteJourney(journey)">
         <ion-icon name="trash"></ion-icon>
       </ion-button>
-      <ion-button routerLink="/journey-details" routerDirection="forward" (click)="viewJourney(journey)">
-        <ion-icon name="eye"></ion-icon>
-      </ion-button>
+        </span>
+      </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item-group>
-        <ion-label>Start</ion-label>
-        <ion-chip>{{journey.start}}</ion-chip>
-        <ion-label>End</ion-label>
-        <ion-chip>{{journey.end}}</ion-chip>
-      </ion-item-group>
-      <!-- people -->
-      <ion-item-group>
-        <ion-label>People</ion-label>
-        <ion-chip>
-          <ion-icon name="caret-up-outline"
-                    color="primary"></ion-icon>
-          <p>{{journey.creator}}</p>
-        </ion-chip>
-        <span *ngFor="let person of journey.people">
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-label>Start Date</ion-label>
+            <ion-chip style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+              {{journey.start}}
+            </ion-chip>
+          </ion-col>
+          <ion-col *ngIf="journey.end">
+            <ion-label>End Date</ion-label>
+            <ion-chip style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+              {{journey.end}}
+            </ion-chip>
+          </ion-col>
+        </ion-row>
+        <!-- people -->
+        <ion-row>
+          <ion-col>
+            <ion-label>People</ion-label>
+            <ion-chip>
+              <ion-icon name="caret-up-outline"
+                        color="primary"></ion-icon>
+              <p>{{journey.creator}}</p>
+            </ion-chip>
+            <span *ngFor="let person of journey.people">
           <ion-chip *ngIf="journey.creator !== person">
           <p>{{person}}</p>
           </ion-chip>
         </span>
+          </ion-col>
+        </ion-row>
       </ion-item-group>
     </ion-card-content>
   </ion-card>

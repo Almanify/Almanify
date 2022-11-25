@@ -116,6 +116,10 @@ export class JourneyListPage implements OnInit {
     this.router.navigate(['/journey-editor', {edit: editMode, name: name, cur: cur, start: start, code: code, people: [people], creator: creator}]);
   }
 
+  viewJourney(journey) {
+    this.router.navigate(['/journey-details']);
+  }
+
   ngOnInit() {
   }
 
