@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Payment, PaymentCategory} from "../../data/Payment";
+import {Payment, PaymentCategory} from '../../data/Payment';
+import {NavigationExtras} from '@angular/router';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-journey-details',
@@ -8,13 +10,17 @@ import {Payment, PaymentCategory} from "../../data/Payment";
 })
 export class JourneyDetailsPage implements OnInit {
   //dummys
-  private journeyTitle: string = 'Exa_Journey_Name';
-  private payments: Payment[];
+  readonly payments: Payment[];
+  people: string[];
 
   sortBy = 'date';
   sortOrder = 'lowToHigh';
-  constructor() {
-    let people = [
+  private journeyTitle = 'Exa_Journey_Name';
+  private router: NavController;
+
+  constructor(r: NavController) {
+    this.router = r;
+    this.people = [
       'Bob',
       'Sally',
       'John',
@@ -34,101 +40,104 @@ export class JourneyDetailsPage implements OnInit {
         'Exa_Payment1',
         'Hanz',
         42.69,
-        "€",
+        '€',
         new Date(2022, 10, 6),
         PaymentCategory.Accommodation,
-        people),
+        this.people),
       new Payment(
         '2',
         'Exa_Payment2',
         'Hanz',
         1337.69,
-        "€",
+        '€',
         new Date(2022, 10, 12),
         PaymentCategory.FoodAndDrink,
-        people),
+        this.people),
       new Payment(
         '3',
         'Exa_Payment3',
         'Bob',
         420.69,
-        "€",
+        '€',
         new Date(2022, 20, 4),
         PaymentCategory.Entertainment,
-        people),
+        this.people),
       new Payment(
         '4',
         'Exa_Payment4',
-        'Hanz',
+        'Sally',
         42.69,
-        "€",
+        '€',
         new Date(2022, 10, 6),
         PaymentCategory.Transfer,
-        people),
+        this.people),
       new Payment(
         '5',
         'Exa_Payment5',
-        'Hanz',
+        'John',
         1337.69,
-        "€",
+        '€',
         new Date(2022, 10, 12),
         PaymentCategory.Other,
-        people),
+        this.people),
       new Payment(
         '6',
         'Exa_Payment6',
-        'Bob',
+        'Hendrik',
         420.69,
-        "€",
+        '€',
         new Date(2022, 20, 4),
         PaymentCategory.Entertainment,
-        people),
+        this.people),
       new Payment(
         '2',
         'Exa_Payment2',
-        'Hanz',
+        'Sven',
         1337.69,
-        "€",
+        '€',
         new Date(2022, 10, 12),
         PaymentCategory.FoodAndDrink,
-        people),
+        [
+          'Bob',
+          'Sally',
+        ]),
       new Payment(
         '3',
         'Exa_Payment3',
         'Bob',
         420.69,
-        "€",
+        '€',
         new Date(2022, 20, 4),
         PaymentCategory.Entertainment,
-        people),
+        this.people),
       new Payment(
         '4',
         'Exa_Payment4',
         'Hanz',
         42.69,
-        "€",
+        '€',
         new Date(2022, 10, 6),
         PaymentCategory.Accommodation,
-        people),
+        this.people),
       new Payment(
         '5',
         'Exa_Payment5',
         'Hanz',
         1337.69,
-        "€",
+        '€',
         new Date(2022, 10, 12),
         PaymentCategory.FoodAndDrink,
-        people),
+        this.people),
       new Payment(
         '6',
         'Exa_Payment6',
         'Bob',
         420.69,
-        "€",
+        '€',
         new Date(2022, 20, 4),
         PaymentCategory.Entertainment,
-        people)
-    ]
+        this.people)
+    ];
   }
 
   ngOnInit() {
@@ -136,25 +145,41 @@ export class JourneyDetailsPage implements OnInit {
 
   details() {
     //TODO
-    console.log("going to details");
+    console.log('going to details');
   }
 
   addPayment() {
     //TODO
   }
 
+  deletePayment(payment: Payment) {
+    this.payments.splice(this.payments.indexOf(payment), 1);
+  }
+
+  viewDebts() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        payments: JSON.stringify(this.payments),
+        people: JSON.stringify(this.people)
+      }
+    };
+
+    this.router.navigateForward(['debts'], navigationExtras);
+  }
+
+
   getCategoryIcon(category: PaymentCategory) {
     switch (category) {
       case PaymentCategory.Accommodation:
-        return "bed";
+        return 'bed';
       case PaymentCategory.Entertainment:
-        return "game-controller";
+        return 'game-controller';
       case PaymentCategory.FoodAndDrink:
-        return "fast-food";
+        return 'fast-food';
       case PaymentCategory.Transfer:
-        return "airplane";
+        return 'airplane';
       default:
-        return "infinite";
+        return 'infinite';
     }
   }
 }

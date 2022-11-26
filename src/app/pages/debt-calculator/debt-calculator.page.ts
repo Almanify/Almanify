@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-debt-calculator',
@@ -10,15 +11,15 @@ export class DebtCalculatorPage implements OnInit {
   people: Array<string> = undefined;
 
   debt: {
-    amount: number;
-    paidBy: number;
-    paidFor: Array<number>;
+    value: number;
+    payerID: number;
+    involvedIDs: Array<number>;
   } = undefined;
 
   debts: Array<{
-    amount: number;
-    paidBy: number;
-    paidFor: Array<number>;
+    value: number;
+    payerID: number;
+    involvedIDs: Array<number>;
   }> = undefined;
 
   /*
@@ -29,33 +30,61 @@ export class DebtCalculatorPage implements OnInit {
    */
   amountsToBePaid: Map<string, number> = undefined;
 
-  constructor() {
-    this.people = [
-      'Bob',
-      'Sally',
-      'John',
-      'Jane',
-      'Mike',
-      'Günter',
-      'Hans'
-    ];
+  constructor(route: ActivatedRoute) {
+    route.queryParams.subscribe(params => {
+      if (!params) {
+        this.debts = [];
+        this.people = [
+          'Bob',
+          'Sally',
+          'John',
+          'Jane',
+          'Mike',
+          'Günter',
+          'Hans'
+        ];
+        return;
+      }
+
+      if (params.payments) {
+        this.debts = JSON.parse(params.payments);
+      } else {
+        this.debts = [];
+      }
+
+      if (params.people) {
+        this.people = JSON.parse(params.people);
+      } else {
+        this.people = [
+          'Bob',
+          'Sally',
+          'John',
+          'Jane',
+          'Mike',
+          'Günter',
+          'Hans'
+        ];
+      }
+
+      this.updatePeopleOwages();
+    });
+
 
     this.debt = {
-      amount: 0,
-      paidBy: undefined,
-      paidFor: []
+      value: 0,
+      payerID: undefined,
+      involvedIDs: []
     };
 
-    this.debts = [];
     this.amountsToBePaid = new Map();
   }
 
   addDebt() {
     this.debts.push(this.debt);
     this.debt = {
-      amount: 0,
-      paidBy: undefined,
-      paidFor: []
+      value: 0,
+      payerID: undefined,
+      involvedIDs: []
     };
     this.updatePeopleOwages();
   }
@@ -65,19 +94,23 @@ export class DebtCalculatorPage implements OnInit {
     this.updatePeopleOwages();
   }
 
-  updatePeopleOwages() {
+  getPeople(indexArr) {
+    return indexArr.join(', ');
+  }
+
+  private updatePeopleOwages() {
     const basicAmounts = new Map();
 
     this.debts.forEach(debt => {
-      const amountPerPerson = debt.amount / debt.paidFor.length;
-      debt.paidFor.forEach(debtor => {
+      const amountPerPerson = debt.value / debt.involvedIDs.length;
+      debt.involvedIDs.forEach(debtor => {
 
         // debtor is the same as the person who paid
-        if (debt.paidBy === debtor) {
+        if (debt.payerID === debtor) {
           return;
         }
 
-        const key = debt.paidBy + '-' + debtor;
+        const key = debt.payerID + '-' + debtor;
 
         const existingAmount = basicAmounts.get(key) || 0;
         basicAmounts.set(key, existingAmount + amountPerPerson);
@@ -115,17 +148,17 @@ export class DebtCalculatorPage implements OnInit {
     });
 
     // sort by amount to be paid or received
-    const sortedMoneyOffset: Array<[number, number]> = [...moneyOffset.entries()]
+    const sortedMoneyOffset: Array<[string, number]> = [...moneyOffset.entries()]
       .sort((a, b) => b[1] - a[1])
       .filter(([_, amount]) => amount !== 0);
 
-    console.log(sortedMoneyOffset);
+    console.log(sortedMoneyOffset, sortedMoneyOffset[0]);
 
     // calculate the final amounts to be paid
     const finalAmountsToBePaid = new Map();
     while (sortedMoneyOffset.length > 0) {
       let [person1, amount1] = sortedMoneyOffset.shift();
-      while (amount1 > 0) {
+      while (amount1 > 0 && sortedMoneyOffset.length > 0) {
         let [person2, amount2] = sortedMoneyOffset.pop(); // highest debt
 
         const amountToBePaid = Math.min(amount1, -amount2);
@@ -149,13 +182,6 @@ export class DebtCalculatorPage implements OnInit {
     this.amountsToBePaid = finalAmountsToBePaid;
 
     console.log(this.amountsToBePaid);
-  }
-
-  getPeople(indexArr) {
-    return indexArr.map(i => this.people[i]).join(', ');
-  }
-
-  ngOnInit() {
   }
 
 }

@@ -4,55 +4,58 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Debt Calculator</ion-title>
+    <ion-button slot="end" class="ion-margin-end">
+      <ion-back-button defaultHref="/journeys" icon="close"></ion-back-button>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <!-- add debt form -->
-  <ion-card>
+  <!--ion-card>
     <ion-card-header>
       <ion-card-title>Add Debt</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item>
         <ion-label position="floating">Amount</ion-label>
-        <ion-input type="number" [(ngModel)]="debt.amount"></ion-input>
+        <ion-input type="number" [(ngModel)]="debt.value"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Paid by</ion-label>
-        <ion-select [(ngModel)]="debt.paidBy">
-          <ion-select-option *ngFor="let person of people; index as i" [value]="i">
+        <ion-select [(ngModel)]="debt.payerID">
+          <ion-select-option *ngFor="let person of people; index as i" [value]="person">
             {{ person }}
           </ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Paid for</ion-label>
-        <ion-select multiple="true" [(ngModel)]="debt.paidFor">
-          <ion-select-option *ngFor="let person of people; index as i" [value]="i">
+        <ion-select multiple="true" [(ngModel)]="debt.involvedIDs">
+          <ion-select-option *ngFor="let person of people; index as i" [value]="person">
             {{ person }}
           </ion-select-option>
         </ion-select>
       </ion-item>
       <ion-button (click)="addDebt()"
-                  [disabled]="!(debt.amount && debt.paidBy !== undefined && debt.paidFor.length)">
+                  [disabled]="!(debt.value && debt.payerID !== undefined && debt.involvedIDs.length)">
         Add Debt
       </ion-button>
     </ion-card-content>
-  </ion-card>
+  </ion-card-->
 
   <!-- debts list -->
-  <ion-card *ngFor="let debt of debts">
+  <!--ion-card *ngFor="let debt of debts">
     <ion-card-header>
       <ion-card-title>
-        {{ debt.amount }} paid by {{ people[debt.paidBy] }} for
-        {{ getPeople(debt.paidFor) }}
+        {{ debt.value }} paid by {{ debt.payerID }} for
+        {{ getPeople(debt.involvedIDs) }}
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-button (click)="removeDebt(debt)">Remove Debt</ion-button>
     </ion-card-content>
-  </ion-card>
+  </ion-card-->
 
   <!-- who owes who -->
   <ion-card>
@@ -62,8 +65,8 @@
     <ion-card-content>
       <ion-list>
         <ion-item *ngFor="let realDebt of amountsToBePaid.entries()">
-          <ion-label>{{ people[realDebt[0].split('-')[1]] }} owes
-            {{ people[realDebt[0].split('-')[0]] }} {{ realDebt[1] }}</ion-label>
+          <ion-label>{{ realDebt[0].split('-')[1] }} owes
+            {{ realDebt[0].split('-')[0] }} {{ realDebt[1] }}</ion-label>
         </ion-item>
       </ion-list>
     </ion-card-content>
