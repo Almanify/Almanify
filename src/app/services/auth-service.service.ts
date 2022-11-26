@@ -27,13 +27,11 @@ export class AuthentificationService {
   constructor(public angularFireAuth: AngularFireAuth) {
     this.angularFireAuth.onAuthStateChanged((user) => {
       if (user) {
-        console.log("onAuthStateChanged (user logged in)");
         this.isAuthenticated.next(true);
         this.user_id = user.uid;
         this.user = user.email;
         this.observer.next(user.email);
       } else {
-        console.log("onAuthStateChanged (user logged out)");
         this.isAuthenticated.next(false);
         this.user_id = "";
         this.user = "";
