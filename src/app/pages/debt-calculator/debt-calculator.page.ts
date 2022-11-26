@@ -184,4 +184,7 @@ export class DebtCalculatorPage implements OnInit {
     console.log(this.amountsToBePaid);
   }
 
+  ngOnInit(): void {
+  }
+
 }

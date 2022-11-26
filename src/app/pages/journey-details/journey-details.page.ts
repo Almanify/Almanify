@@ -43,100 +43,24 @@ export class JourneyDetailsPage implements OnInit {
         '€',
         new Date(2022, 10, 6),
         PaymentCategory.Accommodation,
-        this.people),
-      new Payment(
-        '2',
-        'Exa_Payment2',
-        'Hanz',
-        1337.69,
-        '€',
-        new Date(2022, 10, 12),
-        PaymentCategory.FoodAndDrink,
-        this.people),
-      new Payment(
-        '3',
-        'Exa_Payment3',
-        'Bob',
-        420.69,
-        '€',
-        new Date(2022, 20, 4),
-        PaymentCategory.Entertainment,
-        this.people),
-      new Payment(
-        '4',
-        'Exa_Payment4',
-        'Sally',
-        42.69,
-        '€',
-        new Date(2022, 10, 6),
-        PaymentCategory.Transfer,
-        this.people),
-      new Payment(
-        '5',
-        'Exa_Payment5',
-        'John',
-        1337.69,
-        '€',
-        new Date(2022, 10, 12),
-        PaymentCategory.Other,
-        this.people),
-      new Payment(
-        '6',
-        'Exa_Payment6',
-        'Hendrik',
-        420.69,
-        '€',
-        new Date(2022, 20, 4),
-        PaymentCategory.Entertainment,
-        this.people),
-      new Payment(
-        '2',
-        'Exa_Payment2',
-        'Sven',
-        1337.69,
-        '€',
-        new Date(2022, 10, 12),
-        PaymentCategory.FoodAndDrink,
         [
           'Bob',
           'Sally',
+          'Hanz',
         ]),
       new Payment(
-        '3',
-        'Exa_Payment3',
+        '2',
+        'Exa_Payment2',
         'Bob',
-        420.69,
+        69.42,
         '€',
-        new Date(2022, 20, 4),
+        new Date(2022, 10, 7),
         PaymentCategory.Entertainment,
-        this.people),
-      new Payment(
-        '4',
-        'Exa_Payment4',
-        'Hanz',
-        42.69,
-        '€',
-        new Date(2022, 10, 6),
-        PaymentCategory.Accommodation,
-        this.people),
-      new Payment(
-        '5',
-        'Exa_Payment5',
-        'Hanz',
-        1337.69,
-        '€',
-        new Date(2022, 10, 12),
-        PaymentCategory.FoodAndDrink,
-        this.people),
-      new Payment(
-        '6',
-        'Exa_Payment6',
-        'Bob',
-        420.69,
-        '€',
-        new Date(2022, 20, 4),
-        PaymentCategory.Entertainment,
-        this.people)
+        [
+          'Bob',
+          'Sally',
+        ],
+      ),
     ];
   }
 
@@ -154,6 +78,30 @@ export class JourneyDetailsPage implements OnInit {
 
   deletePayment(payment: Payment) {
     this.payments.splice(this.payments.indexOf(payment), 1);
+  }
+
+  viewPayment(payment: Payment) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        payment: JSON.stringify(payment),
+        edit: false,
+        people: JSON.stringify(this.people)
+      }
+    };
+
+    this.router.navigateForward(['payment-details'], navigationExtras);
+  }
+
+  editPayment(payment: Payment) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        payment: JSON.stringify(payment),
+        edit: true,
+        people: JSON.stringify(this.people)
+      }
+    };
+
+    this.router.navigateForward(['payment-details'], navigationExtras);
   }
 
   viewDebts() {

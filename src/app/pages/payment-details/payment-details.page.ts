@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Payment, PaymentCategory} from 'src/app/data/Payment';
-import {save} from "ionicons/icons";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-payment-details',
@@ -9,39 +9,30 @@ import {save} from "ionicons/icons";
 })
 export class PaymentDetailsPage implements OnInit {
 
-  //vorlaeufig
-  private journeyTitle: string = 'Exa_Journey_Name';
-  private payment: Payment;
-  private people: Array<string> = undefined;
-  private currencys: Array<string> = undefined;
-  private categorys;
+  journeyTitle: string = 'Exa_Journey_Name';
+  payment: Payment;
+  people: Array<string> = undefined;
+  currencies: Array<string> = undefined;
+  categories;
 
-  private isEditMode: boolean = false;
+  isEditMode = false;
 
-  constructor() {
-    this.people = [
-      'Bob',
-      'Sally',
-      'John',
-      'Jane',
-      'Max',
-      'Hendrik',
-      'Sven',
-      'Günter',
-      'Peter',
-      'Jürgen',
-      'Anna',
-      'Karl Heinz der IV',
-    ];
-    this.currencys = [
+  constructor(route: ActivatedRoute) {
+    route.queryParams.subscribe(params => {
+      if (!params) {
+        throw new Error('No params given');
+      }
+      this.payment = JSON.parse(params.payment);
+      this.isEditMode = params.edit;
+      this.people = JSON.parse(params.people);
+    });
+
+    this.currencies = [
       '€',
       '$',
       '🍑'
-    ]
-    this.payment = new Payment('1234', 'Exa_Payment', 'Hanz', 42.69, "€", new Date(2022, 10, 6), PaymentCategory.FoodAndDrink, this.people);
-
-
-    this.categorys = Object.values(PaymentCategory)
+    ];
+    this.categories = Object.values(PaymentCategory);
   }
 
   ngOnInit() {
@@ -49,17 +40,18 @@ export class PaymentDetailsPage implements OnInit {
 
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
-    if (!this.isEditMode)
-      this.save()
+    if (!this.isEditMode) {
+      this.save();
+    }
   }
 
   save() {
     //save stuff
-    console.log("saved");
+    console.log('saved');
   }
 
-  removeInvolved(userID: string){
-    let index = this.payment.involvedIDs.indexOf(userID);
-    this.payment.involvedIDs.splice(index,1);
+  removeInvolved(userID: string) {
+    const index = this.payment.involvedIDs.indexOf(userID);
+    this.payment.involvedIDs.splice(index, 1);
   }
 }
