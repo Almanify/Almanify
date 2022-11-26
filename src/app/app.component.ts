@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {AppInfo} from "@capacitor/app";
+import {AuthentificationService} from "./services/auth-service.service";
 
 @Component({
   selector: 'app-root',
@@ -7,18 +8,36 @@ import {AppInfo} from "@capacitor/app";
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  public userName: string = 'Exa_User';
+  private userName: string = '';
 
-  public appPages = [
+  public blockedPages =[
+    {title: "Login", url: '/login', icon: "log-in"}
+  ]
+  public unblockedPages = [
     {title: 'Home', url: `/home`, icon: 'home'},
     {title: 'Journeys', url: `/journeys`, icon: 'earth'},
     {title: 'Debts', url: '/debts', icon: 'cash'},
     {title: 'Options', url: '/options', icon: 'construct'},
-    {title: "Logout", url: '/login', icon: "exit"}, //TODO: Real logout
+    {title: "Logout", url: '/login/logout', icon: "log-out"},
     // {title: 'Theme-Testing', url: '/testing', icon: 'color-palette'},
   ];
 
-  constructor() {
+  public appPages = [];
+
+  constructor(public authService: AuthentificationService) {
+    this.appPages=this.blockedPages;
+  }
+
+  ngOnInit() {
+    const userObservable = this.authService.getObservable();
+    userObservable.subscribe(value => {
+      this.userName=value;
+      if (this.userName != "") {
+        this.appPages=this.unblockedPages;
+      } else {
+        this.appPages=this.blockedPages;
+      }
+    });
   }
 }
 

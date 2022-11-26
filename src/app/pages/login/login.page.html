@@ -1,8 +1,31 @@
 <ion-header>
-
 </ion-header>
 
 <ion-content style="align-content: center; top: 10%">
+
+  <ion-fab *ngIf="isDebug" slot="fixed" vertical="top" horizontal="end" [edge]="true">
+    <ion-fab-button>
+      <ion-icon name="key"></ion-icon>
+      <ion-icon name="people"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button (click)="loginTestuser('hanz')">
+        Hanz
+      </ion-fab-button>
+      <ion-fab-button (click)="loginTestuser('peter')">
+        Peter
+      </ion-fab-button>
+      <ion-fab-button (click)="loginTestuser('marie')">
+        Marie
+      </ion-fab-button>
+      <ion-fab-button (click)="loginTestuser('mike')">
+        Mike
+      </ion-fab-button>
+      <ion-fab-button (click)="loginTestuser('uwe')">
+        Uwe
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 
   <ion-grid align="center" [fixed]="true">
 
@@ -30,7 +53,7 @@
         <ion-col size-sm="12" size-md="8">
           <ion-item class="round ion-margin-top">
             <ion-label position="floating">E-Mail</ion-label>
-            <ion-input type="text"></ion-input>
+            <ion-input type="text" #email></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -39,7 +62,7 @@
         <ion-col size-sm="12" size-md="8">
           <ion-item class="round ion-margin-top">
             <ion-label position="floating">Password</ion-label>
-            <ion-input type="password"></ion-input>
+            <ion-input type="password" #password></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -53,7 +76,7 @@
       </ion-row>
       <ion-row class="ion-justify-content-center">
         <ion-col size-sm="12" size-md="8">
-          <ion-button expand="block" (click)="onLogin()">Login</ion-button>
+          <ion-button expand="block" (click)="logIn(email, password)">Login</ion-button>
         </ion-col>
       </ion-row>
       <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
@@ -83,7 +106,7 @@
         <ion-col size-sm="12" size-md="8">
           <ion-item class="round ion-margin-top">
             <ion-label position="floating">E-Mail</ion-label>
-            <ion-input type="text"></ion-input>
+            <ion-input type="text" ></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
