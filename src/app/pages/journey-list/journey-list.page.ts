@@ -133,8 +133,4 @@ export class JourneyListPage implements OnInit {
   ngOnInit() {
   }
 
-  viewJourney() {
-    this.router.navigate(['/journey-details']);
-  }
-
 }
