@@ -5,7 +5,7 @@ import {AuthGuard} from "./guards/auth.guard";
 const routes: Routes = [
   {
     path: 'testing',
-    loadChildren: () => import('./folder/folder.module').then(m => m.FolderPageModule)
+    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {
     path: '',
@@ -62,16 +62,21 @@ const routes: Routes = [
     path: 'journey-evaluate',
     loadChildren: () => import('./pages/journey-evaluate/journey-evaluate.module').then(m => m.JourneyEvaluatePageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'join-journey',
+    loadChildren: () => import('./pages/join-journey/join-journey.module').then( m => m.JoinJourneyPageModule),
+    canActivate: [AuthGuard]
   }
+
 
 
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

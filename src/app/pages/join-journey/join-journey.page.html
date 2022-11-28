@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="end" class="ion-margin-end">
+      <ion-back-button defaultHref="/home" icon="close"></ion-back-button>
+    </ion-button>
+    <ion-title>join journey</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item class="round ion-margin">
+    <ion-icon name="key" slot="start"></ion-icon>
+    <ion-label>Invite code:</ion-label>
+    <ion-input type="text" slot="end" placeholder="ENTER HERE" [(ngModel)]="iviteCode">
+    </ion-input>
+  </ion-item>
+  <ion-button class="round ion-margin" expand="block" on-click="joinJorney">Apply</ion-button>
+  <ion-title class="ion-text-center" size="large">OR</ion-title>
+  <ion-img class="round ion-margin"
+           src="https://static.giga.de/wp-content/uploads/2020/06/qr-code-scannen.jpg"></ion-img>
+
+  <ion-text> Hier wird es später nicht so lehr der QR-Scanner wird größer ist nur ein beispiel Bild</ion-text>
+
+</ion-content>
