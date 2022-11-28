@@ -45,14 +45,14 @@
             {{payment.title}}
           </ion-item>
         </ion-card-title>
-        <ion-buttons slot="end">
+        <div slot="end">
           <ion-button color="success" shape="round" fill="outline" (click)="editPayment(payment)">
             <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
-          <ion-button color="danger" shape="round" fill="outline" (click)="deletePayment(payment)">
+          <ion-button color="danger" (click)="deletePayment(payment)">
             <ion-icon slot="icon-only" name="trash"></ion-icon>
           </ion-button>
-        </ion-buttons>
+        </div>
       </ion-toolbar>
     </ion-card-header>
 
