@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-journey-list',
@@ -11,22 +11,22 @@ export class JourneyListPage implements OnInit {
   user = 'Bob';
   journeys: Array<{
     name: string;
-    def_currency: string;
+    defCurrency: string;
     start: string;
     end: string;
     people: Array<string>;
-    invite_code: number;
+    inviteCode: number;
     creator: string;
     status: string;
   }> = undefined;
 
   filteredJourneys: Array<{
     name: string;
-    def_currency: string;
+    defCurrency: string;
     start: string;
     end: string;
     people: Array<string>;
-    invite_code: number;
+    inviteCode: number;
     creator: string;
     status: string;
   }> = undefined;
@@ -38,7 +38,7 @@ export class JourneyListPage implements OnInit {
     this.journeys = [
       {
         name: 'Frankreich 2021',
-        def_currency: '€',
+        defCurrency: '€',
         start: '2021-01-01',
         end: '2021-01-02',
         people: [
@@ -47,34 +47,34 @@ export class JourneyListPage implements OnInit {
           'John',
           'Jane'
         ],
-        invite_code: 12345,
+        inviteCode: 12345,
         creator: 'Bob',
         status: 'active'
       },
       {
         name: 'Malle 2020',
-        def_currency: '€',
+        defCurrency: '€',
         start: '2020-04-01',
         end: '2020-04-08',
         people: [
           'Bob',
           'Sally',
         ],
-        invite_code: 23456,
+        inviteCode: 23456,
         creator: 'Sally',
         status: 'archived'
       },
       {
         name: 'Quarantäne 2020',
-        def_currency: '🍑',
+        defCurrency: '🍑',
         start: '2020-03-01',
         end: '2020-03-08',
         people: [
           'Bob',
           'Sally',
           'John',
-          ],
-        invite_code: 34567,
+        ],
+        inviteCode: 34567,
         creator: 'John',
         status: 'archived'
       }
@@ -105,7 +105,7 @@ export class JourneyListPage implements OnInit {
     } else if (this.journeyType === 'archived') {
       this.filteredJourneys = this.journeys.filter(journey => journey.status === 'archived');
     }
-    if(this.journeyRole === 'joined') {
+    if (this.journeyRole === 'joined') {
       this.filteredJourneys = this.filteredJourneys.filter(journey => journey.people.includes(this.user));
     } else if (this.journeyRole === 'created') {
       this.filteredJourneys = this.filteredJourneys.filter(journey => journey.creator === this.user);
@@ -113,10 +113,24 @@ export class JourneyListPage implements OnInit {
   }
 
   sendJourneyDetails(editMode, name, cur, start, code, people, creator) {
-    this.router.navigate(['/journey-editor', {edit: editMode, name: name, cur: cur, start: start, code: code, people: [people], creator: creator}]);
+    this.router.navigate(['/journey-editor', {
+      queryParams: {
+        edit: editMode,
+        name,
+        cur,
+        start,
+        code,
+        people: [people],
+        creator
+      }
+    }]);
   }
 
   ngOnInit() {
+  }
+
+  viewJourney() {
+    this.router.navigate(['/journey-details']);
   }
 
 }

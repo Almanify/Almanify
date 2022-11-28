@@ -9,6 +9,11 @@
 </ion-header>
 
 <ion-content>
+  <!-- view debts -->
+  <ion-button size="medium" expand="block" class="ion-margin" on-click="viewDebts()">
+    <ion-icon slot="start" name="wallet-outline"></ion-icon>
+    view current debts
+  </ion-button>
 
   <ion-segment [ngModel]="sortBy">
     <ion-segment-button value="person">
@@ -41,7 +46,7 @@
           </ion-item>
         </ion-card-title>
         <div slot="end">
-          <ion-button routerLink="/payment-details" routerDirection="forward" (click)="editPayment(payment)">
+          <ion-button color="success" shape="round" fill="outline" (click)="editPayment(payment)">
             <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
           <ion-button color="danger" (click)="deletePayment(payment)">
