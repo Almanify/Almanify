@@ -8,6 +8,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class DebtCalculatorPage implements OnInit {
 
+  userID: string = undefined;
+  userIsOwed = 0;
+  currency = '€';
   people: Array<string> = undefined;
 
   debt: {
@@ -29,8 +32,10 @@ export class DebtCalculatorPage implements OnInit {
    * (the key cannot be an array because using an array as a key would not work)
    */
   amountsToBePaid: Map<string, number> = undefined;
+  amountsToBePaidByUser: Array<[string, number]> = undefined;
 
   constructor(route: ActivatedRoute) {
+    this.userID = 'Bob';
     route.queryParams.subscribe(params => {
       if (!params) {
         this.debts = [];
@@ -96,6 +101,9 @@ export class DebtCalculatorPage implements OnInit {
 
   getPeople(indexArr) {
     return indexArr.join(', ');
+  }
+
+  ngOnInit(): void {
   }
 
   private updatePeopleOwages() {
@@ -181,10 +189,18 @@ export class DebtCalculatorPage implements OnInit {
 
     this.amountsToBePaid = finalAmountsToBePaid;
 
-    console.log(this.amountsToBePaid);
-  }
+    // filter out the debts that are not relevant to the user
 
-  ngOnInit(): void {
+    this.userIsOwed = 0;
+    this.amountsToBePaidByUser = [];
+    this.amountsToBePaid.forEach((value, key) => {
+      const [person1, person2] = key.split('-');
+      if (person2 === this.userID) {
+        this.amountsToBePaidByUser.push([person1, value]);
+        this.amountsToBePaid.delete(key);
+      } else if (person1 === this.userID) {
+        this.userIsOwed += value;
+      }
+    });
   }
-
 }

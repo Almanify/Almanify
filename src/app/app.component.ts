@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {AppInfo} from "@capacitor/app";
 
 @Component({
   selector: 'app-root',
@@ -7,14 +6,14 @@ import {AppInfo} from "@capacitor/app";
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  public userName: string = 'Exa_User';
+  public userName = 'Exa_User';
 
   public appPages = [
     {title: 'Home', url: `/home`, icon: 'home'},
     {title: 'Journeys', url: `/journeys`, icon: 'earth'},
-    {title: 'Debts', url: '/debts', icon: 'cash'},
+    // {title: 'Debts', url: '/debts', icon: 'cash'},
     {title: 'Options', url: '/options', icon: 'construct'},
-    {title: "Logout", url: '/login', icon: "exit"}, //TODO: Real logout
+    {title: 'Logout', url: '/login', icon: 'exit'}, //TODO: Real logout
     // {title: 'Theme-Testing', url: '/testing', icon: 'color-palette'},
   ];
 
