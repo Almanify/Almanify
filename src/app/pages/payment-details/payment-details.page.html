@@ -14,7 +14,7 @@
       <ion-toolbar>
         <ion-card-title>Details:
           <div *ngIf="!isEditMode; else titleInput">
-            {{payment.title}}
+            {{payment.title || 'No title'}}
           </div>
           <ng-template #titleInput>
             <ion-input disabled="{{!isEditMode}}" placeholder="{{payment.title}}"></ion-input>
@@ -37,7 +37,7 @@
             Payer
           </ion-label>
           <div *ngIf="!isEditMode; else payerDropdown">
-            {{payment.payerID}}
+            {{payment.payerID || 'No payer'}}
           </div>
           <ng-template #payerDropdown>
             <ion-select slot="end" placeholder="{{payment.payerID === undefined ? 'Select' : payment.payerID}}">
@@ -52,7 +52,7 @@
             Value
           </ion-label>
           <div *ngIf="!isEditMode; else valueCurrencyInput">
-            {{payment.value + payment.currency}}
+            {{payment?.value + '' + payment?.currency || 'No value'}}
           </div>
           <ng-template #valueCurrencyInput>
             <ion-input class="ion-text-right" slot="end" type="number"
@@ -61,12 +61,12 @@
           </ng-template>
         </ion-item>
         <ion-item *ngIf="isEditMode">
-          <ion-icon slot="start" name="logo-yen"></ion-icon>
+          <ion-icon slot="start" name="logo-euro"></ion-icon>
           <ion-label>
             Currency
           </ion-label>
           <ion-select slot="end" placeholder="{{payment.currency === undefined ? 'Select' : payment.currency}}">
-            <ion-select-option *ngFor="let item of currencys" value="{{item}}">{{item}}</ion-select-option>
+            <ion-select-option *ngFor="let item of currencies" value="{{item}}">{{item}}</ion-select-option>
           </ion-select>
         </ion-item>
 
@@ -98,7 +98,7 @@
           </div>
           <ng-template #categoryDropdown>
             <ion-select slot="end" placeholder="{{payment.category === undefined ? 'Select' : payment.category}}">
-              <ion-select-option *ngFor="let item of categorys" value="{{item}}">{{item}}</ion-select-option>
+              <ion-select-option *ngFor="let item of categories" value="{{item}}">{{item}}</ion-select-option>
             </ion-select>
           </ng-template>
         </ion-item>
