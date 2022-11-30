@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthentificationService} from './services/auth-service.service';
 
 @Component({
@@ -6,12 +6,12 @@ import {AuthentificationService} from './services/auth-service.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
-  private userName: string = '';
+export class AppComponent implements OnInit {
+  userName = '';
 
   public blockedPages =[
     {title: 'Login', url: '/login', icon: 'log-in'}
-  ]
+  ];
   public unblockedPages = [
     {title: 'Home', url: `/home`, icon: 'home'},
     {title: 'Journeys', url: `/journeys`, icon: 'earth'},
@@ -31,7 +31,7 @@ export class AppComponent {
     const userObservable = this.authService.getObservable();
     userObservable.subscribe(value => {
       this.userName=value;
-      if (this.userName != '') {
+      if (this.userName !== '') {
         this.appPages=this.unblockedPages;
       } else {
         this.appPages=this.blockedPages;
