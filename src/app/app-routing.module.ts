@@ -53,6 +53,10 @@ const routes: Routes = [
   },  {
     path: 'join-journey',
     loadChildren: () => import('./pages/join-journey/join-journey.module').then( m => m.JoinJourneyPageModule)
+  },
+  {
+    path: 'options',
+    loadChildren: () => import('./pages/options/options.module').then( m => m.OptionsPageModule)
   }
 
 
