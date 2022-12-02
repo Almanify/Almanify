@@ -9,6 +9,11 @@
 </ion-header>
 
 <ion-content>
+  <!-- view debts -->
+  <ion-button size="medium" expand="block" class="ion-margin" on-click="viewDebts()">
+    <ion-icon slot="start" name="wallet-outline"></ion-icon>
+    view current debts
+  </ion-button>
 
   <ion-segment [ngModel]="sortBy">
     <ion-segment-button value="person">
@@ -40,14 +45,14 @@
             {{payment.title}}
           </ion-item>
         </ion-card-title>
-        <ion-buttons slot="end">
-          <ion-button color="success" shape="round" fill="outline" routerLink="/payment-details" routerDirection="forward" (click)="editPayment(payment)">
+        <div slot="end">
+          <ion-button color="success" shape="round" fill="outline" (click)="editPayment(payment)">
             <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
-          <ion-button color="danger" shape="round" fill="outline" (click)="deletePayment(payment)">
+          <ion-button color="danger" (click)="deletePayment(payment)">
             <ion-icon slot="icon-only" name="trash"></ion-icon>
           </ion-button>
-        </ion-buttons>
+        </div>
       </ion-toolbar>
     </ion-card-header>
 
@@ -77,18 +82,4 @@
     <ion-icon slot="start" name="add-circle"></ion-icon>
     add payment
   </ion-button>
-</ion-footer>
-
-<ion-footer [translucent]="true" collapse="fade">
-  <ion-toolbar>
-    <ion-buttons style="justify-content: space-evenly">
-      <ion-back-button defaultHref="/"></ion-back-button>
-      <ion-button routerLink="/" routerDirection="forward">
-        <ion-icon slot="icon-only" name="home"></ion-icon>
-      </ion-button>
-      <ion-button routerLink="/notifications" routerDirection="forward">
-        <ion-icon slot="icon-only" name="notifications"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
 </ion-footer>

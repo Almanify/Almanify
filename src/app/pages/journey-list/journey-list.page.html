@@ -50,13 +50,13 @@
           Archived
         </ion-chip>
       </ion-card-title>
-      <ion-button (click)="sendJourneyDetails(true, journey.name, journey.def_currency, journey.start, journey.invite_code, journey.people, journey.creator)">
+      <ion-button (click)="sendJourneyDetails(true, journey.name, journey.defCurrency, journey.start, journey.inviteCode, journey.people, journey.creator)">
         <ion-icon name="create"></ion-icon>
       </ion-button>
       <ion-button (click)="deleteJourney(journey)">
         <ion-icon name="trash"></ion-icon>
       </ion-button>
-      <ion-button routerLink="/journey-details" routerDirection="forward" (click)="viewJourney(journey)">
+      <ion-button routerDirection="forward" (click)="viewJourney(journey)">
         <ion-icon name="eye"></ion-icon>
       </ion-button>
     </ion-card-header>
@@ -91,17 +91,3 @@
     </div>
   </ion-text>
 </ion-content>
-
-<ion-footer [translucent]="true" collapse="fade">
-  <ion-toolbar>
-    <ion-buttons style="justify-content: space-evenly">
-      <ion-back-button defaultHref="/"></ion-back-button>
-      <ion-button routerLink="/home" routerDirection="forward">
-        <ion-icon slot="icon-only" name="home"></ion-icon>
-      </ion-button>
-      <ion-button routerLink="/notifications" routerDirection="forward">
-        <ion-icon slot="icon-only" name="notifications"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
