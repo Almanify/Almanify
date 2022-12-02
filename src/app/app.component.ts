@@ -9,7 +9,7 @@ import {AuthentificationService} from './services/auth-service.service';
 export class AppComponent implements OnInit {
   userName = '';
 
-  public blockedPages =[
+  public blockedPages = [
     {title: 'Login', url: '/login', icon: 'log-in'}
   ];
   public unblockedPages = [
@@ -24,17 +24,18 @@ export class AppComponent implements OnInit {
   public appPages = [];
 
   constructor(public authService: AuthentificationService) {
-    this.appPages=this.blockedPages;
+    this.appPages = this.blockedPages;
   }
 
   ngOnInit() {
     const userObservable = this.authService.getObservable();
     userObservable.subscribe(value => {
-      this.userName=value;
-      if (this.userName !== '') {
-        this.appPages=this.unblockedPages;
+      this.userName = value;
+      console.log("Auth: " + this.authService.isAuthenticated.value);
+      if (this.authService.isAuthenticated.value) {
+        this.appPages = this.unblockedPages;
       } else {
-        this.appPages=this.blockedPages;
+        this.appPages = this.blockedPages;
       }
     });
   }

@@ -30,7 +30,6 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.command = this.activatedRoute.snapshot.paramMap.get('command');
-    console.log(this.command);
     if (this.command == "logout") {
       this.logOut();
     }
