@@ -55,10 +55,11 @@ export class LoginPage implements OnInit {
   }
 
   private signUp(email: IonInput, password: IonInput, username: IonInput) {
-    let user = new User("", email.value as string, username.value as string);
-    this.signUpService.createUser(user, password.value as string);
-    //this.logIn(email, password);
+    let user = new User("",  username.value as string);
+    this.signUpService.createUser(user, email.value as string, password.value as string);
+    this.isLoginMode = true;
   }
+
 
   logOut() {
     this.authService.signOut()
@@ -95,14 +96,22 @@ export class LoginPage implements OnInit {
     };
   }
 
-  passwordIsEqual(formGroup: FormGroup) {
+  passwordIsEqual(formGroup
+                    :
+                    FormGroup
+  ) {
     const {value: password} = formGroup.get('Password');
     const {value: confirmPassword} = formGroup.get('ConfirmPassword');
     return password === confirmPassword ? null : {passwordNotMatch: true};
   }
 
   //just for debug and lazy test login
-  private loginTestuser(user: string,) {
+  private
+
+  loginTestuser(user
+                  :
+                  string,
+  ) {
     switch (user) {
       case "hanz":
         this.logInWithString("hanz@mail.de", "123456");

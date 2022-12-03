@@ -5,6 +5,9 @@ import {User} from "../data/User";
 import {addDoc, collection} from "@angular/fire/firestore";
 import firebase from "firebase/compat";
 import firestore = firebase.firestore;
+import {AlertController} from '@ionic/angular';
+import {alert} from "ionicons/icons";
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,29 +15,42 @@ import firestore = firebase.firestore;
 export class SignUPService {
   private userCollection: AngularFirestoreCollection<User>
 
-  constructor(public firestore: AngularFirestore, private angularFireAuth: AngularFireAuth) {
+  constructor(public firestore: AngularFirestore, private angularFireAuth: AngularFireAuth, private alertController: AlertController) {
     this.angularFireAuth = angularFireAuth;
     this.userCollection = firestore.collection<User>('User')
   }
 
 
-  //TODO one UserID and one Mail
-  createUser(user: User, password: string) {
-    return this.angularFireAuth.createUserWithEmailAndPassword(user.eMail, password)
-      .then(() => {
-        this.save(user);
+  createUser(user: User, email: string, password: string) {
+    return this.angularFireAuth.createUserWithEmailAndPassword(email, password)
+      .then((data) => {
+        user.userID = data.user.uid
+        this.userCollection.doc(user.userID).set(this.copyAndPrepare(user) as User)
+        this.alertSuccessfullySignUp();
       })
       .catch(error => {
-        console.log('Something is wrong:', error.message);
+        this.alertError(error.message);
       });
   }
 
-  save(user: User) : Promise<String>{
-    return this.userCollection.add(this.copyAndPrepare(user) as  User).then(document_reference => {
-      return document_reference.id
+  async alertSuccessfullySignUp() {
+    const alert = await this.alertController.create({
+      header: 'Registration successful',
+      message: 'You can login now and enjoy Almanify.',
+      buttons: ['OK'],
     });
+
+    await alert.present();
   }
 
+  async alertError(error: string) {
+    const alert = await this.alertController.create({
+      header: 'Something is wrong',
+      message: error + 'Pleas try again.',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
 
   private copyAndPrepare(item) {
     const copy = {...item}
