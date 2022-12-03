@@ -47,7 +47,9 @@ export class JourneyDetailsPage implements OnInit {
           'Bob',
           'Sally',
           'Hanz',
-        ]),
+        ],
+        '',
+        ),
       new Payment(
         '2',
         'Exa_Payment2',
@@ -60,6 +62,7 @@ export class JourneyDetailsPage implements OnInit {
           'Bob',
           'Sally',
         ],
+        '',
       ),
     ];
   }

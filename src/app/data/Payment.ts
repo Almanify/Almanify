@@ -17,7 +17,8 @@ export class Payment {
               payday: Date,
               category: PaymentCategory,
               involvedIDs: Array<string>,
-              img: string = undefined) {
+              img: string) {
+    
     this.id = id;
     this.title = title;
     this.payerID = payerID;
