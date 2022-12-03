@@ -1,8 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {IonInput} from '@ionic/angular';
-import {AuthentificationService} from "../../services/auth-service.service";
+import {AuthentificationService} from "../../services/auth.service";
+import {SignUPService} from "../../services/sign-up.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {User} from "../../data/User";
+import {user} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-login',
@@ -15,12 +18,13 @@ export class LoginPage implements OnInit {
   isLoginMode: boolean = true;
 
   validationForm: FormGroup;
-  validationMessages: any;
+  validationMessages;
 
 
   constructor(public router: Router,
               private activatedRoute: ActivatedRoute,
               public authService: AuthentificationService,
+              public signUpService: SignUPService,
               public formBuilder: FormBuilder) {
     this.prepareFormValidation();
     this.router = router;
@@ -50,8 +54,10 @@ export class LoginPage implements OnInit {
     })
   }
 
-  private signUp(email:IonInput, password: IonInput, username: IonInput){
-    //TODO
+  private signUp(email: IonInput, password: IonInput, username: IonInput) {
+    let user = new User("", email.value as string, username.value as string);
+    this.signUpService.createUser(user, password.value as string);
+    //this.logIn(email, password);
   }
 
   logOut() {
