@@ -1,121 +1,212 @@
 <ion-header>
-
 </ion-header>
 
 <ion-content style="align-content: center; top: 10%">
 
-  <ion-grid align="center" [fixed]="true">
+  <ion-fab *ngIf="isDebug" slot="fixed" vertical="top" horizontal="end" [edge]="true">
+    <ion-fab-button>
+      <ion-icon name="key"></ion-icon>
+      <ion-icon name="people"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button (click)="loginTestuser('hanz')">
+        Hanz
+      </ion-fab-button>
+      <ion-fab-button (click)="loginTestuser('peter')">
+        Peter
+      </ion-fab-button>
+      <ion-fab-button (click)="loginTestuser('marie')">
+        Marie
+      </ion-fab-button>
+      <ion-fab-button (click)="loginTestuser('mike')">
+        Mike
+      </ion-fab-button>
+      <ion-fab-button (click)="loginTestuser('uwe')">
+        Uwe
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 
-    <ion-row>
-      <ion-col>
-        <ion-title class="big-title">Almanify</ion-title>
-      </ion-col>
-    </ion-row>
+  <form [formGroup]="validationForm">
+    <ion-grid align="center" [fixed]="true">
 
-    <ion-row class="ion-justify-content-center">
-      <ion-col size='6' size-md="4" size-lg="2" size-xl="2">
-        <ion-img style="border-radius: 20% !important; overflow: hidden" src="assets/logo/almanify-logo.svg"></ion-img>
-      </ion-col>
-    </ion-row>
-
-    <ng-container *ngIf="isLoginMode; else register">
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="12" size-md="8">
-
-          <ion-title style="font-size:200%">Login</ion-title>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="12" size-md="8">
-          <ion-item class="round ion-margin-top">
-            <ion-label position="floating">E-Mail</ion-label>
-            <ion-input type="text"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="12" size-md="8">
-          <ion-item class="round ion-margin-top">
-            <ion-label position="floating">Password</ion-label>
-            <ion-input type="password"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="12" size-md="8">
-          <ion-item [color]="false" lines="none">
-            <ion-toggle [checked]="true"></ion-toggle>
-            <ion-label>Remember me</ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="12" size-md="8">
-          <ion-button expand="block" (click)="onLogin()">Login</ion-button>
-        </ion-col>
-      </ion-row>
-      <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
+      <ion-row>
         <ion-col>
-          Don't have an account yet? <a style="text-decoration: underline" (click)="isLoginMode = false">Sign up</a>
-        </ion-col>
-      </ion-row>
-    </ng-container>
-
-    <ng-template #register>
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="12" size-md="8">
-
-          <ion-title style="font-size:200%">Create Account</ion-title>
+          <ion-title class="big-title">Almanify</ion-title>
         </ion-col>
       </ion-row>
 
       <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="12" size-md="8">
-          <ion-item class="round ion-margin-top">
-            <ion-label position="floating">Name</ion-label>
-            <ion-input type="text"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="12" size-md="8">
-          <ion-item class="round ion-margin-top">
-            <ion-label position="floating">E-Mail</ion-label>
-            <ion-input type="text"></ion-input>
-          </ion-item>
+        <ion-col size='3' size-sm="2" class="ion-margin-vertical">
+          <ion-img style="border-radius: 20% !important; overflow: hidden;"
+                   src="assets/logo/almanify-logo.svg"></ion-img>
         </ion-col>
       </ion-row>
 
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="12" size-md="8">
-          <ion-item class="round ion-margin-top">
-            <ion-label position="floating">Password</ion-label>
-            <ion-input type="password"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="12" size-md="8">
-          <ion-item class="round ion-margin-top">
-            <ion-label position="floating">Confirm Password</ion-label>
-            <ion-input type="password"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-sm="12" size-md="8">
-          <ion-button expand="block">Sign up</ion-button>
-        </ion-col>
-      </ion-row>
-      <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
-        <ion-col>
-          Already have an account? <a style="text-decoration: underline" (click)="isLoginMode = true">Login</a>
-        </ion-col>
-      </ion-row>
-    </ng-template>
+      <ng-container *ngIf="isLoginMode; else register">
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
 
-  </ion-grid>
+            <ion-title style="font-size:200%">Login</ion-title>
+          </ion-col>
+        </ion-row>
 
+
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-item class="round ion-margin-top">
+              <ion-label position="floating">E-Mail</ion-label>
+              <ion-input type="email" #email required formControlName="Email"></ion-input>
+            </ion-item>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validationMessages.Email">
+                <div class="error-massage"
+                     *ngIf="validationForm.get('Email').hasError(validation.type) && (validationForm.get('Email')
+                     .dirty || validationForm.get('Email').touched)">
+                  <ion-text color="danger"> {{validation.message}}</ion-text>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-item class="round ion-margin-top">
+              <ion-label position="floating">Password</ion-label>
+              <ion-input type="password" #password required formControlName="Password"></ion-input>
+            </ion-item>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validationMessages.Password">
+                <div class="error-massage"
+                     *ngIf="validationForm.get('Password').hasError(validation.type) && (validationForm.get('Password')
+             .dirty || validationForm.get('Password').touched)">
+                  <ion-text color="danger"> {{validation.message}}</ion-text>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-item [color]="false" lines="none">
+              <ion-toggle (ionChange)="rememberMeToggle($event)"></ion-toggle>
+              <ion-label>Remember me</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-button expand="block" (click)="logIn(email, password)"
+                        [disabled]="!(validationForm.get('Password').valid && validationForm.get('Email').valid)">
+              Login
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
+          <ion-col>
+            Don't have an account yet? <a style="text-decoration: underline" (click)="isLoginMode = false">Sign up</a>
+          </ion-col>
+        </ion-row>
+      </ng-container>
+
+      <ng-template #register>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-title style="font-size:200%">Create Account</ion-title>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-item class="round ion-margin-top">
+              <ion-label position="floating">Name</ion-label>
+              <ion-input type="text" #username required formControlName="Username"></ion-input>
+            </ion-item>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validationMessages.Username">
+                <div class="error-massage"
+                     *ngIf="validationForm.get('Username').hasError(validation.type) && (validationForm.get('Username')
+             .dirty || validationForm.get('Username').touched)">
+                  <ion-text color="danger"> {{validation.message}}</ion-text>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-item class="round ion-margin-top">
+              <ion-label position="floating">E-Mail</ion-label>
+              <ion-input type="email" #email required formControlName="Email"></ion-input>
+            </ion-item>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validationMessages.Email">
+                <div class="error-massage"
+                     *ngIf="validationForm.get('Email').hasError(validation.type) && (validationForm.get('Email')
+                     .dirty || validationForm.get('Email').touched)">
+                  <ion-text color="danger"> {{validation.message}}</ion-text>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-item class="round ion-margin-top">
+              <ion-label position="floating">Password</ion-label>
+              <ion-input type="password" #password required formControlName="Password"></ion-input>
+            </ion-item>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validationMessages.Password">
+                <div class="error-massage"
+                     *ngIf="validationForm.get('Password').hasError(validation.type) && (validationForm.get('Password')
+             .dirty || validationForm.get('Password').touched)">
+                  <ion-text color="danger"> {{validation.message}}</ion-text>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-item class="round ion-margin-top">
+              <ion-label position="floating">Confirm Password</ion-label>
+              <ion-input type="password" required formControlName="ConfirmPassword"></ion-input>
+            </ion-item>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validationMessages.ConfirmPassword">
+                <div class="error-massage"
+                     *ngIf="validationForm.get('ConfirmPassword').hasError(validation.type) && (validationForm.get('ConfirmPassword')
+                     .dirty || validationForm.get('ConfirmPassword').touched)">
+                  <ion-text color="danger"> {{validation.message}}</ion-text>
+                </div>
+              </ng-container>
+              <div class="error-message"
+                   *ngIf="!validationForm.get('ConfirmPassword').errors && validationForm.hasError('passwordNotMatch') && (validationForm.get('ConfirmPassword').dirty || validationForm.get('ConfirmPassword').touched)">
+                <ion-text color="danger"> Password and Confirm Password fields should match</ion-text>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-button expand="block" (click)="signUp(email, password, username)"
+                        [disabled]="validationForm.invalid">
+              Sign Up
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
+          <ion-col>
+            Already have an account? <a style="text-decoration: underline" (click)="isLoginMode = true">Login</a>
+          </ion-col>
+        </ion-row>
+      </ng-template>
+    </ion-grid>
+  </form>
 </ion-content>
