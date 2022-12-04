@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthentificationService} from './services/auth-service.service';
+import {AuthentificationService} from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
     const userObservable = this.authService.getObservable();
     userObservable.subscribe(value => {
       this.userName = value;
-      console.log("Auth: " + this.authService.isAuthenticated.value);
       if (this.authService.isAuthenticated.value) {
         this.appPages = this.unblockedPages;
       } else {
