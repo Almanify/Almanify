@@ -4,8 +4,8 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Journey-Editor</ion-title>
-    <ion-button slot="end" class="ion-margin-end">
-      <ion-back-button defaultHref="/journeys" icon="close"></ion-back-button>
+    <ion-button slot="end" class="ion-margin-end" (click)="alertUnsaved()">
+      <ion-icon name="close" slot="icon-only"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>

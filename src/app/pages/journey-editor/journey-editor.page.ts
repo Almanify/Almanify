@@ -5,7 +5,7 @@ import {Journey} from "../../data/Journey";
 import * as Lodash from 'lodash';
 import {AuthentificationService} from "../../services/auth.service";
 import {Journey_Participants} from "../../data/Journey_Participants";
-import {IonDatetime, NavController} from "@ionic/angular";
+import {AlertController, IonDatetime, IonRouterOutlet, NavController} from "@ionic/angular";
 
 @Component({
   selector: 'app-journey-editor',
@@ -21,15 +21,18 @@ export class JourneyEditorPage implements OnInit {
   private journeyParticipants: Journey_Participants;
   currencies: Array<string> = undefined;
   people
+
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private databaseService: DatabaseService,
               public authService: AuthentificationService,
-              public navCtrl: NavController,) {
+              public navCtrl: NavController,
+              private alertController: AlertController,
+              public outlet: IonRouterOutlet,) {
     let id = this.activatedRoute.snapshot.paramMap.get('id')
     if (id != null) {
       this.isEditMode = true;
-        this.databaseService.readJourney().then(journeys => {
+      this.databaseService.readJourney().then(journeys => {
         this.journeys = journeys;
         this.loadJourney(id)
         console.log("This Journey", this.journey)
@@ -42,7 +45,7 @@ export class JourneyEditorPage implements OnInit {
       '$',
       '¥'
     ]
-    this.people = [ 'Hanz' ,'Maier', 'Wurst']
+    this.people = ['Hanz', 'Maier', 'Wurst']
   }
 
   updateStartDate(value) {
@@ -58,12 +61,46 @@ export class JourneyEditorPage implements OnInit {
     //TODO Teilnehmer aus Datenbank lesen
   }
 
-  async save(){
+  async save() {
     this.databaseService.persist(this.journey).then(id => {
       this.navCtrl.navigateRoot('root');
       this.router.navigateByUrl('/home');
     });
   }
+
+  async alertUnsaved() {
+    const alert = await this.alertController.create({
+      header: 'Leave without saving?!',
+      buttons: [
+        {
+          text: 'Save',
+          role: 'confirm',
+          handler: () => {
+            this.save();
+            this.back();
+          },
+        },
+        {
+          text: 'exit without saving',
+          role: 'cancel',
+          handler: () => {
+            this.back();
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  back() {
+    if (this.outlet.canGoBack()) {
+      this.navCtrl.pop();
+    } else {
+      this.navCtrl.navigateRoot('root');
+      this.router.navigateByUrl('/home');
+    }
+  };
+
   ngOnInit() {
 
   }
