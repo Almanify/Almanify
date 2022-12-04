@@ -51,7 +51,8 @@ export class AuthentificationService {
   }
 
 
-  signIn(email: string, password: string) {
+  signIn(email: string, password: string, rememberMe: boolean) {
+    this.angularFireAuth.setPersistence(rememberMe ? 'local' : 'session');
     return this.angularFireAuth.signInWithEmailAndPassword(email, password);
   }
 

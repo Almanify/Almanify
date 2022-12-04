@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {IonInput} from '@ionic/angular';
+import {IonInput, IonToggle} from '@ionic/angular';
 import {AuthentificationService} from "../../services/auth.service";
 import {SignUPService} from "../../services/sign-up.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
@@ -12,10 +12,12 @@ import {user} from "@angular/fire/auth";
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
+
 export class LoginPage implements OnInit {
 
   private isDebug: boolean = true;
   isLoginMode: boolean = true;
+  rememberMe: boolean = false;
 
   validationForm: FormGroup;
   validationMessages;
@@ -34,40 +36,43 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.command = this.activatedRoute.snapshot.paramMap.get('command');
-    if (this.command == "logout") {
+    if (this.command === 'logout') {
       this.logOut();
     }
   }
 
   //copy from qapp
-  private logIn(email: IonInput, password: IonInput) {
-    this.logInWithString(email.value as string, password.value as string)
+  logIn(email: IonInput, password: IonInput) {
+    this.logInWithString(email.value as string, password.value as string);
   }
 
-  //wtf typscript don't like overloads ???
-  private logInWithString(email: string, password: string) {
-    this.authService.signIn(email, password)
+  logInWithString(email: string, password: string) {
+    console.log('Remember me: ' + this.rememberMe);
+    this.authService.signIn(email, password, this.rememberMe)
       .then((res) => {
         this.router.navigate(['/home']); //TODO: anpassen wenn reise vorhanden ist
       }).catch((error) => {
-      window.alert(error.message)
-    })
+      window.alert(error.message);
+    });
   }
 
-  private signUp(email: IonInput, password: IonInput, username: IonInput) {
-    let user = new User("",  username.value as string);
+   signUp(email: IonInput, password: IonInput, username: IonInput) {
+    let user = new User('',  username.value as string);
     this.signUpService.createUser(user, email.value as string, password.value as string);
     this.isLoginMode = true;
   }
 
+  rememberMeToggle($event: CustomEvent) {
+    this.rememberMe = $event.detail.checked;
+  }
 
   logOut() {
     this.authService.signOut()
       .then((res) => {
         this.router.navigateByUrl('/login/login');
       }).catch((error) => {
-      window.alert(error.message)
-    })
+      window.alert(error.message);
+    });
   }
 
   prepareFormValidation() {
@@ -96,10 +101,7 @@ export class LoginPage implements OnInit {
     };
   }
 
-  passwordIsEqual(formGroup
-                    :
-                    FormGroup
-  ) {
+  passwordIsEqual(formGroup: FormGroup) {
     const {value: password} = formGroup.get('Password');
     const {value: confirmPassword} = formGroup.get('ConfirmPassword');
     return password === confirmPassword ? null : {passwordNotMatch: true};
@@ -108,10 +110,7 @@ export class LoginPage implements OnInit {
   //just for debug and lazy test login
   private
 
-  loginTestuser(user
-                  :
-                  string,
-  ) {
+  loginTestuser(user: string,) {
     switch (user) {
       case "hanz":
         this.logInWithString("hanz@mail.de", "123456");
