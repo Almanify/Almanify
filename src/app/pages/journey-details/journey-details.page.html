@@ -9,6 +9,12 @@
 </ion-header>
 
 <ion-content>
+  <!-- new payment button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button on-click="addPayment()" routerDirection="forward">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <!-- view debts -->
   <ion-button size="medium" expand="block" class="ion-margin" on-click="viewDebts()">
     <ion-icon slot="start" name="wallet-outline"></ion-icon>
@@ -38,22 +44,24 @@
 
   <ion-card *ngFor="let payment of payments" on-click="viewPayment(payment)">
     <ion-card-header>
-      <ion-toolbar>
-        <ion-card-title>
+      <ion-row>
+        <ion-col>
+          <ion-card-title>
           <ion-item>
             <ion-icon name="{{getCategoryIcon(payment.category)}}" class="ion-margin-end"></ion-icon>
             {{payment.title}}
           </ion-item>
         </ion-card-title>
-        <div slot="end">
-          <ion-button color="success" shape="round" fill="outline" (click)="editPayment(payment)">
-            <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-col>
+        <ion-col class="ion-text-end">
+          <ion-button (click)="editPayment(payment)">
+            <ion-icon name="create"></ion-icon>
           </ion-button>
-          <ion-button color="danger" (click)="deletePayment(payment)">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          <ion-button (click)="deletePayment(payment)">
+            <ion-icon name="trash"></ion-icon>
           </ion-button>
-        </div>
-      </ion-toolbar>
+        </ion-col>
+      </ion-row>
     </ion-card-header>
 
     <ion-card-content>
@@ -76,10 +84,3 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
-
-<ion-footer translucent="true">
-  <ion-button shape="round" size="large" expand="block" class="ion-margin" on-click="addPayment()">
-    <ion-icon slot="start" name="add-circle"></ion-icon>
-    add payment
-  </ion-button>
-</ion-footer>
