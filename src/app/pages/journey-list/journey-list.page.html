@@ -37,6 +37,13 @@
   </ion-segment>
   <!-- one card for each journey -->
   <ion-card *ngFor="let journey of filteredJourneys">
+    <svg width="100%">
+      <foreignObject x="0" y="0" width="100%" height="100%">
+        <div style="display: table; width: 100%; height: 100%">
+          <p id="cardimg">{{journey.name}}</p>
+        </div>
+      </foreignObject>
+    </svg>
     <ion-card-header>
       <ion-card-title>
         {{journey.name}}

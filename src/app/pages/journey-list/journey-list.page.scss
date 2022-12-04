@@ -1,0 +1,18 @@
+#cardimg {
+  font-size: 10vw;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1;
+  font-weight: 800;
+  vertical-align: middle;
+  color: var(--ion-color-step-50);
+  display: table-cell;
+}
+
+svg {
+  background: linear-gradient(
+      142deg,
+      var(--ion-color-primary-tint) 0%,
+      var(--ion-color-tertiary-shade) 100%
+  );
+}
