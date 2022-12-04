@@ -37,8 +37,8 @@
       </ion-row>
 
       <ion-row class="ion-justify-content-center">
-        <ion-col size='6' size-md="4" size-lg="2" size-xl="2">
-          <ion-img style="border-radius: 20% !important; overflow: hidden"
+        <ion-col size='3' size-sm="2" class="ion-margin-vertical">
+          <ion-img style="border-radius: 20% !important; overflow: hidden;"
                    src="assets/logo/almanify-logo.svg"></ion-img>
         </ion-col>
       </ion-row>
@@ -91,14 +91,17 @@
         <ion-row class="ion-justify-content-center">
           <ion-col size-sm="12" size-md="8">
             <ion-item [color]="false" lines="none">
-              <ion-toggle [checked]="true"></ion-toggle>
+              <ion-toggle (ionChange)="rememberMeToggle($event)"></ion-toggle>
               <ion-label>Remember me</ion-label>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size-sm="12" size-md="8">
-            <ion-button expand="block" (click)="logIn(email, password)">Login</ion-button>
+            <ion-button expand="block" (click)="logIn(email, password)"
+                        [disabled]="!(validationForm.get('Password').valid && validationForm.get('Email').valid)">
+              Login
+            </ion-button>
           </ion-col>
         </ion-row>
         <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
@@ -192,7 +195,10 @@
 
         <ion-row class="ion-justify-content-center">
           <ion-col size-sm="12" size-md="8">
-            <ion-button expand="block" (click)="signUp(email, password, username)">Sign up</ion-button>
+            <ion-button expand="block" (click)="signUp(email, password, username)"
+                        [disabled]="validationForm.invalid">
+              Sign Up
+            </ion-button>
           </ion-col>
         </ion-row>
         <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
