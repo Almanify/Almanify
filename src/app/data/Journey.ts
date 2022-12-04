@@ -1,30 +1,31 @@
 export class Journey {
-  public name: string;
-  public people: Array<string>;
+  public id: string;
+  public title: string;
   public defaultCurrency: string; //TODO
   public start: Date;
   public end: Date;
-  public creator: string;
-  public inviteCode: number;
+  public creatorID: string;
+  public inviteCode: string;
   public active: boolean;
 
-  constructor(name: string,
-    people: Array<string>,
-    defaultCurrency: string,
+  constructor(
+    journeyID: string,
+    name: string,
+    creatorID: string,
+    inviteCode: string,
     start: Date,
     end: Date,
-    creator: string,
-    inviteCode: number,
-    active: boolean) {
+    defaultCurrency: string = '€',
+    active: boolean = true) {
 
-    this.name = name;
-    this.people = people;
+    this.id = journeyID;
+    this.title = name;
     this.defaultCurrency = defaultCurrency;
+    this.creatorID = creatorID;
+    this.inviteCode = inviteCode;
     this.start = start;
     this.end = end;
-    this.creator = creator;
-    this.inviteCode = inviteCode;
     this.active = active;
-    }
-
+  }
 }
+
