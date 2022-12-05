@@ -35,8 +35,7 @@
       <ion-label>Created</ion-label>
     </ion-segment-button>
   </ion-segment>
-  <ion-card (click)="viewJourney(journey)"
-            *ngFor="let journey of filteredJourneys">
+  <ion-card *ngFor="let journey of filteredJourneys" (click)="viewJourney(journey)">
     <svg width="100%" height="180px">
       <foreignObject x="0" y="0" width="100%" height="100%">
         <div style="display: table; width: 100%; height: 100%;">
@@ -45,15 +44,15 @@
       </foreignObject>
     </svg>
     <span style="position: absolute; top: 8px; right: 8px;">
-      <ion-chip style="font-size: large; color: #1a1a1a; background-color: #9d9fa6">
+      <ion-chip style="color: var(--ion-color-step-800); background-color: var(--ion-card-background)">
         <ion-label>{{journey.start | date:'y'}}</ion-label>
       </ion-chip>
-      <ion-chip *ngIf="journey.status === 'active'" style="font-size: large; color: #1c8747; background-color: #9d9fa6">
+      <ion-chip *ngIf="journey.status === 'active'" style="color: var(--ion-color-success-tint); background-color: var(--ion-card-background)">
         Active
       </ion-chip>
-      <ion-chip *ngIf="journey.status === 'archived'" style="font-size: large; color: #1a1a1a; background-color: #9d9fa6">
-        Archived
-      </ion-chip>
+      <ion-chip *ngIf="journey.status === 'archived'" style="color: var(--ion-color-danger-tint); background-color: var(--ion-card-background)">
+      Archived
+    </ion-chip>
     </span>
     <!--ion-card-header>
       <ion-card-subtitle>
@@ -92,10 +91,9 @@
           <p>{{person}}</p>
           </ion-chip>
         </span>
-      </ion-col>
-    </ion-row>
-
-    <span>
+          </ion-col>
+        </ion-row>
+      </ion-item-group>
       <ion-button
         (click)="sendJourneyDetails(true, journey.name, journey.def_currency, journey.start, journey.invite_code, journey.people, journey.creator)"
         *ngIf="journey.creator === user">
@@ -106,8 +104,6 @@
         *ngIf="journey.creator === user">
         <ion-icon name="trash"></ion-icon>
       </ion-button>
-    </span>
-      </ion-item-group>
     </ion-card-content>
   </ion-card>
   <!-- text if no journeys -->
@@ -118,17 +114,3 @@
     </div>
   </ion-text>
 </ion-content>
-
-<ion-footer [translucent]="true" collapse="fade">
-  <ion-toolbar>
-    <ion-buttons style="justify-content: space-evenly">
-      <ion-back-button defaultHref="/"></ion-back-button>
-      <ion-button routerDirection="forward" routerLink="/home">
-        <ion-icon name="home" slot="icon-only"></ion-icon>
-      </ion-button>
-      <ion-button routerDirection="forward" routerLink="/notifications">
-        <ion-icon name="notifications" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
