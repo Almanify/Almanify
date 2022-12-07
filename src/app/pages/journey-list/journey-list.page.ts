@@ -126,11 +126,11 @@ export class JourneyListPage implements OnInit {
     }]);
   }
 
-  ngOnInit() {
+  viewJourney(journey) {
+    this.router.navigate(['/journey-details']);
   }
 
-  viewJourney() {
-    this.router.navigate(['/journey-details']);
+  ngOnInit() {
   }
 
 }
