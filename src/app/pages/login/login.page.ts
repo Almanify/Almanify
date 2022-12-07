@@ -20,7 +20,6 @@ export class LoginPage implements OnInit {
   validationForm: FormGroup;
   validationMessages;
 
-
   constructor(public router: Router,
               private activatedRoute: ActivatedRoute,
               public authService: AuthentificationService,

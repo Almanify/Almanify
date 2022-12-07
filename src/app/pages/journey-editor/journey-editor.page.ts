@@ -29,7 +29,8 @@ export class JourneyEditorPage implements OnInit {
               public navCtrl: NavController,
               private alertController: AlertController,
               public outlet: IonRouterOutlet,) {
-    let id = this.activatedRoute.snapshot.paramMap.get('id')
+    let id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.journey = new Journey("", "", authService.user_user_id, /*TODO*/"1", new Date(), new Date());
     if (id != null) {
       this.isEditMode = true;
       this.databaseService.readJourney().then(journeys => {
@@ -37,8 +38,12 @@ export class JourneyEditorPage implements OnInit {
         this.loadJourney(id)
         console.log("This Journey", this.journey)
       });
-    } else {
-      this.journey = new Journey("", "", authService.user_user_id, "1", new Date(), new Date())
+
+      /*//low effort security TODO: mabye find a better/saver way
+      if (this.journey.creatorID === authService.user_user_id){
+        alert("You shall not pass!");
+        this.back();
+      }*/
     }
     this.currencies = [
       '€',
@@ -57,8 +62,8 @@ export class JourneyEditorPage implements OnInit {
   }
 
   loadJourney(id: string) {
-    this.journey = Lodash.find(this.journeys, ['id', id]);
-    //TODO Teilnehmer aus Datenbank lesen
+    this.journey = Lodash.find(this.journeys, ['id', id])
+    //TODO Read participants from database
   }
 
   async save() {
