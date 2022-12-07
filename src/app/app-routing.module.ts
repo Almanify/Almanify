@@ -49,7 +49,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'journey-editor/:edit/:name/:cur/:start/:code/:people',
+    path: 'journey-editor/:id',
     loadChildren: () => import('./pages/journey-editor/journey-editor.module').then(m => m.JourneyEditorPageModule),
     canActivate: [AuthGuard]
   },

@@ -7,6 +7,7 @@ import firebase from "firebase/compat";
 import firestore = firebase.firestore;
 import {AlertController} from '@ionic/angular';
 import {alert} from "ionicons/icons";
+import {copyAndPrepare} from "./../helper/copyAndPrepare";
 
 
 @Injectable({
@@ -24,8 +25,8 @@ export class SignUPService {
   createUser(user: User, email: string, password: string) {
     return this.angularFireAuth.createUserWithEmailAndPassword(email, password)
       .then((data) => {
-        user.userID = data.user.uid
-        this.userCollection.doc(user.userID).set(this.copyAndPrepare(user) as User)
+        user.id = data.user.uid
+        this.userCollection.doc(user.id).set(copyAndPrepare(user) as User)
         this.alertSuccessfullySignUp();
       })
       .catch(error => {
@@ -50,11 +51,5 @@ export class SignUPService {
       buttons: ['OK'],
     });
     await alert.present();
-  }
-
-  private copyAndPrepare(item) {
-    const copy = {...item}
-    delete copy.id;
-    return copy;
   }
 }

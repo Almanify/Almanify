@@ -1,5 +1,5 @@
 export class User {
-   userID: string;
+   id: string;
    userCurrency: string; //TODO
    userName: string;
 
@@ -8,7 +8,7 @@ export class User {
     userName: string,
     userCurrency: string = '€') {
 
-    this.userID = userID;
+    this.id = userID;
     this.userCurrency = userCurrency;
     this.userName = userName;
   }
