@@ -18,7 +18,8 @@ export class JourneyEditorPage implements OnInit {
 
   private journeys: Journey[];
   private journey: Journey;
-  private journeyParticipants: Journey_Participants;
+  private owner: Journey_Participants;
+  private journeyParticipants: Journey_Participants[] = [];
   currencies: Array<string> = undefined;
   people
 
@@ -31,11 +32,14 @@ export class JourneyEditorPage implements OnInit {
               public outlet: IonRouterOutlet,) {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
     this.journey = new Journey("", "", authService.user_user_id, /*TODO*/"1", new Date(), new Date());
+    this.owner = new Journey_Participants(authService.user_user_id, "");
+    this.journeyParticipants.push(this.owner);
     if (id != null) {
       this.isEditMode = true;
       this.databaseService.readJourney().then(journeys => {
         this.journeys = journeys;
-        this.loadJourney(id)
+        this.journey.id = id;
+        this.loadJourney();
         console.log("This Journey", this.journey)
       });
 
@@ -61,13 +65,26 @@ export class JourneyEditorPage implements OnInit {
     this.journey.end = new Date(value);
   }
 
-  loadJourney(id: string) {
-    this.journey = Lodash.find(this.journeys, ['id', id])
-    //TODO Read participants from database
+  loadJourney() {
+    this.journey = Lodash.find(this.journeys, ['id', this.journey.id])
+    this.databaseService.readJParticipants().then(journeyParticipants => {
+      this.journeyParticipants = journeyParticipants;
+      this.loadParticipants()
+    })
+  }
+
+  loadParticipants() {
+    this.journeyParticipants = Lodash.filter(this.journeyParticipants, ['journeyID', this.journey.id])
   }
 
   async save() {
     this.databaseService.persist(this.journey).then(id => {
+      this.journeyParticipants.forEach(journeyParticipant => {
+        journeyParticipant.journeyID = id.toString();
+        this.databaseService.persist(journeyParticipant)
+        console.log(this.journeyParticipants);
+      })
+    }).then(() => {
       this.navCtrl.navigateRoot('root');
       this.router.navigateByUrl('/home');
     });
@@ -75,7 +92,7 @@ export class JourneyEditorPage implements OnInit {
 
   async alertUnsaved() {
     const alert = await this.alertController.create({
-      header: 'Leave without saving?!',
+      header: 'Leave without saving?',
       buttons: [
         {
           text: 'Save',
@@ -109,4 +126,6 @@ export class JourneyEditorPage implements OnInit {
   ngOnInit() {
 
   }
+
+
 }
