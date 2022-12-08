@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
-import {AuthGuard} from "./guards/auth.guard";
+import {AuthGuard} from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -54,7 +54,12 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'journey-details',
+    path: 'journey',
+    loadChildren: () => import('./pages/journey-details/journey-details.module').then(m => m.JourneyDetailsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'journey/:id',
     loadChildren: () => import('./pages/journey-details/journey-details.module').then(m => m.JourneyDetailsPageModule),
     canActivate: [AuthGuard]
   },

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthentificationService} from './services/auth.service';
+import {AuthenticationService} from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
   public appPages = [];
 
-  constructor(public authService: AuthentificationService) {
+  constructor(public authService: AuthenticationService) {
     this.appPages = this.blockedPages;
   }
 
