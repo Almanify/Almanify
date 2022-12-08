@@ -22,10 +22,10 @@ export class DatabaseService {
     switch (item.constructor) {
       case Journey:
         return this.journeyCollection.add(copyAndPrepare(item))
-          .then(documentReference => documentReference.id);
+          .then(documentReference => {return documentReference.id});
       case   JourneyParticipation:
         return this.jParticipantsCollection.add(copyAndPrepare(item))
-          .then(documentReference => documentReference.id);
+          .then(documentReference => {return documentReference.id});
     }
   }
 
@@ -110,10 +110,7 @@ export class DatabaseService {
   }
 
   public async addUserToJourney(journeyId: string, userId: string): Promise<string> {
-    const journeyParticipant: JourneyParticipation = {
-      journeyID: journeyId,
-      userID: userId
-    };
+    const journeyParticipant: JourneyParticipation = new JourneyParticipation(userId, journeyId);
     if (!await this.getJourneyById(journeyId)) {
       return Promise.reject('No journey found');
     } else if (await this.isJourneyParticipant(journeyId, userId)) {

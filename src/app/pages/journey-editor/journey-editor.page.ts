@@ -33,17 +33,15 @@ export class JourneyEditorPage implements OnInit {
               private alertController: AlertController,
               public outlet: IonRouterOutlet,) {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.journey = new Journey('', '', authService.getUserId, /*TODO*/'1', new Timestamp(0, 0), new Timestamp(0, 0));
+    this.journey = new Journey('', '', authService.getUserId, /*TODO*/'1', Timestamp.fromDate(new Date()),Timestamp.fromDate(new Date()));
     this.owner = new JourneyParticipation(authService.getUserId, '');
     this.journeyParticipants.push(this.owner);
     if (id != null) {
       this.isEditMode = true;
       this.databaseService.getJourneys().then(journeys => {
-        console.log(journeys);
         this.journeys = journeys;
         this.journey.id = id;
         this.loadJourney();
-        console.log('This Journey', this.journey);
       });
 
       /*//low effort security TODO: mabye find a better/saver way
@@ -89,7 +87,7 @@ export class JourneyEditorPage implements OnInit {
       });
     }).then(() => {
       this.navCtrl.navigateRoot('root');
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/home'); //TODO nav to journey details
     });
   }
 

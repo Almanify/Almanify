@@ -26,8 +26,8 @@ export class JourneyListPage implements OnInit {
     this.databaseService = db;
     this.userId = as.getUserId;
     console.log(this.userId);
-    // this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
-    this.databaseService.getJourneys().then((journeys) => {
+    this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
+    /*this.databaseService.getJourneys().then((journeys) => {*/
       this.journeys = journeys;
       this.filterJourneys();
     });

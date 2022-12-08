@@ -36,6 +36,7 @@ export class JoinJourneyPage implements OnInit {
         console.log(journey);
         this.databaseService.addUserToJourney(journey.id, this.userId)
           .then((id) => {
+            //??? journeyId = journey.id ???
             console.log(id);
             journeyId = id;
           }).catch((error) => {
