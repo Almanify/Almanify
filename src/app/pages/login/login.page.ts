@@ -107,9 +107,7 @@ export class LoginPage implements OnInit {
   }
 
   //just for debug and lazy test login
-  private
-
-  loginTestuser(user: string,) {
+  private loginTestuser(user: string,) {
     switch (user) {
       case "hanz":
         this.logInWithString("hanz@mail.de", "123456");

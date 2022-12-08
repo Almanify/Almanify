@@ -4,11 +4,11 @@ export class User {
    userName: string;
 
   constructor(
-    userID: string,
+    id: string,
     userName: string,
     userCurrency: string = '€') {
 
-    this.id = userID;
+    this.id = id;
     this.userCurrency = userCurrency;
     this.userName = userName;
   }
