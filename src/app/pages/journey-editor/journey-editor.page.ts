@@ -4,7 +4,6 @@ import {DatabaseService} from 'src/app/services/database.service';
 import {Journey} from '../../data/Journey';
 import * as Lodash from 'lodash';
 import {AuthenticationService} from '../../services/auth.service';
-import {JourneyParticipation} from '../../data/JourneyParticipation';
 import {AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
@@ -18,12 +17,8 @@ export class JourneyEditorPage implements OnInit {
 
   currencies: Array<string> = undefined;
   people;
-  journey: Journey;
+  journey;
   isEditMode = false;
-
-  private journeys: Journey[];
-  private owner: JourneyParticipation;
-  private journeyParticipants: JourneyParticipation[] = [];
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -33,23 +28,14 @@ export class JourneyEditorPage implements OnInit {
               private alertController: AlertController,
               public outlet: IonRouterOutlet,) {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.journey = new Journey('', '', authService.getUserId, '1', Timestamp.fromDate(new Date()),Timestamp.fromDate(new Date()));
-    this.owner = new JourneyParticipation(authService.getUserId, '');
-    this.journeyParticipants.push(this.owner);
+    this.journey = new Journey('', '', authService.getUserId, '', Timestamp.fromDate(new Date()), Timestamp.fromDate(new Date()), []);
     if (id != null) {
       this.isEditMode = true;
-      this.databaseService.getJourneys().then(journeys => {
-        this.journeys = journeys;
-        this.journey.id = id;
-        this.loadJourney();
-      });
-
-      /*//low effort security TODO: mabye find a better/saver way
-      if (this.journey.creatorID === authService.user_user_id){
-        alert("You shall not pass!");
-        this.back();
-      }*/
+      this.journey.id = id;
+      this.journey =  this.databaseService.journeyCRUDHandler.read(this.journey)
+      console.log(this.journey)
     } else {
+      this.journey.journeyParticipants = [authService.getUserId];
       databaseService.generateInviteCode().then(inviteCode => {
         this.journey.inviteCode = inviteCode;
       });
@@ -70,28 +56,22 @@ export class JourneyEditorPage implements OnInit {
     this.journey.end = Timestamp.fromDate(new Date(value));
   }
 
-  loadJourney() {
-    this.journey = Lodash.find(this.journeys, ['id', this.journey.id]);
-    this.databaseService.getJourneyParticipants().then(journeyParticipants => {
-      this.journeyParticipants = journeyParticipants;
-      this.loadParticipants();
-    });
-  }
-
-  loadParticipants() {
-    this.journeyParticipants = Lodash.filter(this.journeyParticipants, ['journeyID', this.journey.id]);
-  }
-
   async save() {
-    this.databaseService.addNewJourney(this.journey).then(id => {
-      this.journeyParticipants.forEach(journeyParticipant => {
-        journeyParticipant.journeyID = id;
-        this.databaseService.addNewJourneyParticipation(journeyParticipant);
-      });
-    }).then(() => {
-      this.navCtrl.navigateRoot('root');
-      this.router.navigateByUrl('/home'); //TODO nav to journey details
-    });
+    if (this.isEditMode) {
+      //update database
+      this.databaseService.journeyCRUDHandler.update(this.journey)
+        .then(() => {
+          this.navCtrl.navigateRoot('root');
+          this.router.navigateByUrl('/home'); //TODO nav to journey details
+        });
+    } else {
+      //create new entry
+      this.databaseService.journeyCRUDHandler.createAndGetID(this.journey)
+        .then(() => {
+          this.navCtrl.navigateRoot('root');
+          this.router.navigateByUrl('/home'); //TODO nav to journey details
+        });
+    }
   }
 
   async alertUnsaved() {
@@ -136,8 +116,6 @@ export class JourneyEditorPage implements OnInit {
     const qrCode = document.getElementById('qrCode');
 
     qrCode.setAttribute('src', 'https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=' + inviteCode);
-
-
   }
 
   ngOnInit() {

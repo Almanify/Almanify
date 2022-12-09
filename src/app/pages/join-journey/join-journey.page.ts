@@ -37,7 +37,7 @@ export class JoinJourneyPage implements OnInit {
     this.databaseService.getJourneyByInviteCode(this.inviteCode)
       .then(async (journey) => {
         console.log(journey);
-        await this.databaseService.addUserToJourney(journey.id, this.userId)
+        await this.databaseService.addUserToJourney(journey, this.userId)
           .then(() => {
             journeyId = journey.id;
           }).catch((error) => {

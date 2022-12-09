@@ -10,6 +10,7 @@ export class Payment implements DatabaseEntity{
   public category: PaymentCategory;
   public involvedIDs: Array<string>;
   public img: string;
+  public paymentParticipants: string[];
 
   constructor(id: string,
               title: string,
@@ -18,8 +19,8 @@ export class Payment implements DatabaseEntity{
               currency: string,
               payday: Date,
               category: PaymentCategory,
-              involvedIDs: Array<string>,
-              img: string) {
+              paymentParticipants: string[],
+              img: string = undefined) {
 
     this.id = id;
     this.title = title;
@@ -28,7 +29,7 @@ export class Payment implements DatabaseEntity{
     this.currency = currency;
     this.payday = payday;
     this.category = category;
-    this.involvedIDs = involvedIDs;
+    this.paymentParticipants = paymentParticipants;
     this.img = img;
   }
 
