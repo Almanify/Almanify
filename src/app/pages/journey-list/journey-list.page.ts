@@ -19,18 +19,13 @@ export class JourneyListPage implements OnInit {
   journeyType = 'all';
   journeyRole = 'joined';
   databaseService: DatabaseService;
+  authenticationService: AuthenticationService;
 
   constructor(private router: Router,
               private db: DatabaseService,
               private as: AuthenticationService) {
     this.databaseService = db;
-    this.userId = as.getUserId;
-    console.log(this.userId);
-    this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
-    /*this.databaseService.getJourneys().then((journeys) => {*/
-      this.journeys = journeys;
-      this.filterJourneys();
-    });
+    this.authenticationService = as;
   }
 
   segmentChanged(event) {
@@ -78,10 +73,24 @@ export class JourneyListPage implements OnInit {
   }
 
   viewJourney(journey) {
-    this.router.navigate(['/journey']);
+    this.router.navigate(['/journey/' + journey.id]);
   }
 
   ngOnInit() {
+    // initial load of journeys
+    this.userId = this.authenticationService.getUserId;
+    this.loadJourneys();
+    // watch for changes after initial load
+    this.authenticationService.getObservable().subscribe(() => {
+      this.userId = this.authenticationService.getUserId;
+      this.loadJourneys();
+    });
   }
 
+  loadJourneys() {
+    this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
+      this.journeys = journeys;
+      this.filterJourneys();
+    });
+  }
 }

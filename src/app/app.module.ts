@@ -11,12 +11,12 @@ import {AppRoutingModule} from './app-routing.module';
 import {AngularFireModule} from '@angular/fire/compat/';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
 import {AngularFireAuthModule} from '@angular/fire/compat/auth';
-import {AngularFireStorageModule, BUCKET} from '@angular/fire/compat/storage';
+import {AngularFireStorageModule} from '@angular/fire/compat/storage';
 
 
 
 import {ReactiveFormsModule} from '@angular/forms';
-import {environment} from "../environments/environment";
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],

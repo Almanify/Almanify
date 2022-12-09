@@ -15,10 +15,8 @@ export class AppComponent implements OnInit {
   public unblockedPages = [
     {title: 'Home', url: `/home`, icon: 'home'},
     {title: 'Journeys', url: `/journeys`, icon: 'earth'},
-    // {title: 'Debts', url: '/debts', icon: 'cash'},
     {title: 'Options', url: '/options', icon: 'construct'},
     {title: 'Logout', url: '/login/logout', icon: 'log-out'},
-    // {title: 'Theme-Testing', url: '/testing', icon: 'color-palette'},
   ];
 
   public appPages = [];
@@ -28,8 +26,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    const userObservable = this.authService.getObservable();
-    userObservable.subscribe(value => {
+    this.userName = this.authService.getUserEmail;
+    this.authService.getObservable().subscribe(value => {
       this.userName = value;
       if (this.authService.isAuthenticated.value) {
         this.appPages = this.unblockedPages;

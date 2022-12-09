@@ -25,6 +25,9 @@ export class JoinJourneyPage implements OnInit {
 
   ngOnInit() {
     this.userId = this.authService.getUserId;
+    this.authService.getObservable().subscribe((user) => {
+      this.userId = user;
+    });
   }
 
   joinJourney() {
@@ -32,24 +35,22 @@ export class JoinJourneyPage implements OnInit {
     let journeyId = '';
     console.log(this.inviteCode);
     this.databaseService.getJourneyByInviteCode(this.inviteCode)
-      .then((journey) => {
+      .then(async (journey) => {
         console.log(journey);
-        this.databaseService.addUserToJourney(journey.id, this.userId)
-          .then((id) => {
-            //??? journeyId = journey.id ???
-            console.log(id);
-            journeyId = id;
+        await this.databaseService.addUserToJourney(journey.id, this.userId)
+          .then(() => {
+            journeyId = journey.id;
           }).catch((error) => {
           this.errorText = 'Failed: ' + error;
         });
       }).catch(() => {
         this.errorText = 'Invalid Code!';
-      });
-    console.log(journeyId);
-    if (journeyId) {
-      this.router.navigate(['/journeys/']).then(() => {
-        this.router.navigate(['/journey/' + journeyId]);
-      });
-    }
+      }).finally(() => {
+      if (journeyId) {
+        this.router.navigate(['/journeys/']).then(() => {
+          this.router.navigate(['/journey/' + journeyId]);
+        });
+      }
+    });
   }
 }

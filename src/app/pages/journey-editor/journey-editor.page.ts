@@ -5,7 +5,7 @@ import {Journey} from '../../data/Journey';
 import * as Lodash from 'lodash';
 import {AuthenticationService} from '../../services/auth.service';
 import {JourneyParticipation} from '../../data/JourneyParticipation';
-import {AlertController, IonDatetime, IonRouterOutlet, NavController} from '@ionic/angular';
+import {AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
 
@@ -123,6 +123,19 @@ export class JourneyEditorPage implements OnInit {
       this.router.navigateByUrl('/home');
     }
   };
+
+  loadQRCode() {
+    // load using api
+    // https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=CodeHere
+    // this requests a 1000x1000px image with the data "CodeHere"
+
+    const inviteCode = this.journey.inviteCode;
+    const qrCode = document.getElementById('qrCode');
+
+    qrCode.setAttribute('src', 'https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=' + inviteCode);
+
+
+  }
 
   ngOnInit() {
 
