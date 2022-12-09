@@ -39,18 +39,18 @@
     <svg width="100%" height="180px">
       <foreignObject x="0" y="0" width="100%" height="100%">
         <div style="display: table; width: 100%; height: 100%;">
-          <p id="cardimg">{{journey.name}}</p>
+          <p id="cardimg">{{journey.title}}</p>
         </div>
       </foreignObject>
     </svg>
     <span style="position: absolute; top: 8px; right: 8px;">
       <ion-chip style="color: var(--ion-color-step-800); background-color: var(--ion-card-background)">
-        <ion-label>{{journey.start | date:'y'}}</ion-label>
+        <ion-label>{{journey.start.toDate() | date:'y'}}</ion-label>
       </ion-chip>
-      <ion-chip *ngIf="journey.status === 'active'" style="color: var(--ion-color-success-tint); background-color: var(--ion-card-background)">
+      <ion-chip *ngIf="journey.active" style="color: var(--ion-color-success-tint); background-color: var(--ion-card-background)">
         Active
       </ion-chip>
-      <ion-chip *ngIf="journey.status === 'archived'" style="color: var(--ion-color-danger-tint); background-color: var(--ion-card-background)">
+      <ion-chip *ngIf="!journey.active" style="color: var(--ion-color-danger-tint); background-color: var(--ion-card-background)">
       Archived
     </ion-chip>
     </span>
@@ -95,7 +95,7 @@
         </ion-row-->
       <!--/ion-item-group-->
       <ion-row>
-        <ion-col size="12" *ngIf="journey.creator !== user">
+        <ion-col size="12" *ngIf="journey.creatorID !== userId">
           <ion-button
             (click)="viewJourney(journey)"
             style="width: 100%;"
@@ -103,7 +103,7 @@
             <ion-icon name="eye"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size="4" *ngIf="journey.creator === user">
+        <ion-col size="4" *ngIf="journey.creatorID === userId">
           <ion-button
             (click)="viewJourney(journey)"
             style="width: 100%;"
@@ -113,8 +113,8 @@
         </ion-col>
         <ion-col size="4">
           <ion-button
-            (click)="sendJourneyDetails(true, journey.name, journey.def_currency, journey.start, journey.invite_code, journey.people, journey.creator)"
-            *ngIf="journey.creator === user"
+            (click)="editJourney(journey)"
+            *ngIf="journey.creatorID === userId"
             style="width: 100%;"
           >
             <ion-icon name="create"></ion-icon>
@@ -123,7 +123,7 @@
         <ion-col size="4">
           <ion-button
             (click)="deleteJourney(journey)"
-            *ngIf="journey.creator === user"
+            *ngIf="journey.creatorID === userId"
             style="width: 100%;"
           >
             <ion-icon name="trash"></ion-icon>

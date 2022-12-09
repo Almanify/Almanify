@@ -1,9 +1,12 @@
+import firebase from 'firebase/compat/app';
+import Timestamp = firebase.firestore.Timestamp;
+
 export class Journey {
   public id: string;
   public title: string;
   public defaultCurrency: string; //TODO
-  public start: Date;
-  public end: Date;
+  public start: Timestamp;
+  public end: Timestamp;
   public creatorID: string;
   public inviteCode: string;
   public active: boolean;
@@ -13,8 +16,8 @@ export class Journey {
     name: string,
     creatorID: string,
     inviteCode: string,
-    start: Date,
-    end: Date,
+    start: Timestamp,
+    end: Timestamp,
     defaultCurrency: string = '€',
     active: boolean = true) {
 

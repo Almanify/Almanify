@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {DatabaseService} from '../../services/database.service';
+import {Journey} from '../../data/Journey';
+import {AuthenticationService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-journey-list',
@@ -8,78 +11,21 @@ import {Router} from '@angular/router';
 })
 export class JourneyListPage implements OnInit {
 
-  user = 'Bob';
-  journeys: Array<{
-    name: string;
-    defCurrency: string;
-    start: string;
-    end: string;
-    people: Array<string>;
-    inviteCode: number;
-    creator: string;
-    status: string;
-  }> = undefined;
+  userId = '';
+  journeys: Journey[] = [];
 
-  filteredJourneys: Array<{
-    name: string;
-    defCurrency: string;
-    start: string;
-    end: string;
-    people: Array<string>;
-    inviteCode: number;
-    creator: string;
-    status: string;
-  }> = undefined;
+  filteredJourneys: Journey[] = [];
 
   journeyType = 'all';
   journeyRole = 'joined';
+  databaseService: DatabaseService;
+  authenticationService: AuthenticationService;
 
-  constructor(private router: Router) {
-    this.journeys = [
-      {
-        name: 'Frankreich 2021',
-        defCurrency: '€',
-        start: '2021-01-01',
-        end: '2021-01-02',
-        people: [
-          'Bob',
-          'Sally',
-          'John',
-          'Jane'
-        ],
-        inviteCode: 12345,
-        creator: 'Bob',
-        status: 'active'
-      },
-      {
-        name: 'Malle 2020',
-        defCurrency: '€',
-        start: '2020-04-01',
-        end: '2020-04-08',
-        people: [
-          'Bob',
-          'Sally',
-        ],
-        inviteCode: 23456,
-        creator: 'Sally',
-        status: 'archived'
-      },
-      {
-        name: 'Quarantäne 2020',
-        defCurrency: '🍑',
-        start: '2020-03-01',
-        end: '2020-03-08',
-        people: [
-          'Bob',
-          'Sally',
-          'John',
-        ],
-        inviteCode: 34567,
-        creator: 'John',
-        status: 'archived'
-      }
-    ];
-    this.filterJourneys();
+  constructor(private router: Router,
+              private db: DatabaseService,
+              private as: AuthenticationService) {
+    this.databaseService = db;
+    this.authenticationService = as;
   }
 
   segmentChanged(event) {
@@ -101,36 +47,40 @@ export class JourneyListPage implements OnInit {
     if (this.journeyType === 'all') {
       this.filteredJourneys = this.journeys;
     } else if (this.journeyType === 'active') {
-      this.filteredJourneys = this.journeys.filter(journey => journey.status === 'active');
+      this.filteredJourneys = this.journeys.filter(journey => journey.active);
     } else if (this.journeyType === 'archived') {
-      this.filteredJourneys = this.journeys.filter(journey => journey.status === 'archived');
+      this.filteredJourneys = this.journeys.filter(journey => !journey.active);
     }
     if (this.journeyRole === 'joined') {
-      this.filteredJourneys = this.filteredJourneys.filter(journey => journey.people.includes(this.user));
+      // nothing to do, all shown journeys joined
     } else if (this.journeyRole === 'created') {
-      this.filteredJourneys = this.filteredJourneys.filter(journey => journey.creator === this.user);
+      this.filteredJourneys = this.filteredJourneys.filter(journey => journey.creatorID === this.userId);
     }
-  }
-
-  sendJourneyDetails(editMode, name, cur, start, code, people, creator) {
-    this.router.navigate(['/journey-editor', {
-      queryParams: {
-        edit: editMode,
-        name,
-        cur,
-        start,
-        code,
-        people: [people],
-        creator
-      }
-    }]);
   }
 
   viewJourney(journey) {
-    this.router.navigate(['/journey-details']);
+    this.router.navigate(['/journey/' + journey.id]);
+  }
+
+  editJourney(journey) {
+    this.router.navigate(['/journey-editor/' + journey.id]);
   }
 
   ngOnInit() {
+    // initial load of journeys
+    this.userId = this.authenticationService.getUserId;
+    this.loadJourneys();
+    // watch for changes after initial load
+    this.authenticationService.getObservable().subscribe(() => {
+      this.userId = this.authenticationService.getUserId;
+      this.loadJourneys();
+    });
   }
 
+  loadJourneys() {
+    this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
+      this.journeys = journeys;
+      this.filterJourneys();
+    });
+  }
 }

@@ -1,11 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {IonInput, IonToggle} from '@ionic/angular';
-import {AuthentificationService} from "../../services/auth.service";
-import {SignUPService} from "../../services/sign-up.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {User} from "../../data/User";
-import {user} from "@angular/fire/auth";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {IonInput} from '@ionic/angular';
+import {AuthenticationService} from '../../services/auth.service';
+import {SignUPService} from '../../services/sign-up.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {User} from '../../data/User';
 
 @Component({
   selector: 'app-login',
@@ -15,23 +14,22 @@ import {user} from "@angular/fire/auth";
 
 export class LoginPage implements OnInit {
 
-  private isDebug: boolean = true;
-  isLoginMode: boolean = true;
-  rememberMe: boolean = false;
+  isDebug = true;
+  isLoginMode = true;
+  rememberMe = false;
+  command = '';
 
   validationForm: FormGroup;
   validationMessages;
 
   constructor(public router: Router,
               private activatedRoute: ActivatedRoute,
-              public authService: AuthentificationService,
+              public authService: AuthenticationService,
               public signUpService: SignUPService,
               public formBuilder: FormBuilder) {
     this.prepareFormValidation();
     this.router = router;
   }
-
-  public command: string;
 
   ngOnInit() {
     this.command = this.activatedRoute.snapshot.paramMap.get('command');
@@ -48,7 +46,7 @@ export class LoginPage implements OnInit {
   logInWithString(email: string, password: string) {
     console.log('Remember me: ' + this.rememberMe);
     this.authService.signIn(email, password, this.rememberMe)
-      .then((res) => {
+      .then(() => {
         this.router.navigate(['/home']); //TODO: anpassen wenn reise vorhanden ist
       }).catch((error) => {
       window.alert(error.message);
@@ -56,7 +54,7 @@ export class LoginPage implements OnInit {
   }
 
    signUp(email: IonInput, password: IonInput, username: IonInput) {
-    let user = new User('',  username.value as string);
+    const user = new User('',  username.value as string);
     this.signUpService.createUser(user, email.value as string, password.value as string);
     this.isLoginMode = true;
   }
@@ -67,7 +65,7 @@ export class LoginPage implements OnInit {
 
   logOut() {
     this.authService.signOut()
-      .then((res) => {
+      .then(() => {
         this.router.navigateByUrl('/login/login');
       }).catch((error) => {
       window.alert(error.message);
@@ -85,16 +83,16 @@ export class LoginPage implements OnInit {
       validators: this.passwordIsEqual.bind(this)
     });
     this.validationMessages = {
-      'Email': [
+      Email: [
         {type: 'required', message: 'E-Mail address required!'}
       ],
-      'Password': [
+      Password: [
         {type: 'required', message: 'Password required!'}
       ],
-      'Username': [
+      Username: [
         {type: 'required', message: 'Username required!'}
       ],
-      'ConfirmPassword': [
+      ConfirmPassword: [
         {type: 'required', message: 'Confirm Password required!'}
       ],
     };
@@ -107,22 +105,22 @@ export class LoginPage implements OnInit {
   }
 
   //just for debug and lazy test login
-  private loginTestuser(user: string,) {
+  loginTestuser(user: string,) {
     switch (user) {
-      case "hanz":
-        this.logInWithString("hanz@mail.de", "123456");
+      case 'hanz':
+        this.logInWithString('hanz@mail.de', '123456');
         break;
-      case "peter":
-        this.logInWithString("peter@mail.de", "123456");
+      case 'peter':
+        this.logInWithString('peter@mail.de', '123456');
         break;
-      case "marie":
-        this.logInWithString("marie.mueller@web.de", "123456");
+      case 'marie':
+        this.logInWithString('marie.mueller@web.de', '123456');
         break;
-      case "uwe":
-        this.logInWithString("kai_uwe_der_4@mail.de", "123456");
+      case 'uwe':
+        this.logInWithString('kai_uwe_der_4@mail.de', '123456');
         break;
-      case "mike":
-        this.logInWithString("mike.drop@stage.en", "123456");
+      case 'mike':
+        this.logInWithString('mike.drop@stage.en', '123456');
         break;
     }
   }

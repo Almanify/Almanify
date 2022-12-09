@@ -15,39 +15,39 @@ import {BehaviorSubject, Observable, Observer} from 'rxjs';
 })
 
 
-export class AuthentificationService {
+export class AuthenticationService {
 
   observer: Observer<string>;
   observable: Observable<string> = new Observable(observer => this.observer = observer);
   isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
 
-  private user: string = "";
-  private user_id: string = "";
+  private user = '';
+  private userId = '';
 
   constructor(public angularFireAuth: AngularFireAuth) {
     this.angularFireAuth.onAuthStateChanged((user) => {
       if (user) {
         this.isAuthenticated.next(true);
-        this.user_id = user.uid;
+        this.userId = user.uid;
         this.user = user.email;
         this.observer.next(user.email);
       } else {
         this.isAuthenticated.next(false);
-        this.user_id = "";
-        this.user = "";
-        this.observer.next("");
+        this.userId = '';
+        this.user = '';
+        this.observer.next('');
       }
     });
   }
 
 
-  get user_email(): string {
+  get getUserEmail(): string {
     return this.user;
   }
 
 
-  get user_user_id(): string {
-    return this.user_id;
+  get getUserId(): string {
+    return this.userId;
   }
 
 

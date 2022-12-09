@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Journey} from "../data/Journey";
-import {Journey_Participants} from "../data/Journey_Participants";
-import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
-import {copyAndPrepare} from "./../helper/copyAndPrepare";
+import {Journey} from '../data/Journey';
+import {JourneyParticipation} from '../data/JourneyParticipation';
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
+import {copyAndPrepare} from '../helper/copyAndPrepare';
 
 
 @Injectable({
@@ -10,31 +10,26 @@ import {copyAndPrepare} from "./../helper/copyAndPrepare";
 })
 export class DatabaseService {
   private journeyCollection: AngularFirestoreCollection<Journey>;
-  private jParticipantsCollection: AngularFirestoreCollection<Journey_Participants>
+  private jParticipantsCollection: AngularFirestoreCollection<JourneyParticipation>;
 
 
   constructor(public firestore: AngularFirestore) {
     this.journeyCollection = firestore.collection<Journey>('Journey');
-    this.jParticipantsCollection = firestore.collection<Journey_Participants>('Journey_Participants')
+    this.jParticipantsCollection = firestore.collection<JourneyParticipation>('Journey_Participants');
   }
 
-  public async persist(item: Journey | Journey_Participants): Promise<String> {
+  public async persist(item: Journey | JourneyParticipation): Promise<string> {
     switch (item.constructor) {
-      case
-      Journey:
+      case Journey:
         return this.journeyCollection.add(copyAndPrepare(item))
-          .then(document_refernce => {
-            return document_refernce.id
-          });
-      case   Journey_Participants:
+          .then(documentReference => documentReference.id);
+      case   JourneyParticipation:
         return this.jParticipantsCollection.add(copyAndPrepare(item))
-          .then(document_refernce => {
-            return document_refernce.id;
-          })
+          .then(documentReference => documentReference.id);
     }
   }
 
-  public async readJourney(): Promise<Journey[]> {
+  public async getJourneys(): Promise<Journey[]> {
     return this.journeyCollection.get()
       .toPromise()
       .then(snapshot => snapshot.docs.map(doc => {
@@ -42,23 +37,102 @@ export class DatabaseService {
         journey.id = doc.id;
         return journey;
       }))
-      .catch(error => {
-        console.log(error);
-        return null;
-      })
+      .catch(error => Promise.reject(error));
   }
 
-  public async readJParticipants(): Promise<Journey_Participants[]> {
+  public async getJourneyParticipants(): Promise<JourneyParticipation[]> {
     return this.jParticipantsCollection.get()
       .toPromise()
-      .then(snapshot => snapshot.docs.map(doc => {
-        const jParticipant = doc.data();
-        //journey.id = doc.id;
-        return jParticipant;
-      }))
-      .catch(error => {
-        console.log(error);
-        return null;
+      .then(snapshot => snapshot.docs.map(doc => doc.data()));
+  }
+
+  public async getJourneyParticipantsByJourneyId(journeyId: string): Promise<JourneyParticipation[]> {
+    return this.jParticipantsCollection.ref.where('journeyID', '==', journeyId).get()
+      .then(snapshot => snapshot.docs.map(doc => doc.data()));
+  }
+
+  public async getJourneyParticipantsByUserId(userId: string): Promise<JourneyParticipation[]> {
+    return this.jParticipantsCollection.ref.where('userID', '==', userId).get()
+      .then(snapshot => snapshot.docs.map(doc => doc.data()));
+  }
+
+  public async getJourneyById(journeyId: string): Promise<Journey> {
+    return this.journeyCollection.doc(journeyId).get()
+      .toPromise()
+      .then(doc => {
+        if (!doc.exists) {
+          return Promise.reject('No journey found');
+        }
+        const journey = doc.data();
+        journey.id = doc.id;
+        return journey;
       })
+      .catch(error => Promise.reject(error));
+  }
+
+  public async getJoinedJourneys(userId: string): Promise<Journey[]> {
+    const joinedJourneys: Journey[] = [];
+    const journeyParticipants = await this.getJourneyParticipantsByUserId(userId);
+    for (const journeyParticipant of journeyParticipants) {
+      const journey = await this.getJourneyById(journeyParticipant.journeyID);
+      joinedJourneys.push(journey);
+    }
+    return joinedJourneys;
+  }
+
+  public async getCreatedJourneys(userId: string): Promise<Journey[]> {
+    return this.journeyCollection.ref.where('userID', '==', userId).get()
+      .then(snapshot => snapshot.docs.map(doc => {
+        const journey = doc.data();
+        journey.id = doc.id;
+        return journey;
+      }))
+      .catch(error => Promise.reject(error));
+  }
+
+  public async getJourneyByInviteCode(inviteCode: string): Promise<Journey> {
+    return this.journeyCollection.ref.where('inviteCode', '==', inviteCode).get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          return Promise.reject('Invalid invite code.');
+        }
+        const doc = snapshot.docs[0];
+        const journey = doc.data();
+        journey.id = doc.id;
+        return journey;
+      });
+  }
+
+  public async isJourneyParticipant(journeyId: string, userId: string): Promise<boolean> {
+    return this.getJourneyParticipantsByJourneyId(journeyId)
+      .then(value => value.some(value1 => value1.userID === userId))
+      .catch(error => Promise.reject(error));
+  }
+
+  public async addUserToJourney(journeyId: string, userId: string): Promise<string> {
+    if(!userId || !journeyId) {
+      return Promise.reject('Invalid parameters');
+    }
+    const journeyParticipant: JourneyParticipation = new JourneyParticipation(userId, journeyId);
+    if (!await this.getJourneyById(journeyId)) {
+      return Promise.reject('No journey found');
+    } else if (await this.isJourneyParticipant(journeyId, userId)) {
+      return Promise.reject('User already joined journey');
+    } else {
+      return this.persist(journeyParticipant);
+    }
+  }
+
+  public async isInviteCodeValid(inviteCode: string): Promise<boolean> {
+    return !!await this.journeyCollection.ref.where('inviteCode', '==', inviteCode).get();
+  }
+
+  public async generateInviteCode(): Promise<string> {
+    // generates a random 6-digit number and checks if it is already used
+    let inviteCode = Math.floor(100000 + Math.random() * 900000).toString();
+    while (!await this.isInviteCodeValid(inviteCode)) {
+      inviteCode = Math.floor(100000 + Math.random() * 900000).toString();
+    }
+    return inviteCode;
   }
 }
