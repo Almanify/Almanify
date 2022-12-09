@@ -33,7 +33,7 @@ export class JourneyEditorPage implements OnInit {
               private alertController: AlertController,
               public outlet: IonRouterOutlet,) {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.journey = new Journey('', '', authService.getUserId, /*TODO*/'1', Timestamp.fromDate(new Date()),Timestamp.fromDate(new Date()));
+    this.journey = new Journey('', '', authService.getUserId, '1', Timestamp.fromDate(new Date()),Timestamp.fromDate(new Date()));
     this.owner = new JourneyParticipation(authService.getUserId, '');
     this.journeyParticipants.push(this.owner);
     if (id != null) {
@@ -49,6 +49,10 @@ export class JourneyEditorPage implements OnInit {
         alert("You shall not pass!");
         this.back();
       }*/
+    } else {
+      databaseService.generateInviteCode().then(inviteCode => {
+        this.journey.inviteCode = inviteCode;
+      });
     }
     this.currencies = [
       '€',

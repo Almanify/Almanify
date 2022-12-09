@@ -122,4 +122,17 @@ export class DatabaseService {
       return this.persist(journeyParticipant);
     }
   }
+
+  public async isInviteCodeValid(inviteCode: string): Promise<boolean> {
+    return !!await this.journeyCollection.ref.where('inviteCode', '==', inviteCode).get();
+  }
+
+  public async generateInviteCode(): Promise<string> {
+    // generates a random 6-digit number and checks if it is already used
+    let inviteCode = Math.floor(100000 + Math.random() * 900000).toString();
+    while (!await this.isInviteCodeValid(inviteCode)) {
+      inviteCode = Math.floor(100000 + Math.random() * 900000).toString();
+    }
+    return inviteCode;
+  }
 }
