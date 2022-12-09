@@ -1,4 +1,6 @@
-export class Payment {
+import {DatabaseEntity} from "./DatabaseEntity";
+
+export class Payment implements DatabaseEntity{
   public id: string;
   public title: string;
   public payerID: string;
@@ -18,7 +20,7 @@ export class Payment {
               category: PaymentCategory,
               involvedIDs: Array<string>,
               img: string) {
-    
+
     this.id = id;
     this.title = title;
     this.payerID = payerID;

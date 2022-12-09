@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Journey} from '../data/Journey';
 import {JourneyParticipation} from '../data/JourneyParticipation';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
-import {copyAndPrepare} from '../helper/copyAndPrepare';
+import {copyAndPrepare} from './helper/copyAndPrepare';
 
 
 @Injectable({
@@ -18,16 +18,19 @@ export class DatabaseService {
     this.jParticipantsCollection = firestore.collection<JourneyParticipation>('Journey_Participants');
   }
 
-  public async persist(item: Journey | JourneyParticipation): Promise<string> {
-    switch (item.constructor) {
-      case Journey:
-        return this.journeyCollection.add(copyAndPrepare(item))
-          .then(documentReference => documentReference.id);
-      case   JourneyParticipation:
-        return this.jParticipantsCollection.add(copyAndPrepare(item))
-          .then(documentReference => documentReference.id);
-    }
+  public async addNewJourneyParticipation(journeyParticipation: JourneyParticipation): Promise<string> {
+    return this.jParticipantsCollection.add(copyAndPrepare(journeyParticipation))
+      .then(documentReference => {return documentReference.id});
   }
+
+
+  public async addNewJourney(journey: Journey): Promise<string> {
+    return this.journeyCollection.add(copyAndPrepare(journey))
+      .then(documentReference => {
+        return documentReference.id
+      });
+  }
+
 
   public async getJourneys(): Promise<Journey[]> {
     return this.journeyCollection.get()
@@ -119,7 +122,7 @@ export class DatabaseService {
     } else if (await this.isJourneyParticipant(journeyId, userId)) {
       return Promise.reject('User already joined journey');
     } else {
-      return this.persist(journeyParticipant);
+      return this.addNewJourneyParticipation(journeyParticipant);
     }
   }
 

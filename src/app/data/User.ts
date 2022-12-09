@@ -1,4 +1,6 @@
-export class User {
+import {DatabaseEntity} from "./DatabaseEntity";
+
+export class User implements DatabaseEntity{
    id: string;
    userCurrency: string; //TODO
    userName: string;

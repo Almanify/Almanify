@@ -83,11 +83,10 @@ export class JourneyEditorPage implements OnInit {
   }
 
   async save() {
-    this.databaseService.persist(this.journey).then(id => {
+    this.databaseService.addNewJourney(this.journey).then(id => {
       this.journeyParticipants.forEach(journeyParticipant => {
-        journeyParticipant.journeyID = id.toString();
-        this.databaseService.persist(journeyParticipant);
-        console.log(this.journeyParticipants);
+        journeyParticipant.journeyID = id;
+        this.databaseService.addNewJourneyParticipation(journeyParticipant);
       });
     }).then(() => {
       this.navCtrl.navigateRoot('root');
