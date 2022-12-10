@@ -7,6 +7,8 @@ import {AuthenticationService} from '../../services/auth.service';
 import {AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
+import {User} from "../../data/User";
+import {user} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-journey-editor',
@@ -16,8 +18,8 @@ import Timestamp = firebase.firestore.Timestamp;
 export class JourneyEditorPage implements OnInit {
 
   currencies: Array<string> = undefined;
-  people;
-  journey;
+  participants: Array<User> = [];
+  journey: Journey;
   isEditMode = false;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -28,14 +30,18 @@ export class JourneyEditorPage implements OnInit {
               private alertController: AlertController,
               public outlet: IonRouterOutlet,) {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.journey = new Journey('', '', authService.getUserId, '', Timestamp.fromDate(new Date()), Timestamp.fromDate(new Date()), []);
+    this.journey = new Journey('',
+      '',
+      authService.getUserId,
+      '',
+      Timestamp.fromDate(new Date()),
+      Timestamp.fromDate(new Date()),
+      [authService.getUserId]);
     if (id != null) {
       this.isEditMode = true;
       this.journey.id = id;
-      this.journey =  this.databaseService.journeyCRUDHandler.read(this.journey)
-      console.log(this.journey)
+      this.databaseService.journeyCRUDHandler.read(this.journey).then(journey => this.journey = journey);
     } else {
-      this.journey.journeyParticipants = [authService.getUserId];
       databaseService.generateInviteCode().then(inviteCode => {
         this.journey.inviteCode = inviteCode;
       });
@@ -45,8 +51,18 @@ export class JourneyEditorPage implements OnInit {
       '$',
       '¥'
     ];
-    this.people = ['Hanz', 'Maier', 'Wurst'];
+    /*console.log("UserID", this.authService.getUserId)
+    this.getParticipants();
+    console.log("Beteiligte", this.participants);*/
   }
+
+  /*getParticipants() {
+    this.journey.journeyParticipants
+      .forEach(participant => this.databaseService.userCRUDHandler
+        .readByID(participant)
+        .then(user => this.participants.push(user)))
+  }*/
+
 
   updateStartDate(value) {
     this.journey.start = Timestamp.fromDate(new Date(value));

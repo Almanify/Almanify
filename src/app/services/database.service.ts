@@ -3,6 +3,8 @@ import {Journey} from '../data/Journey';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 import {copyAndPrepare} from './helper/copyAndPrepare';
 import {CRUD_Handler} from "./helper/CRUD-Handler";
+import {User} from "../data/User";
+import {Payment} from "../data/Payment";
 
 
 @Injectable({
@@ -10,10 +12,13 @@ import {CRUD_Handler} from "./helper/CRUD-Handler";
 })
 export class DatabaseService {
   public journeyCRUDHandler: CRUD_Handler<Journey>;
-
+  public userCRUDHandler: CRUD_Handler<User>;
+  public paymentCRUDHandler: CRUD_Handler<Payment>;
 
   constructor(public firestore: AngularFirestore) {
     this.journeyCRUDHandler = new CRUD_Handler<Journey>(firestore, 'Journey');
+    this.userCRUDHandler = new CRUD_Handler<User>(firestore, 'User');
+    this.paymentCRUDHandler = new CRUD_Handler<Payment>(firestore, 'Payment');
   }
 
 

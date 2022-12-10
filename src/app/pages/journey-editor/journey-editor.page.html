@@ -105,10 +105,10 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <span *ngFor="let per of journey.journeyParticipants">
+          <span *ngFor="let participant of participants">
             <ion-chip>
-              <ion-icon name="caret-up-outline" *ngIf="per === journey.creatorID"></ion-icon>
-              {{per}}
+              <ion-icon name="caret-up-outline" *ngIf="participant.id === journey.creatorID"></ion-icon>
+              {{participant.userName}}
               <ion-icon color="danger" name="close-circle-outline"></ion-icon>
             </ion-chip>
           </span>

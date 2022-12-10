@@ -5,7 +5,6 @@ import {DatabaseEntity} from "../../data/DatabaseEntity";
 
 export class CRUD_Handler<Entity extends DatabaseEntity> {
   public collection: AngularFirestoreCollection<Entity>;
-
   constructor(public firestore: AngularFirestore, path: string) {
     this.firestore = firestore;
     this.collection = firestore.collection<Entity>(path);
@@ -24,9 +23,13 @@ export class CRUD_Handler<Entity extends DatabaseEntity> {
     });
   }
 
-  //TODO not working
+
   public async read(entity: Entity): Promise<Entity> {
-    return this.collection.doc(entity.id).get()
+    return this.readByID((entity.id));
+  }
+
+  public async readByID(id:string): Promise<Entity>{
+    return this.collection.doc(id).get()
       .toPromise()
       .then(doc => {
         if (!doc.exists) {
@@ -38,7 +41,6 @@ export class CRUD_Handler<Entity extends DatabaseEntity> {
       })
       .catch(error => Promise.reject(error));
   }
-
 
   public async delete(entity: Entity) {
     await this.collection.doc(entity.id).delete()
