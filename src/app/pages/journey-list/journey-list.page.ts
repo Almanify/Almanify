@@ -83,4 +83,9 @@ export class JourneyListPage implements OnInit {
       this.filterJourneys();
     });
   }
+
+  deleteJourney(journey) {
+    this.databaseService.journeyCRUDHandler.delete(journey);
+    this.loadJourneys();
+  }
 }

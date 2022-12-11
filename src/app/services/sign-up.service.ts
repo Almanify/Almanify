@@ -7,7 +7,7 @@ import firebase from "firebase/compat";
 import firestore = firebase.firestore;
 import {AlertController} from '@ionic/angular';
 import {alert} from "ionicons/icons";
-import {copyAndPrepare} from "./../helper/copyAndPrepare";
+import {copyAndPrepare} from "./helper/copyAndPrepare";
 
 
 @Injectable({
@@ -26,7 +26,7 @@ export class SignUPService {
     return this.angularFireAuth.createUserWithEmailAndPassword(email, password)
       .then((data) => {
         user.id = data.user.uid
-        this.userCollection.doc(user.id).set(copyAndPrepare(user) as User)
+        this.userCollection.doc(user.id).set(copyAndPrepare(user) as User)   //important userdata and user login has same id
         this.alertSuccessfullySignUp();
       })
       .catch(error => {
