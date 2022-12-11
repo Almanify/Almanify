@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Journey} from '../data/Journey';
-import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
-import {copyAndPrepare} from './helper/copyAndPrepare';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {CRUD_Handler} from "./helper/CRUD-Handler";
 import {User} from "../data/User";
 import {Payment} from "../data/Payment";
@@ -45,9 +44,6 @@ export class DatabaseService {
       });
   }
 
-  public async isJourneyParticipant(journey: Journey, userId: string): Promise<boolean> {
-    return journey.journeyParticipants.includes(userId);
-  }
 
   public async addUserToJourney(journey: Journey, userId: string): Promise<string> {
     if (!userId || !journey.id) {

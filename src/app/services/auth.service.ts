@@ -21,7 +21,7 @@ export class AuthenticationService {
   observable: Observable<string> = new Observable(observer => this.observer = observer);
   isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
 
-  private user = '';
+  private mail = '';
   private userId = '';
 
   constructor(public angularFireAuth: AngularFireAuth) {
@@ -29,12 +29,12 @@ export class AuthenticationService {
       if (user) {
         this.isAuthenticated.next(true);
         this.userId = user.uid;
-        this.user = user.email;
-        this.observer.next(user.email);
+        this.mail = user.email;
+        this.observer.next(user.uid); //changed to from email to uid
       } else {
         this.isAuthenticated.next(false);
         this.userId = '';
-        this.user = '';
+        this.mail = '';
         this.observer.next('');
       }
     });
@@ -42,7 +42,7 @@ export class AuthenticationService {
 
 
   get getUserEmail(): string {
-    return this.user;
+    return this.mail;
   }
 
 

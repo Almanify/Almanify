@@ -21,7 +21,6 @@ export class JourneyEditorPage implements OnInit {
   participants: Array<User> = [];
   journey: Journey;
   isEditMode = false;
-
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private databaseService: DatabaseService,
@@ -32,36 +31,48 @@ export class JourneyEditorPage implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     this.journey = new Journey('',
       '',
-      authService.getUserId,
+      '',
       '',
       Timestamp.fromDate(new Date()),
       Timestamp.fromDate(new Date()),
-      [authService.getUserId]);
+      []);
     if (id != null) {
       this.isEditMode = true;
       this.journey.id = id;
-      this.databaseService.journeyCRUDHandler.read(this.journey).then(journey => this.journey = journey);
+      this.databaseService.journeyCRUDHandler.read(this.journey).then(journey => {
+        this.journey = journey;
+        this.getParticipants(this.journey)
+      });
     } else {
       databaseService.generateInviteCode().then(inviteCode => {
         this.journey.inviteCode = inviteCode;
       });
+      console.log(this.journey)
     }
     this.currencies = [
       '€',
       '$',
       '¥'
     ];
-    /*console.log("UserID", this.authService.getUserId)
-    this.getParticipants();
-    console.log("Beteiligte", this.participants);*/
+  }
+  ngOnInit() {
+    if (!this.isEditMode) {
+      this.authService.getObservable().subscribe((user) => {
+        this.journey.creatorID = user;
+        let tempSet = new Set(this.journey.journeyParticipants);
+        tempSet.add(user);
+        this.journey.journeyParticipants = Array.from(tempSet);
+        this.getParticipants(this.journey);
+      });
+    }
   }
 
-  /*getParticipants() {
-    this.journey.journeyParticipants
+  getParticipants(journey: Journey) {
+    journey.journeyParticipants
       .forEach(participant => this.databaseService.userCRUDHandler
         .readByID(participant)
         .then(user => this.participants.push(user)))
-  }*/
+  }
 
 
   updateStartDate(value) {
@@ -99,7 +110,6 @@ export class JourneyEditorPage implements OnInit {
           role: 'confirm',
           handler: () => {
             this.save();
-            this.back();
           },
         },
         {
@@ -133,10 +143,5 @@ export class JourneyEditorPage implements OnInit {
 
     qrCode.setAttribute('src', 'https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=' + inviteCode);
   }
-
-  ngOnInit() {
-
-  }
-
 
 }

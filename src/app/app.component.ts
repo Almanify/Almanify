@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from './services/auth.service';
+import {DatabaseService} from "./services/database.service";
+import {user} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,6 @@ import {AuthenticationService} from './services/auth.service';
 })
 export class AppComponent implements OnInit {
   userName = '';
-
   public blockedPages = [
     {title: 'Login', url: '/login', icon: 'log-in'}
   ];
@@ -21,14 +22,14 @@ export class AppComponent implements OnInit {
 
   public appPages = [];
 
-  constructor(public authService: AuthenticationService) {
+  constructor(public authService: AuthenticationService, private databaseService: DatabaseService) {
     this.appPages = this.blockedPages;
   }
 
   ngOnInit() {
-    this.userName = this.authService.getUserEmail;
+    this.databaseService.userCRUDHandler.readByID(this.authService.getUserId).then(user => this.userName = user.userName)
     this.authService.getObservable().subscribe(value => {
-      this.userName = value;
+      this.databaseService.userCRUDHandler.readByID(value).then(user => this.userName = user.userName)
       if (this.authService.isAuthenticated.value) {
         this.appPages = this.unblockedPages;
       } else {
