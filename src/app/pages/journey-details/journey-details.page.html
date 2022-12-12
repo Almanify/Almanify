@@ -9,14 +9,8 @@
 </ion-header>
 
 <ion-content>
-  <!-- new payment button -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button on-click="addPayment()" routerDirection="forward">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
   <!-- view debts -->
-  <ion-button size="medium" expand="block" class="ion-margin" on-click="viewDebts()">
+  <ion-button size="medium" expand="block" class="ion-margin" on-click="viewDebts()" style="font-weight: bolder">
     <ion-icon slot="start" name="wallet-outline"></ion-icon>
     view current debts
   </ion-button>
@@ -41,6 +35,16 @@
       <ion-icon name="caret-up-outline"></ion-icon>
     </ion-segment-button>
   </ion-segment>
+
+  <!-- card for adding a new payment -->
+  <ion-card>
+    <ion-card-content>
+      <ion-button routerDirection="forward" on-click="addPayment()" style="font-weight: bolder" expand="block">
+        <ion-icon slot="start" name="add-outline"></ion-icon>
+        Add new payment
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 
   <ion-card *ngFor="let payment of payments" on-click="viewPayment(payment)">
     <ion-card-header>
