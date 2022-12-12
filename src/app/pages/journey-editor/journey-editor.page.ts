@@ -2,13 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DatabaseService} from 'src/app/services/database.service';
 import {Journey} from '../../data/Journey';
-import * as Lodash from 'lodash';
 import {AuthenticationService} from '../../services/auth.service';
 import {AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
-import {User} from "../../data/User";
-import {user} from "@angular/fire/auth";
+import {User} from '../../data/User';
 
 @Component({
   selector: 'app-journey-editor',
@@ -39,15 +37,15 @@ export class JourneyEditorPage implements OnInit {
     if (id != null) {
       this.isEditMode = true;
       this.journey.id = id;
-      this.databaseService.journeyCRUDHandler.read(this.journey).then(journey => {
+      this.databaseService.journeyCrudHandler.read(this.journey).then(journey => {
         this.journey = journey;
-        this.getParticipants(this.journey)
+        this.getParticipants(this.journey);
       });
     } else {
       databaseService.generateInviteCode().then(inviteCode => {
         this.journey.inviteCode = inviteCode;
       });
-      console.log(this.journey)
+      console.log(this.journey);
     }
     this.currencies = [
       '€',
@@ -56,12 +54,15 @@ export class JourneyEditorPage implements OnInit {
     ];
   }
   ngOnInit() {
-    if (!this.isEditMode) {
-      this.authService.getObservable().subscribe((user) => {
-        this.journey.creatorID = user;
-        let tempSet = new Set(this.journey.journeyParticipants);
-        tempSet.add(user);
-        this.journey.journeyParticipants = Array.from(tempSet);
+    if (!this.isEditMode) { // if new journey
+
+      this.journey.creatorID = this.authService.getUserId; // initial fetch
+      this.journey.journeyParticipants = [this.authService.getUserId]; // we assume that the creator is the only participant
+      this.getParticipants(this.journey);
+
+      this.authService.getObservable().subscribe((u) => { // subscribe to changes
+        this.journey.creatorID = u;
+        this.journey.journeyParticipants = [u];
         this.getParticipants(this.journey);
       });
     }
@@ -69,9 +70,9 @@ export class JourneyEditorPage implements OnInit {
 
   getParticipants(journey: Journey) {
     journey.journeyParticipants
-      .forEach(participant => this.databaseService.userCRUDHandler
+      .forEach(participant => this.databaseService.userCrudHandler
         .readByID(participant)
-        .then(user => this.participants.push(user)))
+        .then(u => this.participants.push(u)));
   }
 
 
@@ -86,17 +87,17 @@ export class JourneyEditorPage implements OnInit {
   async save() {
     if (this.isEditMode) {
       //update database
-      this.databaseService.journeyCRUDHandler.update(this.journey)
-        .then(() => {
+      this.databaseService.journeyCrudHandler.update(this.journey)
+        .then((journeyId) => {
           this.navCtrl.navigateRoot('root');
-          this.router.navigateByUrl('/home'); //TODO nav to journey details
+          this.router.navigate(['/journey/' + journeyId]);
         });
     } else {
       //create new entry
-      this.databaseService.journeyCRUDHandler.createAndGetID(this.journey)
-        .then(() => {
+      this.databaseService.journeyCrudHandler.createAndGetID(this.journey)
+        .then((journeyId) => {
           this.navCtrl.navigateRoot('root');
-          this.router.navigateByUrl('/home'); //TODO nav to journey details
+          this.router.navigate(['/journey/' + journeyId]);
         });
     }
   }
@@ -132,16 +133,4 @@ export class JourneyEditorPage implements OnInit {
       this.router.navigateByUrl('/home');
     }
   };
-
-  loadQRCode() {
-    // load using api
-    // https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=CodeHere
-    // this requests a 1000x1000px image with the data "CodeHere"
-
-    const inviteCode = this.journey.inviteCode;
-    const qrCode = document.getElementById('qrCode');
-
-    qrCode.setAttribute('src', 'https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=' + inviteCode);
-  }
-
 }

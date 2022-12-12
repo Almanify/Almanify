@@ -1,28 +1,28 @@
 import {Injectable} from '@angular/core';
 import {Journey} from '../data/Journey';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
-import {CRUD_Handler} from "./helper/CRUD-Handler";
-import {User} from "../data/User";
-import {Payment} from "../data/Payment";
+import {CrudHandler} from './helper/CRUD-Handler';
+import {User} from '../data/User';
+import {Payment} from '../data/Payment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
-  public journeyCRUDHandler: CRUD_Handler<Journey>;
-  public userCRUDHandler: CRUD_Handler<User>;
-  public paymentCRUDHandler: CRUD_Handler<Payment>;
+  public journeyCrudHandler: CrudHandler<Journey>;
+  public userCrudHandler: CrudHandler<User>;
+  public paymentCrudHandler: CrudHandler<Payment>;
 
   constructor(public firestore: AngularFirestore) {
-    this.journeyCRUDHandler = new CRUD_Handler<Journey>(firestore, 'Journey');
-    this.userCRUDHandler = new CRUD_Handler<User>(firestore, 'User');
-    this.paymentCRUDHandler = new CRUD_Handler<Payment>(firestore, 'Payment');
+    this.journeyCrudHandler = new CrudHandler<Journey>(firestore, 'Journey');
+    this.userCrudHandler = new CrudHandler<User>(firestore, 'User');
+    this.paymentCrudHandler = new CrudHandler<Payment>(firestore, 'Payment');
   }
 
 
   public async getJoinedJourneys(userId: string): Promise<Journey[]> {
-    return this.journeyCRUDHandler.collection.ref.where('journeyParticipants', 'array-contains', userId).get()
+    return this.journeyCrudHandler.collection.ref.where('journeyParticipants', 'array-contains', userId).get()
       .then(snapshot => snapshot.docs.map(doc => {
         const journey = doc.data();
         journey.id = doc.id;
@@ -32,7 +32,7 @@ export class DatabaseService {
   }
 
   public async getJourneyByInviteCode(inviteCode: string): Promise<Journey> {
-    return this.journeyCRUDHandler.collection.ref.where('inviteCode', '==', inviteCode).get()
+    return this.journeyCrudHandler.collection.ref.where('inviteCode', '==', inviteCode).get()
       .then(snapshot => {
         if (snapshot.empty) {
           return Promise.reject('Invalid invite code.');
@@ -52,13 +52,13 @@ export class DatabaseService {
     if (journey.journeyParticipants.includes(userId)) {
       return Promise.reject('User already joined journey');
     } else {
-      journey.journeyParticipants.push(userId)
-      return this.journeyCRUDHandler.update(journey);
+      journey.journeyParticipants.push(userId);
+      return this.journeyCrudHandler.update(journey);
     }
   }
 
   public async isInviteCodeValid(inviteCode: string): Promise<boolean> {
-    return !!await this.journeyCRUDHandler.collection.ref.where('inviteCode', '==', inviteCode).get();
+    return !!await this.journeyCrudHandler.collection.ref.where('inviteCode', '==', inviteCode).get();
   }
 
   public async generateInviteCode(): Promise<string> {

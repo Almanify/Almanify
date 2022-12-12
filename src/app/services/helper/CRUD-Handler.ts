@@ -1,9 +1,9 @@
-import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
-import {copyAndPrepare} from "./copyAndPrepare";
-import {DatabaseEntity} from "../../data/DatabaseEntity";
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
+import {copyAndPrepare} from './copyAndPrepare';
+import {DatabaseEntity} from '../../data/DatabaseEntity';
 
 
-export class CRUD_Handler<Entity extends DatabaseEntity> {
+export class CrudHandler<Entity extends DatabaseEntity> {
   public collection: AngularFirestoreCollection<Entity>;
   constructor(public firestore: AngularFirestore, path: string) {
     this.firestore = firestore;
@@ -12,15 +12,11 @@ export class CRUD_Handler<Entity extends DatabaseEntity> {
 
   public async createAndGetID(entity: Entity): Promise<string> {
     return this.collection.add(copyAndPrepare(entity))
-      .then(documentReference => {
-        return documentReference.id
-      });
+      .then(documentReference => documentReference.id);
   }
 
   public async update(entity: Entity): Promise<string> {
-    return this.collection.doc(entity.id).update(copyAndPrepare(entity)).then(() => {
-      return entity.id
-    });
+    return this.collection.doc(entity.id).update(copyAndPrepare(entity)).then(() => entity.id);
   }
 
 
@@ -28,7 +24,7 @@ export class CRUD_Handler<Entity extends DatabaseEntity> {
     return this.readByID((entity.id));
   }
 
-  public async readByID(id:string): Promise<Entity>{
+  public async readByID(id: string): Promise<Entity>{
     return this.collection.doc(id).get()
       .toPromise()
       .then(doc => {
@@ -43,7 +39,7 @@ export class CRUD_Handler<Entity extends DatabaseEntity> {
   }
 
   public async delete(entity: Entity) {
-    await this.collection.doc(entity.id).delete()
+    await this.collection.doc(entity.id).delete();
   }
 
 

@@ -85,7 +85,7 @@ export class JourneyListPage implements OnInit {
   }
 
   deleteJourney(journey) {
-    this.databaseService.journeyCRUDHandler.delete(journey);
+    this.databaseService.journeyCrudHandler.delete(journey);
     this.loadJourneys();
   }
 }
