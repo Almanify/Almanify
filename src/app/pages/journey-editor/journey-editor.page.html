@@ -107,9 +107,9 @@
         <ion-row>
           <span *ngFor="let participant of participants">
             <ion-chip>
-              <ion-icon name="caret-up-outline" *ngIf="participant.id === journey.creatorID"></ion-icon>
-              {{participant.userName}}
-              <ion-icon color="danger" name="close-circle-outline"></ion-icon>
+              <ion-icon name="caret-up-outline" *ngIf="participant.id === journey.creatorID" ></ion-icon>
+              <ion-label>{{participant.userName}}</ion-label>
+              <ion-icon  color="danger" name="close-circle-outline" (click)="deleteUser(participant)" *ngIf="participant.id !== journey.creatorID"></ion-icon>
             </ion-chip>
           </span>
         </ion-row>

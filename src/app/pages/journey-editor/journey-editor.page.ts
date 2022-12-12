@@ -75,6 +75,14 @@ export class JourneyEditorPage implements OnInit {
         .then(u => this.participants.push(u)));
   }
 
+  deleteUser(user){
+    if (user.id !== this.journey.creatorID){
+      const index = this.journey.journeyParticipants.indexOf(user.id, 0);
+      this.journey.journeyParticipants.splice(index,1);
+      this.participants = [];
+      this.getParticipants(this.journey);
+    }
+  }
 
   updateStartDate(value) {
     this.journey.start = Timestamp.fromDate(new Date(value));
