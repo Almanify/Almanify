@@ -1,20 +1,32 @@
 <ion-header>
   <ion-toolbar>
-    <ion-menu-button slot="start"></ion-menu-button>
-    <ion-title>{{journeyTitle}}</ion-title>
-    <ion-button slot="end" class="ion-margin-end">
-      <ion-back-button defaultHref="/journeys" icon="close"></ion-back-button>
-    </ion-button>
+    <ion-buttons style="width: 100%">
+      <ion-menu-button slot="start"></ion-menu-button>
+      <ion-title>{{journeyTitle}}</ion-title>
+      <ion-button slot="end" class="ion-margin-end">
+        <ion-back-button defaultHref="/journeys" icon="close"></ion-back-button>
+      </ion-button>
+    </ion-buttons>
+    <ion-row>
+      <ion-col>
+        <!-- button for adding a new payment -->
+        <ion-button routerDirection="forward" on-click="addPayment()" style="font-weight: bolder;" expand="block">
+          <ion-icon slot="start" name="add-outline"></ion-icon>
+          new payment
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <!-- view debts -->
+        <ion-button size="medium" expand="block" on-click="viewDebts()" style="font-weight: bolder">
+          <ion-icon slot="start" name="wallet-outline"></ion-icon>
+          debts
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- view debts -->
-  <ion-button size="medium" expand="block" class="ion-margin" on-click="viewDebts()" style="font-weight: bolder">
-    <ion-icon slot="start" name="wallet-outline"></ion-icon>
-    view current debts
-  </ion-button>
-
   <ion-segment [ngModel]="sortBy">
     <ion-segment-button value="person">
       <ion-icon name="person"></ion-icon>
@@ -35,16 +47,6 @@
       <ion-icon name="caret-up-outline"></ion-icon>
     </ion-segment-button>
   </ion-segment>
-
-  <!-- card for adding a new payment -->
-  <ion-card>
-    <ion-card-content>
-      <ion-button routerDirection="forward" on-click="addPayment()" style="font-weight: bolder" expand="block">
-        <ion-icon slot="start" name="add-outline"></ion-icon>
-        Add new payment
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
 
   <ion-card *ngFor="let payment of payments" on-click="viewPayment(payment)">
     <ion-card-header>
