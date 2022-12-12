@@ -105,7 +105,8 @@ export class JourneyEditorPage implements OnInit {
       this.databaseService.journeyCrudHandler.createAndGetID(this.journey)
         .then((journeyId) => {
           this.navCtrl.navigateRoot('root');
-          this.router.navigate(['/journey/' + journeyId]);
+          this.router.navigate(['/journey/' + journeyId ]);
+          this.router.navigate(['/journey/' + journeyId + '/invite']);
         });
     }
   }

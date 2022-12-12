@@ -16,15 +16,13 @@
       <ion-grid [fixed]="true">
         <!-- header with exit button -->
         <ion-row class="ion-justify-content-center">
-          <ion-toolbar>
-            <ion-card-title *ngIf="!isEditMode; else editMode">New Journey</ion-card-title>
-            <ng-template #editMode>
-              <ion-card-title>Edit Journey</ion-card-title>
-            </ng-template>
-          </ion-toolbar>
+          <ion-card-title *ngIf="!isEditMode; else editMode">New Journey</ion-card-title>
+          <ng-template #editMode>
+            <ion-card-title>Edit Journey</ion-card-title>
+          </ng-template>
         </ion-row>
         <!-- journey name -->
-        <ion-row class="ion-justify-content-center">
+        <ion-row style="display: block" class="ion-justify-content-center">
           <ion-col>
             <ion-item lines="full" fill="outline">
               <ion-label>Title:</ion-label>
@@ -78,23 +76,23 @@
                 </ion-modal>
               </ion-item>
 
-              <!-- "invite code" field -->
+              <!-- "invite code" field
               <ion-item lines="full">
                 <ion-icon name="key" slot="start"></ion-icon>
                 <ion-label>Invite code:</ion-label>
                 <ion-input style="text-align: end" type="numeric" disabled="true" minlength="5" maxlength="5"
                            required="true">{{journey.inviteCode}}</ion-input>
-              </ion-item>
+              </ion-item-->
             </ion-item-group>
           </ion-col>
         </ion-row>
 
-        <ion-row class="ion-justify-content-center" *ngIf="journey && journey.inviteCode">
-          <!-- qr code -->
+        <!-- qr code
+        <ion-row *ngIf="journey && journey.inviteCode" class="ion-justify-content-center">
           <ion-col size="8" size-md="6" size-lg="4" size-xl="3">
             <ion-img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=512x512&qzone=1&data=' + journey.inviteCode"></ion-img>
           </ion-col>
-        </ion-row>
+        </ion-row-->
 
         <ion-row class="ion-justify-content-center">
           <ion-col>

@@ -88,4 +88,8 @@ export class JourneyListPage implements OnInit {
     this.databaseService.journeyCrudHandler.delete(journey);
     this.loadJourneys();
   }
+
+  viewInviteCode(journey) {
+    this.router.navigate(['/journey/'+ journey.id + '/invite']);
+  }
 }

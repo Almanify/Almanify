@@ -103,7 +103,7 @@
             <ion-icon name="eye"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size="4" *ngIf="journey.creatorID === userId">
+        <ion-col size="3" *ngIf="journey.creatorID === userId">
           <ion-button
             (click)="viewJourney(journey)"
             style="width: 100%;"
@@ -111,7 +111,15 @@
             <ion-icon name="eye"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size="4">
+        <ion-col size="3" *ngIf="journey.creatorID === userId">
+          <ion-button
+            (click)="viewInviteCode(journey)"
+            style="width: 100%;"
+          >
+            <ion-icon name="scan"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="3">
           <ion-button
             (click)="editJourney(journey)"
             *ngIf="journey.creatorID === userId"
@@ -120,7 +128,7 @@
             <ion-icon name="create"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size="4">
+        <ion-col size="3">
           <ion-button
             (click)="deleteJourney(journey)"
             *ngIf="journey.creatorID === userId"

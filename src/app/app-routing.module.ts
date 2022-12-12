@@ -72,10 +72,12 @@ const routes: Routes = [
     path: 'join-journey',
     loadChildren: () => import('./pages/join-journey/join-journey.module').then( m => m.JoinJourneyPageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'journey/:id/invite',
+    loadChildren: () => import('./pages/invite-modal/invite-modal.module').then( m => m.InviteModalModule),
+    canActivate: [AuthGuard]
   }
-
-
-
 ];
 
 @NgModule({
