@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Options</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="align-content: center;">
+
+  <ion-grid align="center" [fixed]="true">
+
+   <ion-card>
+     <ion-card-content>
+     <ion-card-title>My Informations</ion-card-title>
+     <ion-row class="ion-justify-content-center">
+       <ion-col size-sm="12" size-md="8">
+         <ion-item>
+           <ion-label position="stacked">E-Mail</ion-label>
+
+           <ion-input value="E-Mail Platzhalter"[disabled]="true" [readonly]="true"></ion-input>
+         </ion-item>
+       </ion-col>
+     </ion-row>
+
+     <ion-row class="ion-justify-content-center">
+       <ion-col size-sm="12" size-md="8">
+         <ion-item>
+           <ion-label position="stacked">Name </ion-label>
+
+           <ion-input value="Platzhalter Name"[disabled]="true" [readonly]="true"> </ion-input>
+         </ion-item>
+       </ion-col>
+     </ion-row>
+
+     <ion-row class="ion-justify-content-center">
+       <ion-col size-sm="12" size-md="8">
+         <ion-item>
+           <ion-label position="stacked">Passwort </ion-label>
+
+           <ion-input value="Passwort in Sternchen"[disabled]="true" [readonly]="true"> </ion-input>
+         </ion-item>
+       </ion-col>
+     </ion-row>
+     <ion-row class="ion-justify-content-center">
+       <ion-col size-sm="12" size-md="8">
+         <ion-item>
+           <ion-label position="stacked">Currency</ion-label>
+
+           <ion-input value="Currency Platzhalter"[disabled]="true" [readonly]="true"> </ion-input>
+         </ion-item>
+       </ion-col>
+     </ion-row>
+     <ion-button class="round ion-margin" expand="block" id="open-modal">Edit</ion-button>
+     </ion-card-content>
+   </ion-card>
+  </ion-grid>
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Edit your Information</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="stacked">Enter your new E-Mail Adress</ion-label>
+          <ion-input type="text" placeholder="Your new E-mail" [(ngModel)]="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Enter your new Name</ion-label>
+          <ion-input type="text" placeholder="Your new Name" [(ngModel)]="name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Enter your new Password</ion-label>
+          <ion-input type="text" placeholder="Your new Password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+        <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Enter your new Currency</ion-label>
+          <ion-select placeholder="Currency Platzhaltzer">
+            <ion-select-option value="">€</ion-select-option>
+            <ion-select-option value="">$</ion-select-option>
+            <ion-select-option value="">£</ion-select-option>
+          </ion-select>
+        </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>
