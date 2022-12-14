@@ -85,8 +85,9 @@ export class JourneyListPage implements OnInit {
   }
 
   deleteJourney(journey) {
-    this.databaseService.journeyCrudHandler.delete(journey);
-    this.loadJourneys();
+    this.databaseService.journeyCrudHandler.delete(journey).then(() => {
+      this.loadJourneys();
+    });
   }
 
   viewInviteCode(journey) {
