@@ -1,19 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+    <ion-buttons style="width: 100%">
+      <ion-menu-button slot="start"></ion-menu-button>
+      <ion-title>Your Journeys</ion-title>
     </ion-buttons>
-    <ion-title>Your Journeys</ion-title>
+    <!-- button for creating a new journey -->
+    <ion-button routerDirection="forward" routerLink="/journey-editor" style="font-weight: bolder; margin: 3vw" expand="block">
+      <ion-icon slot="start" name="add-outline"></ion-icon>
+      Create new journey
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- new journey button -->
-  <ion-fab horizontal="end" slot="fixed" vertical="bottom">
-    <ion-fab-button routerDirection="forward" routerLink="/journey-editor">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
   <!-- choose to see active, past or all journeys -->
   <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="journeyType">
     <ion-segment-button value="all">
@@ -35,6 +34,7 @@
       <ion-label>Created</ion-label>
     </ion-segment-button>
   </ion-segment>
+
   <ion-card *ngFor="let journey of filteredJourneys">
     <svg width="100%" height="180px">
       <foreignObject x="0" y="0" width="100%" height="100%">
@@ -136,7 +136,7 @@
   <ion-text *ngIf="filteredJourneys.length === 0">
     <div class="ion-text-center">
       <h2>No journeys to show</h2>
-      <p>Click the button below to create a new journey</p>
+      <p>Click the button above to create a new journey</p>
     </div>
   </ion-text>
 </ion-content>
