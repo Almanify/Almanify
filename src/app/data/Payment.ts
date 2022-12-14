@@ -1,9 +1,10 @@
 import {DatabaseEntity} from "./DatabaseEntity";
 
-export class Payment implements DatabaseEntity{
+export class Payment implements DatabaseEntity {
   public id: string;
   public title: string;
   public payerID: string;
+  public journeyID: string;
   public value: number;
   public currency: string;
   public payday: Date;
@@ -15,6 +16,7 @@ export class Payment implements DatabaseEntity{
   constructor(id: string,
               title: string,
               payerID: string,
+              journeyID: string,
               value: number,
               currency: string,
               payday: Date,
@@ -25,6 +27,7 @@ export class Payment implements DatabaseEntity{
     this.id = id;
     this.title = title;
     this.payerID = payerID;
+    this.journeyID = journeyID;
     this.value = value;
     this.currency = currency;
     this.payday = payday;

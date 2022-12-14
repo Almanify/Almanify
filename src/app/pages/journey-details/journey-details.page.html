@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-buttons style="width: 100%">
       <ion-menu-button slot="start"></ion-menu-button>
-      <ion-title>{{journeyTitle}}</ion-title>
+      <ion-title>{{journey.title}}</ion-title>
       <ion-button slot="end" class="ion-margin-end">
         <ion-back-button defaultHref="/journeys" icon="close"></ion-back-button>
       </ion-button>
@@ -74,7 +74,7 @@
 
       <ion-chip>
         <ion-icon name="person"></ion-icon>
-        <ion-label>{{payment.payerID}}</ion-label>
+        <ion-label>{{getUserName(payment.payerID)}}</ion-label>
       </ion-chip>
 
       <ion-chip>

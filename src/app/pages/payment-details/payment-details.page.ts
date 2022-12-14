@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Payment, PaymentCategory} from 'src/app/data/Payment';
 import {ActivatedRoute} from '@angular/router';
+import {User} from "../../data/User";
 
 @Component({
   selector: 'app-payment-details',
@@ -11,21 +12,22 @@ export class PaymentDetailsPage implements OnInit {
 
   journeyTitle: string = 'Exa_Journey_Name';
   payment: Payment;
+  participants: Array<User> = [];
   people: Array<string> = undefined;
   currencies: Array<string> = undefined;
-  categories;
+  categories: PaymentCategory[];
 
   isEditMode = false;
 
   constructor(route: ActivatedRoute) {
-    route.queryParams.subscribe(params => {
+    /*route.queryParams.subscribe(params => {
       if (!params) {
         throw new Error('No params given');
       }
       this.payment = JSON.parse(params.payment);
       this.isEditMode = params.edit;
       this.people = JSON.parse(params.people);
-    });
+    });*/
 
     this.currencies = [
       '€',

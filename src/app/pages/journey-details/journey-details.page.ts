@@ -1,7 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Payment, PaymentCategory} from '../../data/Payment';
-import {NavigationExtras} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NavController} from '@ionic/angular';
+import {DatabaseService} from "../../services/database.service";
+import {AuthenticationService} from "../../services/auth.service";
+import {Journey} from "../../data/Journey";
+import {User} from "../../data/User";
+import firebase from "firebase/compat/app";
+import Timestamp = firebase.firestore.Timestamp;
+import database = firebase.database;
 
 @Component({
   selector: 'app-journey-details',
@@ -10,112 +17,104 @@ import {NavController} from '@ionic/angular';
 })
 export class JourneyDetailsPage implements OnInit {
   //dummys
-  readonly payments: Payment[];
-  people: string[];
-
+  userId = '';
+  journey: Journey;
+  payments: Payment[] = [];
+  journeyParticipants: User[] = [];
+  filteredPayments: Payment[] = [];
   sortBy = 'date';
   sortOrder = 'lowToHigh';
-  private journeyTitle = 'Exa_Journey_Name';
-  private router: NavController;
 
-  constructor(r: NavController) {
-    this.router = r;
-    this.people = [
-      'Bob',
-      'Sally',
-      'John',
-      'Jane',
-      'Max',
-      'Hendrik',
-      'Sven',
-      'Günter',
-      'Peter',
-      'Jürgen',
-      'Anna',
-      'Karl Heinz der IV',
-    ];
-    this.payments = [
-      new Payment(
-        '1',
-        'Exa_Payment1',
-        'Hanz',
-        42.69,
-        '€',
-        new Date(2022, 10, 6),
-        PaymentCategory.Accommodation,
-        [
-          'Bob',
-          'Sally',
-          'Hanz',
-        ],
-        '',
-        ),
-      new Payment(
-        '2',
-        'Exa_Payment2',
-        'Bob',
-        69.42,
-        '€',
-        new Date(2022, 10, 7),
-        PaymentCategory.Entertainment,
-        [
-          'Bob',
-          'Sally',
-        ],
-        '',
-      ),
-    ];
+  constructor(private activatedRoute: ActivatedRoute,
+              private router: Router,
+              public navCtrl: NavController,
+              private databaseService: DatabaseService,
+              public authenticationService: AuthenticationService) {
+    this.journey = new Journey('',
+      '',
+      '',
+      '',
+      Timestamp.fromDate(new Date()),
+      Timestamp.fromDate(new Date()),
+      []);
+    this.journey.id = this.activatedRoute.snapshot.paramMap.get('id');
+
+  }
+
+  loadJourney() {
+    this.databaseService.journeyCrudHandler.readByID(this.journey.id).then(journey => {
+      this.journey = journey;
+      this.loadPayments(journey); //TODO: find bug
+      this.loadParticipants(journey);
+    })
+  }
+
+  loadPayments(journey: Journey) {
+    this.databaseService.getJourneyPayments(journey.id).then(payments => {
+      this.payments = payments;
+      this.sortPayments();
+    });
+  }
+
+  getUserName(userId: string): string {
+    let userName: string;
+    this.databaseService.userCrudHandler.readByID(userId).then(user => {
+      userName = user.userName
+    });
+    return userName
+  }
+
+  loadParticipants(journey: Journey) {
+    journey.journeyParticipants
+      .forEach(participant => this.databaseService.userCrudHandler
+        .readByID(participant)
+        .then(u => this.journeyParticipants.push(u)));
+  }
+
+  sortPayments() {
+    //TODO
+    console.log("sort");
   }
 
   ngOnInit() {
+    console.log("hi 1");
+    this.userId = this.authenticationService.getUserId;
+    this.loadJourney();
+    console.log("load succes");
+    this.authenticationService.getObservable().subscribe(() => {
+      this.userId = this.authenticationService.getUserId;
+      this.loadJourney();
+    });
+    console.log("end init");
+    console.log(this.journey);
+    console.log(this.payments);
+    console.log(this.journeyParticipants);
   }
 
-  details() {
-    //TODO
-    console.log('going to details');
-  }
 
   addPayment() {
-    //TODO
+    this.navCtrl.navigateRoot('root');
+    this.router.navigate(['/debts/' + true]);
   }
 
   deletePayment(payment: Payment) {
-    this.payments.splice(this.payments.indexOf(payment), 1);
+    this.databaseService.paymentCrudHandler.delete(payment).then(this.loadJourney);
   }
 
   viewPayment(payment: Payment) {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        payment: JSON.stringify(payment),
-        edit: false,
-        people: JSON.stringify(this.people)
-      }
-    };
-
-    this.router.navigateForward(['payment-details'], navigationExtras);
+    this.navCtrl.navigateRoot('root');
+    this.router.navigate(['/debts/' + false + '/' + payment.id]);
   }
 
   editPayment(payment: Payment) {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        payment: JSON.stringify(payment),
-        edit: true,
-        people: JSON.stringify(this.people)
-      }
-    };
-
-    this.router.navigateForward(['payment-details'], navigationExtras);
+    this.navCtrl.navigateRoot('root');
+    this.router.navigate(['/debts/' + true + '/' + payment.id]);
   }
 
+  //TODO for Hendrik:
   viewDebts() {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        payments: JSON.stringify(this.payments),
-        people: JSON.stringify(this.people)
-      }
-    };
-
-    this.router.navigateForward(['debts'], navigationExtras);
+    this.navCtrl.navigateRoot('root');
+    this.router.navigate(['/debts/' + this.journey.id]);
   }
 
 

@@ -24,6 +24,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'debts:id',
+    loadChildren: () => import('./pages/debt-calculator/debt-calculator.module').then(m => m.DebtCalculatorPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'journeys',
     loadChildren: () => import('./pages/journey-list/journey-list.module').then(m => m.JourneyListPageModule),
     canActivate: [AuthGuard]
@@ -35,6 +40,11 @@ const routes: Routes = [
   },
   {
     path: 'payment-details',
+    loadChildren: () => import('./pages/payment-details/payment-details.module').then(m => m.PaymentDetailsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'payment-details/:editmode/:id',
     loadChildren: () => import('./pages/payment-details/payment-details.module').then(m => m.PaymentDetailsPageModule),
     canActivate: [AuthGuard]
   },
