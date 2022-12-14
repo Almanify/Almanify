@@ -13,13 +13,15 @@ import Timestamp = firebase.firestore.Timestamp;
 export class InviteModalPage implements OnInit {
   id: string;
   inviteCode: number;
+  journey: Journey;
 
   constructor(private route: ActivatedRoute,
               private databaseService: DatabaseService) {
     this.route.params.subscribe(params => {
       this.id = params.id;
-      const journey = new Journey(this.id, '', '', '', Timestamp.fromDate(new Date()), Timestamp.fromDate(new Date()), []);
-      this.databaseService.journeyCrudHandler.read(journey).then((j: Journey) => {
+      this.journey = new Journey(this.id, '', '', '', Timestamp.fromDate(new Date()), Timestamp.fromDate(new Date()), []);
+      this.databaseService.journeyCrudHandler.read(this.journey).then((j: Journey) => {
+        this.journey = j;
         this.inviteCode = Number(j.inviteCode);
       });
     });
