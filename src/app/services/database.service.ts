@@ -20,7 +20,8 @@ export class DatabaseService {
     this.paymentCrudHandler = new CrudHandler<Payment>(firestore, 'Payment');
   }
 
-  public async getJourneyPayments(journeyId: string): Promise<Payment[]>{
+
+  public async getJourneyPayments(journeyId: string): Promise<Payment[]> {
     return this.paymentCrudHandler.collection.ref.where('journeyID', '==', journeyId).get()
       .then(snapshot => snapshot.docs.map(doc => {
         const payment = doc.data();

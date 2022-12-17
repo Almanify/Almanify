@@ -39,12 +39,12 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'payment-details',
+    path: 'payment-details/:editmode/:journeyId',
     loadChildren: () => import('./pages/payment-details/payment-details.module').then(m => m.PaymentDetailsPageModule),
     canActivate: [AuthGuard]
   },
   {
-    path: 'payment-details/:editmode/:id',
+    path: 'payment-details/:editmode/:journeyId/:paymentId',
     loadChildren: () => import('./pages/payment-details/payment-details.module').then(m => m.PaymentDetailsPageModule),
     canActivate: [AuthGuard]
   },

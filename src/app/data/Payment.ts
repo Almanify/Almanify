@@ -1,5 +1,6 @@
 import {DatabaseEntity} from "./DatabaseEntity";
-
+import Timestamp = firebase.firestore.Timestamp;
+import firebase from 'firebase/compat/app';
 export class Payment implements DatabaseEntity {
   public id: string;
   public title: string;
@@ -7,21 +8,21 @@ export class Payment implements DatabaseEntity {
   public journeyID: string;
   public value: number;
   public currency: string;
-  public payday: Date;
-  public category: PaymentCategory;
-  public involvedIDs: Array<string>;
-  public img: string;
+  public payday: Timestamp;
+  public category: string;
   public paymentParticipants: string[];
+  public img: string;
 
-  constructor(id: string,
-              title: string,
-              payerID: string,
-              journeyID: string,
-              value: number,
-              currency: string,
-              payday: Date,
-              category: PaymentCategory,
-              paymentParticipants: string[],
+
+  constructor(id: string = '',
+              title: string = '',
+              payerID: string = '',
+              journeyID: string = '',
+              value: number = undefined,
+              currency: string = '€',
+              payday: Timestamp = Timestamp.fromDate(new Date()),
+              category: PaymentCategory = PaymentCategory.Other,
+              paymentParticipants: string[] = [],
               img: string = undefined) {
 
     this.id = id;
@@ -31,7 +32,7 @@ export class Payment implements DatabaseEntity {
     this.value = value;
     this.currency = currency;
     this.payday = payday;
-    this.category = category;
+    this.category = category.toString();
     this.paymentParticipants = paymentParticipants;
     this.img = img;
   }

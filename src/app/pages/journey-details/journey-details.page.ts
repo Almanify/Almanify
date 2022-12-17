@@ -30,39 +30,25 @@ export class JourneyDetailsPage implements OnInit {
               public navCtrl: NavController,
               private databaseService: DatabaseService,
               public authenticationService: AuthenticationService) {
-    this.journey = new Journey('',
-      '',
-      '',
-      '',
-      Timestamp.fromDate(new Date()),
-      Timestamp.fromDate(new Date()),
-      []);
+    this.journey = new Journey();
     this.journey.id = this.activatedRoute.snapshot.paramMap.get('id');
-
   }
 
   loadJourney() {
     this.databaseService.journeyCrudHandler.readByID(this.journey.id).then(journey => {
       this.journey = journey;
-      this.loadPayments(journey); //TODO: find bug
+      this.loadPayments(journey);
       this.loadParticipants(journey);
     })
   }
 
   loadPayments(journey: Journey) {
-    this.databaseService.getJourneyPayments(journey.id).then(payments => {
+    this.databaseService.getJourneyPayments(journey.id).then((payments) => {
       this.payments = payments;
       this.sortPayments();
     });
   }
 
-  getUserName(userId: string): string {
-    let userName: string;
-    this.databaseService.userCrudHandler.readByID(userId).then(user => {
-      userName = user.userName
-    });
-    return userName
-  }
 
   loadParticipants(journey: Journey) {
     journey.journeyParticipants
@@ -73,28 +59,21 @@ export class JourneyDetailsPage implements OnInit {
 
   sortPayments() {
     //TODO
-    console.log("sort");
   }
 
   ngOnInit() {
-    console.log("hi 1");
     this.userId = this.authenticationService.getUserId;
     this.loadJourney();
-    console.log("load succes");
     this.authenticationService.getObservable().subscribe(() => {
       this.userId = this.authenticationService.getUserId;
       this.loadJourney();
     });
-    console.log("end init");
-    console.log(this.journey);
-    console.log(this.payments);
-    console.log(this.journeyParticipants);
   }
 
 
   addPayment() {
     this.navCtrl.navigateRoot('root');
-    this.router.navigate(['/debts/' + true]);
+    this.router.navigate(['/payment-details/' + true + '/' + this.journey.id]);
   }
 
   deletePayment(payment: Payment) {
@@ -103,12 +82,12 @@ export class JourneyDetailsPage implements OnInit {
 
   viewPayment(payment: Payment) {
     this.navCtrl.navigateRoot('root');
-    this.router.navigate(['/debts/' + false + '/' + payment.id]);
+    this.router.navigate(['/payment-details/' + false + '/' + this.journey.id + '/' + payment.id]);
   }
 
   editPayment(payment: Payment) {
     this.navCtrl.navigateRoot('root');
-    this.router.navigate(['/debts/' + true + '/' + payment.id]);
+    this.router.navigate(['/payment-details/' + true + '/' + '/' + this.journey.id + '/' + payment.id]);
   }
 
   //TODO for Hendrik:
