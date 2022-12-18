@@ -39,7 +39,7 @@
     </ion-segment-button>
   </ion-segment>
 
-  <ion-segment (ionChange)="sortPayments()"  [(ngModel)]="lowToHigh">
+  <ion-segment (ionChange)="sortPayments()" [(ngModel)]="lowToHigh">
     <ion-segment-button value="false">
       <ion-icon name="caret-down-outline"></ion-icon>
     </ion-segment-button>
@@ -48,62 +48,116 @@
     </ion-segment-button>
   </ion-segment>
 
-  <ion-card *ngFor="let payment of payments">
+  <!--each accordion is in its own group so they stay open when you open another one-->
+  <ion-accordion-group *ngFor="let payment of payments">
+    <ion-accordion  class="ion-margin-vertical ">
+      <ion-item slot="header">
+        <ion-icon name="{{getCategoryIcon(payment.category)}}" class="ion-margin-end"></ion-icon>
+        <ion-label>{{payment.title}}</ion-label>
+        <ion-chip>
+          <ion-icon name="cash-outline"></ion-icon>
+          <ion-label>{{payment.value + payment.currency}}</ion-label>
+        </ion-chip>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-row>
+          <ion-col size="4">
+            <ion-button style="width: 100%;" color="primary" fill="solid" (click)="editPayment(payment)">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="4">
+            <ion-button style="width: 100%;" color="primary" fill="solid" (click)="viewPayment(payment)">
+              <ion-icon slot="icon-only" name="eye"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="4">
+            <ion-button style="width: 100%;" color="primary" fill="solid" (click)="deletePayment(payment)">
+              <ion-icon fill="solid" slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-chip style="width: 100%;">
+              <ion-icon name="person"></ion-icon>
+              <ion-label
+                *ngIf="userIdMap.get(payment.payerID) !== undefined; else loading"> {{userIdMap.get(payment.payerID).userName}}</ion-label>
+            </ion-chip>
+          </ion-col>
+          <ion-col size="6">
+            <ion-chip style="width: 100%;">
+              <ion-icon name="calendar"></ion-icon>
+              <ion-label>{{payment.payday.toDate() | date:'dd.MM.YY'}}</ion-label>
+            </ion-chip>
+          </ion-col>
+        </ion-row>
+        <ng-template #loading>
+          <ion-spinner name="bubbles"></ion-spinner>
+        </ng-template>
+      </div>
+
+    </ion-accordion>
+  </ion-accordion-group>
+
+  <!--<ion-card *ngFor="let payment of payments">
     <ion-card-header>
-          <ion-card-title>
-            <ion-item>
-              <ion-icon name="{{getCategoryIcon(payment.category)}}" class="ion-margin-end"></ion-icon>
-              {{payment.title}}
-            </ion-item>
-          </ion-card-title>
+      <ion-card-title>
+        <ion-item>
+          <ion-icon name="{{getCategoryIcon(payment.category)}}" class="ion-margin-end"></ion-icon>
+          {{payment.title}}
+        </ion-item>
+      </ion-card-title>
     </ion-card-header>
-
     <ion-card-content>
-      <ion-row>
-        <ion-col size="4">
-        <ion-button  style="width: 100%;" color="primary" fill="solid" (click)="editPayment(payment)">
-          <ion-icon slot="icon-only" name="create"></ion-icon>
-        </ion-button>
-        </ion-col>
-        <ion-col size="4">
-          <ion-button  style="width: 100%;" color="primary" fill="solid"(click)="viewPayment(payment)">
-            <ion-icon slot="icon-only" name="eye"></ion-icon>
-          </ion-button>
-        </ion-col>
-        <ion-col size="4">
-          <ion-button  style="width: 100%;" color="primary" fill="solid"(click)="deletePayment(payment)">
-            <ion-icon fill="solid" slot="icon-only" name="trash"></ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="4">
-          <ion-chip  style="width: 100%;">
-            <ion-icon name="person"></ion-icon>
-            <ion-label *ngIf="userIdMap.get(payment.payerID) !== undefined; else loading"> {{userIdMap.get(payment.payerID).userName}}</ion-label>
-          </ion-chip>
-        </ion-col>
-        <ion-col size="4">
-          <ion-chip  style="width: 100%;">
-            <ion-icon name="calendar"></ion-icon>
-            <ion-label>{{payment.payday.toDate() | date:'dd.MM.YY'}}</ion-label>
-          </ion-chip>
-        </ion-col>
-        <ion-col size="4">
-          <ion-chip  style="width: 100%;">
-            <ion-icon name="cash-outline"></ion-icon>
-            <ion-label>{{payment.value + payment.currency}}</ion-label>
-          </ion-chip>
-        </ion-col>
-      </ion-row>
-
-      <ng-template #loading>
-        <ion-spinner  name="bubbles"></ion-spinner>
-      </ng-template>
-
-
-
-
+      <ion-accordion-group>
+        <ion-accordion>
+          <ion-item slot="header"><label>details</label></ion-item>
+          <div class="ion-padding" slot="content">
+            <ion-row>
+              <ion-col size="4">
+                <ion-button style="width: 100%;" color="primary" fill="solid" (click)="editPayment(payment)">
+                  <ion-icon slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="4">
+                <ion-button style="width: 100%;" color="primary" fill="solid" (click)="viewPayment(payment)">
+                  <ion-icon slot="icon-only" name="eye"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="4">
+                <ion-button style="width: 100%;" color="primary" fill="solid" (click)="deletePayment(payment)">
+                  <ion-icon fill="solid" slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="4">
+                <ion-chip style="width: 100%;">
+                  <ion-icon name="person"></ion-icon>
+                  <ion-label
+                    *ngIf="userIdMap.get(payment.payerID) !== undefined; else loading"> {{userIdMap.get(payment.payerID).userName}}</ion-label>
+                </ion-chip>
+              </ion-col>
+              <ion-col size="4">
+                <ion-chip style="width: 100%;">
+                  <ion-icon name="calendar"></ion-icon>
+                  <ion-label>{{payment.payday.toDate() | date:'dd.MM.YY'}}</ion-label>
+                </ion-chip>
+              </ion-col>
+              <ion-col size="4">
+                <ion-chip style="width: 100%;">
+                  <ion-icon name="cash-outline"></ion-icon>
+                  <ion-label>{{payment.value + payment.currency}}</ion-label>
+                </ion-chip>
+              </ion-col>
+            </ion-row>
+            <ng-template #loading>
+              <ion-spinner name="bubbles"></ion-spinner>
+            </ng-template>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
     </ion-card-content>
-  </ion-card>
+  </ion-card>-->
 </ion-content>

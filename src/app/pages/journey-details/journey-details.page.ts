@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Payment, PaymentCategory} from '../../data/Payment';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NavController} from '@ionic/angular';
+import {IonAccordionGroup, NavController} from '@ionic/angular';
 import {DatabaseService} from "../../services/database.service";
 import {AuthenticationService} from "../../services/auth.service";
 import {Journey} from "../../data/Journey";
@@ -16,7 +16,6 @@ import database = firebase.database;
   styleUrls: ['./journey-details.page.scss'],
 })
 export class JourneyDetailsPage implements OnInit {
-  //dummys
   userId = '';
   journey: Journey;
   payments: Payment[] = [];
@@ -129,4 +128,16 @@ export class JourneyDetailsPage implements OnInit {
         return 'infinite';
     }
   }
+
+  /*@ViewChild('accordionGroup', { static: true }) accordionGroup: IonAccordionGroup;
+
+  toggleAccordion = () => {
+    const nativeEl = this.accordionGroup;
+    if (nativeEl.value === 'second') {
+      nativeEl.value = undefined;
+    } else {
+      nativeEl.value = 'second';
+    }
+  };*/
+
 }
