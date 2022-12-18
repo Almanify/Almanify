@@ -24,7 +24,7 @@
           Current Members:
         </ion-card-subtitle>
         <ion-chip *ngFor="let participant of participants">
-          <ion-icon *ngIf="participant.id !== journey.creatorID; else initiator" name="person-outline"></ion-icon>
+          <ion-icon *ngIf="participant.id !== journey.creatorID; else initiator" name="person"></ion-icon>
           <ng-template #initiator>
             <ion-icon name="caret-up-outline"></ion-icon>
           </ng-template>
