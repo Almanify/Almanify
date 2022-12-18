@@ -22,8 +22,9 @@ export class JourneyDetailsPage implements OnInit {
   payments: Payment[] = [];
   journeyParticipants: User[] = [];
   filteredPayments: Payment[] = [];
-  sortBy = 'date';
-  sortOrder = 'lowToHigh';
+  sortBy: string = 'date';
+  lowToHigh: string = 'false'; //need as string for binding
+  userIdMap: Map<string, User> = new Map;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -54,11 +55,29 @@ export class JourneyDetailsPage implements OnInit {
     journey.journeyParticipants
       .forEach(participant => this.databaseService.userCrudHandler
         .readByID(participant)
-        .then(u => this.journeyParticipants.push(u)));
+        .then((u) => {
+          this.journeyParticipants.push(u);
+          this.userIdMap.set(u.id, u);
+        }));
   }
 
   sortPayments() {
-    //TODO
+    switch (this.sortBy) {
+      case 'payer':
+        this.payments.sort( (x, y) => (this.userIdMap.get(x.payerID).userName > this.userIdMap.get(y.payerID).userName ? -1 : 1));
+        break;
+      case 'payedValue':
+        //TODO dont ignore currency
+        this.payments.sort((x, y) => (x.value > y.value ? -1 : 1));
+        break
+      default:
+        this.payments.sort((x, y) => {
+          return y.payday.seconds - x.payday.seconds;
+        })
+    }
+    if (this.lowToHigh === 'true') { // need string for binding
+      this.payments.reverse();
+    }
   }
 
   ngOnInit() {
@@ -70,14 +89,13 @@ export class JourneyDetailsPage implements OnInit {
     });
   }
 
-
   addPayment() {
     this.navCtrl.navigateRoot('root');
     this.router.navigate(['/payment-details/' + true + '/' + this.journey.id]);
   }
 
   deletePayment(payment: Payment) {
-    this.databaseService.paymentCrudHandler.delete(payment).then(this.loadJourney);
+    this.databaseService.paymentCrudHandler.delete(payment).then(() => this.loadJourney());
   }
 
   viewPayment(payment: Payment) {

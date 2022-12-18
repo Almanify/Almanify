@@ -65,7 +65,6 @@ export class PaymentDetailsPage implements OnInit {
       '🍑'
     ];
     this.categories = Object.values(PaymentCategory);
-    console.log(this.users);
   }
 
   getNotInvolvedUsers(): User[] {
@@ -112,9 +111,6 @@ export class PaymentDetailsPage implements OnInit {
       //save changes
       this.databaseService.paymentCrudHandler.update(this.payment).then(id => this.payment.id = id);
     }
-    console.log(this.userId)
-    console.log(this.payment)
-    console.log('saved');
   }
 
   leave(){

@@ -42,14 +42,14 @@
             Payer
           </ion-label>
           <div *ngIf="!isEditMode; else payerDropdown">
-            {{userIdMap.get(payment.payerID).userName || 'No payer'}}
+            {{userIdMap.get(payment.payerID)  === undefined ? "loading..." : userIdMap.get(payment.payerID).userName || 'No payer'}}
           </div>
           <ng-template #payerDropdown>
             <!--TODO loesung fuer default value-->
             <ion-select slot="end"
                         placeholder="Select User" value="{{payment.payerID}}" [(ngModel)]="payment.payerID">
               <ion-select-option *ngFor="let user of users"
-                                 value="{{user.id}}">{{user.userName}}</ion-select-option>
+                                 value="{{user.id}}">{{user.userName || "loading..."}}</ion-select-option>
             </ion-select>
           </ng-template>
         </ion-item>
@@ -128,7 +128,7 @@
           </ion-item>
           <span *ngFor="let participant of payment.paymentParticipants">
               <ion-chip on-click="isEditMode && removeInvolved(participant)">
-                {{userIdMap.get(participant).userName}}
+                {{userIdMap.get(participant) === undefined ? "loading..." : userIdMap.get(participant).userName}}
                 <ion-icon color="danger" *ngIf="isEditMode" name="close-circle-outline"></ion-icon>
               </ion-chip>
           </span>
