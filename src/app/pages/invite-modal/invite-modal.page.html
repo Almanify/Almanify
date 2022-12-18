@@ -23,9 +23,12 @@
         <ion-card-subtitle>
           Current Members:
         </ion-card-subtitle>
-        <ion-chip *ngFor="let participant of journey.journeyParticipants">
-          <ion-icon name="person-outline"></ion-icon>
-          <ion-label>{{ participant }}</ion-label>
+        <ion-chip *ngFor="let participant of participants">
+          <ion-icon *ngIf="participant.id !== journey.creatorID; else initiator" name="person-outline"></ion-icon>
+          <ng-template #initiator>
+            <ion-icon name="caret-up-outline"></ion-icon>
+          </ng-template>
+          <ion-label>{{ participant.userName }}</ion-label>
         </ion-chip>
       </ion-card-title>
       <ion-card-content>
