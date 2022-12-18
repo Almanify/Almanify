@@ -23,7 +23,7 @@ export class Payment implements DatabaseEntity {
               payday: Timestamp = Timestamp.fromDate(new Date()),
               category: PaymentCategory = PaymentCategory.Other,
               paymentParticipants: string[] = [],
-              img: string = undefined) {
+              img: string = null) {
 
     this.id = id;
     this.title = title;
