@@ -23,7 +23,7 @@
                        [(ngModel)]="payment.title"></ion-input>
           </ng-template>
         </ion-card-title>
-        <ion-button slot="end" *ngIf="!isEditMode && userId === payment.payerID" on-click="toggleEditMode()">
+        <ion-button slot="end" *ngIf="!isEditMode" on-click="toggleEditMode()">
           <ion-icon slot="icon-only" name="{{'create'}}"></ion-icon>
         </ion-button>
         <!--<ion-button slot="end" *ngIf="isEditMode" on-click="toggleEditMode()">
@@ -61,7 +61,7 @@
             Value
           </ion-label>
           <div *ngIf="!isEditMode; else valueCurrencyInput">
-            {{payment?.value || '0' + '' + payment?.currency || 'No value'}}
+            {{(payment?.value || 'no value' )+ '' + (payment?.currency || 'no currency')}}
           </div>
           <ng-template #valueCurrencyInput>
             <ion-input class="ion-text-right" slot="end" type="number" placeholder="Enter Value"
