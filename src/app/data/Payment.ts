@@ -1,34 +1,38 @@
 import {DatabaseEntity} from "./DatabaseEntity";
-
-export class Payment implements DatabaseEntity{
+import Timestamp = firebase.firestore.Timestamp;
+import firebase from 'firebase/compat/app';
+export class Payment implements DatabaseEntity {
   public id: string;
   public title: string;
   public payerID: string;
+  public journeyID: string;
   public value: number;
   public currency: string;
-  public payday: Date;
-  public category: PaymentCategory;
-  public involvedIDs: Array<string>;
-  public img: string;
+  public payday: Timestamp;
+  public category: string;
   public paymentParticipants: string[];
+  public img: string;
 
-  constructor(id: string,
-              title: string,
-              payerID: string,
-              value: number,
-              currency: string,
-              payday: Date,
-              category: PaymentCategory,
-              paymentParticipants: string[],
-              img: string = undefined) {
+
+  constructor(id: string = '',
+              title: string = '',
+              payerID: string = '',
+              journeyID: string = '',
+              value: number = undefined,
+              currency: string = '€',
+              payday: Timestamp = Timestamp.fromDate(new Date()),
+              category: PaymentCategory = PaymentCategory.Other,
+              paymentParticipants: string[] = [],
+              img: string = null) {
 
     this.id = id;
     this.title = title;
     this.payerID = payerID;
+    this.journeyID = journeyID;
     this.value = value;
     this.currency = currency;
     this.payday = payday;
-    this.category = category;
+    this.category = category.toString();
     this.paymentParticipants = paymentParticipants;
     this.img = img;
   }

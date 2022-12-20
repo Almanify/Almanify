@@ -6,8 +6,8 @@ export class User implements DatabaseEntity{
    userName: string;
 
   constructor(
-    id: string,
-    userName: string,
+    id: string = '',
+    userName: string = '',
     userCurrency: string = '€') {
 
     this.id = id;

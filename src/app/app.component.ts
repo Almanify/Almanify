@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.databaseService.userCrudHandler.readByID(this.authService.getUserId).then(u => {
-      console.log('user', u);
       this.userName = u.userName;
       this.appPages = this.authService.isAuthenticated.getValue() ? this.unblockedPages : this.blockedPages;
     });
