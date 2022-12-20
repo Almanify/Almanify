@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-menu-button slot="start"></ion-menu-button>
+    <ion-title>Invite</ion-title>
+    <ion-button slot="end" class="ion-margin-end">
+      <ion-back-button defaultHref="/journey/{{id}}" icon="close"></ion-back-button>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid align="center" [fixed]="true">
+    <ion-card class="ion-padding-vertical">
+      <!-- info about journey -->
+      <ion-card-title>
+        <ion-row class="ion-padding-bottom">
+          <ion-col size="12">
+            <ion-icon name="earth"></ion-icon>
+            <span style="font-weight: bold !important; text-transform: uppercase"> {{ journey.title }}</span>
+          </ion-col>
+        </ion-row>
+        <ion-card-subtitle>
+          Current Members:
+        </ion-card-subtitle>
+        <ion-chip *ngFor="let participant of participants">
+          <ion-icon *ngIf="participant.id !== journey.creatorID; else initiator" name="person"></ion-icon>
+          <ng-template #initiator>
+            <ion-icon name="caret-up-outline"></ion-icon>
+          </ng-template>
+          <ion-label>{{ participant.userName }}</ion-label>
+        </ion-chip>
+      </ion-card-title>
+      <ion-card-content>
+        <!-- invite code -->
+        <ion-card-title class="ion-padding-top">
+          <ion-icon name="key"></ion-icon>
+          Invite Code: {{inviteCode}}
+        </ion-card-title>
+        <!-- qr code -->
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="8" size-md="6" size-lg="4" size-xl="3">
+            <ion-img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=512x512&qzone=1&data=' + inviteCode"></ion-img>
+          </ion-col>
+        </ion-row>
+        <ion-card-subtitle class="ion-padding-top">Use this code to invite your friends to the journey!</ion-card-subtitle>
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>
+
+
