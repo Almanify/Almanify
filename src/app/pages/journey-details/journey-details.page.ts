@@ -1,14 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Payment, PaymentCategory} from '../../data/Payment';
 import {ActivatedRoute, Router} from '@angular/router';
-import {IonAccordionGroup, NavController} from '@ionic/angular';
-import {DatabaseService} from "../../services/database.service";
-import {AuthenticationService} from "../../services/auth.service";
-import {Journey} from "../../data/Journey";
-import {User} from "../../data/User";
-import firebase from "firebase/compat/app";
-import Timestamp = firebase.firestore.Timestamp;
-import database = firebase.database;
+import {NavController} from '@ionic/angular';
+import {DatabaseService} from '../../services/database.service';
+import {AuthenticationService} from '../../services/auth.service';
+import {Journey} from '../../data/Journey';
+import {User} from '../../data/User';
+import {formatCurrency} from '../../services/helper/currencies';
 
 @Component({
   selector: 'app-journey-details',
@@ -16,14 +14,15 @@ import database = firebase.database;
   styleUrls: ['./journey-details.page.scss'],
 })
 export class JourneyDetailsPage implements OnInit {
+  formatCurrency = formatCurrency;
   userId = '';
   journey: Journey;
   payments: Payment[] = [];
   journeyParticipants: User[] = [];
   filteredPayments: Payment[] = [];
-  sortBy: string = 'date';
-  lowToHigh: string = 'false'; //need as string for binding
-  userIdMap: Map<string, User> = new Map;
+  sortBy = 'date';
+  lowToHigh = 'false'; //need as string for binding
+  userIdMap: Map<string, User> = new Map();
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -39,7 +38,7 @@ export class JourneyDetailsPage implements OnInit {
       this.journey = journey;
       this.loadPayments(journey);
       this.loadParticipants(journey);
-    })
+    });
   }
 
   loadPayments(journey: Journey) {
@@ -63,16 +62,14 @@ export class JourneyDetailsPage implements OnInit {
   sortPayments() {
     switch (this.sortBy) {
       case 'payer':
-        this.payments.sort( (x, y) => (this.userIdMap.get(x.payerID).userName > this.userIdMap.get(y.payerID).userName ? -1 : 1));
+        this.payments.sort((x, y) => (this.userIdMap.get(x.payerID).userName > this.userIdMap.get(y.payerID).userName ? -1 : 1));
         break;
       case 'payedValue':
         //TODO dont ignore currency
         this.payments.sort((x, y) => (x.value > y.value ? -1 : 1));
-        break
+        break;
       default:
-        this.payments.sort((x, y) => {
-          return y.payday.seconds - x.payday.seconds;
-        })
+        this.payments.sort((x, y) => y.payday.seconds - x.payday.seconds);
     }
     if (this.lowToHigh === 'true') { // need string for binding
       this.payments.reverse();

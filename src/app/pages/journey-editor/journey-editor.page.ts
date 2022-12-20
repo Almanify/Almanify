@@ -7,6 +7,7 @@ import {AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
 import {User} from '../../data/User';
+import {currencies} from '../../services/helper/currencies';
 
 @Component({
   selector: 'app-journey-editor',
@@ -15,7 +16,7 @@ import {User} from '../../data/User';
 })
 export class JourneyEditorPage implements OnInit {
 
-  currencies: Array<string> = undefined;
+  currencies = currencies;
   participants: Array<User> = [];
   journey: Journey;
   isEditMode = false;
@@ -40,11 +41,6 @@ export class JourneyEditorPage implements OnInit {
         this.journey.inviteCode = inviteCode;
       });
     }
-    this.currencies = [
-      '€',
-      '$',
-      '¥'
-    ];
   }
   ngOnInit() {
     if (!this.isEditMode) { // if new journey

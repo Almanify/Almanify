@@ -56,7 +56,7 @@
         <ion-label>{{payment.title}}</ion-label>
         <ion-chip>
           <ion-icon name="cash-outline"></ion-icon>
-          <ion-label>{{payment.value + payment.currency}}</ion-label>
+          <ion-label>{{formatCurrency(payment.value, payment.currency)}}</ion-label>
         </ion-chip>
       </ion-item>
       <div class="ion-padding" slot="content">

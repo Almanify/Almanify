@@ -8,6 +8,7 @@ import {AuthenticationService} from '../../services/auth.service';
 import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
 import {ActionSheetController, AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
+import {currencies, formatCurrency, convertFromCurrency} from '../../services/helper/currencies';
 
 @Component({
   selector: 'app-payment-details',
@@ -19,10 +20,12 @@ export class PaymentDetailsPage implements OnInit {
   journey: Journey;
   payment: Payment;
   users: Array<User> = [];
-  currencies: Array<string> = undefined;
   categories: PaymentCategory[];
   userIdMap: Map<string, User> = new Map();
   isEditMode = false;
+  currencies = currencies;
+  formatCurrency = formatCurrency;
+  convertFromCurrency = convertFromCurrency;
 
   constructor(public navCtrl: NavController,
               public outlet: IonRouterOutlet,
@@ -58,12 +61,6 @@ export class PaymentDetailsPage implements OnInit {
         }
         this.getJourneyParticipants(this.journey);
       });
-
-    this.currencies = [
-      '€',
-      '$',
-      '🍑'
-    ];
     this.categories = Object.values(PaymentCategory);
   }
 
@@ -86,6 +83,7 @@ export class PaymentDetailsPage implements OnInit {
       this.authService.getObservable().subscribe((u) => { // subscribe to changes
         this.payment.payerID = u;
       });
+      this.payment.currency = this.journey.defaultCurrency;
     }
   }
 
@@ -174,7 +172,7 @@ export class PaymentDetailsPage implements OnInit {
       };
       buttons.push(allButton);
     }
-    if (1 < this.payment.paymentParticipants.length) {
+    if (0 < this.payment.paymentParticipants.length) {
       const removeAllButton = {
         text: 'Remove All',
         icon: 'person-remove',

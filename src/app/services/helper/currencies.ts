@@ -100,20 +100,30 @@ export const currencies = [
 ];
 
 /* converts a value from one currency to another */
-export const convertCurrency = (value: number, from: string, to: string): number => {
-  const fromCurrency = currencies.find(currency => currency.code === from);
-  const toCurrency = currencies.find(currency => currency.code === to);
-  return value * fromCurrency.value / toCurrency.value;
+export const convertCurrency = (value: number, fromCode: string, toCode: string): number => {
+  const fromCurrency = currencies.find(currency => currency.code === fromCode);
+  const toCurrency = currencies.find(currency => currency.code === toCode);
+  return Math.round((value / fromCurrency.value) * toCurrency.value * 100) / 100;
 };
 
 /* converts a value from USD to another currency */
-export const convertToCurrency = (value: number, to: string): number => {
-  const toCurrency = currencies.find(currency => currency.code === to);
-  return value * toCurrency.value;
+export const convertToCurrency = (value: number, toCode: string): number => {
+  const toCurrency = currencies.find(currency => currency.code === toCode);
+  return Math.round((value * toCurrency.value) * 100) / 100;
 };
 
 /* converts a value from another currency to USD */
-export const convertFromCurrency = (value: number, from: string): number => {
-  const fromCurrency = currencies.find(currency => currency.code === from);
-  return value / fromCurrency.value;
+export const convertFromCurrency = (value: number, fromCode: string): number => {
+  const fromCurrency = currencies.find(currency => currency.code === fromCode);
+  return Math.round((value / fromCurrency.value) * 100) / 100;
 };
+
+/* formats a value with the currency symbol */
+export const formatCurrency = (value: number, currencyCode: string): string => {
+  if (value === undefined || currencyCode === undefined) {
+    return '';
+  } else {
+    return Number(value).toLocaleString('en-US', {style: 'currency', currency: currencyCode});
+  }
+};
+

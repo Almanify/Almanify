@@ -84,6 +84,10 @@ export class DebtCalculatorPage implements OnInit {
     this.amountsToBePaid = new Map();
   }
 
+  /* TODO:
+   - convert all values to the same currency (USD)
+   */
+
   addDebt() {
     this.debts.push(this.debt);
     this.debt = {
