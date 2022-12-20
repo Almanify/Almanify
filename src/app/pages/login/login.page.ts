@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {IonInput} from '@ionic/angular';
 import {AuthenticationService} from '../../services/auth.service';
 import {SignUPService} from '../../services/sign-up.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../data/User';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginPage implements OnInit {
   validationForm: FormGroup;
   validationMessages;
 
-  constructor(public router: Router,
+  constructor(public router: NavController,
               private activatedRoute: ActivatedRoute,
               public authService: AuthenticationService,
               public signUpService: SignUPService,
@@ -47,7 +48,7 @@ export class LoginPage implements OnInit {
     console.log('Remember me: ' + this.rememberMe);
     this.authService.signIn(email, password, this.rememberMe)
       .then(() => {
-        this.router.navigate(['/home']); //TODO: anpassen wenn reise vorhanden ist
+        this.router.navigateRoot('/home'); //TODO: anpassen wenn reise vorhanden ist
       }).catch((error) => {
       window.alert(error.message);
     });
@@ -65,8 +66,11 @@ export class LoginPage implements OnInit {
 
   logOut() {
     this.authService.signOut()
-      .then(() => {
-        this.router.navigateByUrl('/login/login');
+      .then(async () => {
+        await this.router.navigateRoot('/login/login');
+        // reload
+        window.location.reload();
+
       }).catch((error) => {
       window.alert(error.message);
     });

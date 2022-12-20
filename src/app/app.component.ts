@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from './services/auth.service';
 import {DatabaseService} from './services/database.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import {DatabaseService} from './services/database.service';
 export class AppComponent implements OnInit {
   userName = '';
   public blockedPages = [
-    {title: 'Login', url: '/login', icon: 'log-in'}
+    {title: 'Login', url: '/login/login', icon: 'log-in'}
   ];
   public unblockedPages = [
     {title: 'Home', url: `/home`, icon: 'home'},
@@ -21,8 +22,11 @@ export class AppComponent implements OnInit {
 
   public appPages = [];
 
-  constructor(public authService: AuthenticationService, private databaseService: DatabaseService) {
+  router: Router;
+
+  constructor(public authService: AuthenticationService, private databaseService: DatabaseService, router: Router) {
     this.appPages = this.blockedPages;
+    this.router = router;
   }
 
   ngOnInit() {
