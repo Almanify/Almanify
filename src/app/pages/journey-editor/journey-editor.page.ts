@@ -27,13 +27,7 @@ export class JourneyEditorPage implements OnInit {
               private alertController: AlertController,
               public outlet: IonRouterOutlet,) {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.journey = new Journey('',
-      '',
-      '',
-      '',
-      Timestamp.fromDate(new Date()),
-      Timestamp.fromDate(new Date()),
-      []);
+    this.journey = new Journey();
     if (id != null) {
       this.isEditMode = true;
       this.journey.id = id;
@@ -45,7 +39,6 @@ export class JourneyEditorPage implements OnInit {
       databaseService.generateInviteCode().then(inviteCode => {
         this.journey.inviteCode = inviteCode;
       });
-      console.log(this.journey);
     }
     this.currencies = [
       '€',

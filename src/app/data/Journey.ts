@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
 import {DatabaseEntity} from "./DatabaseEntity";
 
-export class Journey implements DatabaseEntity{
+export class Journey implements DatabaseEntity {
   public id: string;
   public title: string;
   public defaultCurrency: string; //TODO
@@ -14,17 +14,17 @@ export class Journey implements DatabaseEntity{
   public active: boolean;
 
   constructor(
-    journeyID: string,
-    name: string,
-    creatorID: string,
-    inviteCode: string,
-    start: Timestamp,
-    end: Timestamp,
-    journeyParticipants: string[],
+    id: string = '',
+    name: string = '',
+    creatorID: string = '',
+    inviteCode: string = '',
+    start: Timestamp = Timestamp.fromDate(new Date()),
+    end: Timestamp = Timestamp.fromDate(new Date()),
+    journeyParticipants: string[] = [],
     defaultCurrency: string = '€',
     active: boolean = true) {
 
-    this.id = journeyID;
+    this.id = id;
     this.title = name;
     this.defaultCurrency = defaultCurrency;
     this.journeyParticipants = journeyParticipants;

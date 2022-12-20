@@ -1,7 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Payment, PaymentCategory} from '../../data/Payment';
-import {NavigationExtras} from '@angular/router';
-import {NavController} from '@ionic/angular';
+import {ActivatedRoute, Router} from '@angular/router';
+import {IonAccordionGroup, NavController} from '@ionic/angular';
+import {DatabaseService} from "../../services/database.service";
+import {AuthenticationService} from "../../services/auth.service";
+import {Journey} from "../../data/Journey";
+import {User} from "../../data/User";
+import firebase from "firebase/compat/app";
+import Timestamp = firebase.firestore.Timestamp;
+import database = firebase.database;
 
 @Component({
   selector: 'app-journey-details',
@@ -9,113 +16,101 @@ import {NavController} from '@ionic/angular';
   styleUrls: ['./journey-details.page.scss'],
 })
 export class JourneyDetailsPage implements OnInit {
-  //dummys
-  readonly payments: Payment[];
-  people: string[];
+  userId = '';
+  journey: Journey;
+  payments: Payment[] = [];
+  journeyParticipants: User[] = [];
+  filteredPayments: Payment[] = [];
+  sortBy: string = 'date';
+  lowToHigh: string = 'false'; //need as string for binding
+  userIdMap: Map<string, User> = new Map;
 
-  sortBy = 'date';
-  sortOrder = 'lowToHigh';
-  private journeyTitle = 'Exa_Journey_Name';
-  private router: NavController;
+  constructor(private activatedRoute: ActivatedRoute,
+              private router: Router,
+              public navCtrl: NavController,
+              private databaseService: DatabaseService,
+              public authenticationService: AuthenticationService) {
+    this.journey = new Journey();
+    this.journey.id = this.activatedRoute.snapshot.paramMap.get('id');
+  }
 
-  constructor(r: NavController) {
-    this.router = r;
-    this.people = [
-      'Bob',
-      'Sally',
-      'John',
-      'Jane',
-      'Max',
-      'Hendrik',
-      'Sven',
-      'Günter',
-      'Peter',
-      'Jürgen',
-      'Anna',
-      'Karl Heinz der IV',
-    ];
-    this.payments = [
-      new Payment(
-        '1',
-        'Exa_Payment1',
-        'Hanz',
-        42.69,
-        '€',
-        new Date(2022, 10, 6),
-        PaymentCategory.Accommodation,
-        [
-          'Bob',
-          'Sally',
-          'Hanz',
-        ],
-        '',
-        ),
-      new Payment(
-        '2',
-        'Exa_Payment2',
-        'Bob',
-        69.42,
-        '€',
-        new Date(2022, 10, 7),
-        PaymentCategory.Entertainment,
-        [
-          'Bob',
-          'Sally',
-        ],
-        '',
-      ),
-    ];
+  loadJourney() {
+    this.databaseService.journeyCrudHandler.readByID(this.journey.id).then(journey => {
+      this.journey = journey;
+      this.loadPayments(journey);
+      this.loadParticipants(journey);
+    })
+  }
+
+  loadPayments(journey: Journey) {
+    this.databaseService.getJourneyPayments(journey.id).then((payments) => {
+      this.payments = payments;
+      this.sortPayments();
+    });
+  }
+
+
+  loadParticipants(journey: Journey) {
+    journey.journeyParticipants
+      .forEach(participant => this.databaseService.userCrudHandler
+        .readByID(participant)
+        .then((u) => {
+          this.journeyParticipants.push(u);
+          this.userIdMap.set(u.id, u);
+        }));
+  }
+
+  sortPayments() {
+    switch (this.sortBy) {
+      case 'payer':
+        this.payments.sort( (x, y) => (this.userIdMap.get(x.payerID).userName > this.userIdMap.get(y.payerID).userName ? -1 : 1));
+        break;
+      case 'payedValue':
+        //TODO dont ignore currency
+        this.payments.sort((x, y) => (x.value > y.value ? -1 : 1));
+        break
+      default:
+        this.payments.sort((x, y) => {
+          return y.payday.seconds - x.payday.seconds;
+        })
+    }
+    if (this.lowToHigh === 'true') { // need string for binding
+      this.payments.reverse();
+    }
   }
 
   ngOnInit() {
-  }
-
-  details() {
-    //TODO
-    console.log('going to details');
+    this.userId = this.authenticationService.getUserId;
+    this.loadJourney();
+    this.authenticationService.getObservable().subscribe(() => {
+      this.userId = this.authenticationService.getUserId;
+      this.loadJourney();
+    });
   }
 
   addPayment() {
-    //TODO
+    this.navCtrl.navigateRoot('root');
+    this.router.navigate(['/payment-details/' + true + '/' + this.journey.id]);
   }
 
   deletePayment(payment: Payment) {
-    this.payments.splice(this.payments.indexOf(payment), 1);
+    this.databaseService.paymentCrudHandler.delete(payment).then(() => this.loadJourney());
   }
 
   viewPayment(payment: Payment) {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        payment: JSON.stringify(payment),
-        edit: false,
-        people: JSON.stringify(this.people)
-      }
-    };
-
-    this.router.navigateForward(['payment-details'], navigationExtras);
+    this.navCtrl.navigateRoot('root');
+    this.router.navigate(['/payment-details/' + false + '/' + this.journey.id + '/' + payment.id]);
   }
 
   editPayment(payment: Payment) {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        payment: JSON.stringify(payment),
-        edit: true,
-        people: JSON.stringify(this.people)
-      }
-    };
-
-    this.router.navigateForward(['payment-details'], navigationExtras);
+    this.navCtrl.navigateRoot('root');
+    this.router.navigate(['/payment-details/' + true + '/' + '/' + this.journey.id + '/' + payment.id]);
   }
 
+  //TODO for Hendrik:
   viewDebts() {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        payments: JSON.stringify(this.payments),
-        people: JSON.stringify(this.people)
-      }
-    };
-
-    this.router.navigateForward(['debts'], navigationExtras);
+    this.navCtrl.navigateRoot('root');
+    this.router.navigate(['/debts/' + this.journey.id]);
   }
 
 
@@ -133,4 +128,16 @@ export class JourneyDetailsPage implements OnInit {
         return 'infinite';
     }
   }
+
+  /*@ViewChild('accordionGroup', { static: true }) accordionGroup: IonAccordionGroup;
+
+  toggleAccordion = () => {
+    const nativeEl = this.accordionGroup;
+    if (nativeEl.value === 'second') {
+      nativeEl.value = undefined;
+    } else {
+      nativeEl.value = 'second';
+    }
+  };*/
+
 }
