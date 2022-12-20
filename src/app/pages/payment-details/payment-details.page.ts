@@ -1,13 +1,13 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Payment, PaymentCategory} from 'src/app/data/Payment';
 import {ActivatedRoute, Router} from '@angular/router';
-import {User} from "../../data/User";
-import {Journey} from "../../data/Journey";
-import {DatabaseService} from "../../services/database.service";
-import {AuthenticationService} from "../../services/auth.service";
+import {User} from '../../data/User';
+import {Journey} from '../../data/Journey';
+import {DatabaseService} from '../../services/database.service';
+import {AuthenticationService} from '../../services/auth.service';
 import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
-import {ActionSheetController, AlertController, IonRouterOutlet, NavController} from "@ionic/angular";
+import {ActionSheetController, AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-payment-details',
@@ -15,13 +15,13 @@ import {ActionSheetController, AlertController, IonRouterOutlet, NavController} 
   styleUrls: ['./payment-details.page.scss'],
 })
 export class PaymentDetailsPage implements OnInit {
-  userId: string = '';
+  userId = '';
   journey: Journey;
   payment: Payment;
   users: Array<User> = [];
   currencies: Array<string> = undefined;
   categories: PaymentCategory[];
-  userIdMap: Map<string, User> = new Map;
+  userIdMap: Map<string, User> = new Map();
   isEditMode = false;
 
   constructor(public navCtrl: NavController,
@@ -54,7 +54,7 @@ export class PaymentDetailsPage implements OnInit {
             this.journey.id,
             undefined,
             this.journey.defaultCurrency,
-            Timestamp.fromDate(new Date()))
+            Timestamp.fromDate(new Date()));
         }
         this.getJourneyParticipants(this.journey);
       });
@@ -148,8 +148,7 @@ export class PaymentDetailsPage implements OnInit {
     if (this.outlet.canGoBack()) {
       this.navCtrl.pop();
     } else {
-      this.navCtrl.navigateRoot('root');
-      this.router.navigateByUrl('/journey/' + this.journey.id);
+      this.navCtrl.navigateRoot('/journey/' + this.journey.id);
     }
   };
 
@@ -164,10 +163,10 @@ export class PaymentDetailsPage implements OnInit {
   }
 
   createButtons() {
-    let buttons = [];
-    let users = this.getNotInvolvedUsers();
+    const buttons = [];
+    const users = this.getNotInvolvedUsers();
     if (1 < users.length) {
-      let allButton = {
+      const allButton = {
         text: 'Add All',
         icon: 'People',
         role: 'selected',
@@ -176,20 +175,20 @@ export class PaymentDetailsPage implements OnInit {
       buttons.push(allButton);
     }
     if (1 < this.payment.paymentParticipants.length) {
-      let removeAllButton = {
+      const removeAllButton = {
         text: 'Remove All',
         icon: 'person-remove',
         handler: () => this.payment.paymentParticipants = []
       };
       buttons.push(removeAllButton);
     }
-    for (let user of users) {
-      let button = {
+    for (const user of users) {
+      const button = {
         text: user.userName,
         icon: 'Person',
         role: 'selected',
         handler: () => {
-          this.payment.paymentParticipants.push(user.id)
+          this.payment.paymentParticipants.push(user.id);
         }
       };
       buttons.push(button);
