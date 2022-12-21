@@ -1,4 +1,4 @@
-import {DatabaseEntity} from "./DatabaseEntity";
+import {DatabaseEntity} from './DatabaseEntity';
 import Timestamp = firebase.firestore.Timestamp;
 import firebase from 'firebase/compat/app';
 export class Payment implements DatabaseEntity {
@@ -19,7 +19,7 @@ export class Payment implements DatabaseEntity {
               payerID: string = '',
               journeyID: string = '',
               value: number = undefined,
-              currency: string = '€',
+              currency: string = '',
               payday: Timestamp = Timestamp.fromDate(new Date()),
               category: PaymentCategory = PaymentCategory.Other,
               paymentParticipants: string[] = [],

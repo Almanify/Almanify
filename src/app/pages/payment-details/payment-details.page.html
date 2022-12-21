@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{journey.title}}</ion-title>
-    <ion-button slot="end" class="ion-margin-end" (click)="leave()">
+    <ion-title>Payment for {{journey.title}}</ion-title>
+    <ion-button (click)="leave()" class="ion-margin-end" slot="end">
       <ion-icon name="close" slot="icon-only"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -12,19 +12,19 @@
   <ion-card>
     <ion-card-header>
       <ion-toolbar>
-        <ion-card-title>Details:
+        <ion-card-title>
 
           <!--payment title-->
           <div *ngIf="!isEditMode; else titleInput">
             {{payment.title || 'No title'}}
           </div>
           <ng-template #titleInput>
-            <ion-input disabled="{{!isEditMode}}" placeholder="Enter Title" type="text"
-                       [(ngModel)]="payment.title"></ion-input>
+            <ion-input [(ngModel)]="payment.title" disabled="{{!isEditMode}}" placeholder="Enter Title"
+                       type="text"></ion-input>
           </ng-template>
         </ion-card-title>
-        <ion-button slot="end" *ngIf="!isEditMode" on-click="toggleEditMode()">
-          <ion-icon slot="icon-only" name="{{'create'}}"></ion-icon>
+        <ion-button *ngIf="!isEditMode" on-click="toggleEditMode()" slot="end">
+          <ion-icon name="{{'create'}}" slot="icon-only"></ion-icon>
         </ion-button>
         <!--<ion-button slot="end" *ngIf="isEditMode" on-click="toggleEditMode()">
           <ion-icon slot="icon-only" name="{{'arrow-back'}}"></ion-icon>
@@ -37,53 +37,63 @@
 
         <!--Payer -->
         <ion-item>
-          <ion-icon slot="start" name="person"></ion-icon>
+          <ion-icon name="person" slot="start"></ion-icon>
           <ion-label>
             Payer
           </ion-label>
           <div *ngIf="!isEditMode; else payerDropdown">
-            {{userIdMap.get(payment.payerID)  === undefined ? "loading..." : userIdMap.get(payment.payerID).userName || 'No payer'}}
+            {{userIdMap.get(payment.payerID) === undefined ? "loading..." : userIdMap.get(payment.payerID).userName || 'No payer'}}
           </div>
           <ng-template #payerDropdown>
             <!--TODO loesung fuer default value-->
-            <ion-select slot="end"
-                        placeholder="Select User" value="{{payment.payerID}}" [(ngModel)]="payment.payerID">
+            <ion-select [(ngModel)]="payment.payerID"
+                        placeholder="Select User" slot="end" value="{{payment.payerID}}">
               <ion-select-option *ngFor="let user of users"
                                  value="{{user.id}}">{{user.userName || "loading..."}}</ion-select-option>
             </ion-select>
           </ng-template>
         </ion-item>
 
-        <!--payed value-->
+        <!--paid currency-->
+        <ion-item *ngIf="isEditMode">
+          <ion-icon name="logo-euro" slot="start"></ion-icon>
+          <ion-label>
+            Currency
+          </ion-label>
+          <ion-select [(ngModel)]="payment.currency" placeholder="Select Currency" slot="end">
+            <ion-select-option *ngFor="let currency of currencies"
+                               [value]="currency.code">{{currency.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!--paid value-->
         <ion-item>
-          <ion-icon slot="start" name="cash-outline"></ion-icon>
+          <ion-icon name="cash-outline" slot="start"></ion-icon>
           <ion-label>
             Value
           </ion-label>
           <div *ngIf="!isEditMode; else valueCurrencyInput">
-            {{(payment?.value || 'no value' )+ '' + (payment?.currency || 'no currency')}}
+            {{formatCurrency(payment.value, payment.currency)}}
           </div>
           <ng-template #valueCurrencyInput>
-            <ion-input class="ion-text-right" slot="end" type="number" placeholder="Enter Value"
-                       [(ngModel)]="payment.value">
+            <ion-input [(ngModel)]="payment.value" class="ion-text-right" placeholder="Enter Value" slot="end"
+                       type="number">
             </ion-input>
+            <ion-note *ngIf="payment.currency && payment.value && payment.currency !== 'USD'"
+                      slot="helper">
+              {{formatCurrency(payment.value, payment.currency)}} will be converted
+              into {{formatCurrency(convertFromCurrency(payment.value, payment.currency), 'USD')}}
+            </ion-note>
+            <ion-note *ngIf="payment.currency && payment.value && payment.currency === 'USD'"
+                      slot="helper">
+              {{formatCurrency(payment.value, payment.currency)}}
+            </ion-note>
           </ng-template>
-        </ion-item>
-
-        <!--payed currency-->
-        <ion-item *ngIf="isEditMode">
-          <ion-icon slot="start" name="logo-euro"></ion-icon>
-          <ion-label>
-            Currency
-          </ion-label>
-          <ion-select slot="end" [(ngModel)]="payment.currency" placeholder="{{'Select Currency'}}">
-            <ion-select-option *ngFor="let currency of currencies" value="{{currency}}">{{currency}}</ion-select-option>
-          </ion-select>
         </ion-item>
 
         <!--day of payment-->
         <ion-item>
-          <ion-icon slot="start" name="calendar-outline"></ion-icon>
+          <ion-icon name="calendar-outline" slot="start"></ion-icon>
           <ion-label>
             Payday
           </ion-label>
@@ -94,8 +104,9 @@
             <ion-datetime-button datetime="datetime"></ion-datetime-button>
             <ion-modal [keepContentsMounted]="true">
               <ng-template>
-                <ion-datetime [value]="payment.payday.toDate().toISOString()" #payday
-                              (ionChange)="updatePayday(payday.value)" presentation="date" id="datetime"></ion-datetime>
+                <ion-datetime #payday (ionChange)="updatePayday(payday.value)"
+                              [value]="payment.payday.toDate().toISOString()" id="datetime"
+                              presentation="date"></ion-datetime>
               </ng-template>
             </ion-modal>
           </ng-template>
@@ -103,7 +114,7 @@
 
         <!--category of payment-->
         <ion-item>
-          <ion-icon slot="start" name="pricetags"></ion-icon>
+          <ion-icon name="pricetags" slot="start"></ion-icon>
           <ion-label>
             Category
           </ion-label>
@@ -111,7 +122,7 @@
             {{payment.category}}
           </div>
           <ng-template #categoryDropdown>
-            <ion-select slot="end" [(ngModel)]="payment.category" placeholder="Select Category">
+            <ion-select [(ngModel)]="payment.category" placeholder="Select Category" slot="end">
               <ion-select-option *ngFor="let category of categories"
                                  value="{{category}}">{{category}}</ion-select-option>
             </ion-select>
@@ -127,12 +138,12 @@
             </ion-label>
           </ion-item>
           <span *ngFor="let participant of payment.paymentParticipants">
-              <ion-chip on-click="isEditMode && removeInvolved(participant)">
-                {{userIdMap.get(participant) === undefined ? "loading..." : userIdMap.get(participant).userName}}
-                <ion-icon color="danger" *ngIf="isEditMode" name="close-circle-outline"></ion-icon>
-              </ion-chip>
+            <ion-chip on-click="isEditMode && removeInvolved(participant)">
+              {{userIdMap.get(participant) === undefined ? "loading..." : userIdMap.get(participant).userName}}
+              <ion-icon *ngIf="isEditMode" color="danger" name="close-circle-outline"></ion-icon>
+            </ion-chip>
           </span>
-          <ion-fab-button (click)="presentActionSheet()" *ngIf="isEditMode "
+          <ion-fab-button (click)="presentActionSheet()" *ngIf="isEditMode"
                           color="success" size="small">
             <ion-icon name="add"></ion-icon>
           </ion-fab-button>
@@ -140,8 +151,8 @@
         </ion-item-group>
 
         <!--Picture of the bill TODO: set img etc-->
-        <ion-button *ngIf="isEditMode && (payment.img === null)" (click)="takePic()" size="large" fill="outline"
-                    expand="block">
+        <ion-button (click)="takePic()" *ngIf="isEditMode && (payment.img === null)" expand="block" fill="outline"
+                    size="large">
           <ion-icon name="add"></ion-icon>
           <ion-icon name="camera-outline"></ion-icon>
         </ion-button>
@@ -156,8 +167,8 @@
 
 <ion-footer *ngIf="isEditMode"
             [translucent]="true">
-  <ion-button color="success" shape="round" expand="full" (click)="save(); toggleEditMode();">
-    <ion-icon slot="start" name="save-outline"></ion-icon>
+  <ion-button (click)="save(); toggleEditMode();" color="success" expand="full" shape="round">
+    <ion-icon name="save-outline" slot="start"></ion-icon>
     Save
   </ion-button>
 </ion-footer>

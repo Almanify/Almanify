@@ -41,8 +41,9 @@
               <ion-item lines="full">
                 <ion-icon name="logo-euro" slot="start"></ion-icon>
                 <ion-label>Default currency:</ion-label>
-                <ion-select interface="popover" [(ngModel)]="journey.defaultCurrency">
-                  <ion-select-option *ngFor="let cur of this.currencies">{{cur}}</ion-select-option>
+                <ion-select [(ngModel)]="journey.defaultCurrency" placeholder="Select Currency" slot="end">
+                  <ion-select-option *ngFor="let currency of currencies"
+                                     [value]="currency.code">{{currency.name}}</ion-select-option>
                 </ion-select>
               </ion-item>
               <!-- "start date" field -->
