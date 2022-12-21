@@ -4,8 +4,8 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Journey-Editor</ion-title>
-    <ion-button slot="end" class="ion-margin-end">
-      <ion-back-button defaultHref="/journeys" icon="close"></ion-back-button>
+    <ion-button slot="end" class="ion-margin-end" (click)="alertUnsaved()">
+      <ion-icon name="close" slot="icon-only"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -13,22 +13,20 @@
 <ion-content>
   <ion-card>
     <ion-card-content>
-      <ion-grid align="center" [fixed]="true">
+      <ion-grid [fixed]="true">
         <!-- header with exit button -->
         <ion-row class="ion-justify-content-center">
-          <ion-toolbar>
-            <ion-card-title *ngIf="!isEditMode; else editMode">New Journey</ion-card-title>
-            <ng-template #editMode>
-              <ion-card-title>Edit Journey</ion-card-title>
-            </ng-template>
-          </ion-toolbar>
+          <ion-card-title *ngIf="!isEditMode; else editMode">New Journey</ion-card-title>
+          <ng-template #editMode>
+            <ion-card-title>Edit Journey</ion-card-title>
+          </ng-template>
         </ion-row>
         <!-- journey name -->
-        <ion-row class="ion-justify-content-center">
+        <ion-row style="display: block" class="ion-justify-content-center">
           <ion-col>
             <ion-item lines="full" fill="outline">
               <ion-label>Title:</ion-label>
-              <ion-input type="text" maxlength="30" placeholder={{journey.name}} required="true"></ion-input>
+              <ion-input type="text" maxlength="30" [(ngModel)]="journey.title" required="true"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -43,40 +41,59 @@
               <ion-item lines="full">
                 <ion-icon name="logo-euro" slot="start"></ion-icon>
                 <ion-label>Default currency:</ion-label>
-                <ion-select interface="popover" placeholder="{{journey.def_currency}}">
-                  <ion-select-option *ngFor="let cur of this.currencies">{{cur}}</ion-select-option>
+                <ion-select [(ngModel)]="journey.defaultCurrency" placeholder="Select Currency" slot="end">
+                  <ion-select-option *ngFor="let currency of currencies"
+                                     [value]="currency.code">{{currency.name}}</ion-select-option>
                 </ion-select>
               </ion-item>
               <!-- "start date" field -->
-              <ion-item lines="full" id="date">
+              <ion-item lines="full" id="dateStart">
                 <ion-icon name="calendar-outline" slot="start"></ion-icon>
                 <ion-label>Start date:</ion-label>
 
-                <ion-datetime-button datetime="datetime"></ion-datetime-button>
+                <ion-datetime-button datetime="datetimeStart"></ion-datetime-button>
 
                 <ion-modal [keepContentsMounted]="true">
                   <ng-template>
-                    <ion-datetime presentation="date" id="datetime"></ion-datetime>
+                    <ion-datetime presentation="date" [value]="journey.start.toDate().toISOString()" #startDate
+                                  (ionChange)="updateStartDate(startDate.value)"
+                                  id="datetimeStart"></ion-datetime>
                   </ng-template>
                 </ion-modal>
               </ion-item>
-              <!-- "invite code" field -->
+
+              <!-- "end date" field -->
+              <ion-item lines="full" id="dateEnd">
+                <ion-icon name="calendar-outline" slot="start"></ion-icon>
+                <ion-label>End date:</ion-label>
+
+                <ion-datetime-button datetime="datetimeEnd"></ion-datetime-button>
+
+                <ion-modal [keepContentsMounted]="true">
+                  <ng-template>
+                    <ion-datetime [value]="journey.end.toDate().toISOString()" presentation="date"
+                                  id="datetimeEnd" #endDate (ionChange)="updateEndDate(endDate.value)"></ion-datetime>
+                  </ng-template>
+                </ion-modal>
+              </ion-item>
+
+              <!-- "invite code" field
               <ion-item lines="full">
                 <ion-icon name="key" slot="start"></ion-icon>
                 <ion-label>Invite code:</ion-label>
-                <ion-input style="text-align: end" type="numeric" minlength="5" maxlength="5"
-                           placeholder="{{journey.invite_code}}" required="true"></ion-input>
-              </ion-item>
+                <ion-input style="text-align: end" type="numeric" disabled="true" minlength="5" maxlength="5"
+                           required="true">{{journey.inviteCode}}</ion-input>
+              </ion-item-->
             </ion-item-group>
           </ion-col>
         </ion-row>
 
-        <ion-row class="ion-justify-content-center">
-          <!-- qr code -->
+        <!-- qr code
+        <ion-row *ngIf="journey && journey.inviteCode" class="ion-justify-content-center">
           <ion-col size="8" size-md="6" size-lg="4" size-xl="3">
-            <ion-img src="assets/samples/qr_sample.png"></ion-img>
+            <ion-img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=512x512&qzone=1&data=' + journey.inviteCode"></ion-img>
           </ion-col>
-        </ion-row>
+        </ion-row-->
 
         <ion-row class="ion-justify-content-center">
           <ion-col>
@@ -87,16 +104,14 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <span *ngFor="let per of journey.people">
+          <span *ngFor="let participant of participants">
             <ion-chip>
-              <ion-icon name="caret-up-outline" *ngIf="per == journey.creator"></ion-icon>
-              {{per}}
-              <ion-icon color="danger" name="close-circle-outline"></ion-icon>
+              <ion-icon name="caret-up-outline" *ngIf="participant.id === journey.creatorID" ></ion-icon>
+              <ion-label>{{participant.userName}}</ion-label>
+              <ion-icon color="danger" name="close-circle-outline" (click)="deleteUser(participant)" *ngIf="participant.id !== journey.creatorID"></ion-icon>
             </ion-chip>
           </span>
         </ion-row>
-
-
       </ion-grid>
     </ion-card-content>
 
@@ -104,22 +119,9 @@
 </ion-content>
 
 <ion-footer [translucent]="true" collapse="fade">
-  <ion-button expand="block">
+  <ion-button (click)="save()" expand="block">
     <ion-text>Save</ion-text>
     <ion-icon slot="end" name="save"></ion-icon>
   </ion-button>
 </ion-footer>
 
-<ion-footer [translucent]="true" collapse="fade">
-  <ion-toolbar>
-    <ion-buttons style="justify-content: space-evenly">
-      <ion-back-button defaultHref="/"></ion-back-button>
-      <ion-button routerLink="/" routerDirection="forward">
-        <ion-icon slot="icon-only" name="home"></ion-icon>
-      </ion-button>
-      <ion-button routerLink="/notifications" routerDirection="forward">
-        <ion-icon slot="icon-only" name="notifications"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>

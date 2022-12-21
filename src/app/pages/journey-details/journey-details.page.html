@@ -1,25 +1,37 @@
 <ion-header>
   <ion-toolbar>
-    <ion-menu-button slot="start"></ion-menu-button>
-    <ion-title>{{journeyTitle}}</ion-title>
-    <ion-button slot="end" class="ion-margin-end">
-      <ion-back-button defaultHref="/journeys" icon="close"></ion-back-button>
-    </ion-button>
+    <ion-buttons style="width: 100%">
+      <ion-menu-button slot="start"></ion-menu-button>
+      <ion-title>{{journey.title}}</ion-title>
+      <ion-button slot="end" class="ion-margin-end">
+        <ion-back-button defaultHref="/journeys" icon="close"></ion-back-button>
+      </ion-button>
+    </ion-buttons>
+    <ion-row>
+      <ion-col>
+        <!-- button for adding a new payment -->
+        <ion-button routerDirection="forward" on-click="addPayment()" style="font-weight: bolder;" expand="block">
+          <ion-icon slot="start" name="add-outline"></ion-icon>
+          new payment
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <!-- view debts -->
+        <ion-button size="medium" expand="block" on-click="viewDebts()" style="font-weight: bolder">
+          <ion-icon slot="start" name="wallet-outline"></ion-icon>
+          debts
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- view debts -->
-  <ion-button size="medium" expand="block" class="ion-margin" on-click="viewDebts()">
-    <ion-icon slot="start" name="wallet-outline"></ion-icon>
-    view current debts
-  </ion-button>
-
-  <ion-segment [ngModel]="sortBy">
-    <ion-segment-button value="person">
+  <ion-segment (ionChange)="sortPayments()" [(ngModel)]="sortBy">
+    <ion-segment-button value="payer">
       <ion-icon name="person"></ion-icon>
     </ion-segment-button>
-    <ion-segment-button value="money">
+    <ion-segment-button value="payedValue">
       <ion-icon name="cash-outline"></ion-icon>
     </ion-segment-button>
     <ion-segment-button value="date">
@@ -27,73 +39,125 @@
     </ion-segment-button>
   </ion-segment>
 
-  <ion-segment [ngModel]="sortOrder">
-    <ion-segment-button value="highToLow">
+  <ion-segment (ionChange)="sortPayments()" [(ngModel)]="lowToHigh">
+    <ion-segment-button value="false">
       <ion-icon name="caret-down-outline"></ion-icon>
     </ion-segment-button>
-    <ion-segment-button value="lowToHigh">
+    <ion-segment-button value="true">
       <ion-icon name="caret-up-outline"></ion-icon>
     </ion-segment-button>
   </ion-segment>
 
-  <ion-card *ngFor="let payment of payments" on-click="viewPayment(payment)">
+  <!--each accordion is in its own group so they stay open when you open another one-->
+  <ion-accordion-group *ngFor="let payment of payments">
+    <ion-accordion  class="ion-margin-vertical ">
+      <ion-item slot="header">
+        <ion-icon name="{{getCategoryIcon(payment.category)}}" class="ion-margin-end"></ion-icon>
+        <ion-label>{{payment.title}}</ion-label>
+        <ion-chip>
+          <ion-icon name="cash-outline"></ion-icon>
+          <ion-label>{{formatCurrency(payment.value, payment.currency)}}</ion-label>
+        </ion-chip>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-row>
+          <ion-col size="4">
+            <ion-button style="width: 100%;" color="primary" fill="solid" (click)="editPayment(payment)">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="4">
+            <ion-button style="width: 100%;" color="primary" fill="solid" (click)="viewPayment(payment)">
+              <ion-icon slot="icon-only" name="eye"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="4">
+            <ion-button style="width: 100%;" color="primary" fill="solid" (click)="deletePayment(payment)">
+              <ion-icon fill="solid" slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-chip style="width: 100%;">
+              <ion-icon name="person"></ion-icon>
+              <ion-label
+                *ngIf="userIdMap.get(payment.payerID) !== undefined; else loading"> {{userIdMap.get(payment.payerID).userName}}</ion-label>
+            </ion-chip>
+          </ion-col>
+          <ion-col size="6">
+            <ion-chip style="width: 100%;">
+              <ion-icon name="calendar"></ion-icon>
+              <ion-label>{{payment.payday.toDate() | date:'dd.MM.YY'}}</ion-label>
+            </ion-chip>
+          </ion-col>
+        </ion-row>
+        <ng-template #loading>
+          <ion-spinner name="bubbles"></ion-spinner>
+        </ng-template>
+      </div>
+
+    </ion-accordion>
+  </ion-accordion-group>
+
+  <!--<ion-card *ngFor="let payment of payments">
     <ion-card-header>
-      <ion-toolbar>
-        <ion-card-title>
-          <ion-item>
-            <ion-icon name="{{getCategoryIcon(payment.category)}}" class="ion-margin-end"></ion-icon>
-            {{payment.title}}
-          </ion-item>
-        </ion-card-title>
-        <div slot="end">
-          <ion-button color="success" shape="round" fill="outline" (click)="editPayment(payment)">
-            <ion-icon slot="icon-only" name="create"></ion-icon>
-          </ion-button>
-          <ion-button color="danger" (click)="deletePayment(payment)">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </ion-button>
-        </div>
-      </ion-toolbar>
+      <ion-card-title>
+        <ion-item>
+          <ion-icon name="{{getCategoryIcon(payment.category)}}" class="ion-margin-end"></ion-icon>
+          {{payment.title}}
+        </ion-item>
+      </ion-card-title>
     </ion-card-header>
-
     <ion-card-content>
-
-      <ion-chip>
-        <ion-icon name="person"></ion-icon>
-        <ion-label>{{payment.payerID}}</ion-label>
-      </ion-chip>
-
-      <ion-chip>
-        <ion-icon name="calendar"></ion-icon>
-        <ion-label>{{payment.payday.getDate() + '.' + payment.payday.getMonth() + '.' + payment.payday.getFullYear()}}</ion-label>
-      </ion-chip>
-
-      <ion-chip>
-        <ion-icon name="cash-outline"></ion-icon>
-        <ion-label>{{payment.value + payment.currency}}</ion-label>
-      </ion-chip>
-
+      <ion-accordion-group>
+        <ion-accordion>
+          <ion-item slot="header"><label>details</label></ion-item>
+          <div class="ion-padding" slot="content">
+            <ion-row>
+              <ion-col size="4">
+                <ion-button style="width: 100%;" color="primary" fill="solid" (click)="editPayment(payment)">
+                  <ion-icon slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="4">
+                <ion-button style="width: 100%;" color="primary" fill="solid" (click)="viewPayment(payment)">
+                  <ion-icon slot="icon-only" name="eye"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="4">
+                <ion-button style="width: 100%;" color="primary" fill="solid" (click)="deletePayment(payment)">
+                  <ion-icon fill="solid" slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="4">
+                <ion-chip style="width: 100%;">
+                  <ion-icon name="person"></ion-icon>
+                  <ion-label
+                    *ngIf="userIdMap.get(payment.payerID) !== undefined; else loading"> {{userIdMap.get(payment.payerID).userName}}</ion-label>
+                </ion-chip>
+              </ion-col>
+              <ion-col size="4">
+                <ion-chip style="width: 100%;">
+                  <ion-icon name="calendar"></ion-icon>
+                  <ion-label>{{payment.payday.toDate() | date:'dd.MM.YY'}}</ion-label>
+                </ion-chip>
+              </ion-col>
+              <ion-col size="4">
+                <ion-chip style="width: 100%;">
+                  <ion-icon name="cash-outline"></ion-icon>
+                  <ion-label>{{payment.value + payment.currency}}</ion-label>
+                </ion-chip>
+              </ion-col>
+            </ion-row>
+            <ng-template #loading>
+              <ion-spinner name="bubbles"></ion-spinner>
+            </ng-template>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
     </ion-card-content>
-  </ion-card>
+  </ion-card>-->
 </ion-content>
-
-<ion-footer translucent="true">
-  <ion-button shape="round" size="large" expand="block" class="ion-margin" on-click="addPayment()">
-    <ion-icon slot="start" name="add-circle"></ion-icon>
-    add payment
-  </ion-button>
-</ion-footer>
-
-<ion-footer [translucent]="true" collapse="fade">
-  <ion-toolbar>
-    <ion-buttons style="justify-content: space-evenly">
-      <ion-back-button defaultHref="/"></ion-back-button>
-      <ion-button routerLink="/" routerDirection="forward">
-        <ion-icon slot="icon-only" name="home"></ion-icon>
-      </ion-button>
-      <ion-button routerLink="/notifications" routerDirection="forward">
-        <ion-icon slot="icon-only" name="notifications"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
