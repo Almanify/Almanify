@@ -6,7 +6,7 @@ import {DatabaseService} from '../../services/database.service';
 import {AuthenticationService} from '../../services/auth.service';
 import {Journey} from '../../data/Journey';
 import {User} from '../../data/User';
-import {formatCurrency} from '../../services/helper/currencies';
+import {formatCurrency, convertFromCurrency} from '../../services/helper/currencies';
 
 @Component({
   selector: 'app-journey-details',
@@ -65,8 +65,7 @@ export class JourneyDetailsPage implements OnInit {
         this.payments.sort((x, y) => (this.userIdMap.get(x.payerID).userName > this.userIdMap.get(y.payerID).userName ? -1 : 1));
         break;
       case 'payedValue':
-        //TODO dont ignore currency
-        this.payments.sort((x, y) => (x.value > y.value ? -1 : 1));
+        this.payments.sort((x, y) => (convertFromCurrency(x.value, x.currency) > convertFromCurrency(y.value, y.currency) ? -1 : 1));
         break;
       default:
         this.payments.sort((x, y) => y.payday.seconds - x.payday.seconds);
