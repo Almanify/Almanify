@@ -21,9 +21,9 @@
       </ion-content>
       <ion-footer style="text-align:center">
         <ion-toolbar>
-          <ion-button size="small" color="medium" fill="clear">Impressum</ion-button>
-          <ion-button size="small" color="medium" class="ion-align-items-center" fill="clear">Datenschutz</ion-button>
-          <ion-button size="small" color="medium" class="ion-align-items-center" fill="clear">AGB</ion-button>
+          <ion-button size="small" color="medium" fill="clear" (click)="showImprint()">Imprint</ion-button>
+          <ion-button size="small" color="medium" class="ion-align-items-center" fill="clear" (click)="showGTC()">GTC</ion-button>
+          <ion-button size="small" color="medium" class="ion-align-items-center" fill="clear" (click)="showPrivacy()">Privacy Protection</ion-button>
         </ion-toolbar>
       </ion-footer>
     </ion-menu>

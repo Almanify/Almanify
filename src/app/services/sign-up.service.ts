@@ -5,7 +5,7 @@ import {User} from "../data/User";
 import {addDoc, collection} from "@angular/fire/firestore";
 import firebase from "firebase/compat";
 import firestore = firebase.firestore;
-import {AlertController} from '@ionic/angular';
+import {AlertController, ToastController} from '@ionic/angular';
 import {alert} from "ionicons/icons";
 import {copyAndPrepare} from "./helper/copyAndPrepare";
 
@@ -16,7 +16,7 @@ import {copyAndPrepare} from "./helper/copyAndPrepare";
 export class SignUPService {
   private userCollection: AngularFirestoreCollection<User>
 
-  constructor(public firestore: AngularFirestore, private angularFireAuth: AngularFireAuth, private alertController: AlertController) {
+  constructor(public firestore: AngularFirestore, private angularFireAuth: AngularFireAuth, private alertController: AlertController, private toastController: ToastController) {
     this.angularFireAuth = angularFireAuth;
     this.userCollection = firestore.collection<User>('User')
   }
@@ -27,7 +27,8 @@ export class SignUPService {
       .then((data) => {
         user.id = data.user.uid
         this.userCollection.doc(user.id).set(copyAndPrepare(user) as User)   //important userdata and user login has same id
-        this.alertSuccessfullySignUp();
+        //this.alertSuccessfullySignUp();
+        this.toastSuccssfullySignUp();
       })
       .catch(error => {
         this.alertError(error.message);
@@ -42,6 +43,14 @@ export class SignUPService {
     });
 
     await alert.present();
+  }
+  async toastSuccssfullySignUp(){
+    const toast = await this.toastController.create({
+      message: 'You can login now and enjoy Almanify.',
+      duration: 5000,
+      position: 'top'
+    })
+    await toast.present();
   }
 
   async alertError(error: string) {
