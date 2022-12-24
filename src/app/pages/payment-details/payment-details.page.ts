@@ -9,6 +9,7 @@ import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
 import {ActionSheetController, AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 import {currencies, formatCurrency, convertFromCurrency} from '../../services/helper/currencies';
+import {PhotoService} from "../../services/photo.service";
 
 @Component({
   selector: 'app-payment-details',
@@ -33,7 +34,8 @@ export class PaymentDetailsPage implements OnInit {
               private databaseService: DatabaseService,
               public authService: AuthenticationService,
               private actionSheetCtrl: ActionSheetController,
-              private alertController: AlertController) {
+              private alertController: AlertController,
+              public photoService: PhotoService) {
     this.journey = new Journey();
     this.payment = new Payment();
     this.isEditMode = JSON.parse(this.activatedRoute.snapshot.paramMap.get('editmode')); //TODO prüfen ob user das darf
@@ -91,10 +93,8 @@ export class PaymentDetailsPage implements OnInit {
       .forEach(participant => this.databaseService.userCrudHandler
         .readByID(participant)
         .then((u) => {
-          console.log(u);
           this.users.push(u);
           this.userIdMap.set(u.id, u);
-          console.log(this.users)
         }));
   }
 
@@ -202,6 +202,8 @@ export class PaymentDetailsPage implements OnInit {
 
 
   takePic() {
-    //TODO
+    this.photoService.addNewToGallery();
   }
+
+
 }
