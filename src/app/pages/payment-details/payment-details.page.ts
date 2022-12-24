@@ -47,7 +47,6 @@ export class PaymentDetailsPage implements OnInit {
           this.databaseService.paymentCrudHandler.read(this.payment).then((payment) => {
             this.payment = payment;
           });
-          this.getJourneyParticipants(journey);
         } else {
           //new payment
           this.payment = new Payment(
@@ -92,8 +91,10 @@ export class PaymentDetailsPage implements OnInit {
       .forEach(participant => this.databaseService.userCrudHandler
         .readByID(participant)
         .then((u) => {
+          console.log(u);
           this.users.push(u);
           this.userIdMap.set(u.id, u);
+          console.log(this.users)
         }));
   }
 
