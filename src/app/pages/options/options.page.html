@@ -13,17 +13,9 @@
 
     <ion-card>
       <ion-card-content>
-        <ion-card-title>Account Information</ion-card-title>
-        <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
-            <ion-item>
-              <ion-label position="stacked">E-Mail</ion-label>
+        <ion-card-title style="text-align: center;">General Information</ion-card-title>
 
-              <ion-input type="email" maxlength="30" [(ngModel)]="email" disabled="true"></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-
+        <!-- Name Field -->
         <ion-row class="ion-justify-content-center">
           <ion-col size-sm="12" size-md="8">
             <ion-item>
@@ -34,6 +26,7 @@
           </ion-col>
         </ion-row>
 
+        <!-- Currency Field w/ "currencies"-service integration-->
         <ion-row class="ion-justify-content-center">
           <ion-col size-sm="12" size-md="8">
             <ion-list>
@@ -44,26 +37,64 @@
                                       [value]="currency.code">{{currency.name}}</ion-select-option>
                 </ion-select>
               </ion-item>
-              </ion-list>
-      
+            </ion-list>
           </ion-col>
         </ion-row>
-        <ion-col size-sm="12" size-md="8">
-          <ion-button *ngIf="!inEditMode" class="round ion-margin" expand="block" (click)="changeEditMode()">
-            <ion-text>Edit</ion-text>
-            <ion-icon slot="end" name="create"></ion-icon>
+
+        <!-- Switchable Button dependent on currently active mode -->
+        <ion-row class="ion-justify-content-center">
+          <!-- "Edit"-Button in Normal-Mode -->
+          <ion-col size="12" *ngIf="!inEditMode">
+            <ion-button class="round ion-margin" expand="block" (click)="changeEditMode()">
+              <ion-text>Edit</ion-text>
+              <ion-icon slot="end" name="create"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <!-- "Cancel" and "Save"-Button in Edit-Mode -->
+          <ion-col size="6" *ngIf="inEditMode">
+            <ion-button class="round ion-margin" expand="block" (click)="save()">
+              <ion-text>Save</ion-text>
+              <ion-icon slot="end" name="save"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="6" *ngIf="inEditMode">
+            <ion-button class="round ion-margin" expand="block" (click)="changeEditMode()">
+              <ion-text>Cancel</ion-text>
+              <ion-icon slot="end" name="exit"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        
+        <ion-card-title style="text-align: center; margin-top: 40px !important;">E-Mail/Password Management</ion-card-title>
+
+        <!-- E-Mail Field -->
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-item>
+              <ion-label position="stacked">Contact E-Mail</ion-label>
+
+              <ion-input type="email" maxlength="30" [(ngModel)]="email" disabled="true"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <!-- "Change E-Mail"-Button -->
+        <ion-col size="12">
+          <ion-button class="round ion-margin" expand="block" (click)="toDo()">
+            <ion-text>Change E-Mail</ion-text>
+            <ion-icon slot="end" name="mail"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size-sm="12" size-md="8">
-          <ion-button *ngIf="inEditMode" class="round ion-margin" expand="block" (click)="save()">
-            <ion-text>Save</ion-text>
-            <ion-icon slot="end" name="save"></ion-icon>
-          </ion-button>
-          <ion-button *ngIf="inEditMode" class="round ion-margin" expand="block" (click)="changeEditMode()">
-            <ion-text>Cancel</ion-text>
-            <ion-icon slot="end" name="exit"></ion-icon>
+
+        <!-- "Change Password"-Button -->
+        <ion-col size="12">
+          <ion-button class="round ion-margin" expand="block" (click)="toDo()">
+            <ion-text>Change Password</ion-text>
+            <ion-icon slot="end" name="key"></ion-icon>
           </ion-button>
         </ion-col>
+
       </ion-card-content>
     </ion-card>
   </ion-grid>

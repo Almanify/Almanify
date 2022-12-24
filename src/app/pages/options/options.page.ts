@@ -32,6 +32,9 @@ export class OptionsPage implements OnInit {
 
   ngOnInit() {
     this.getUserInformation();
+    this.authService.getObservable().subscribe(() => {
+      this.getUserInformation();
+    });
   }
 
   cancel() {
