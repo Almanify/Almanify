@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {DatabaseService} from '../../services/database.service';
 import {Journey} from '../../data/Journey';
 import {AuthenticationService} from '../../services/auth.service';
+import {AlertController} from "@ionic/angular";
 
 @Component({
   selector: 'app-journey-list',
@@ -23,7 +24,8 @@ export class JourneyListPage implements OnInit {
 
   constructor(private router: Router,
               private db: DatabaseService,
-              private as: AuthenticationService) {
+              private as: AuthenticationService,
+              private alertController: AlertController) {
     this.databaseService = db;
     this.authenticationService = as;
   }
@@ -58,11 +60,11 @@ export class JourneyListPage implements OnInit {
     }
   }
 
-  viewJourney(journey) {
+  viewJourney(journey: Journey) {
     this.router.navigate(['/journey/' + journey.id]);
   }
 
-  editJourney(journey) {
+  editJourney(journey: Journey) {
     this.router.navigate(['/journey-editor/' + journey.id]);
   }
 
@@ -84,13 +86,35 @@ export class JourneyListPage implements OnInit {
     });
   }
 
-  deleteJourney(journey) {
+  deleteJourney(journey: Journey) {
+    this.databaseService.getJourneyPayments(journey.id)
+      .then(payments => payments.forEach(payment => this.databaseService.paymentCrudHandler.delete(payment)));
     this.databaseService.journeyCrudHandler.delete(journey).then(() => {
       this.loadJourneys();
     });
   }
 
-  viewInviteCode(journey) {
-    this.router.navigate(['/journey/'+ journey.id + '/invite']);
+  viewInviteCode(journey: Journey) {
+    this.router.navigate(['/journey/' + journey.id + '/invite']);
+  }
+
+  async alertDelete(journey: Journey) {
+    const alert = await this.alertController.create({
+      header: 'Delete journey: ' + journey.title +' and all included payments?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'confirm',
+          handler: () => {
+            this.deleteJourney(journey);
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+      ],
+    });
+    await alert.present();
   }
 }
