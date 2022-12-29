@@ -81,7 +81,12 @@ export class JourneyListPage implements OnInit {
     this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
       this.journeys = journeys;
       this.filterJourneys();
+      this.sortJourneys();
     });
+  }
+
+  sortJourneys(){
+    this.journeys.sort((x, y) => y.start.seconds - x.start.seconds);
   }
 
   deleteJourney(journey) {
