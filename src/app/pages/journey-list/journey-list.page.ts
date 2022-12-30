@@ -94,13 +94,18 @@ export class JourneyListPage implements OnInit {
     });
   }
 
+  archiveJourney(journey: Journey) {
+    journey.active = false;
+    this.databaseService.journeyCrudHandler.update(journey);
+  }
+
   viewInviteCode(journey: Journey) {
     this.router.navigate(['/journey/' + journey.id + '/invite']);
   }
 
   async alertDelete(journey: Journey) {
     const alert = await this.alertController.create({
-      header: 'Delete journey: ' + journey.title +' and all included payments?',
+      header: 'Delete journey "' + journey.title +'" and all included payments?',
       buttons: [
         {
           text: 'Delete',
@@ -114,6 +119,26 @@ export class JourneyListPage implements OnInit {
           role: 'cancel',
         },
       ],
+    });
+    await alert.present();
+  }
+
+  async alertArchive(journey: Journey) {
+    const alert = await this.alertController.create({
+      header: 'Archive journey "' + journey.title + '"?',
+      buttons: [
+        {
+          text: 'Archive',
+          role: 'confirm',
+          handler: () => {
+            this.archiveJourney(journey);
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+      ]
     });
     await alert.present();
   }
