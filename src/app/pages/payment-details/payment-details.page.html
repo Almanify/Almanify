@@ -19,8 +19,11 @@
             {{payment.title || 'No title'}}
           </div>
           <ng-template #titleInput>
-            <ion-input [(ngModel)]="payment.title" disabled="{{!isEditMode}}" placeholder="Enter Title"
-                       type="text"></ion-input>
+            <ion-item lines="full" fill="outline">
+              <ion-label>Title:</ion-label>
+              <ion-input [(ngModel)]="payment.title" disabled="{{!isEditMode}}" placeholder="Enter Title"
+                         type="text"></ion-input>
+            </ion-item>
           </ng-template>
         </ion-card-title>
         <ion-button *ngIf="!isEditMode" on-click="toggleEditMode()" slot="end">
@@ -34,7 +37,6 @@
 
     <ion-card-content>
       <ion-list>
-
         <!--Payer -->
         <ion-item>
           <ion-icon name="person" slot="start"></ion-icon>
@@ -166,11 +168,13 @@
 </ion-content>
 
 <ion-footer *ngIf="isEditMode"
-            [translucent]="true">
-  <ion-button (click)="save(); toggleEditMode();" color="success" expand="full" shape="round">
-    <ion-icon name="save-outline" slot="start"></ion-icon>
-    Save
+            [translucent]="true" collapse="fade">
+
+  <ion-button (click)="save(); toggleEditMode();" expand="block">
+    <ion-text>Save</ion-text>
+    <ion-icon slot="end" name="save"></ion-icon>
   </ion-button>
+
 </ion-footer>
 
 
