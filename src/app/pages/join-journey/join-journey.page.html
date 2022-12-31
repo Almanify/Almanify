@@ -14,7 +14,7 @@
 
   <ion-item class="round ion-margin">
     <ion-icon name="key" slot="start"></ion-icon>
-    <ion-input type="text" placeholder="Invite Code" [(ngModel)]="inviteCode" (ionChange)="errorText = ''">
+    <ion-input type="number" placeholder="Invite Code" [(ngModel)]="inviteCode" (ionChange)="errorText = ''">
     </ion-input>
   </ion-item>
   <ion-button class="round ion-margin" expand="block" on-click="joinJourney()" [disabled]="!inviteCode">Apply</ion-button>

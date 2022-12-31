@@ -4,6 +4,7 @@ import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {CrudHandler} from './helper/CRUD-Handler';
 import {User} from '../data/User';
 import {Payment} from '../data/Payment';
+import {Observable} from "rxjs/internal/Observable";
 
 
 @Injectable({
