@@ -95,6 +95,10 @@ export class DebtCalculatorPage implements OnInit {
     this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + person + '/' + amount);
   }
 
+  insertRepaidDebt() {
+    this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + this.userID + '/' + 0);
+  }
+
   private updateDebts() {
     const basicAmounts = new Map();
 
