@@ -34,8 +34,8 @@ export class JourneyEditorPage implements OnInit {
       this.journey.id = id;
       this.databaseService.journeyCrudHandler.read(this.journey).then(journey => {
         // check if user is allowed to edit
-        if (this.journey.creatorID !== this.authService.getUserId) {
-          this.navCtrl.navigateBack('/journey/' + this.journey.id);
+        if (this.authService.getUserId && journey.creatorID !== this.authService.getUserId) {
+          this.navCtrl.navigateBack('/journey/' + journey.id);
         }
 
         this.journey = journey;
