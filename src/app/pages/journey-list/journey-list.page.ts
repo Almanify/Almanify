@@ -46,18 +46,19 @@ export class JourneyListPage implements OnInit {
   }
 
   filterJourneys() {
-    if (this.journeyType === 'all') {
-      this.filteredJourneys = this.journeys;
-    } else if (this.journeyType === 'active') {
+    // if (this.journeyType === 'all') {
+    //   this.filteredJourneys = this.journeys;
+    // } else
+    if (this.journeyType === 'active') {
       this.filteredJourneys = this.journeys.filter(journey => journey.active);
     } else if (this.journeyType === 'archived') {
       this.filteredJourneys = this.journeys.filter(journey => !journey.active);
     }
-    if (this.journeyRole === 'joined') {
-      // nothing to do, all shown journeys joined
-    } else if (this.journeyRole === 'created') {
-      this.filteredJourneys = this.filteredJourneys.filter(journey => journey.creatorID === this.userId);
-    }
+    // if (this.journeyRole === 'joined') {
+    //   // nothing to do, all shown journeys joined
+    // } else if (this.journeyRole === 'created') {
+    //   this.filteredJourneys = this.filteredJourneys.filter(journey => journey.creatorID === this.userId);
+    // }
   }
 
   viewJourney(journey: Journey) {
@@ -82,8 +83,8 @@ export class JourneyListPage implements OnInit {
   loadJourneys() {
     this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
       this.journeys = journeys;
-      this.filterJourneys();
       this.sortJourneys();
+      this.filterJourneys();
     });
   }
 
