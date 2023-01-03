@@ -135,7 +135,10 @@
             *ngIf="journey.creatorID === userId"
             style="width: 100%;"
           >
-            <ion-icon name="archive"></ion-icon>
+            <ion-icon *ngIf="journey.active; else inactive" name="lock-closed"></ion-icon>
+            <ng-template #inactive>
+              <ion-icon name="lock-open"></ion-icon>
+            </ng-template>
           </ion-button>
         </ion-col>
       </ion-row>
