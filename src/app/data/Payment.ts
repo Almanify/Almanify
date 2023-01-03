@@ -1,6 +1,7 @@
 import {DatabaseEntity} from './DatabaseEntity';
 import Timestamp = firebase.firestore.Timestamp;
 import firebase from 'firebase/compat/app';
+
 export class Payment implements DatabaseEntity {
   public id: string;
   public title: string;
@@ -21,7 +22,7 @@ export class Payment implements DatabaseEntity {
               value: number = undefined,
               currency: string = '',
               payday: Timestamp = Timestamp.fromDate(new Date()),
-              category: PaymentCategory = PaymentCategory.Other,
+              category: PaymentCategory = PaymentCategory.other,
               paymentParticipants: string[] = [],
               img: string = null) {
 
@@ -41,9 +42,10 @@ export class Payment implements DatabaseEntity {
 }
 
 export enum PaymentCategory {
-  Accommodation = 'Accommodation',
-  FoodAndDrink = 'Food&Drink',
-  Entertainment = 'Entertainment',
-  Transfer = 'Transfer',
-  Other = 'Other',
+  accommodation = 'accommodation',
+  foodAndDrink = 'Food&Drink',
+  entertainment = 'entertainment',
+  transfer = 'transfer',
+  debtRepayment = 'repayment',
+  other = 'other',
 }

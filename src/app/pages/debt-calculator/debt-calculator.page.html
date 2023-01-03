@@ -11,113 +11,105 @@
 </ion-header>
 
 <ion-content>
-  <!-- add debt form -->
-  <!--ion-card>
-    <ion-card-header>
-      <ion-card-title>Add Debt</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-label position="floating">Amount</ion-label>
-        <ion-input type="number" [(ngModel)]="debt.value"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Paid by</ion-label>
-        <ion-select [(ngModel)]="debt.payerID">
-          <ion-select-option *ngFor="let person of people; index as i" [value]="person">
-            {{ person }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Paid for</ion-label>
-        <ion-select multiple="true" [(ngModel)]="debt.involvedIDs">
-          <ion-select-option *ngFor="let person of people; index as i" [value]="person">
-            {{ person }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-button (click)="addDebt()"
-                  [disabled]="!(debt.value && debt.payerID !== undefined && debt.involvedIDs.length)">
-        Add Debt
-      </ion-button>
-    </ion-card-content>
-  </ion-card-->
+  <ion-item *ngIf="!isLoaded" class="ion-align-items-center">
+    <ion-spinner name="crescent"></ion-spinner>
+    <ion-label>Calculating debts...</ion-label>
+  </ion-item>
 
-  <!-- debts list -->
-  <!--ion-card *ngFor="let debt of debts">
-    <ion-card-header>
-      <ion-card-title>
-        {{ debt.value }} paid by {{ debt.payerID }} for
-        {{ getPeople(debt.involvedIDs) }}
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-button (click)="removeDebt(debt)">Remove Debt</ion-button>
-    </ion-card-content>
-  </ion-card-->
+  <ion-card class="ion-margin-bottom" *ngIf="isLoaded">
 
-  <!-- amount the user is owed -->
-  <ion-card class="ion-margin-bottom">
-    <ion-card-header>
-      <ion-card-subtitle>You are currently owed</ion-card-subtitle>
-      <ion-card-title>{{userIsOwed.toFixed(2)}}{{currency}}</ion-card-title>
-    </ion-card-header>
+    <!-- amount the user is owed -->
+    <div *ngIf="userIsOwed">
+      <ion-card-header>
+        <ion-card-subtitle>You are currently owed</ion-card-subtitle>
+        <ion-card-title color="success">{{ toDefaultCurrencyString(userIsOwed) }}</ion-card-title>
+      </ion-card-header>
 
-    <ion-card-content>
-      Members of the trip are still owing you {{userIsOwed}}{{currency}}. This amount may be repaid in smaller parts by
-      multiple people.
-    </ion-card-content>
+      <ion-card-content *ngIf="userIsOwed">
+        Members of the trip are still owing you {{toDefaultCurrencyString(userIsOwed) }}.
+        This amount may be repaid in smaller parts by multiple people.
+      </ion-card-content>
 
-    <ion-button [disabled]="userIsOwed === 0" fill="clear">Send Reminder</ion-button>
-    <ion-button [disabled]="userIsOwed === 0" fill="clear">Someone paid me...</ion-button>
+      <ion-button fill="clear">Send reminder</ion-button>
+      <ion-button fill="clear" (click)="insertRepaidDebt()">Someone paid me...</ion-button>
+    </div>
+
+    <!-- amount the user owes -->
+    <div *ngIf="amountsToBePaidByUser.length > 0">
+      <ion-card-header>
+        <ion-card-subtitle>You currently owe</ion-card-subtitle>
+        <ion-card-title color="danger">{{ toDefaultCurrencyString(getTotalAmountPaidByUser()) }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content *ngIf="amountsToBePaidByUser.length > 0">
+        You are still owing {{ toDefaultCurrencyString(getTotalAmountPaidByUser())}}.
+        This amount may have to be paid in smaller parts to multiple people.
+        Check the list below to see who you owe money to.
+      </ion-card-content>
+    </div>
+
+    <!-- user has nothing to pay or to be paid -->
+    <div *ngIf="amountsToBePaidByUser.length === 0 && !userIsOwed">
+      <ion-card-header>
+        <ion-card-subtitle>You are debt free</ion-card-subtitle>
+        <ion-card-title color="success">All set!</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        You are currently not owing anyone money and no one is owing you money.
+        If the journey is over, you can safely leave the group.
+      </ion-card-content>
+    </div>
   </ion-card>
 
   <!-- debts that the user is involved in -->
 
-  <ion-card>
+  <ion-card *ngIf="isLoaded">
     <ion-card-header>
       <ion-card-title>Your outstanding repayments</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-list *ngIf="amountsToBePaidByUser.length > 0">
+      <ion-list *ngIf="amountsToBePaidByUser && amountsToBePaidByUser.length > 0; else text1">
         <ion-item *ngFor="let realDebt of amountsToBePaidByUser">
-          <ion-label>
-            You owe {{ realDebt[1] }}{{currency}} to {{ realDebt[0] }}
+          <ion-label class="ion-text-wrap">
+            You
+            owe {{ toDefaultCurrencyString(realDebt[1])}}
+            to {{ resolveUserId(realDebt[0]) }}
           </ion-label>
+          <ion-button fill="clear" (click)="payDebt(realDebt[0], convertToCurrency(realDebt[1], journey.defaultCurrency))">Pay</ion-button>
         </ion-item>
       </ion-list>
-      <ion-list *ngIf="amountsToBePaidByUser.length === 0">
-        <ion-item>
-          <ion-label>
-            You don't owe anyone anything!
-          </ion-label>
-        </ion-item>
-      </ion-list>
+      <ng-template #text1>
+        <ion-label>
+          You don't owe anyone anything!
+        </ion-label>
+      </ng-template>
     </ion-card-content>
   </ion-card>
 
   <!-- debts that don't concern the user -->
   <!-- only show if the user is owner of the trip -->
 
-  <ion-card>
+  <ion-card *ngIf="isLoaded && journey.creatorID === userID">
     <ion-card-header>
       <ion-card-title>Other due payments</ion-card-title>
+      <ion-card-subtitle>These due payments are visible to you because you are the journey creator.</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <ion-list *ngIf="amountsToBePaid.size > 0">
+      <ion-list *ngIf="amountsToBePaid && amountsToBePaid.size > 0; else text2">
         <ion-item *ngFor="let realDebt of amountsToBePaid.entries()">
-          <ion-label>{{ realDebt[0].split('-')[1] }} owes
-            {{ realDebt[0].split('-')[0] }} {{ realDebt[1] }}{{currency}}</ion-label>
-        </ion-item>
-      </ion-list>
-      <ion-list *ngIf="amountsToBePaid.size === 0">
-        <ion-item>
-          <ion-label>
-            No one owes anyone anything!
+          <ion-label class="ion-text-wrap">
+            {{ resolveUserId(realDebt[0].split('-')[1]) }}
+            owes {{ resolveUserId(realDebt[0].split('-')[0]) }}
+            {{ toDefaultCurrencyString(realDebt[1]) }}
           </ion-label>
         </ion-item>
       </ion-list>
+      <ng-template #text2>
+        <ion-label>
+          No one owes anyone anything!
+        </ion-label>
+      </ng-template>
     </ion-card-content>
   </ion-card>
 

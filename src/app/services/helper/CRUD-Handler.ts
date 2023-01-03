@@ -1,11 +1,14 @@
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 import {copyAndPrepare} from './copyAndPrepare';
 import {DatabaseEntity} from '../../data/DatabaseEntity';
+import {doc, onSnapshot} from "@angular/fire/firestore";
+import {Observable} from "rxjs/internal/Observable";
 
 
 export class CrudHandler<Entity extends DatabaseEntity> {
   public collection: AngularFirestoreCollection<Entity>;
-  constructor(public firestore: AngularFirestore, path: string) {
+
+  constructor(public firestore: AngularFirestore, public path: string) {
     this.firestore = firestore;
     this.collection = firestore.collection<Entity>(path);
   }
@@ -31,9 +34,9 @@ export class CrudHandler<Entity extends DatabaseEntity> {
         if (!doc.exists) {
           return Promise.reject('No Entry found');
         }
-        const journey = doc.data();
-        journey.id = doc.id;
-        return journey;
+        const out = doc.data();
+        out.id = doc.id;
+        return out;
       })
       .catch(error => Promise.reject(error));
   }
@@ -42,6 +45,8 @@ export class CrudHandler<Entity extends DatabaseEntity> {
     await this.collection.doc(entity.id).delete();
   }
 
-
+  public getObserver(id: string): Observable<any>{
+    return this.collection.doc(id).snapshotChanges();
+  }
 
 }
