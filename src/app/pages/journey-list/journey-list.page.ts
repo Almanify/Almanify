@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {DatabaseService} from '../../services/database.service';
 import {Journey} from '../../data/Journey';
 import {AuthenticationService} from '../../services/auth.service';
-import {AlertController} from "@ionic/angular";
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-journey-list',
@@ -99,13 +99,17 @@ export class JourneyListPage implements OnInit {
     });
   }
 
+  updateJourneyStatus(journey: Journey) {
+    this.databaseService.journeyCrudHandler.update(journey);
+  }
+
   viewInviteCode(journey: Journey) {
     this.router.navigate(['/journey/' + journey.id + '/invite']);
   }
 
   async alertDelete(journey: Journey) {
     const alert = await this.alertController.create({
-      header: 'Delete journey: ' + journey.title +' and all included payments?',
+      header: 'Delete journey "' + journey.title +'" and all included payments?',
       buttons: [
         {
           text: 'Delete',
@@ -120,6 +124,48 @@ export class JourneyListPage implements OnInit {
         },
       ],
     });
+    await alert.present();
+  }
+
+  async alertArchive(journey: Journey) {
+    let alert;
+    if(journey.active) {
+      alert = await this.alertController.create({
+        header: 'Archive journey "' + journey.title + '"?',
+        buttons: [
+          {
+            text: 'Archive',
+            role: 'confirm',
+            handler: () => {
+              journey.active = false;
+              this.updateJourneyStatus(journey);
+            },
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+        ]
+      });
+    } else {
+      alert = await this.alertController.create({
+        header: 'Activate journey "' + journey.title + '"?',
+        buttons: [
+          {
+            text: 'Activate',
+            role: 'confirm',
+            handler: () => {
+              journey.active = true;
+              this.updateJourneyStatus(journey);
+            },
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+        ]
+      });
+    }
     await alert.present();
   }
 }
