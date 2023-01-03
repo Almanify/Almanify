@@ -95,15 +95,7 @@
         </ion-row-->
       <!--/ion-item-group-->
       <ion-row>
-        <ion-col size="12" *ngIf="journey.creatorID !== userId">
-          <ion-button
-            (click)="viewJourney(journey)"
-            style="width: 100%;"
-          >
-            <ion-icon name="eye"></ion-icon>
-          </ion-button>
-        </ion-col>
-        <ion-col *ngIf="journey.creatorID === userId">
+        <ion-col size="12">
           <ion-button
             (click)="viewJourney(journey)"
             style="width: 100%;"
@@ -116,7 +108,7 @@
             (click)="viewInviteCode(journey)"
             style="width: 100%;"
           >
-            <ion-icon name="scan"></ion-icon>
+            <ion-icon name="qr-code-outline"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col>
