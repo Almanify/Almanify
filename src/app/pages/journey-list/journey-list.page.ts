@@ -17,7 +17,7 @@ export class JourneyListPage implements OnInit {
 
   filteredJourneys: Journey[] = [];
 
-  journeyType = 'all';
+  journeyType = 'active';
   journeyRole = 'joined';
   databaseService: DatabaseService;
   authenticationService: AuthenticationService;

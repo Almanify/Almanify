@@ -15,25 +15,25 @@
 <ion-content>
   <!-- choose to see active, past or all journeys -->
   <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="journeyType">
-    <ion-segment-button value="all">
+    <!--ion-segment-button value="all">
       <ion-label>All</ion-label>
-    </ion-segment-button>
+    </ion-segment-button-->
     <ion-segment-button value="active">
       <ion-label>Active</ion-label>
     </ion-segment-button>
     <ion-segment-button value="archived">
-      <ion-label>Past</ion-label>
+      <ion-label>Archived</ion-label>
     </ion-segment-button>
   </ion-segment>
   <!-- choose to see created or joined journeys -->
-  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="journeyRole">
+  <!--ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="journeyRole">
     <ion-segment-button value="joined">
       <ion-label>Joined</ion-label>
     </ion-segment-button>
     <ion-segment-button value="created">
       <ion-label>Created</ion-label>
     </ion-segment-button>
-  </ion-segment>
+  </ion-segment-->
 
   <ion-card *ngFor="let journey of filteredJourneys">
     <svg width="100%" height="180px">
