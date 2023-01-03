@@ -42,7 +42,7 @@ export class PaymentDetailsPage implements OnInit {
               public photoService: PhotoService) {
     this.journey = new Journey();
     this.payment = new Payment();
-    this.isEditMode = JSON.parse(this.activatedRoute.snapshot.paramMap.get('editmode')); //TODO prüfen ob user das darf
+    this.isEditMode = JSON.parse(this.activatedRoute.snapshot.paramMap.get('editmode'));
     this.journey.id = this.activatedRoute.snapshot.paramMap.get('journeyId');
     this.payment.id = this.activatedRoute.snapshot.paramMap.get('paymentId');
     this.to = this.activatedRoute.snapshot.paramMap.get('to');

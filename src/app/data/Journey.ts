@@ -5,7 +5,7 @@ import {DatabaseEntity} from "./DatabaseEntity";
 export class Journey implements DatabaseEntity {
   public id: string;
   public title: string;
-  public defaultCurrency: string; //TODO
+  public defaultCurrency: string;
   public start: Timestamp;
   public end: Timestamp;
   public creatorID: string;

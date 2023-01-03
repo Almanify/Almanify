@@ -47,7 +47,6 @@
             {{userIdMap.get(payment.payerID) === undefined ? "loading..." : userIdMap.get(payment.payerID).userName || 'No payer'}}
           </div>
           <ng-template #payerDropdown>
-            <!--TODO loesung fuer default value-->
             <ion-select [(ngModel)]="payment.payerID"
                         placeholder="Select User" slot="end" value="{{payment.payerID}}">
               <ion-select-option *ngFor="let user of users"
