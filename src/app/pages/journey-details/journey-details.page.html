@@ -27,26 +27,33 @@
 </ion-header>
 
 <ion-content>
-  <ion-segment (ionChange)="sortPayments()" [(ngModel)]="sortBy">
-    <ion-segment-button value="payer">
-      <ion-icon name="person"></ion-icon>
-    </ion-segment-button>
-    <ion-segment-button value="payedValue">
-      <ion-icon name="cash-outline"></ion-icon>
-    </ion-segment-button>
-    <ion-segment-button value="date">
-      <ion-icon name="calendar"></ion-icon>
-    </ion-segment-button>
-  </ion-segment>
-
-  <ion-segment (ionChange)="sortPayments()" [(ngModel)]="lowToHigh">
-    <ion-segment-button value="false">
-      <ion-icon name="caret-down-outline"></ion-icon>
-    </ion-segment-button>
-    <ion-segment-button value="true">
-      <ion-icon name="caret-up-outline"></ion-icon>
-    </ion-segment-button>
-  </ion-segment>
+  <ion-row>
+    <ion-col size="9">
+      <ion-segment (ionChange)="sortPayments()" [(ngModel)]="sortBy">
+        <ion-segment-button value="payer">
+          <ion-icon name="person"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="payedValue">
+          <ion-icon name="cash-outline"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="date">
+          <ion-icon name="calendar"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-col>
+    <ion-col size="3" class="ion-text-center">
+      <ion-button size="large" fill="clear" expand="full" class="ion-no-margin" (click)="toggleSort()">
+        <span *ngIf="lowToHigh === 'false'">
+          <ion-icon name="arrow-up-outline" style="color: var(--ion-color-primary)"></ion-icon>
+          <ion-icon name="arrow-down-outline" style="color: var(--ion-color-step-650)"></ion-icon>
+        </span>
+        <span *ngIf="lowToHigh === 'true'">
+          <ion-icon name="arrow-up-outline" style="color: var(--ion-color-step-650)"></ion-icon>
+          <ion-icon name="arrow-down-outline" style="color: var(--ion-color-primary)"></ion-icon>
+        </span>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 
   <!--each accordion is in its own group so they stay open when you open another one-->
   <ion-accordion-group *ngFor="let payment of payments">
