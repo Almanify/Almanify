@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {DatabaseService} from '../../services/database.service';
 import {Journey} from '../../data/Journey';
 import {AuthenticationService} from '../../services/auth.service';
-import {AlertController} from "@ionic/angular";
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-journey-list',
@@ -99,8 +99,7 @@ export class JourneyListPage implements OnInit {
     });
   }
 
-  archiveJourney(journey: Journey) {
-    journey.active = false;
+  updateJourneyStatus(journey: Journey) {
     this.databaseService.journeyCrudHandler.update(journey);
   }
 
@@ -129,22 +128,44 @@ export class JourneyListPage implements OnInit {
   }
 
   async alertArchive(journey: Journey) {
-    const alert = await this.alertController.create({
-      header: 'Archive journey "' + journey.title + '"?',
-      buttons: [
-        {
-          text: 'Archive',
-          role: 'confirm',
-          handler: () => {
-            this.archiveJourney(journey);
+    let alert;
+    if(journey.active) {
+      alert = await this.alertController.create({
+        header: 'Archive journey "' + journey.title + '"?',
+        buttons: [
+          {
+            text: 'Archive',
+            role: 'confirm',
+            handler: () => {
+              journey.active = false;
+              this.updateJourneyStatus(journey);
+            },
           },
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-      ]
-    });
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+        ]
+      });
+    } else {
+      alert = await this.alertController.create({
+        header: 'Activate journey "' + journey.title + '"?',
+        buttons: [
+          {
+            text: 'Activate',
+            role: 'confirm',
+            handler: () => {
+              journey.active = true;
+              this.updateJourneyStatus(journey);
+            },
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+        ]
+      });
+    }
     await alert.present();
   }
 }
