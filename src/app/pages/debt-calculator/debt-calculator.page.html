@@ -4,8 +4,8 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Debt Calculator</ion-title>
-    <ion-button class="ion-margin-end" slot="end">
-      <ion-back-button defaultHref="/journeys" icon="close"></ion-back-button>
+    <ion-button slot="end" class="ion-margin-end" [routerLink]="'/journey/'+journey.id" routerDirection="back">
+      <ion-icon name="close" slot="icon-only"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>
