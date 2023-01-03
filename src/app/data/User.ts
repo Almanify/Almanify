@@ -2,7 +2,7 @@ import {DatabaseEntity} from "./DatabaseEntity";
 
 export class User implements DatabaseEntity{
    id: string;
-   userCurrency: string; //TODO
+   userCurrency: string;
    userName: string;
 
   constructor(

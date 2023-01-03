@@ -66,9 +66,6 @@ export class DebtCalculatorPage implements OnInit {
         }));
   }
 
-  /* TODO:
-   - convert all values to the same currency (USD)
-   */
 
   resolveUserId(id: string) {
     return this.people.find(person => person.id === id)?.userName ?? 'Unknown';

@@ -57,7 +57,7 @@ export class LoginPage implements OnInit {
             return;
           }
 
-          const activeJourney = journeys.find((j) => j.active);
+          const activeJourney = journeys.sort((x, y) => y.start.seconds - x.start.seconds).find(x => x.active);
           if (activeJourney) {
             this.router.navigateRoot('/journey/' + activeJourney.id);
           } else {
