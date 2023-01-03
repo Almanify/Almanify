@@ -59,6 +59,11 @@ export class JourneyDetailsPage implements OnInit {
         }));
   }
 
+  toggleSort() {
+    this.lowToHigh = this.lowToHigh === 'false' ? 'true' : 'false';
+    this.sortPayments();
+  }
+
   sortPayments() {
     switch (this.sortBy) {
       case 'payer':
