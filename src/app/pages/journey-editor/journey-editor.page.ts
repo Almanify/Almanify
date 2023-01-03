@@ -33,6 +33,11 @@ export class JourneyEditorPage implements OnInit {
       this.isEditMode = true;
       this.journey.id = id;
       this.databaseService.journeyCrudHandler.read(this.journey).then(journey => {
+        // check if user is allowed to edit
+        if (this.journey.creatorID !== this.authService.getUserId) {
+          this.navCtrl.navigateBack('/journey/' + this.journey.id);
+        }
+
         this.journey = journey;
         this.getParticipants(this.journey);
       });
