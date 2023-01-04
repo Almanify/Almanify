@@ -6,9 +6,10 @@ import {Journey} from '../../data/Journey';
 import {DatabaseService} from '../../services/database.service';
 import {AuthenticationService} from '../../services/auth.service';
 import firebase from 'firebase/compat/app';
-import Timestamp = firebase.firestore.Timestamp;
 import {ActionSheetController, AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
-import {currencies, formatCurrency, convertFromCurrency} from '../../services/helper/currencies';
+import {convertFromCurrency, currencies, formatCurrency} from '../../services/helper/currencies';
+import {PhotoService} from '../../services/photo.service';
+import Timestamp = firebase.firestore.Timestamp;
 
 @Component({
   selector: 'app-payment-details',
@@ -27,18 +28,25 @@ export class PaymentDetailsPage implements OnInit {
   formatCurrency = formatCurrency;
   convertFromCurrency = convertFromCurrency;
 
+  // only used for debt payments
+  to: string = undefined;
+  amount: number = undefined;
+
   constructor(public navCtrl: NavController,
               public outlet: IonRouterOutlet,
               private router: Router, private activatedRoute: ActivatedRoute,
               private databaseService: DatabaseService,
               public authService: AuthenticationService,
               private actionSheetCtrl: ActionSheetController,
-              private alertController: AlertController) {
+              private alertController: AlertController,
+              public photoService: PhotoService) {
     this.journey = new Journey();
     this.payment = new Payment();
-    this.isEditMode = JSON.parse(this.activatedRoute.snapshot.paramMap.get('editmode')); //TODO prüfen ob user das darf
+    this.isEditMode = JSON.parse(this.activatedRoute.snapshot.paramMap.get('editmode'));
     this.journey.id = this.activatedRoute.snapshot.paramMap.get('journeyId');
     this.payment.id = this.activatedRoute.snapshot.paramMap.get('paymentId');
+    this.to = this.activatedRoute.snapshot.paramMap.get('to');
+    this.amount = Number(this.activatedRoute.snapshot.paramMap.get('amount') ?? 0);
     this.databaseService.journeyCrudHandler.read(this.journey).then(
       (journey) => {
         this.journey = journey;
@@ -47,17 +55,19 @@ export class PaymentDetailsPage implements OnInit {
           this.databaseService.paymentCrudHandler.read(this.payment).then((payment) => {
             this.payment = payment;
           });
-          this.getJourneyParticipants(journey);
         } else {
+          const participants = this.to ? [this.to] : [];
           //new payment
           this.payment = new Payment(
             null,
-            '',
+            this.to ? 'Debt Payment' : '',
             this.authService.getUserId,
             this.journey.id,
-            undefined,
+            this.amount,
             this.journey.defaultCurrency,
-            Timestamp.fromDate(new Date()));
+            Timestamp.fromDate(new Date()),
+            this.to ? PaymentCategory.debtRepayment : undefined,
+            participants);
         }
         this.getJourneyParticipants(this.journey);
       });
@@ -111,13 +121,14 @@ export class PaymentDetailsPage implements OnInit {
     }
   }
 
-  leave(){
-    if(!this.isEditMode){
+  leave() {
+    if (!this.isEditMode) {
       this.back();
       return;
     }
     this.alertUnsaved();
   }
+
   async alertUnsaved() {
 
     const alert = await this.alertController.create({
@@ -201,6 +212,8 @@ export class PaymentDetailsPage implements OnInit {
 
 
   takePic() {
-    //TODO
+    this.photoService.addNewToGallery();
   }
+
+
 }

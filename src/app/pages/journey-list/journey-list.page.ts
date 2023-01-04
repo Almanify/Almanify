@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {DatabaseService} from '../../services/database.service';
 import {Journey} from '../../data/Journey';
 import {AuthenticationService} from '../../services/auth.service';
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-journey-list',
@@ -16,14 +17,15 @@ export class JourneyListPage implements OnInit {
 
   filteredJourneys: Journey[] = [];
 
-  journeyType = 'all';
+  journeyType = 'active';
   journeyRole = 'joined';
   databaseService: DatabaseService;
   authenticationService: AuthenticationService;
 
   constructor(private router: Router,
               private db: DatabaseService,
-              private as: AuthenticationService) {
+              private as: AuthenticationService,
+              private alertController: AlertController) {
     this.databaseService = db;
     this.authenticationService = as;
   }
@@ -44,25 +46,26 @@ export class JourneyListPage implements OnInit {
   }
 
   filterJourneys() {
-    if (this.journeyType === 'all') {
-      this.filteredJourneys = this.journeys;
-    } else if (this.journeyType === 'active') {
+    // if (this.journeyType === 'all') {
+    //   this.filteredJourneys = this.journeys;
+    // } else
+    if (this.journeyType === 'active') {
       this.filteredJourneys = this.journeys.filter(journey => journey.active);
     } else if (this.journeyType === 'archived') {
       this.filteredJourneys = this.journeys.filter(journey => !journey.active);
     }
-    if (this.journeyRole === 'joined') {
-      // nothing to do, all shown journeys joined
-    } else if (this.journeyRole === 'created') {
-      this.filteredJourneys = this.filteredJourneys.filter(journey => journey.creatorID === this.userId);
-    }
+    // if (this.journeyRole === 'joined') {
+    //   // nothing to do, all shown journeys joined
+    // } else if (this.journeyRole === 'created') {
+    //   this.filteredJourneys = this.filteredJourneys.filter(journey => journey.creatorID === this.userId);
+    // }
   }
 
-  viewJourney(journey) {
+  viewJourney(journey: Journey) {
     this.router.navigate(['/journey/' + journey.id]);
   }
 
-  editJourney(journey) {
+  editJourney(journey: Journey) {
     this.router.navigate(['/journey-editor/' + journey.id]);
   }
 
@@ -80,17 +83,90 @@ export class JourneyListPage implements OnInit {
   loadJourneys() {
     this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
       this.journeys = journeys;
+      this.sortJourneys();
       this.filterJourneys();
     });
   }
 
-  deleteJourney(journey) {
+  sortJourneys(){
+    this.journeys.sort((x, y) => y.start.seconds - x.start.seconds);
+  }
+
+  deleteJourney(journey: Journey) {
+    this.databaseService.getJourneyPayments(journey.id)
+      .then(payments => payments.forEach(payment => this.databaseService.paymentCrudHandler.delete(payment)));
     this.databaseService.journeyCrudHandler.delete(journey).then(() => {
       this.loadJourneys();
     });
   }
 
-  viewInviteCode(journey) {
-    this.router.navigate(['/journey/'+ journey.id + '/invite']);
+  updateJourneyStatus(journey: Journey) {
+    this.databaseService.journeyCrudHandler.update(journey);
+  }
+
+  viewInviteCode(journey: Journey) {
+    this.router.navigate(['/journey/' + journey.id + '/invite']);
+  }
+
+  async alertDelete(journey: Journey) {
+    const alert = await this.alertController.create({
+      header: 'Delete journey "' + journey.title +'" and all included payments?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'confirm',
+          handler: () => {
+            this.deleteJourney(journey);
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  async alertArchive(journey: Journey) {
+    let alert;
+    if(journey.active) {
+      alert = await this.alertController.create({
+        header: 'Archive journey "' + journey.title + '"?',
+        buttons: [
+          {
+            text: 'Archive',
+            role: 'confirm',
+            handler: () => {
+              journey.active = false;
+              this.updateJourneyStatus(journey);
+            },
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+        ]
+      });
+    } else {
+      alert = await this.alertController.create({
+        header: 'Activate journey "' + journey.title + '"?',
+        buttons: [
+          {
+            text: 'Activate',
+            role: 'confirm',
+            handler: () => {
+              journey.active = true;
+              this.updateJourneyStatus(journey);
+            },
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+        ]
+      });
+    }
+    await alert.present();
   }
 }

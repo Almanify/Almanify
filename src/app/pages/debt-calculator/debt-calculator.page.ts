@@ -1,5 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+import {Journey} from '../../data/Journey';
+import {DatabaseService} from '../../services/database.service';
+import {Payment} from '../../data/Payment';
+import {User} from '../../data/User';
+import {AuthenticationService} from '../../services/auth.service';
+import {convertFromCurrency, convertToCurrency, formatCurrency} from '../../services/helper/currencies';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-debt-calculator',
@@ -8,22 +15,13 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class DebtCalculatorPage implements OnInit {
 
-  userID: string = undefined;
+  userID = '';
   userIsOwed = 0;
-  currency = '€';
-  people: Array<string> = undefined;
-
-  debt: {
-    value: number;
-    payerID: number;
-    involvedIDs: Array<number>;
-  } = undefined;
-
-  debts: Array<{
-    value: number;
-    payerID: number;
-    involvedIDs: Array<number>;
-  }> = undefined;
+  people: Array<User> = [];
+  journey: Journey;
+  payments: Payment[];
+  convertToCurrency = convertToCurrency;
+  isLoaded = false;
 
   /*
    * we store the debts as a map of the form, where person1 is the person who paid and person2 is the person who owes
@@ -34,95 +32,85 @@ export class DebtCalculatorPage implements OnInit {
   amountsToBePaid: Map<string, number> = undefined;
   amountsToBePaidByUser: Array<[string, number]> = undefined;
 
-  constructor(route: ActivatedRoute) {
-    this.userID = 'Bob';
-    route.queryParams.subscribe(params => {
-      if (!params) {
-        this.debts = [];
-        this.people = [
-          'Bob',
-          'Sally',
-          'John',
-          'Jane',
-          'Mike',
-          'Günter',
-          'Hans'
-        ];
-        return;
-      }
-
-      if (params.payments) {
-        this.debts = JSON.parse(params.payments);
-      } else {
-        this.debts = [];
-      }
-
-      if (params.people) {
-        this.people = JSON.parse(params.people);
-      } else {
-        this.people = [
-          'Bob',
-          'Sally',
-          'John',
-          'Jane',
-          'Mike',
-          'Günter',
-          'Hans'
-        ];
-      }
-
-      this.updatePeopleOwages();
-    });
-
-
-    this.debt = {
-      value: 0,
-      payerID: undefined,
-      involvedIDs: []
-    };
+  constructor(route: ActivatedRoute,
+              public databaseService: DatabaseService,
+              public authenticationService: AuthenticationService,
+              public navCtrl: NavController) {
+    this.journey = new Journey();
+    this.journey.id = route.snapshot.paramMap.get('id');
 
     this.amountsToBePaid = new Map();
+    this.amountsToBePaidByUser = [];
   }
 
-  /* TODO:
-   - convert all values to the same currency (USD)
-   */
-
-  addDebt() {
-    this.debts.push(this.debt);
-    this.debt = {
-      value: 0,
-      payerID: undefined,
-      involvedIDs: []
-    };
-    this.updatePeopleOwages();
+  async loadJourney() {
+    await this.databaseService.journeyCrudHandler.readByID(this.journey.id).then(async journey => {
+      this.journey = journey;
+      await this.loadParticipants(journey).then(() => this.loadPayments(journey));
+    });
   }
 
-  removeDebt(debt) {
-    this.debts.splice(this.debts.indexOf(debt), 1);
-    this.updatePeopleOwages();
+  async loadPayments(journey: Journey) {
+    await this.databaseService.getJourneyPayments(journey.id).then(async payments => {
+      this.payments = payments;
+      await this.updateDebts();
+    });
   }
 
-  getPeople(indexArr) {
-    return indexArr.join(', ');
+  async loadParticipants(journey: Journey) {
+    await journey.journeyParticipants
+      .forEach(participant => this.databaseService.userCrudHandler
+        .readByID(participant)
+        .then((u) => {
+          this.people.push(u);
+        }));
   }
 
-  ngOnInit(): void {
+
+  resolveUserId(id: string) {
+    return this.people.find(person => person.id === id)?.userName ?? 'Unknown';
   }
 
-  private updatePeopleOwages() {
+  toDefaultCurrencyString(amount: number) {
+    return formatCurrency(convertToCurrency(amount, this.journey.defaultCurrency), this.journey.defaultCurrency);
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.userID = this.authenticationService.getUserId;
+    this.loadJourney().then(() => this.isLoaded = true);
+  }
+
+  getTotalAmountPaidByUser() {
+    let total = 0;
+    this.amountsToBePaidByUser.forEach((value) => {
+      total += value[1];
+    });
+    return total;
+  }
+
+  payDebt(person: string, amount: number) {
+    this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + person + '/' + amount);
+  }
+
+  insertRepaidDebt() {
+    this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + this.userID + '/' + 0);
+  }
+
+  private updateDebts() {
     const basicAmounts = new Map();
 
-    this.debts.forEach(debt => {
-      const amountPerPerson = debt.value / debt.involvedIDs.length;
-      debt.involvedIDs.forEach(debtor => {
+    this.payments.forEach(payment => {
+      const amountInUSD = convertFromCurrency(payment.value, payment.currency);
+      const amountPerPerson = amountInUSD / payment.paymentParticipants.length;
+
+      payment.paymentParticipants.forEach(debtor => {
 
         // debtor is the same as the person who paid
-        if (debt.payerID === debtor) {
+        if (payment.payerID === debtor) {
           return;
         }
 
-        const key = debt.payerID + '-' + debtor;
+        const key = payment.payerID + '-' + debtor;
 
         const existingAmount = basicAmounts.get(key) || 0;
         basicAmounts.set(key, existingAmount + amountPerPerson);
@@ -130,26 +118,6 @@ export class DebtCalculatorPage implements OnInit {
     });
 
     console.log(basicAmounts.entries());
-
-    // remove bidirectional debts
-    /*
-    const newAmountsToBePaid = new Map();
-    while (basicAmounts.size > 0) {
-      const key = basicAmounts.keys().next().value;
-      const amount = basicAmounts.get(key);
-
-      const reverseKey = key.split('-').reverse().join('-');
-      const reverseAmount = basicAmounts.get(reverseKey) || 0;
-      if (amount > reverseAmount) {
-        newAmountsToBePaid.set(key, amount - reverseAmount);
-      } else if (amount < reverseAmount) {
-        newAmountsToBePaid.set(reverseKey, reverseAmount - amount);
-      }
-
-      basicAmounts.delete(key);
-      basicAmounts.delete(reverseKey);
-    }
-     */
 
     // map person indices to amount to be paid or received
     const moneyOffset = new Map();
@@ -169,8 +137,10 @@ export class DebtCalculatorPage implements OnInit {
     // calculate the final amounts to be paid
     const finalAmountsToBePaid = new Map();
     while (sortedMoneyOffset.length > 0) {
+      // eslint-disable-next-line prefer-const
       let [person1, amount1] = sortedMoneyOffset.shift();
       while (amount1 > 0 && sortedMoneyOffset.length > 0) {
+        // eslint-disable-next-line prefer-const
         let [person2, amount2] = sortedMoneyOffset.pop(); // highest debt
 
         const amountToBePaid = Math.min(amount1, -amount2);
@@ -191,7 +161,8 @@ export class DebtCalculatorPage implements OnInit {
       finalAmountsToBePaid.set(key, Math.round(value * 100) / 100);
     });
 
-    this.amountsToBePaid = finalAmountsToBePaid;
+    // we filter due payments below 10 cents
+    this.amountsToBePaid = new Map([...finalAmountsToBePaid.entries()].filter(([_, amount]) => amount > 0.1));
 
     // filter out the debts that are not relevant to the user
 

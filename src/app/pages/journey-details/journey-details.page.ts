@@ -59,6 +59,11 @@ export class JourneyDetailsPage implements OnInit {
         }));
   }
 
+  toggleSort() {
+    this.lowToHigh = this.lowToHigh === 'false' ? 'true' : 'false';
+    this.sortPayments();
+  }
+
   sortPayments() {
     switch (this.sortBy) {
       case 'payer':
@@ -102,24 +107,23 @@ export class JourneyDetailsPage implements OnInit {
     this.navCtrl.navigateRoot('root');
     this.router.navigate(['/payment-details/' + true + '/' + '/' + this.journey.id + '/' + payment.id]);
   }
-
-  //TODO for Hendrik:
   viewDebts() {
-    this.navCtrl.navigateRoot('root');
-    this.router.navigate(['/debts/' + this.journey.id]);
+    this.navCtrl.navigateForward(['/debts/' + this.journey.id]);
   }
 
 
   getCategoryIcon(category: PaymentCategory) {
     switch (category) {
-      case PaymentCategory.Accommodation:
+      case PaymentCategory.accommodation:
         return 'bed';
-      case PaymentCategory.Entertainment:
+      case PaymentCategory.entertainment:
         return 'game-controller';
-      case PaymentCategory.FoodAndDrink:
+      case PaymentCategory.foodAndDrink:
         return 'fast-food';
-      case PaymentCategory.Transfer:
+      case PaymentCategory.transfer:
         return 'airplane';
+      case PaymentCategory.debtRepayment:
+        return 'cash';
       default:
         return 'infinite';
     }
