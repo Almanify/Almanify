@@ -15,7 +15,7 @@ export class Journey implements DatabaseEntity {
 
   constructor(
     id: string = '',
-    name: string = '',
+    title: string = '',
     creatorID: string = '',
     inviteCode: string = '',
     start: Timestamp = Timestamp.fromDate(new Date()),
@@ -25,7 +25,7 @@ export class Journey implements DatabaseEntity {
     active: boolean = true) {
 
     this.id = id;
-    this.title = name;
+    this.title = title;
     this.defaultCurrency = defaultCurrency;
     this.journeyParticipants = journeyParticipants;
     this.creatorID = creatorID;
