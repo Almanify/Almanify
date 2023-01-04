@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons style="width: 100%">
+      <ion-menu-button slot="start"></ion-menu-button>
+      <ion-title>Options</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="align-content: center;">
+
+  <ion-grid align="center" [fixed]="true">
+
+    <ion-card>
+      <ion-card-content>
+        <ion-card-title style="text-align: center;">General Information</ion-card-title>
+
+        <!-- Name Field -->
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-item>
+              <ion-label position="stacked">Name</ion-label>
+
+              <ion-input type="text" maxlength="30" [(ngModel)]="user.userName" disabled={{buttonDisabled}}></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <!-- Currency Field w/ "currencies"-service integration-->
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-sm="12" size-md="8">
+            <ion-list>
+              <ion-item>
+                <ion-label position="stacked">Currency</ion-label>
+                <ion-select [(ngModel)]="user.userCurrency" disabled={{buttonDisabled}}>
+                  <ion-select-option *ngFor="let currency of currencies"
+                                      [value]="currency.code">{{currency.name}}</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+
+        <!-- Switchable Button dependent on currently active mode -->
+        <ion-row class="ion-justify-content-center">
+          <!-- "Edit"-Button in Normal-Mode -->
+          <ion-col size="12" *ngIf="!inEditMode">
+            <ion-button class="round ion-margin" expand="block" (click)="changeEditMode()">
+              <ion-text>Edit</ion-text>
+              <ion-icon slot="end" name="create"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <!-- "Cancel" and "Save"-Button in Edit-Mode -->
+          <ion-col size="6" *ngIf="inEditMode">
+            <ion-button class="round ion-margin" expand="block" (click)="save()">
+              <ion-text>Save</ion-text>
+              <ion-icon slot="end" name="save"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="6" *ngIf="inEditMode">
+            <ion-button class="round ion-margin" expand="block" (click)="changeEditMode()">
+              <ion-text>Cancel</ion-text>
+              <ion-icon slot="end" name="exit"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+
+</ion-content>

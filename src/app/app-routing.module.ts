@@ -92,6 +92,10 @@ const routes: Routes = [
     path: 'journey/:id/invite',
     loadChildren: () => import('./pages/invite-modal/invite-modal.module').then( m => m.InviteModalModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'options',
+    loadChildren: () => import('./pages/options/options.module').then( m => m.OptionsPageModule)
   }
 ];
 
