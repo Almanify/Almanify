@@ -131,3 +131,7 @@
 \setlength{\arrayrulewidth}{0.7mm}
 
 \makeatother
+
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
