@@ -71,8 +71,8 @@ export class LoginPage implements OnInit {
 
   signUp(email: IonInput, password: IonInput, username: IonInput) {
     const user = new User('', username.value as string);
-    this.signUpService.createUser(user, email.value as string, password.value as string);
-    this.isLoginMode = true;
+    this.signUpService.createUser(user, email.value as string, password.value as string)
+      .then(_ => this.isLoginMode = true).catch((error) => window.alert(error.message));
   }
 
   rememberMeToggle($event: CustomEvent) {
