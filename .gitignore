@@ -31,3 +31,15 @@ npm-debug.log*
 /**/plugins
 /**/www
 /**/.idea
+
+# latex files
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.toc
+*.out
