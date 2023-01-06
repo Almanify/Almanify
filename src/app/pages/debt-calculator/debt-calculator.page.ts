@@ -49,8 +49,8 @@ export class DebtCalculatorPage implements OnInit {
   async loadJourney() {
     await this.databaseService.journeyCrudHandler.readByID(this.journey.id).then(async journey => {
       this.journey = journey;
-      this.selectedCurrency = this.journey.defaultCurrency;
       await this.loadParticipants(journey).then(() => this.loadPayments(journey));
+      await this.getUserCurrency();
     });
   }
 
@@ -68,6 +68,12 @@ export class DebtCalculatorPage implements OnInit {
         .then((u) => {
           this.people.push(u);
         }));
+  }
+
+  async getUserCurrency() {
+    await this.databaseService.userCrudHandler.readByID(this.userID).then(user => {
+      this.selectedCurrency = user.userCurrency;
+    });
   }
 
 
