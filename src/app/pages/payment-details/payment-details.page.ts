@@ -31,6 +31,7 @@ export class PaymentDetailsPage implements OnInit {
   // only used for debt payments
   to: string = undefined;
   amount: number = undefined;
+  currency: string = undefined;
 
   constructor(public navCtrl: NavController,
               public outlet: IonRouterOutlet,
@@ -47,6 +48,7 @@ export class PaymentDetailsPage implements OnInit {
     this.payment.id = this.activatedRoute.snapshot.paramMap.get('paymentId');
     this.to = this.activatedRoute.snapshot.paramMap.get('to');
     this.amount = Number(this.activatedRoute.snapshot.paramMap.get('amount') ?? 0);
+    this.currency = this.activatedRoute.snapshot.paramMap.get('currency');
     this.databaseService.journeyCrudHandler.read(this.journey).then(
       (journey) => {
         this.journey = journey;
@@ -64,7 +66,7 @@ export class PaymentDetailsPage implements OnInit {
             this.authService.getUserId,
             this.journey.id,
             this.amount,
-            this.journey.defaultCurrency,
+            this.currency || this.journey.defaultCurrency,
             Timestamp.fromDate(new Date()),
             this.to ? PaymentCategory.debtRepayment : undefined,
             participants);
