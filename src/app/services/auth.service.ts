@@ -8,6 +8,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {BehaviorSubject, Observable, Observer} from 'rxjs';
+import firebase from 'firebase/compat/app';
 
 
 @Injectable({
@@ -51,9 +52,11 @@ export class AuthenticationService {
   }
 
 
-  signIn(email: string, password: string, rememberMe: boolean) {
-    return this.angularFireAuth.setPersistence(rememberMe ? 'local' : 'session')
-      .then(() => this.angularFireAuth.signInWithEmailAndPassword(email, password));
+  async signIn(email: string, password: string, rememberMe: boolean) {
+    await this.angularFireAuth.setPersistence(rememberMe
+      ? firebase.auth.Auth.Persistence.LOCAL
+      : firebase.auth.Auth.Persistence.SESSION);
+    return await this.angularFireAuth.signInWithEmailAndPassword(email, password);
   }
 
 

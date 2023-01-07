@@ -39,6 +39,10 @@ export class LoginPage implements OnInit {
     if (this.command === 'logout') {
       this.logOut();
     }
+    // check if user is already logged in
+    if (this.authService.isAuthenticated.value) {
+      this.navigateLoggedInUser();
+    }
   }
 
   //copy from qapp
@@ -49,23 +53,24 @@ export class LoginPage implements OnInit {
   logInWithString(email: string, password: string) {
     console.log('Remember me: ' + this.rememberMe);
     this.authService.signIn(email, password, this.rememberMe)
-      .then(async () => {
-        await this.databaseService.getJoinedJourneys(this.authService.getUserId).then((journeys) => {
+      .then(async () => this.navigateLoggedInUser())
+      .catch((error) => window.alert(error.message));
+  }
 
-          if (!journeys || journeys.length === 0) {
-            this.router.navigateRoot('/home');
-            return;
-          }
+  navigateLoggedInUser() {
+    this.databaseService.getJoinedJourneys(this.authService.getUserId).then((journeys) => {
 
-          const activeJourney = journeys.sort((x, y) => y.start.seconds - x.start.seconds).find(x => x.active);
-          if (activeJourney) {
-            this.router.navigateRoot('/journey/' + activeJourney.id);
-          } else {
-            this.router.navigateRoot('/journeys');
-          }
-        });
-      }).catch((error) => {
-      window.alert(error.message);
+      if (!journeys || journeys.length === 0) {
+        this.router.navigateRoot('/home');
+        return;
+      }
+
+      const activeJourney = journeys.sort((x, y) => y.start.seconds - x.start.seconds).find(x => x.active);
+      if (activeJourney) {
+        this.router.navigateRoot('/journey/' + activeJourney.id);
+      } else {
+        this.router.navigateRoot('/journeys');
+      }
     });
   }
 
