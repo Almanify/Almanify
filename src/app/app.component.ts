@@ -36,6 +36,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.getObservable().subscribe(value => {
+      console.log(value);
+      this.databaseService.userCrudHandler.readByID(value).then(u => this.userName = u.userName);
+      this.appPages = this.authService.isAuthenticated.getValue() ? this.unblockedPages : this.blockedPages;
+    });
+
     console.log('app component init');
     this.authService.isAuthenticated.toPromise() // this doesn't seem to work
       .then((isAuthenticated) => this.appPages = isAuthenticated ? this.unblockedPages : this.blockedPages);
@@ -44,12 +50,6 @@ export class AppComponent implements OnInit {
 
     this.databaseService.userCrudHandler.readByID(this.authService.getUserId).then(u => {
       this.userName = u.userName;
-    });
-
-    this.authService.getObservable().subscribe(value => {
-      console.log(value);
-      this.databaseService.userCrudHandler.readByID(value).then(u => this.userName = u.userName);
-      this.appPages = this.authService.isAuthenticated.getValue() ? this.unblockedPages : this.blockedPages;
     });
   }
 
