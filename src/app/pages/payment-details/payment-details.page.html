@@ -157,10 +157,22 @@
           <ion-icon name="add"></ion-icon>
           <ion-icon name="camera-outline"></ion-icon>
         </ion-button>
-        <ion-img *ngIf="payment.img !== null"
+        <ion-img *ngIf="payment.img != null"
                  src="{{payment.img}}"></ion-img>
       </ion-list>
-      <ion-input type="file" (change)="saveEvent($event)"></ion-input>
+      <ion-row class="ion-justify-content-center" *ngIf="payment.img != null && isEditMode">
+        <ion-col>
+          <ion-button (click)="alertDelete(payment)" expand="block" fill="outline" color="danger">Delete Picture
+            <ion-icon slot="end" name="trash"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <!-- File-input (if no thumbnail has been uploaded) -->
+      <ion-row class="ion-justify-content-center" *ngIf="payment.img == null && isEditMode">
+        <ion-col>
+          <ion-input type="file" (change)="saveEvent($event)"></ion-input>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
 
   </ion-card>

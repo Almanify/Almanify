@@ -118,9 +118,11 @@ export class PaymentDetailsPage implements OnInit {
   }
 
   async save() {
+    //upload picture
     if (this.picEvent!=null) {
       await this.photoService.uploadPic(this.picEvent, this.authService.getUserId).then(value => this.downloadURL=value);
     }
+    //set downloadURL in journey to reference storage-image
     if (this.downloadURL!=undefined) {
       await this.downloadURL.toPromise().then(value => this.payment.img = value);
     }
@@ -159,6 +161,26 @@ export class PaymentDetailsPage implements OnInit {
           handler: () => {
             this.back();
           },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  async alertDelete(payment: Payment) {
+    const alert = await this.alertController.create({
+      header: 'Are you sure you want to delete the picture for ' + payment.title + '?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'confirm',
+          handler: () => {
+            this.deletePic();
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
         },
       ],
     });
@@ -229,6 +251,12 @@ export class PaymentDetailsPage implements OnInit {
 
   async saveEvent(event) {
     this.picEvent = event;
+  }
+
+  async deletePic() {
+    this.photoService.deletePic(this.payment.img);
+    this.payment.img = null;
+    this.save();
   }
 
 }
