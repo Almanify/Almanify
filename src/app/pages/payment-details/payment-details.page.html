@@ -152,7 +152,7 @@
         </ion-item-group>
 
         <!--Picture of the bill TODO: set img etc-->
-        <ion-button (click)="takePic()" *ngIf="isEditMode && (payment.img === null)" expand="block" fill="outline"
+        <ion-button type="file" (change)="saveEvent($event)" (click)="takePic()" *ngIf="isEditMode && (payment.img === null)" expand="block" fill="outline"
                     size="large">
           <ion-icon name="add"></ion-icon>
           <ion-icon name="camera-outline"></ion-icon>
@@ -160,7 +160,8 @@
         <ion-img *ngIf="!isEditMode && payment.img !== null"
                  src="{{payment.img}}"></ion-img>
       </ion-list>
-
+      <ion-input type="file" (change)="saveEvent($event)"></ion-input>
+      <ion-button type="file" expand="block" (click)="uploadPicture()">Bild hochladen</ion-button>
     </ion-card-content>
 
   </ion-card>

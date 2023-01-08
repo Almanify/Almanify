@@ -9,6 +9,7 @@ import firebase from 'firebase/compat/app';
 import {ActionSheetController, AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 import {convertFromCurrency, currencies, formatCurrency} from '../../services/helper/currencies';
 import {PhotoService} from '../../services/photo.service';
+import { Observable } from 'rxjs';
 import Timestamp = firebase.firestore.Timestamp;
 
 @Component({
@@ -32,6 +33,9 @@ export class PaymentDetailsPage implements OnInit {
   to: string = undefined;
   amount: number = undefined;
   currency: string = undefined;
+
+  picEvent: any;
+  downloadURL: Observable<string>;
 
   constructor(public navCtrl: NavController,
               public outlet: IonRouterOutlet,
@@ -113,7 +117,8 @@ export class PaymentDetailsPage implements OnInit {
     this.isEditMode = !this.isEditMode;
   }
 
-  save() {
+  async save() {
+    if (this.downloadURL!=undefined) await this.downloadURL.toPromise().then(value => this.payment.img = value);
     if (this.payment.id === null) {
       //new payment
       this.databaseService.paymentCrudHandler.createAndGetID(this.payment).then(id => this.payment.id = id);
@@ -217,5 +222,12 @@ export class PaymentDetailsPage implements OnInit {
     this.photoService.addNewToGallery();
   }
 
+  async saveEvent(event) {
+    this.picEvent = event;
+  }
+
+  async uploadPicture() {
+    await this.photoService.uploadPic(this.picEvent, this.userId).then(value => this.downloadURL=value);
+  }
 
 }

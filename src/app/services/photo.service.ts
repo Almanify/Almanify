@@ -1,17 +1,22 @@
 //source https://ionicframework.com/docs/angular/your-first-app/taking-photos
 //source https://ionicframework.com/docs/angular/your-first-app/saving-photos
 import {Injectable} from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {Camera, CameraResultType, CameraSource, Photo} from '@capacitor/camera';
 import {Filesystem, Directory} from '@capacitor/filesystem';
 import {Preferences} from '@capacitor/preferences';
 import {save} from "ionicons/icons";
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PhotoService {
 
-  constructor() {
+  downloadURL: Observable<string>;
+
+  constructor(public firestorage: AngularFireStorage) {
   }
 
   public async addNewToGallery() {
@@ -36,6 +41,26 @@ export class PhotoService {
       directory: Directory.Data
     });
     //TODO erweitern um speichern in cloud
+  }
+
+  uploadPic(event, folder_id:string): Promise<Observable<string>> {
+    console.log(event.target);
+    const file = event.target.files[0];
+    const filePath = folder_id + "/";
+    
+    let fileref = this.firestorage.ref(filePath + event.target.files[0].name);
+    const task = this.firestorage.upload(filePath + event.target.files[0].name, file);
+
+    var promise = new Promise<Observable<string>>((resolve, reject) => {
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          this.downloadURL = fileref.getDownloadURL();
+          resolve(this.downloadURL);
+        })
+      ).subscribe();
+    });
+
+    return promise;
   }
 
   private async readAsBase64(photo: Photo) {
