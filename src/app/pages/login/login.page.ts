@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {IonInput} from '@ionic/angular';
+import {AlertController, IonInput, LoadingController} from '@ionic/angular';
 import {AuthenticationService} from '../../services/auth.service';
 import {SignUPService} from '../../services/sign-up.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -29,36 +29,52 @@ export class LoginPage implements OnInit {
               public authService: AuthenticationService,
               public signUpService: SignUPService,
               public formBuilder: FormBuilder,
-              public databaseService: DatabaseService) {
+              public databaseService: DatabaseService,
+              public loadingController: LoadingController,
+              public alertController: AlertController) {
     this.prepareFormValidation();
     this.router = router;
   }
 
   ngOnInit() {
     this.command = this.activatedRoute.snapshot.paramMap.get('command');
-    if (this.command === 'logout') {
-      this.logOut();
-    }
-    // check if user is already logged in
-    if (this.authService.isAuthenticated.value) {
-      this.navigateLoggedInUser();
-    }
+    //if (this.command === 'logout') {
+    //  this.logOut();
+    //}
+
+    // upon login registered in auth, the user is redirected to the home page
+    // this can happen...
+    // - when the user is already logged in and opens the app
+    // - when the user successfully logs in
+    this.authService.expectUser().then((userId) => this.navigateLoggedInUser(userId));
   }
 
   //copy from qapp
-  logIn(email: IonInput, password: IonInput) {
-    this.logInWithString(email.value as string, password.value as string);
+  async logIn(email: IonInput, password: IonInput) {
+    await this.logInWithString(email.value as string, password.value as string);
   }
 
-  logInWithString(email: string, password: string) {
+  async logInWithString(email: string, password: string) {
+    const loading = await this.loadingController.create({
+      message: 'Logging you in...'
+    });
+    await loading.present();
     console.log('Remember me: ' + this.rememberMe);
     this.authService.signIn(email, password, this.rememberMe)
-      .then(async () => this.navigateLoggedInUser())
-      .catch((error) => window.alert(error.message));
+      .then(async (res) => {
+        await this.navigateLoggedInUser(res.user.uid);
+        await loading.dismiss();
+      })
+      .catch((error) =>
+        this.alertController.create({
+          header: 'Login failed',
+          message: error.message,
+          buttons: ['OK']
+        }).then(alert => loading.dismiss().then(() => alert.present())));
   }
 
-  navigateLoggedInUser() {
-    this.databaseService.getJoinedJourneys(this.authService.getUserId).then((journeys) => {
+  async navigateLoggedInUser(userId?: string) {
+    await this.databaseService.getJoinedJourneys(userId ?? await this.authService.expectUser()).then((journeys) => {
 
       if (!journeys || journeys.length === 0) {
         this.router.navigateRoot('/home');
@@ -71,29 +87,23 @@ export class LoginPage implements OnInit {
       } else {
         this.router.navigateRoot('/journeys');
       }
-    });
+    }).catch((error) =>
+      this.alertController.create({
+        header: 'Error while loading journeys',
+        message: error.message,
+        buttons: ['OK']
+      }).then(alert => alert.present()));
   }
 
   signUp(email: IonInput, password: IonInput, username: IonInput) {
     const user = new User('', username.value as string);
     this.signUpService.createUser(user, email.value as string, password.value as string)
-      .then(_ => this.isLoginMode = true).catch((error) => window.alert(error.message));
+      .then(_ => this.isLoginMode = true)
+      .catch((error) => window.alert(error.message));
   }
 
   rememberMeToggle($event: CustomEvent) {
     this.rememberMe = $event.detail.checked;
-  }
-
-  logOut() {
-    this.authService.signOut()
-      .then(async () => {
-        await this.router.navigateRoot('/login/login');
-        // reload
-        window.location.reload();
-
-      }).catch((error) => {
-      window.alert(error.message);
-    });
   }
 
   prepareFormValidation() {
@@ -130,6 +140,7 @@ export class LoginPage implements OnInit {
 
   //just for debug and lazy test login
   loginTestuser(user: string,) {
+    console.log('loginTestuser');
     switch (user) {
       case 'hanz':
         this.logInWithString('hanz@mail.de', '123456');

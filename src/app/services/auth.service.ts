@@ -27,6 +27,7 @@ export class AuthenticationService {
 
   constructor(public angularFireAuth: AngularFireAuth) {
     angularFireAuth.user.subscribe(user => {
+      console.log('authService: user changed', user);
       if (user) {
         this.isAuthenticated.next(true); // user is logged in
         this.mail = user.email;
@@ -56,7 +57,6 @@ export class AuthenticationService {
      */
   }
 
-
   get getUserEmail(): string {
     return this.mail;
   }
@@ -66,6 +66,15 @@ export class AuthenticationService {
     return this.userId;
   }
 
+  async expectUser(): Promise<string> {
+    return this.userId ? this.userId : new Promise<string>(resolve => {
+      this.userIdSubject.subscribe(userId => {
+        if (userId) {
+          resolve(userId);
+        }
+      });
+    });
+  }
 
   async signIn(email: string, password: string, rememberMe: boolean) {
     await this.angularFireAuth.setPersistence(rememberMe
@@ -75,8 +84,9 @@ export class AuthenticationService {
   }
 
 
-  signOut() {
-    return this.angularFireAuth.signOut();
+  async signOut() {
+    await this.angularFireAuth.signOut();
+    // we expect this to trigger angularFireAuth.user.subscribe
   }
 
   public getObservable() {

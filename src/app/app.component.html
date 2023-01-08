@@ -1,16 +1,22 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay" *ngIf="!router.url.endsWith('login')">
+    <ion-menu *ngIf="show" contentId="main-content" type="overlay">
       <ion-content>
 
         <ion-list id="inbox-list">
           <ion-list-header>Almanify</ion-list-header>
           <ion-note>{{this.userName}}</ion-note>
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+          <ion-menu-toggle *ngFor="let p of userName ? unblockedPages : blockedPages; let i = index" auto-hide="false">
+            <ion-item *ngIf="p.url" [routerLink]="[p.url]" detail="false" lines="none" routerDirection="root"
                       routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-icon [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'" slot="start"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle *ngIf="userName" auto-hide="false">
+            <ion-item (click)="logOut()" detail="false" lines="none">
+              <ion-icon [ios]="'log-out-outline'" [md]="'log-out-sharp'" slot="start"></ion-icon>
+              <ion-label>Logout</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
@@ -21,9 +27,12 @@
       </ion-content>
       <ion-footer style="text-align:center">
         <ion-toolbar>
-          <ion-button size="small" color="medium" fill="clear" (click)="showImprint()">Imprint</ion-button>
-          <ion-button size="small" color="medium" class="ion-align-items-center" fill="clear" (click)="showGTC()">GTC</ion-button>
-          <ion-button size="small" color="medium" class="ion-align-items-center" fill="clear" (click)="showPrivacy()">Privacy Protection</ion-button>
+          <ion-button (click)="showImprint()" color="medium" fill="clear" size="small">Imprint</ion-button>
+          <ion-button (click)="showGTC()" class="ion-align-items-center" color="medium" fill="clear" size="small">GTC
+          </ion-button>
+          <ion-button (click)="showPrivacy()" class="ion-align-items-center" color="medium" fill="clear" size="small">
+            Privacy Protection
+          </ion-button>
         </ion-toolbar>
       </ion-footer>
     </ion-menu>
