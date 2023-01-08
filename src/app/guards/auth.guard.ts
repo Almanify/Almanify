@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs/internal/Observable';
-import { AuthenticationService } from '../services/auth.service';
-import { filter, map, take } from 'rxjs/operators';
-import {AlertController} from '@ionic/angular';
+import {Injectable} from '@angular/core';
+import {CanActivate} from '@angular/router';
+import {Observable} from 'rxjs/internal/Observable';
+import {AuthenticationService} from '../services/auth.service';
+import {filter, map, take} from 'rxjs/operators';
+import {AlertController, NavController} from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -12,25 +12,27 @@ export class AuthGuard implements CanActivate {
 
   public user: string;
 
-  constructor(private authService: AuthenticationService, private router: Router, private alertController: AlertController) { }
+  constructor(private authService: AuthenticationService,
+              private navController: NavController,
+              private alertController: AlertController) {
+  }
 
   canActivate(): Observable<boolean> {
-
     return this.authService.isAuthenticated.pipe(
-      filter(val => val !== null),
+      filter((v) => v !== null),
       take(1),
-      map(isAuthenticated => {
-        if (isAuthenticated) {
+      map((v) => {
+        if (v) {
           return true;
         } else {
-          this.router.navigateByUrl('/login/login');
-          this.presentAlert();
+          this.navController.navigateRoot('/login');
           return false;
         }
       })
     );
   }
-  async presentAlert() {
+
+  async _presentAlert() {
     const alert = await this.alertController.create({
       header: 'Access not possible!',
       message: 'Log in first to gain access.',

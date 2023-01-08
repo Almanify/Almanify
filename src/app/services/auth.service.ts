@@ -7,7 +7,8 @@
 
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
-import {BehaviorSubject, Observable, Observer} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
+import firebase from 'firebase/compat/app';
 
 
 @Injectable({
@@ -17,14 +18,29 @@ import {BehaviorSubject, Observable, Observer} from 'rxjs';
 
 export class AuthenticationService {
 
-  observer: Observer<string>;
-  observable: Observable<string> = new Observable(observer => this.observer = observer);
+  userIdSubject: Subject<string> = new Subject<string>();
+  // observable: Observable<string> = new Observable(observer => this.userIdSubject = observer);
   isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
 
-  private mail = '';
-  private userId = '';
+  private mail: string;
+  private userId: string;
 
   constructor(public angularFireAuth: AngularFireAuth) {
+    angularFireAuth.user.subscribe(user => {
+      console.log('authService: user changed', user);
+      if (user) {
+        this.isAuthenticated.next(true); // user is logged in
+        this.mail = user.email;
+        this.userId = user.uid;
+        this.userIdSubject.next(user.uid);
+      } else {
+        this.isAuthenticated.next(false);
+        this.userIdSubject.next(null);
+        this.mail = undefined;
+        this.userId = undefined;
+      }
+    });
+    /*
     this.angularFireAuth.onAuthStateChanged((user) => {
       if (user) {
         this.isAuthenticated.next(true);
@@ -38,8 +54,8 @@ export class AuthenticationService {
         this.observer.next('');
       }
     });
+     */
   }
-
 
   get getUserEmail(): string {
     return this.mail;
@@ -50,19 +66,31 @@ export class AuthenticationService {
     return this.userId;
   }
 
+  async expectUser(): Promise<string> {
+    return this.userId ? this.userId : new Promise<string>(resolve => {
+      this.userIdSubject.subscribe(userId => {
+        if (userId) {
+          resolve(userId);
+        }
+      });
+    });
+  }
 
-  signIn(email: string, password: string, rememberMe: boolean) {
-    return this.angularFireAuth.setPersistence(rememberMe ? 'local' : 'session')
-      .then(() => this.angularFireAuth.signInWithEmailAndPassword(email, password));
+  async signIn(email: string, password: string, rememberMe: boolean) {
+    await this.angularFireAuth.setPersistence(rememberMe
+      ? firebase.auth.Auth.Persistence.LOCAL
+      : firebase.auth.Auth.Persistence.SESSION);
+    return await this.angularFireAuth.signInWithEmailAndPassword(email, password);
   }
 
 
-  signOut() {
-    return this.angularFireAuth.signOut();
+  async signOut() {
+    await this.angularFireAuth.signOut();
+    // we expect this to trigger angularFireAuth.user.subscribe
   }
 
   public getObservable() {
-    return this.observable;
+    return this.userIdSubject.asObservable();
   }
 
 }

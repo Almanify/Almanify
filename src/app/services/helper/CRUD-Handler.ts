@@ -1,8 +1,7 @@
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 import {copyAndPrepare} from './copyAndPrepare';
 import {DatabaseEntity} from '../../data/DatabaseEntity';
-import {doc, onSnapshot} from "@angular/fire/firestore";
-import {Observable} from "rxjs/internal/Observable";
+import {Observable} from 'rxjs/internal/Observable';
 
 
 export class CrudHandler<Entity extends DatabaseEntity> {
@@ -27,25 +26,30 @@ export class CrudHandler<Entity extends DatabaseEntity> {
     return this.readByID((entity.id));
   }
 
-  public async readByID(id: string): Promise<Entity>{
-    return this.collection.doc(id).get()
-      .toPromise()
-      .then(doc => {
-        if (!doc.exists) {
-          return Promise.reject('No Entry found');
-        }
-        const out = doc.data();
-        out.id = doc.id;
-        return out;
-      })
-      .catch(error => Promise.reject(error));
+  public async readByID(id: string): Promise<Entity> {
+    try {
+      return this.collection.doc(id).get()
+        .toPromise()
+        .then(entry => {
+          if (!entry.exists) {
+            return Promise.reject('No Entry found');
+          }
+          const out = entry.data();
+          out.id = entry.id;
+          return out;
+        })
+        .catch(error => Promise.reject(error));
+    } catch (e) {
+      console.log(e);
+      return Promise.reject(e);
+    }
   }
 
   public async delete(entity: Entity) {
     await this.collection.doc(entity.id).delete();
   }
 
-  public getObserver(id: string): Observable<any>{
+  public getObserver(id: string): Observable<any> {
     return this.collection.doc(id).snapshotChanges();
   }
 
