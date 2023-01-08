@@ -1,7 +1,7 @@
 //source https://ionicframework.com/docs/angular/your-first-app/taking-photos
 //source https://ionicframework.com/docs/angular/your-first-app/saving-photos
 import {Injectable} from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/compat/storage';
 import {Camera, CameraResultType, CameraSource, Photo} from '@capacitor/camera';
 import {Filesystem, Directory} from '@capacitor/filesystem';
 import {Preferences} from '@capacitor/preferences';
@@ -61,6 +61,10 @@ export class PhotoService {
     });
 
     return promise;
+  }
+
+  deletePic(fileref: AngularFireStorageReference) {
+    fileref.delete();
   }
 
   private async readAsBase64(photo: Photo) {

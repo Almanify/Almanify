@@ -94,7 +94,12 @@ export class JourneyEditorPage implements OnInit {
   }
 
   async save() {
-    if (this.downloadURL!=undefined) await this.downloadURL.toPromise().then(value => this.journey.img = value);
+    if (this.picEvent!=null) {
+      await this.photoService.uploadPic(this.picEvent, this.journey.creatorID).then(value => this.downloadURL=value);
+    }
+    if (this.downloadURL!=undefined) {
+      await this.downloadURL.toPromise().then(value => this.journey.img = value);
+    }
     if (this.isEditMode) {
       //update database
       this.databaseService.journeyCrudHandler.update(this.journey)
@@ -150,6 +155,6 @@ export class JourneyEditorPage implements OnInit {
   }
 
   async uploadPicture() {
-    await this.photoService.uploadPic(this.picEvent, this.journey.creatorID).then(value => this.downloadURL=value);
+    
   };
 }

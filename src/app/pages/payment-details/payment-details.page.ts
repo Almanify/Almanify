@@ -34,7 +34,7 @@ export class PaymentDetailsPage implements OnInit {
   amount: number = undefined;
   currency: string = undefined;
 
-  picEvent: any;
+  picEvent: any = null;
   downloadURL: Observable<string>;
 
   constructor(public navCtrl: NavController,
@@ -118,7 +118,12 @@ export class PaymentDetailsPage implements OnInit {
   }
 
   async save() {
-    if (this.downloadURL!=undefined) await this.downloadURL.toPromise().then(value => this.payment.img = value);
+    if (this.picEvent!=null) {
+      await this.photoService.uploadPic(this.picEvent, this.authService.getUserId).then(value => this.downloadURL=value);
+    }
+    if (this.downloadURL!=undefined) {
+      await this.downloadURL.toPromise().then(value => this.payment.img = value);
+    }
     if (this.payment.id === null) {
       //new payment
       this.databaseService.paymentCrudHandler.createAndGetID(this.payment).then(id => this.payment.id = id);
@@ -224,10 +229,6 @@ export class PaymentDetailsPage implements OnInit {
 
   async saveEvent(event) {
     this.picEvent = event;
-  }
-
-  async uploadPicture() {
-    await this.photoService.uploadPic(this.picEvent, this.userId).then(value => this.downloadURL=value);
   }
 
 }
