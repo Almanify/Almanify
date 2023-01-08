@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
 import {AlertController, IonInput, LoadingController} from '@ionic/angular';
 import {AuthenticationService} from '../../services/auth.service';
 import {SignUPService} from '../../services/sign-up.service';
@@ -25,7 +24,6 @@ export class LoginPage implements OnInit {
   validationMessages;
 
   constructor(public router: NavController,
-              private activatedRoute: ActivatedRoute,
               public authService: AuthenticationService,
               public signUpService: SignUPService,
               public formBuilder: FormBuilder,
@@ -37,19 +35,9 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.command = this.activatedRoute.snapshot.paramMap.get('command');
-    //if (this.command === 'logout') {
-    //  this.logOut();
-    //}
-
-    // upon login registered in auth, the user is redirected to the home page
-    // this can happen...
-    // - when the user is already logged in and opens the app
-    // - when the user successfully logs in
     this.authService.expectUser().then((userId) => this.navigateLoggedInUser(userId));
   }
 
-  //copy from qapp
   async logIn(email: IonInput, password: IonInput) {
     await this.logInWithString(email.value as string, password.value as string);
   }

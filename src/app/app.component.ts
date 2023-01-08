@@ -101,7 +101,7 @@ export class AppComponent implements OnInit {
     await loading.present();
     this.authService.signOut()
       .then(async () => {
-        await this.router.navigateRoot('/login/login');
+        await this.router.navigateRoot('/login');
         await loading.dismiss();
         // window.location.reload();
       })

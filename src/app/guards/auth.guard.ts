@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/internal/Observable';
 import {AuthenticationService} from '../services/auth.service';
 import {filter, map, take} from 'rxjs/operators';
 import {AlertController, NavController} from '@ionic/angular';
-import {ActivatedRoute} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +14,7 @@ export class AuthGuard implements CanActivate {
 
   constructor(private authService: AuthenticationService,
               private navController: NavController,
-              private alertController: AlertController,
-              private route: ActivatedRoute) {
+              private alertController: AlertController) {
   }
 
   canActivate(): Observable<boolean> {
@@ -27,7 +25,7 @@ export class AuthGuard implements CanActivate {
         if (v) {
           return true;
         } else {
-          this.navController.navigateRoot('/login/login');
+          this.navController.navigateRoot('/login');
           return false;
         }
       })
