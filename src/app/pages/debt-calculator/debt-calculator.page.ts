@@ -7,6 +7,8 @@ import {User} from '../../data/User';
 import {AuthenticationService} from '../../services/auth.service';
 import {convertFromCurrency, convertToCurrency, formatCurrency} from '../../services/helper/currencies';
 import {NavController} from '@ionic/angular';
+import {PushMessegingService} from "../../services/push-messeging.service";
+
 
 @Component({
   selector: 'app-debt-calculator',
@@ -35,7 +37,8 @@ export class DebtCalculatorPage implements OnInit {
   constructor(route: ActivatedRoute,
               public databaseService: DatabaseService,
               public authenticationService: AuthenticationService,
-              public navCtrl: NavController) {
+              public navCtrl: NavController,
+              public pushMessegingService: PushMessegingService) {
     this.journey = new Journey();
     this.journey.id = route.snapshot.paramMap.get('id');
 
@@ -177,5 +180,9 @@ export class DebtCalculatorPage implements OnInit {
         this.userIsOwed += value;
       }
     });
+  }
+
+  sendReminder() {
+    this.pushMessegingService.sendNotificationToUser(this.userID, 'Testibert', '69$');
   }
 }
