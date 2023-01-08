@@ -112,6 +112,14 @@
             </ion-chip>
           </span>
         </ion-row>
+
+        <ion-row class="ion-justify-content-center">
+          <ion-col>
+            <ion-img *ngIf="!isEditMode && journey.img !== null" src="{{journey.img}}"></ion-img>
+            <ion-input type="file" (change)="saveEvent($event)"></ion-input>
+            <ion-button type="file" expand="block" (click)="uploadPicture()">Bild hochladen</ion-button>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ion-card-content>
 

@@ -8,6 +8,8 @@ import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
 import {User} from '../../data/User';
 import {currencies} from '../../services/helper/currencies';
+import {PhotoService} from '../../services/photo.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-journey-editor',
@@ -20,13 +22,18 @@ export class JourneyEditorPage implements OnInit {
   participants: Array<User> = [];
   journey: Journey;
   isEditMode = false;
+
+  picEvent: any;
+  downloadURL: Observable<string>;
+
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private databaseService: DatabaseService,
               public authService: AuthenticationService,
               public navCtrl: NavController,
               private alertController: AlertController,
-              public outlet: IonRouterOutlet,) {
+              public outlet: IonRouterOutlet,
+              public photoService: PhotoService) {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     this.journey = new Journey();
     if (id != null) {
@@ -87,6 +94,7 @@ export class JourneyEditorPage implements OnInit {
   }
 
   async save() {
+    if (this.downloadURL!=undefined) await this.downloadURL.toPromise().then(value => this.journey.img = value);
     if (this.isEditMode) {
       //update database
       this.databaseService.journeyCrudHandler.update(this.journey)
@@ -135,5 +143,13 @@ export class JourneyEditorPage implements OnInit {
       this.navCtrl.navigateRoot('root');
       this.router.navigateByUrl('/home');
     }
+  }
+  
+  async saveEvent(event) {
+    this.picEvent = event;
+  }
+
+  async uploadPicture() {
+    await this.photoService.uploadPic(this.picEvent, this.journey.creatorID).then(value => this.downloadURL=value);
   };
 }
