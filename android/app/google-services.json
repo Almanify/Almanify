@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "705714006959",
+    "firebase_url": "https://almanify-80d66-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "almanify-80d66",
+    "storage_bucket": "almanify-80d66.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705714006959:android:d9c4314823c35f63021d5a",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705714006959-rgs2tqhp3rs3egl1t27aut437bmh57bo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOCr3z3YRiFbHP7JvLr73OLrV-xWg-TnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705714006959-rgs2tqhp3rs3egl1t27aut437bmh57bo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
