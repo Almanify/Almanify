@@ -63,7 +63,8 @@ export class PhotoService {
     return promise;
   }
 
-  deletePic(fileref: AngularFireStorageReference) {
+  deletePic(downloadURL:string) {
+    let fileref = this.firestorage.refFromURL(downloadURL);
     fileref.delete();
   }
 

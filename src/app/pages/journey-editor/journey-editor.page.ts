@@ -10,6 +10,7 @@ import {User} from '../../data/User';
 import {currencies} from '../../services/helper/currencies';
 import {PhotoService} from '../../services/photo.service';
 import { Observable } from 'rxjs';
+import { AngularFireStorageReference } from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-journey-editor',
@@ -23,6 +24,7 @@ export class JourneyEditorPage implements OnInit {
   journey: Journey;
   isEditMode = false;
 
+  // image variables
   picEvent: any;
   downloadURL: Observable<string>;
 
@@ -93,20 +95,27 @@ export class JourneyEditorPage implements OnInit {
     this.journey.end = Timestamp.fromDate(new Date(value));
   }
 
-  async save() {
+  //save with redirect variable for better user experience when trying to update thumbnails
+  async save(redirect: boolean) {
+    //upload picture
     if (this.picEvent!=null) {
       await this.photoService.uploadPic(this.picEvent, this.journey.creatorID).then(value => this.downloadURL=value);
     }
+    //set downloadURL in journey to reference storage-image
     if (this.downloadURL!=undefined) {
       await this.downloadURL.toPromise().then(value => this.journey.img = value);
     }
+    //update & redirection if wanted
     if (this.isEditMode) {
       //update database
-      this.databaseService.journeyCrudHandler.update(this.journey)
-        .then((journeyId) => {
+      let updatePromise = this.databaseService.journeyCrudHandler.update(this.journey)
+      //redirection
+      if(redirect == true) {
+        updatePromise.then((journeyId) => {
           this.navCtrl.navigateRoot('root');
           this.router.navigate(['/journey/' + journeyId]);
         });
+      }
     } else {
       //create new entry
       this.databaseService.journeyCrudHandler.createAndGetID(this.journey)
@@ -126,7 +135,7 @@ export class JourneyEditorPage implements OnInit {
           text: 'Save',
           role: 'confirm',
           handler: () => {
-            this.save();
+            this.save(true);
           },
         },
         {
@@ -135,6 +144,26 @@ export class JourneyEditorPage implements OnInit {
           handler: () => {
             this.back();
           },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  async alertDelete(journey: Journey) {
+    const alert = await this.alertController.create({
+      header: 'Are you sure you want to delete the thumbnail for ' + journey.title + '?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'confirm',
+          handler: () => {
+            this.deletePic();
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
         },
       ],
     });
@@ -154,7 +183,9 @@ export class JourneyEditorPage implements OnInit {
     this.picEvent = event;
   }
 
-  async uploadPicture() {
-    
-  };
+  async deletePic() {
+    this.photoService.deletePic(this.journey.img);
+    this.journey.img = null;
+    this.save(false);
+  }
 }
