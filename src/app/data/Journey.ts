@@ -12,6 +12,7 @@ export class Journey implements DatabaseEntity {
   public inviteCode: string;
   public journeyParticipants: string[];
   public active: boolean;
+  public img: string;
 
   constructor(
     id: string = '',
@@ -22,7 +23,8 @@ export class Journey implements DatabaseEntity {
     end: Timestamp = Timestamp.fromDate(new Date()),
     journeyParticipants: string[] = [],
     defaultCurrency: string = '€',
-    active: boolean = true) {
+    active: boolean = true,
+    img: string = null) {
 
     this.id = id;
     this.title = title;
@@ -33,6 +35,7 @@ export class Journey implements DatabaseEntity {
     this.start = start;
     this.end = end;
     this.active = active;
+    this.img = img;
   }
 }
 
