@@ -144,7 +144,6 @@ export class PaymentDetailsPage implements OnInit {
   }
 
   async alertUnsaved() {
-
     const alert = await this.alertController.create({
       header: 'Leave without saving?',
       buttons: [
@@ -153,6 +152,7 @@ export class PaymentDetailsPage implements OnInit {
           role: 'confirm',
           handler: () => {
             this.save();
+            this.back();
           },
         },
         {
