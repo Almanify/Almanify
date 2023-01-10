@@ -2,6 +2,8 @@
 import {Injectable} from '@angular/core';
 import * as admin from 'firebase-admin';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Environment} from "@angular/cli/lib/config/workspace-schema";
+import {environment} from "../../environments/environment";
 
 
 
@@ -12,15 +14,13 @@ export class PushMessagingService {
   constructor(private http: HttpClient) {
   }
 
-  API_KEY: string = '1:705714006959:android:d9c4314823c35f63021d5a'; //shouldn't be in client, but we dont have a real backend so...
-
 
   sendNotificationToUser(targetUserID: string, debtorUserName: string, value: string) {
     const urlString = 'https://fcm.googleapis.com/fcm/send';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: 'key=' + this.API_KEY
+        Authorization: "key=" + environment.firebaseConfig.apiKeyServer
       })
     }
     let body = {
