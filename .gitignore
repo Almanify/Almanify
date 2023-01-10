@@ -31,5 +31,17 @@ npm-debug.log*
 /**/plugins
 /**/www
 /**/.idea
-
 environment.ts
+
+# latex files
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.toc
+*.out
+

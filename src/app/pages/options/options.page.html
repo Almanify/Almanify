@@ -11,7 +11,7 @@
 
   <ion-grid align="center" [fixed]="true">
 
-    <ion-card>
+    <ion-card *ngIf="name">
       <ion-card-content>
         <ion-card-title style="text-align: center;">General Information</ion-card-title>
 
@@ -21,7 +21,7 @@
             <ion-item>
               <ion-label position="stacked">Name</ion-label>
 
-              <ion-input type="text" maxlength="30" [(ngModel)]="user.userName" disabled={{buttonDisabled}}></ion-input>
+              <ion-input type="text" maxlength="30" [(ngModel)]="name" disabled={{buttonDisabled}}></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -32,7 +32,7 @@
             <ion-list>
               <ion-item>
                 <ion-label position="stacked">Currency</ion-label>
-                <ion-select [(ngModel)]="user.userCurrency" disabled={{buttonDisabled}}>
+                <ion-select [(ngModel)]="currency" disabled={{buttonDisabled}}>
                   <ion-select-option *ngFor="let currency of currencies"
                                       [value]="currency.code">{{currency.name}}</ion-select-option>
                 </ion-select>
@@ -66,6 +66,8 @@
         </ion-row>
       </ion-card-content>
     </ion-card>
+    <!-- else show spinner -->
+    <ion-spinner *ngIf="!name"></ion-spinner>
   </ion-grid>
 
 </ion-content>

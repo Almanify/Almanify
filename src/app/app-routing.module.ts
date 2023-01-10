@@ -4,13 +4,22 @@ import {AuthGuard} from './guards/auth.guard';
 
 const routes: Routes = [
   {
+    path: 'testing',
+    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+  },
+  {
     path: '',
-    redirectTo: 'login/login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
 
   {
-    path: 'login/:command',
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'login',
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule),
   },
 
@@ -45,8 +54,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
+    path: 'payment-details/:editmode/:journeyId/:to/:amount/:currency',
+    loadChildren: () => import('./pages/payment-details/payment-details.module').then(m => m.PaymentDetailsPageModule),
     canActivate: [AuthGuard]
   },
   {
@@ -71,25 +80,25 @@ const routes: Routes = [
   },
   {
     path: 'join-journey',
-    loadChildren: () => import('./pages/join-journey/join-journey.module').then( m => m.JoinJourneyPageModule),
+    loadChildren: () => import('./pages/join-journey/join-journey.module').then(m => m.JoinJourneyPageModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'journey/:id/invite',
-    loadChildren: () => import('./pages/invite-modal/invite-modal.module').then( m => m.InviteModalModule),
+    loadChildren: () => import('./pages/invite-modal/invite-modal.module').then(m => m.InviteModalModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'options',
-    loadChildren: () => import('./pages/options/options.module').then( m => m.OptionsPageModule),
-    canActivate: [AuthGuard]
+    loadChildren: () => import('./pages/options/options.module').then(m => m.OptionsPageModule)
   }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

@@ -9,6 +9,7 @@ import firebase from 'firebase/compat/app';
 import {ActionSheetController, AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 import {convertFromCurrency, currencies, formatCurrency} from '../../services/helper/currencies';
 import {PhotoService} from '../../services/photo.service';
+import { Observable } from 'rxjs';
 import Timestamp = firebase.firestore.Timestamp;
 
 @Component({
@@ -31,6 +32,10 @@ export class PaymentDetailsPage implements OnInit {
   // only used for debt payments
   to: string = undefined;
   amount: number = undefined;
+  currency: string = undefined;
+
+  picEvent: any = null;
+  downloadURL: Observable<string>;
 
   constructor(public navCtrl: NavController,
               public outlet: IonRouterOutlet,
@@ -47,6 +52,7 @@ export class PaymentDetailsPage implements OnInit {
     this.payment.id = this.activatedRoute.snapshot.paramMap.get('paymentId');
     this.to = this.activatedRoute.snapshot.paramMap.get('to');
     this.amount = Number(this.activatedRoute.snapshot.paramMap.get('amount') ?? 0);
+    this.currency = this.activatedRoute.snapshot.paramMap.get('currency');
     this.databaseService.journeyCrudHandler.read(this.journey).then(
       (journey) => {
         this.journey = journey;
@@ -64,7 +70,7 @@ export class PaymentDetailsPage implements OnInit {
             this.authService.getUserId,
             this.journey.id,
             this.amount,
-            this.journey.defaultCurrency,
+            this.currency || this.journey.defaultCurrency,
             Timestamp.fromDate(new Date()),
             this.to ? PaymentCategory.debtRepayment : undefined,
             participants);
@@ -111,7 +117,15 @@ export class PaymentDetailsPage implements OnInit {
     this.isEditMode = !this.isEditMode;
   }
 
-  save() {
+  async save() {
+    //upload picture
+    if (this.picEvent!=null) {
+      await this.photoService.uploadPic(this.picEvent, this.authService.getUserId).then(value => this.downloadURL=value);
+    }
+    //set downloadURL in journey to reference storage-image
+    if (this.downloadURL!=undefined) {
+      await this.downloadURL.toPromise().then(value => this.payment.img = value);
+    }
     if (this.payment.id === null) {
       //new payment
       this.databaseService.paymentCrudHandler.createAndGetID(this.payment).then(id => this.payment.id = id);
@@ -147,6 +161,26 @@ export class PaymentDetailsPage implements OnInit {
           handler: () => {
             this.back();
           },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  async alertDelete(payment: Payment) {
+    const alert = await this.alertController.create({
+      header: 'Are you sure you want to delete the picture for ' + payment.title + '?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'confirm',
+          handler: () => {
+            this.deletePic();
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
         },
       ],
     });
@@ -215,5 +249,14 @@ export class PaymentDetailsPage implements OnInit {
     this.photoService.addNewToGallery();
   }
 
+  async saveEvent(event) {
+    this.picEvent = event;
+  }
+
+  async deletePic() {
+    this.photoService.deletePic(this.payment.img);
+    this.payment.img = null;
+    this.save();
+  }
 
 }

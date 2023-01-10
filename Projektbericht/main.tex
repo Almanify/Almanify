@@ -1,6 +1,7 @@
 % Angabe zu Blattgröße, Schriftgröße, Hinzufügen des Bildverzeichnis und Quellverzeichnis als Punkt im Inhaltsverzeichnis, einseitiger Druck
-\documentclass[a4paper,12pt,listof=toc,bibliography=totoc,oneside, titlepage, headsepline,headings=optiontohead]{scrartcl}	
+\documentclass[a4paper,12pt,listof=toc,bibliography=totoc,oneside, titlepage, headsepline,headings=optiontohead]{scrartcl}
 \input{settings.tex}
+\usepackage{enumitem}
 
 \subject{
 CS2018 Entwicklung mobiler Anwendungen WS2022/23}
@@ -23,48 +24,48 @@ CS2018 Entwicklung mobiler Anwendungen WS2022/23}
 % % % Dokument Beginn % % %
 % % % % % % % % % % % % % %
 \begin{document}
-	%Deckblatt
-	\include{chapter/deckblatt}
-	
-	%Inhaltsverzeichnis
-	\pagenumbering{roman}
-	\tableofcontents
-	\clearpage
-	
-	%Inhalt
-	\pagenumbering{arabic}
-	\pagestyle{scrheadings}
-	\setcounter{page}{1} %Seitenzähler auf 1 setzen, da Inhaltsverzeichnis sonst als Seite 1 zählt
-	\include{chapter/01-einleitung}
-	\include{chapter/02-anforderungen}
-	\include{chapter/03-entwurf}
-	\include{chapter/04-umsetzung}
-	\include{chapter/05-qualitaetssicherung}
-	\include{chapter/06-evaluation}
-	\include{chapter/07-anwenderdoku}
-	\clearpage
-	
-	%Römische Seitennummerierung
-	\pagenumbering{Roman}
-	\setcounter{page}{1}
-	
-	% ================================
-	% Falls nicht verwendet bitte entsprechend auskommentieren
-	% ================================
-	%Anhang
-	%\include{chapter/anhang}
-	\pagebreak
-	
-	%Abbildungsverzeichnis
-	%\listoffigures
-	\pagebreak
-	
-	%Tabellenverzeichnis
-	%\listoftables
-	\pagebreak
+%Deckblatt
+\include{chapter/deckblatt}
 
-	%Literaturverzeichnis
-	\bibliographystyle{literature/bibtex/IEEEtran}	
-	\bibliography{literature/literature}
-	
+%Inhaltsverzeichnis
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+
+%Inhalt
+\pagenumbering{arabic}
+\pagestyle{scrheadings}
+\setcounter{page}{1} %Seitenzähler auf 1 setzen, da Inhaltsverzeichnis sonst als Seite 1 zählt
+\include{chapter/01-einleitung}
+\include{chapter/02-anforderungen}
+\include{chapter/03-entwurf}
+\include{chapter/04-umsetzung}
+\include{chapter/05-qualitaetssicherung}
+\include{chapter/06-evaluation}
+\include{chapter/07-anwenderdoku}
+\clearpage
+
+%Römische Seitennummerierung
+\pagenumbering{Roman}
+\setcounter{page}{1}
+
+% ================================
+% Falls nicht verwendet bitte entsprechend auskommentieren
+% ================================
+%Anhang
+%\include{chapter/anhang}
+\pagebreak
+
+%Abbildungsverzeichnis
+%\listoffigures
+\pagebreak
+
+%Tabellenverzeichnis
+%\listoftables
+\pagebreak
+
+%Literaturverzeichnis
+\bibliographystyle{literature/bibtex/IEEEtran}
+\bibliography{literature/literature}
+
 \end{document}

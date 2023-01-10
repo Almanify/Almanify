@@ -9,6 +9,7 @@ import {convertFromCurrency, convertToCurrency, formatCurrency} from '../../serv
 import {NavController} from '@ionic/angular';
 import {PushMessagingService} from "../../services/push-messaging.service";
 
+import {currencies} from '../../services/helper/currencies';
 
 @Component({
   selector: 'app-debt-calculator',
@@ -24,6 +25,8 @@ export class DebtCalculatorPage implements OnInit {
   payments: Payment[];
   convertToCurrency = convertToCurrency;
   isLoaded = false;
+  selectedCurrency: string;
+  currencies = currencies;
 
   /*
    * we store the debts as a map of the form, where person1 is the person who paid and person2 is the person who owes
@@ -50,6 +53,7 @@ export class DebtCalculatorPage implements OnInit {
     await this.databaseService.journeyCrudHandler.readByID(this.journey.id).then(async journey => {
       this.journey = journey;
       await this.loadParticipants(journey).then(() => this.loadPayments(journey));
+      await this.getUserCurrency();
     });
   }
 
@@ -69,16 +73,23 @@ export class DebtCalculatorPage implements OnInit {
         }));
   }
 
+  async getUserCurrency() {
+    await this.databaseService.userCrudHandler.readByID(this.userID).then(user => {
+      this.selectedCurrency = user.userCurrency;
+    });
+  }
+
 
   resolveUserId(id: string) {
     return this.people.find(person => person.id === id)?.userName ?? 'Unknown';
   }
 
-  toDefaultCurrencyString(amount: number) {
-    return formatCurrency(convertToCurrency(amount, this.journey.defaultCurrency), this.journey.defaultCurrency);
+  toSelectedCurrencyString(amount: number) {
+    return formatCurrency(convertToCurrency(amount, this.selectedCurrency), this.selectedCurrency);
   }
 
   async ngOnInit(): Promise<void> {
+    this.userID = this.authenticationService.getUserId;
     this.loadJourney().then(() => this.isLoaded = true);
   }
 
@@ -91,7 +102,8 @@ export class DebtCalculatorPage implements OnInit {
   }
 
   payDebt(person: string, amount: number) {
-    this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + person + '/' + amount);
+    this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + person + '/'
+      + convertToCurrency(amount, this.selectedCurrency) + '/' + this.selectedCurrency);
   }
 
   insertRepaidDebt() {

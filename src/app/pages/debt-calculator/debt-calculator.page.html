@@ -22,11 +22,11 @@
     <div *ngIf="userIsOwed">
       <ion-card-header>
         <ion-card-subtitle>You are currently owed</ion-card-subtitle>
-        <ion-card-title color="success">{{ toDefaultCurrencyString(userIsOwed) }}</ion-card-title>
+        <ion-card-title color="success">{{ toSelectedCurrencyString(userIsOwed) }}</ion-card-title>
       </ion-card-header>
 
       <ion-card-content *ngIf="userIsOwed">
-        Members of the trip are still owing you {{toDefaultCurrencyString(userIsOwed) }}.
+        Members of the trip are still owing you {{toSelectedCurrencyString(userIsOwed) }}.
         This amount may be repaid in smaller parts by multiple people.
       </ion-card-content>
 
@@ -38,11 +38,11 @@
     <div *ngIf="amountsToBePaidByUser.length > 0">
       <ion-card-header>
         <ion-card-subtitle>You currently owe</ion-card-subtitle>
-        <ion-card-title color="danger">{{ toDefaultCurrencyString(getTotalAmountPaidByUser()) }}</ion-card-title>
+        <ion-card-title color="danger">{{ toSelectedCurrencyString(getTotalAmountPaidByUser()) }}</ion-card-title>
       </ion-card-header>
 
       <ion-card-content *ngIf="amountsToBePaidByUser.length > 0">
-        You are still owing {{ toDefaultCurrencyString(getTotalAmountPaidByUser())}}.
+        You are still owing {{ toSelectedCurrencyString(getTotalAmountPaidByUser())}}.
         This amount may have to be paid in smaller parts to multiple people.
         Check the list below to see who you owe money to.
       </ion-card-content>
@@ -69,11 +69,20 @@
       <ion-card-title>Your outstanding repayments</ion-card-title>
     </ion-card-header>
     <ion-card-content>
+      <!-- select currency to display -->
       <ion-list *ngIf="amountsToBePaidByUser && amountsToBePaidByUser.length > 0; else text1">
+        <ion-item>
+          <ion-label>Currency</ion-label>
+          <ion-select [(ngModel)]="selectedCurrency">
+            <ion-select-option *ngFor="let currency of currencies" [value]="currency.code">
+              {{ currency.name }} ({{ currency.symbol }})
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
         <ion-item *ngFor="let realDebt of amountsToBePaidByUser">
           <ion-label class="ion-text-wrap">
             You
-            owe {{ toDefaultCurrencyString(realDebt[1])}}
+            owe {{ toSelectedCurrencyString(realDebt[1])}}
             to {{ resolveUserId(realDebt[0]) }}
           </ion-label>
           <ion-button fill="clear" (click)="payDebt(realDebt[0], convertToCurrency(realDebt[1], journey.defaultCurrency))">Pay</ion-button>
@@ -101,7 +110,7 @@
           <ion-label class="ion-text-wrap">
             {{ resolveUserId(realDebt[0].split('-')[1]) }}
             owes {{ resolveUserId(realDebt[0].split('-')[0]) }}
-            {{ toDefaultCurrencyString(realDebt[1]) }}
+            {{ toSelectedCurrencyString(realDebt[1]) }}
           </ion-label>
         </ion-item>
       </ion-list>

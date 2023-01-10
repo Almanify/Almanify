@@ -6,9 +6,9 @@ import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {ImprintComponent} from "./components/imprint/imprint.component";
-import {GTCComponent} from "./components/gtc/gtc.component";
-import {PrivacyProtectionComponent} from "./components/privacy-protection/privacy-protection.component";
+import {ImprintComponent} from './components/imprint/imprint.component';
+import {GTCComponent} from './components/gtc/gtc.component';
+import {PrivacyProtectionComponent} from './components/privacy-protection/privacy-protection.component';
 
 import {AngularFireModule} from '@angular/fire/compat/';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';

@@ -31,8 +31,6 @@
           </ion-col>
         </ion-row>
 
-        <ion-row style="height: 3vh"></ion-row>
-
         <ion-row class="ion-justify-content-center">
           <ion-col>
             <!-- item group for journey details -->
@@ -112,6 +110,33 @@
             </ion-chip>
           </span>
         </ion-row>
+
+        <!-- Thumbnail section -->
+
+        <!-- Title -->
+        <ion-row class="ion-justify-content-center">
+          <ion-card-title style="padding: 13px">Journey Thumbnail</ion-card-title>
+        </ion-row>
+        <!-- Image preview if available -->
+        <ion-row class="ion-justify-content-center" *ngIf="journey.img != null">
+          <ion-col>
+            <ion-img src="{{journey.img}}"></ion-img>
+          </ion-col>
+        </ion-row>
+        <!-- 'Change' and 'Delete'-button (if thumbnail has been uploaded) -->
+        <ion-row class="ion-justify-content-center" *ngIf="journey.img != null">
+          <ion-col>
+            <ion-button (click)="alertDelete(journey)" expand="block" fill="outline" color="danger">Delete Thumbnail
+              <ion-icon slot="end" name="trash"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <!-- File-input (if no thumbnail has been uploaded) -->
+        <ion-row class="ion-justify-content-center" *ngIf="journey.img == null">
+          <ion-col>
+            <ion-input type="file" (change)="saveEvent($event)"></ion-input>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ion-card-content>
 
@@ -119,7 +144,7 @@
 </ion-content>
 
 <ion-footer [translucent]="true" collapse="fade">
-  <ion-button (click)="save()" expand="block">
+  <ion-button (click)="save(true)" expand="block">
     <ion-text>Save</ion-text>
     <ion-icon slot="end" name="save"></ion-icon>
   </ion-button>

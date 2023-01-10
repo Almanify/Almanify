@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { IonModal } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core/components';
+import {IonModal} from '@ionic/angular';
+import {OverlayEventDetail} from '@ionic/core/components';
 import {User} from '../../data/User';
 import {DatabaseService} from '../../services/database.service';
 import {AuthenticationService} from '../../services/auth.service';
@@ -13,7 +13,7 @@ import {currencies} from '../../services/helper/currencies';
 })
 export class OptionsPage implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
-  
+
   user: User;
 
   name: any;
@@ -22,8 +22,8 @@ export class OptionsPage implements OnInit {
   currency: any;
 
   currencies = currencies;
-  buttonDisabled: boolean=true;
-  inEditMode: boolean=false;
+  buttonDisabled = true;
+  inEditMode = false;
   message = 'Informationen wurden erfolgreich bearbeitet';
 
   constructor(public authService: AuthenticationService, private databaseService: DatabaseService) {
@@ -52,11 +52,11 @@ export class OptionsPage implements OnInit {
     }
   }
 
-  getUserInformation() {
-    this.databaseService.userCrudHandler.readByID(this.authService.getUserId).then(u => {
+  async getUserInformation() {
+    await this.databaseService.userCrudHandler.readByID(this.authService.getUserId).then(u => {
       this.user.id = u.id;
-      this.user.userName = u.userName;
-      this.user.userCurrency = u.userCurrency;
+      this.name = this.user.userName = u.userName;
+      this.currency = this.user.userCurrency = u.userCurrency;
     });
 
     this.email = this.authService.getUserEmail;
@@ -65,10 +65,16 @@ export class OptionsPage implements OnInit {
   changeEditMode() {
     this.buttonDisabled = !this.buttonDisabled;
     this.inEditMode = !this.inEditMode;
+
+    // reset values
+    this.name = this.user.userName;
+    this.currency = this.user.userCurrency;
   }
 
   save() {
+    this.user.userName = this.name;
+    this.user.userCurrency = this.currency;
     this.databaseService.userCrudHandler.update(this.user);
-    this.changeEditMode();
+    this.getUserInformation().then(() => this.changeEditMode());
   }
 }

@@ -1,235 +1,377 @@
 \section{Anforderungen}
 
-Bei Öffnung der App können sich Benutzer einloggen oder registrieren. Dabei wird ein Benutzerprofil erstellt, das den Nutzernamen enthält. Reisen können innerhalb der mobilen Anwendung erstellt werden. Weitere Nutzer können über einen Invitecode oder QR-Code beitreten. Getätigte Ausgaben können den beigetretenen Reisen hinzugefügt werden. Einträge für Ausgaben umfassen einen Titel, die Person, die bezahlt hat, die Summe, Währung, eine Kategorie, Zahldatum, die Beteiligten, die Ausgaben verursacht haben, eine optionale Markierung auf Google Maps wo die Zahlung getätigt wurde und ein optionales Bild vom Kassenbon. Für Währung, Kategorie und Beteiligte gibt es vorgegebene Auswahlmöglichkeiten. Einträge für Ausgaben können entsprechend der Attribute sortiert werden. Nutzer können Einträge für Ausgaben nachträglich bearbeiten. Es ist möglich, Schulden bzw. Ansprüche gegenüber anderen auszuwerten. Die App schlägt einen effizienten finanziellen Ausgleich unter den Beteiligten vor, sodass möglichst wenige Transaktionen nötig sind. Schulden des Nutzers gegenüber anderen werden in eine von ihm angegebene Währung umgerechnet. Nach Abschluss einer Reise kann dies archiviert werden.
+Bei Öffnung der App können sich Benutzer einloggen oder registrieren.
+Dabei wird ein Benutzerprofil erstellt, das den Nutzernamen enthält.
+Reisen können innerhalb der mobilen Anwendung erstellt werden.
+Weitere Nutzer können über einen Invitecode oder QR-Code beitreten.
+Getätigte Ausgaben können den beigetretenen Reisen hinzugefügt werden.
+Einträge für Ausgaben umfassen einen Titel, die Person, die bezahlt hat, die Summe,
+Währung, eine Kategorie, Zahldatum, die Beteiligten, die Ausgaben verursacht haben,
+eine optionale Markierung auf Google Maps wo die Zahlung getätigt wurde und ein optionales Bild vom Kassenbon.
+Für Währung, Kategorie und Beteiligte gibt es vorgegebene Auswahlmöglichkeiten.
+Einträge für Ausgaben können entsprechend der Attribute sortiert werden.
+Nutzer können Einträge für Ausgaben nachträglich bearbeiten.
+Es ist möglich, Schulden bzw. Ansprüche gegenüber anderen auszuwerten.
+Die App schlägt einen effizienten finanziellen Ausgleich unter den Beteiligten vor, sodass möglichst wenige Transaktionen nötig sind.
+Schulden des Nutzers gegenüber anderen werden in eine von ihm angegebene Währung umgerechnet.
+Nach Abschluss einer Reise kann dies archiviert werden.
 
 \subsection{Grundlegende Funktionsbeschreibung}
 
 Funktionsbeschreibung anhand von User Stories:
+\setlist{nolistsep}
 
 \begin{table}[H]
-\caption{Account erstellen}
-\begin{tabularx}{0.95\textwidth}{ |X|X| }
-\hline
-\rowcolor{gray} \textbf{Abschnitt} & \textbf{Inhalt} \\
-\hline
-	Primärer Akteur (Initiator) & Nutzer \\
-\hline
-	Weitere Akteure & - \\
-\hline
-	Auslösende Ereignisse (Trigger) & [--TODO--] \\
-\hline
-\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
-\hline
-	Hauptszenario & [--TODO--] \\
-\hline
-  	Alternativszenarien & [--TODO--] \\
-\hline
-  	Ausnahmeszenarien & [--TODO--] \\
-\hline
-\rowcolor{lightgray} & \\
-\hline
-  	Vor-/ Nachbedingungen & [--TODO--] \\
-\hline
-\end{tabularx}
+	\footnotesize
+	\caption{Use Case: Einen Account erstellen}
+	\begin{tabularx}{0.95\textwidth}{ |l|X| }
+		\hline
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                                                                                                                       \\
+		\hline
+		Primärer Akteur                        & Nutzer                                                                                                                                                \\
+		\hline
+		Weitere Akteure                        & (Keine)                                                                                                                                               \\
+		\hline
+		Auslösende Ereignisse                  & Ein Nutzer öffnet die App und hat noch keinen Account. Er möchte jetzt einen Account erstellen.                                                       \\
+		\hline
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                                                                                                                 \\
+		\hline
+		Hauptszenario                          & \begin{enumerate}[noitemsep]
+			                                         \item Der Nutzer öffnet die App.
+			                                         \item Die App zeigt die Anmeldeseite an.
+			                                         \item Der Nutzer wählt auf der Anmeldeseite \enquote{Sign up} aus.
+			                                         \item Er füllt dann seinen Namen, seine E-Mail-Adresse, und sein Passwort ein.
+			                                         \item Er bestätigt sein Passwort durch erneute Eingabe.
+			                                         \item Der Nutzer tippt auf \enquote{Sign up}, um seinen Account zu erstellen.
+			                                         \item Die App zeigt erneut die Anmeldeseite mit nun vorausgefüllten Feldern an.
+			                                         \item Es erscheint eine Meldung, dass der Account erfolgreich erstellt wurde.
+		                                         \end{enumerate}                                                                        \\
+		\hline
+		Alternativszenarien                    & (Keine)                                                                                                                                               \\
+		\hline
+		Ausnahmeszenarien                      & \begin{enumerate}[noitemsep]
+			                                         \item[4a.] Der Nutzer gibt keine gültige E-Mail-Adresse ein.
+				                                         \subitem[4a1.] Die App zeigt eine Fehlermeldung an und fordert den Nutzer auf, eine gültige E-Mail-Adresse einzugeben.
+				                                         \subitem[4a2.] Der \emph{Sign up}-Knopf ist ausgegraut, bis der Nutzer eine gültige E-Mail-Adresse eingegeben hat. \emph{Zurück zu 4.}
+			                                         \item[4b.] Der Nutzer gibt ein Passwort ein, das nicht den Anforderungen entspricht.
+				                                         \subitem[4b1.] Die App zeigt eine Fehlermeldung an und fordert den Nutzer auf, ein Passwort einzugeben, das die Anforderungen erfüllt.
+				                                         \subitem[4b2.] Der \emph{Sign up}-Knopf ist ausgegraut, bis der Nutzer ein Passwort eingegeben hat, das die Anforderungen erfüllt. \emph{Zurück zu 4.}
+			                                         \item[5a.] Der Nutzer gibt bei der Bestätigung des Passworts ein anderes Passwort ein.
+				                                         \subitem[5a1.] Die App zeigt eine Fehlermeldung an und fordert den Nutzer auf, das gleiche Passwort erneut einzugeben.
+				                                         \subitem[5a2.] Der \emph{Sign up}-Knopf ist ausgegraut, bis der Nutzer das gleiche Passwort erneut eingegeben hat. \emph{Zurück zu 5.}
+		                                         \end{enumerate} \\
+		\hline
+		\rowcolor{lightgray}                   &                                                                                                                                                       \\
+		\hline
+		Vor-/ Nachbedingungen                  & \begin{enumerate}[noitemsep]
+			                                         \item[Vor1.] Der Nutzer ist derzeit nicht mit der \emph{Remember Me}-Einstellung angemeldet.
+			                                         \item[Nach1.] Der Nutzer besitzt einen Account.
+		                                         \end{enumerate}                                                           \\
+		\hline
+	\end{tabularx}
 \end{table}
 
 
 \begin{table}[H]
-\caption{In Account einloggen}
-\begin{tabularx}{0.95\textwidth}{ |X|X| }
-\hline
-\rowcolor{gray} \textbf{Abschnitt} & \textbf{Inhalt} \\
-\hline
-	Primärer Akteur (Initiator) & Nutzer \\
-\hline
-	Weitere Akteure & - \\
-\hline
-	Auslösende Ereignisse (Trigger) & [--TODO--] \\
-\hline
-\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
-\hline
-	Hauptszenario & [--TODO--] [Beitritt via Invitecode] \\
-\hline
-  	Alternativszenarien & [--TODO--] [Beitritt via QR-Code]\\
-\hline
-  	Ausnahmeszenarien & [--TODO--] \\
-\hline
-\rowcolor{lightgray} & \\
-\hline
-  	Vor-/ Nachbedingungen & [--TODO--] \\
-\hline
-\end{tabularx}
+	\footnotesize
+	\caption{Use Case: In Account einloggen}
+	\begin{tabularx}{0.95\textwidth}{ |l|X| }
+		\hline
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                                                                                                       \\
+		\hline
+		Primärer Akteur                        & Nutzer                                                                                                                                \\
+		\hline
+		Weitere Akteure                        & (Keine)                                                                                                                               \\
+		\hline
+		Auslösende Ereignisse                  & Ein Nutzer öffnet die App und hat bereits einen Account. Er möchte sich jetzt anmelden.                                               \\
+		\hline
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                                                                                                 \\
+		\hline
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Der Nutzer öffnet die App. Er ist nicht angemeldet.
+			                                         \item Die App zeigt die Anmeldeseite an.
+			                                         \item Der Nutzer gibt seine E-Mail-Adresse und sein Passwort ein.
+			                                         \item Er tippt auf \emph{Login}.
+			                                         \item Er wird in den Account eingeloggt und auf seine aktive Reise weitergeleitet.
+		                                         \end{enumerate}                                                     \\
+		\hline
+		Alternativszenarien                    & \begin{enumerate}
+			                                         \item[1a.] Der Nutzer hat bei der letzten Anmeldung die \emph{Remember Me}-Einstellung aktiviert.
+				                                         \subitem[1a1.] Die Anmeldedaten liegen gespeichert vor. \emph{Weiter mit 5.}
+			                                         \item[5a.] Der Nutzer hat keine aktive Reise.
+				                                         \subitem[5a1.] Die App zeigt die Startseite an.
+		                                         \end{enumerate}                                      \\
+		\hline
+		Ausnahmeszenarien                      & \begin{enumerate}[noitemsep]
+			                                         \item[3a.] Der Nutzer gibt keine gültige E-Mail-Adresse ein.
+				                                         \subitem[3a1.] Die App zeigt eine Fehlermeldung an und fordert den Nutzer auf, eine gültige E-Mail-Adresse einzugeben.
+				                                         \subitem[3a2.] Der \emph{Login}-Knopf ist ausgegraut, bis der Nutzer eine gültige E-Mail-Adresse eingegeben hat. \emph{Zurück zu 3.}
+			                                         \item[4a.] Die Zugangsdaten sind ungültig.
+				                                         \subitem[4a1.] Die App zeigt eine Fehlermeldung an und fordert den Nutzer auf, die Zugangsdaten erneut einzugeben. \emph{Zurück zu 3.}
+		                                         \end{enumerate} \\
+		\hline
+		\rowcolor{lightgray}                   &                                                                                                                                       \\
+		\hline
+		Vor-/ Nachbedingungen                  & \begin{enumerate}[noitemsep]
+			                                         \item[Vor1.] Der Nutzer besitzt einen Account.
+		                                         \end{enumerate}                                                                                         \\
+		\hline
+	\end{tabularx}
 \end{table}
 
 
 \begin{table}[H]
-\caption{Eine Reise erstellen/beitreten}
-\begin{tabularx}{0.95\textwidth}{ |X|X| }
-\hline
-\rowcolor{gray} \textbf{Abschnitt} & \textbf{Inhalt} \\
-\hline
-	Primärer Akteur (Initiator) & Reiseleiter \\
-\hline
-	Weitere Akteure & Reisemitglied \\
-\hline
-	Auslösende Ereignisse (Trigger) & [--TODO--] \\
-\hline
-\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
-\hline
-	Hauptszenario & [--TODO--] [Normales Einloggen] \\
-\hline
-  	Alternativszenarien & [--TODO--] ['Remember Me' Einloggen]\\
-\hline
-  	Ausnahmeszenarien & [--TODO--] \\
-\hline
-\rowcolor{lightgray} & \\
-\hline
-  	Vor-/ Nachbedingungen & [--TODO--] \\
-\hline
-\end{tabularx}
+	\caption{Use Case: Eine Reise erstellen}
+	\footnotesize
+	\begin{tabularx}{0.95\textwidth}{ |l|X| }
+		\hline
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                                                                                                     \\
+		\hline
+		Primärer Akteur                        & Reiseleiter                                                                                                                         \\
+		\hline
+		Weitere Akteure                        & (Keine)                                                                                                                             \\
+		\hline
+		Auslösende Ereignisse                  & Ein Nutzer möchte eine neue Reise anlegen.                                                                                          \\
+		\hline
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                                                                                               \\
+		\hline
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Der angemeldete Nutzer navigiert zur Startseite (\emph{Home}).
+			                                         \item Er tippt auf \emph{Create Journey}.
+			                                         \item Ein Dialog öffnet sich, in dem er die Reiseinformationen eingeben kann.
+			                                         \item Er gibt einen Titel, eine Standardwährung sowie ein Start- und Enddatum ein.
+			                                         \item Er tippt auf \emph{Save}.
+			                                         \item Nach Erstellen der Reise öffnet sich das Einladungsmodal.
+		                                         \end{enumerate}                                                   \\
+		\hline
+		Alternativszenarien                    & (Keine)                                                                                                                             \\
+		\hline
+		Ausnahmeszenarien                      & \begin{enumerate}
+			                                         \item[4a.] Der Nutzer gibt einen ungültigen Reisezeitraum ein.
+				                                         \subitem[4a1.] Die App zeigt eine Fehlermeldung an und fordert den Nutzer auf, einen gültigen Reisezeitraum einzugeben.
+				                                         \subitem[4a2.] Der \emph{Save}-Knopf ist ausgegraut, bis der Nutzer einen gültigen Reisezeitraum eingegeben hat. \emph{Zurück zu 4.}
+		                                         \end{enumerate} \\
+		\hline
+		\rowcolor{lightgray}                   &                                                                                                                                     \\
+		\hline
+		Vor-/ Nachbedingungen                  & \begin{enumerate}
+			                                         \item[Vor1.] Der Nutzer besitzt einen Account und ist angemeldet.
+			                                         \item[Nach1.] Es existiert eine neue Reise.
+		                                         \end{enumerate}                                                                    \\
+		\hline
+	\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+	\footnotesize
+	\caption{Use Case: Eine Reise beitreten}
+	\begin{tabularx}{0.95\textwidth}{ |l|X| }
+		\hline
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                                                  \\
+		\hline
+		Primärer Akteur                        & Nutzer                                                                           \\
+		\hline
+		Weitere Akteure                        & Reiseleiter                                                                      \\
+		\hline
+		Auslösende Ereignisse                  & Der Nutzer möchte einer Reise beitreten, die der Reiseleiter erstellt hat.       \\
+		\hline
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                                            \\
+		\hline
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Der angemeldete Nutzer navigiert zur Startseite (\emph{Home}).
+			                                         \item Er tippt auf \emph{Join Journey}.
+			                                         \item Er gibt den Invitecode ein, den der Reiseleiter ihm mitgeteilt hat.
+			                                         \item Er tippt auf \emph{Apply}.
+			                                         \item Der Nutzer wird zur Reise hinzugefügt. Die App leitet ihn zur Reise weiter.
+		                                         \end{enumerate} \\
+		\hline
+		Alternativszenarien                    & \begin{enumerate}
+			                                         \item[3a.] Der Nutzer benutzt das QR-Code-Feature.
+				                                         \subitem[3a1.] Der Nutzer tippt auf \emph{Scan QR-Code}.
+				                                         \subitem[3a2.] Die App öffnet die Kamera.
+				                                         \subitem[3a3.] Der Nutzer scannt den QR-Code. \emph{Weiter mit 5.}
+		                                         \end{enumerate}                \\
+		\hline
+		Ausnahmeszenarien                      & \begin{enumerate}
+			                                         \item[3b.] Der Nutzer gibt einen ungültigen Invitecode ein.
+				                                         \subitem[3b1.] Die App meldet einen invaliden Invitecode. \emph{Zurück zu 3.}
+		                                         \end{enumerate}     \\
+		\hline
+		\rowcolor{lightgray}                   &                                                                                  \\
+		\hline
+		Vor-/ Nachbedingungen                  & \begin{enumerate}
+			                                         \item[Vor1.] Der Nutzer besitzt einen Account und ist angemeldet.
+			                                         \item[Vor2.] Der Nutzer ist nicht Mitglied der Reise.
+			                                         \item[Nach1.] Der Nutzer ist Mitglied der Reise.
+		                                         \end{enumerate}                 \\
+		\hline
+	\end{tabularx}
 \end{table}
 
 
 \begin{table}[H]
-\caption{Zahlung festhalten}
-\begin{tabularx}{0.95\textwidth}{ |X|X| }
-\hline
-\rowcolor{gray} \textbf{Abschnitt} & \textbf{Inhalt} \\
-\hline
-	Primärer Akteur (Initiator) & Reisemitglied \\
-\hline
-	Weitere Akteure & - \\
-\hline
-	Auslösende Ereignisse (Trigger) & [--TODO--] \\
-\hline
-\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
-\hline
-	Hauptszenario & [--TODO--] \\
-\hline
-  	Alternativszenarien & [--TODO--] \\
-\hline
-  	Ausnahmeszenarien & [--TODO--] \\
-\hline
-\rowcolor{lightgray} & \\
-\hline
-  	Vor-/ Nachbedingungen & [--TODO--] \\
-\hline
-\end{tabularx}
+	\footnotesize
+	\caption{Use Case: Zahlung festhalten}
+	\begin{tabularx}{0.95\textwidth}{ |l|X| }
+		\hline
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                                                                                              \\
+		\hline
+		Primärer Akteur                        & Reisemitglied                                                                                                                \\
+		\hline
+		Weitere Akteure                        & (Keine)                                                                                                                      \\
+		\hline
+		Auslösende Ereignisse                  & Ein Reisemitglied möchte eine neue Zahlung festhalten, die er oder eine andere Person im Rahmen der Reise getätigt hat.      \\
+		\hline
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                                                                                        \\
+		\hline
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Das Reisemitglied ist auf der Seite der Reise.
+			                                         \item Er tippt auf \emph{New Payment}.
+			                                         \item Ein Dialog öffnet sich, in dem er die Daten der Zahlung eingibt.
+			                                         \item Er fügt einen Titel hinzu, wählt den Zahlenden, die Währung, den Betrag, das Datum und die Kategorie aus.
+			                                         \item Er wählt die Reiseteilnehmer aus, für die die Zahlung getätigt wurde.
+			                                         \item Er tippt auf \emph{Save}. Die Zahlung wird gespeichert.
+		                                         \end{enumerate}               \\
+		\hline
+		Alternativszenarien                    & \begin{enumerate}
+			                                         \item[4a.] Der Nutzer möchte zusätzlich ein Bild einfügen.
+				                                         \subitem[4a1.] Er tippt auf die \emph{Add Image} Schaltfläche.
+				                                         \subitem[4a2.] Die App öffnet die Kamera.
+				                                         \subitem[4a3.] Der Nutzer macht ein Foto, welches hochgeladen wird. \emph{Zurück zu 4.}
+		                                         \end{enumerate}                                       \\
+		\hline
+		Ausnahmeszenarien                      & \begin{enumerate}
+			                                         \item[4b.] Der Nutzer gibt einen ungültigen (negativen) Betrag ein.
+				                                         \subitem[4b1.] Die App meldet einen invaliden Betrag.
+				                                         \subitem[4a2.] Der \emph{Save}-Knopf ist ausgegraut, bis der Nutzer einen gültigen Betrag eingegeben hat. \emph{Zurück zu 4.}
+		                                         \end{enumerate} \\
+		\hline
+		\rowcolor{lightgray}                   &                                                                                                                              \\
+		\hline
+		Vor-/ Nachbedingungen                  & \begin{enumerate}
+			                                         \item[Nach1.] Die Zahlung ist gespeichert.
+		                                         \end{enumerate}                                                                                    \\
+		\hline
+	\end{tabularx}
 \end{table}
 
 
 \begin{table}[H]
-\caption{Zahlung einsehen}
-\begin{tabularx}{0.95\textwidth}{ |X|X| }
-\hline
-\rowcolor{gray} \textbf{Abschnitt} & \textbf{Inhalt} \\
-\hline
-	Primärer Akteur (Initiator) & Reisemitglied \\
-\hline
-	Weitere Akteure & - \\
-\hline
-	Auslösende Ereignisse (Trigger) & [--TODO--] \\
-\hline
-\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
-\hline
-	Hauptszenario & [--TODO--] \\
-\hline
-  	Alternativszenarien & [--TODO--] \\
-\hline
-  	Ausnahmeszenarien & [--TODO--] \\
-\hline
-\rowcolor{lightgray} & \\
-\hline
-  	Vor-/ Nachbedingungen & [--TODO--] \\
-\hline
-\end{tabularx}
+	\footnotesize
+	\caption{Use Case: Zahlung einsehen}
+	\begin{tabularx}{0.95\textwidth}{ |l|X| }
+		\hline
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\hline
+		Primärer Akteur                        & Reisemitglied         \\
+		\hline
+		Weitere Akteure                        & (Keine)               \\
+		\hline
+		Auslösende Ereignisse                  & [--TODO--]            \\
+		\hline
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\hline
+		Hauptszenario                          & [--TODO--]            \\
+		\hline
+		Alternativszenarien                    & [--TODO--]            \\
+		\hline
+		Ausnahmeszenarien                      & [--TODO--]            \\
+		\hline
+		\rowcolor{lightgray}                   &                       \\
+		\hline
+		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		\hline
+	\end{tabularx}
 \end{table}
 
 
 \begin{table}[H]
-\caption{Schulden einsehen}
-\begin{tabularx}{0.95\textwidth}{ |X|X| }
-\hline
-\rowcolor{gray} \textbf{Abschnitt} & \textbf{Inhalt} \\
-\hline
-	Primärer Akteur (Initiator) & Reisemitglied \\
-\hline
-	Weitere Akteure & - \\
-\hline
-	Auslösende Ereignisse (Trigger) & [--TODO--] \\
+	\footnotesize
+	\caption{Use Case: Schulden einsehen}
+	\begin{tabularx}{0.95\textwidth}{ |l|X| }
+		\hline
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\hline
+		Primärer Akteur                        & Reisemitglied         \\
+		\hline
+		Weitere Akteure                        & (Keine)               \\
+		\hline
+		Auslösende Ereignisse                  & [--TODO--]            \\
 
-\hline
-\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
-\hline
-	Hauptszenario & [--TODO--] \\
-\hline
-  	Alternativszenarien & [--TODO--] \\
-\hline
-  	Ausnahmeszenarien & [--TODO--] \\
-\hline
-\rowcolor{lightgray} & \\
-\hline
-  	Vor-/ Nachbedingungen & [--TODO--] \\
-\hline
-\end{tabularx}
+		\hline
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\hline
+		Hauptszenario                          & [--TODO--]            \\
+		\hline
+		Alternativszenarien                    & [--TODO--]            \\
+		\hline
+		Ausnahmeszenarien                      & [--TODO--]            \\
+		\hline
+		\rowcolor{lightgray}                   &                       \\
+		\hline
+		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		\hline
+	\end{tabularx}
 \end{table}
 
 
 \begin{table}[H]
-\caption{Reise archivieren}
-\begin{tabularx}{0.95\textwidth}{ |X|X| }
-\hline
-\rowcolor{gray} \textbf{Abschnitt} & \textbf{Inhalt} \\
-\hline
-	Primärer Akteur (Initiator) & Reiseleiter \\
-\hline
-	Weitere Akteure & - \\
-\hline
-	Auslösende Ereignisse (Trigger) & [--TODO--] \\
+	\footnotesize
+	\caption{Use Case: Reise archivieren}
+	\begin{tabularx}{0.95\textwidth}{ |l|X| }
+		\hline
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\hline
+		Primärer Akteur                        & Reiseleiter           \\
+		\hline
+		Weitere Akteure                        & (Keine)               \\
+		\hline
+		Auslösende Ereignisse                  & [--TODO--]            \\
 
-\hline
-\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
-\hline
-	Hauptszenario & [--TODO--] \\
-\hline
-  	Alternativszenarien & [--TODO--] \\
-\hline
-  	Ausnahmeszenarien & [--TODO--] \\
-\hline
-\rowcolor{lightgray} & \\
-\hline
-  	Vor-/ Nachbedingungen & [--TODO--] \\
-\hline
-\end{tabularx}
+		\hline
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\hline
+		Hauptszenario                          & [--TODO--]            \\
+		\hline
+		Alternativszenarien                    & [--TODO--]            \\
+		\hline
+		Ausnahmeszenarien                      & [--TODO--]            \\
+		\hline
+		\rowcolor{lightgray}                   &                       \\
+		\hline
+		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		\hline
+	\end{tabularx}
 \end{table}
 
 
 \begin{table}[H]
-\caption{Reisen einsehen}
-\begin{tabularx}{0.95\textwidth}{ |X|X| }
-\hline
-\rowcolor{gray} \textbf{Abschnitt} & \textbf{Inhalt} \\
-\hline
-	Primärer Akteur (Initiator) & Reisemitglied \\
-\hline
-	Weitere Akteure & - \\
-\hline
-	Auslösende Ereignisse (Trigger) & [--TODO--] \\
+	\footnotesize
+	\caption{Use Case: Reisen einsehen}
+	\begin{tabularx}{0.95\textwidth}{ |l|X| }
+		\hline
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\hline
+		Primärer Akteur                        & Reisemitglied         \\
+		\hline
+		Weitere Akteure                        & (Keine)               \\
+		\hline
+		Auslösende Ereignisse                  & [--TODO--]            \\
 
-\hline
-\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
-\hline
-	Hauptszenario & [--TODO--] \\
-\hline
-  	Alternativszenarien & [--TODO--] \\
-\hline
-  	Ausnahmeszenarien & [--TODO--] \\
-\hline
-\rowcolor{lightgray} & \\
-\hline
-  	Vor-/ Nachbedingungen & [--TODO--] \\
-\hline
-\end{tabularx}
+		\hline
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\hline
+		Hauptszenario                          & [--TODO--]            \\
+		\hline
+		Alternativszenarien                    & [--TODO--]            \\
+		\hline
+		Ausnahmeszenarien                      & [--TODO--]            \\
+		\hline
+		\rowcolor{lightgray}                   &                       \\
+		\hline
+		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		\hline
+	\end{tabularx}
 \end{table}
 
 
