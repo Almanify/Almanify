@@ -4,10 +4,6 @@ import {AuthGuard} from './guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'testing',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  },
-  {
     path: '',
     redirectTo: 'login/login',
     pathMatch: 'full'
@@ -71,11 +67,6 @@ const routes: Routes = [
   {
     path: 'journey/:id',
     loadChildren: () => import('./pages/journey-details/journey-details.module').then(m => m.JourneyDetailsPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'journey-evaluate',
-    loadChildren: () => import('./pages/journey-evaluate/journey-evaluate.module').then(m => m.JourneyEvaluatePageModule),
     canActivate: [AuthGuard]
   },
   {

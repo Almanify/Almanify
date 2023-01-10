@@ -7,7 +7,7 @@ import {User} from '../../data/User';
 import {AuthenticationService} from '../../services/auth.service';
 import {convertFromCurrency, convertToCurrency, formatCurrency} from '../../services/helper/currencies';
 import {NavController} from '@ionic/angular';
-import {PushMessegingService} from "../../services/push-messeging.service";
+import {PushMessagingService} from "../../services/push-messaging.service";
 
 
 @Component({
@@ -38,7 +38,7 @@ export class DebtCalculatorPage implements OnInit {
               public databaseService: DatabaseService,
               public authenticationService: AuthenticationService,
               public navCtrl: NavController,
-              public pushMessegingService: PushMessegingService) {
+              public pushMessegingService: PushMessagingService) {
     this.journey = new Journey();
     this.journey.id = route.snapshot.paramMap.get('id');
 

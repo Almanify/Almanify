@@ -8,7 +8,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 @Injectable({
   providedIn: 'root'
 })
-export class PushMessegingService {
+export class PushMessagingService {
   constructor(private http: HttpClient) {
   }
 
@@ -35,7 +35,7 @@ export class PushMessegingService {
         }
       }*/
     }
-    this.http.post(urlString, body, options)
+    this.http.post(urlString, body, options).subscribe((res) => console.log(res))
   }
 
   createDebtNotification(debtorUserName: string, value: string): admin.messaging.Notification {

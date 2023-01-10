@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PushMessegingService } from './push-messeging.service';
+import { PushMessagingService } from './push-messaging.service';
 
 describe('PushMessegingService', () => {
-  let service: PushMessegingService;
+  let service: PushMessagingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PushMessegingService);
+    service = TestBed.inject(PushMessagingService);
   });
 
   it('should be created', () => {
