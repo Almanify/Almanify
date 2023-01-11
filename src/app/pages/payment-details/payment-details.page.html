@@ -73,9 +73,9 @@
           <ion-label>
             Value
           </ion-label>
-          <div *ngIf="!isEditMode; else valueCurrencyInput">
+          <span *ngIf="!isEditMode; else valueCurrencyInput">
             {{formatCurrency(payment.value, payment.currency)}}
-          </div>
+          </span>
           <ng-template #valueCurrencyInput>
             <ion-input [(ngModel)]="payment.value" class="ion-text-right" placeholder="Enter Value" slot="end"
                        type="number">
