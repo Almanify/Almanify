@@ -49,7 +49,7 @@
 
   <!-- card with thumbnail -->
   <ion-card *ngFor="let journey of filteredJourneys">
-    <ion-card *ngIf="journey.img" style="margin: 0">
+    <ion-card *ngIf="journey.img != null" style="margin: 0px" (click)="viewJourney(journey)">
         <ion-img style="width: 100%; height: 180px; object-fit: cover;" src="{{journey.img}}"></ion-img>
         <svg style="width: 100%; height: 180px; position: absolute; z-index: 98; bottom: 0; background: rgba(0, 0, 0, .3)">
           <foreignObject x="0" y="0" width="100%" height="100%">
@@ -61,8 +61,8 @@
     </ion-card>
 
     <!-- card without thumbnail -->
-    <ion-card *ngIf="!journey.img" style="margin: 0; height: 180px;">
-      <svg style="width: 100%; height: 180px; position: absolute; z-index: 98; bottom: 0; background: rgba(0, 0, 0, .2)">
+    <ion-card *ngIf="journey.img == null" style="margin: 0px; height: 180px;" (click)="viewJourney(journey)">
+      <svg style="width: 100%; height: 180px; position: absolute; z-index: 98; bottom: 0px; background: rgba(0, 0, 0, .2)">
         <foreignObject x="0" y="0" width="100%" height="100%">
           <div style="display: table; width: 100%; height: 100%;">
             <p class="cardImg" style="color:rgba(240, 248, 255, .8); -webkit-text-stroke: 1.5px rgba(0, 0, 0, .8);">{{journey.title}}</p>
@@ -72,6 +72,14 @@
       <svg width="100%" height="180px" style="mask-image: url(assets/logo/almanify-logo-no-bg.svg); mask-size: 100%; mask-position: 0; mask-repeat: no-repeat;">
       </svg>
     </ion-card>
+
+    <span style="pointer-events:none; position: absolute; top: 2px ;">
+      <ion-fab slot="fixed">
+        <ion-fab-button size="small" style="--background: rgba(122, 122, 122, .2)">
+          <ion-icon name="eye" style="color: rgba(240, 248, 255, .4);"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+  </span>
 
     <span style="position: absolute; top: 8px; right: 8px; z-index: 99; pointer-events:none">
       <ion-chip [outline]="true" style="color: var(--ion-color-step-800); background-color: var(--ion-card-background);">
@@ -125,15 +133,34 @@
         </ion-col>
       </ion-row-->
       <!--/ion-item-group-->
+      <ion-accordion-group>
+        <ion-accordion value="first" style="outline: 1.5px solid var(--ion-color-primary);">
+          <ion-item slot="header" color="var(--ion-color-step-100)">
+            <ion-label>Informationen zur Reise</ion-label>
+          </ion-item>
+          <ion-item lines="full" slot="content" style="--background: var(--ion-color-step-100)">
+            <ion-icon name="logo-euro" slot="start"></ion-icon>
+            <ion-label>Default currency:</ion-label>
+            <ion-label slot="end">{{journey.defaultCurrency}}</ion-label>
+          </ion-item>
+          <ion-item lines="full" slot="content" style="--background: var(--ion-color-step-100)">
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            <ion-label>Start date:</ion-label>
+            <ion-label slot="end">{{journey.start.toDate() | date:'dd/MM/yyyy'}}</ion-label>
+          </ion-item>
+          <ion-item lines="full" slot="content" style="--background: var(--ion-color-step-100)">
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            <ion-label>End date:</ion-label>
+            <ion-label slot="end">{{journey.end.toDate() | date:'dd/MM/yyyy'}}</ion-label>
+          </ion-item>
+          <ion-item lines="full" slot="content" style="--background: var(--ion-color-step-100)">
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-label>Creator:</ion-label>
+            <ion-label slot="end">{{getJourneyCreator(journey.creatorID)}}</ion-label>
+          </ion-item>
+        </ion-accordion>
+    </ion-accordion-group>
       <ion-row>
-        <ion-col size="12">
-          <ion-button
-            (click)="viewJourney(journey)"
-            style="width: 100%;"
-          >
-            <ion-icon name="eye"></ion-icon>
-          </ion-button>
-        </ion-col>
         <ion-col *ngIf="journey.creatorID === userId">
           <ion-button
             (click)="viewInviteCode(journey)"
