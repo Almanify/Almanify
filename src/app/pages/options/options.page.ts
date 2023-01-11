@@ -25,6 +25,7 @@ export class OptionsPage implements OnInit {
   buttonDisabled = true;
   inEditMode = false;
   message = 'Informationen wurden erfolgreich bearbeitet';
+  isLoaded = false;
 
   constructor(public authService: AuthenticationService, private databaseService: DatabaseService) {
     this.user = new User();
@@ -32,9 +33,6 @@ export class OptionsPage implements OnInit {
 
   ngOnInit() {
     this.getUserInformation();
-    this.authService.getObservable().subscribe(() => {
-      this.getUserInformation();
-    });
   }
 
   cancel() {
@@ -53,13 +51,15 @@ export class OptionsPage implements OnInit {
   }
 
   async getUserInformation() {
-    await this.databaseService.userCrudHandler.readByID(this.authService.getUserId).then(u => {
-      this.user.id = u.id;
-      this.name = this.user.userName = u.userName;
-      this.currency = this.user.userCurrency = u.userCurrency;
+    this.authService.expectUserId().then(async (uid) => {
+      await this.databaseService.userCrudHandler.readByID(uid).then(u => {
+        this.user.id = u.id;
+        this.name = this.user.userName = u.userName;
+        this.currency = this.user.userCurrency = u.userCurrency;
+        this.isLoaded = true;
+        this.email = this.authService.getUserEmail;
+      });
     });
-
-    this.email = this.authService.getUserEmail;
   }
 
   changeEditMode() {

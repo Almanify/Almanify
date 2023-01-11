@@ -33,11 +33,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'debt-view',
-    loadChildren: () => import('./pages/debt-view/debt-view/debt-view.module').then(m => m.DebtViewPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'payment-details/:editmode/:journeyId',
     loadChildren: () => import('./pages/payment-details/payment-details.module').then(m => m.PaymentDetailsPageModule),
     canActivate: [AuthGuard]
@@ -75,11 +70,6 @@ const routes: Routes = [
   {
     path: 'journey/:id',
     loadChildren: () => import('./pages/journey-details/journey-details.module').then(m => m.JourneyDetailsPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'journey-evaluate',
-    loadChildren: () => import('./pages/journey-evaluate/journey-evaluate.module').then(m => m.JourneyEvaluatePageModule),
     canActivate: [AuthGuard]
   },
   {

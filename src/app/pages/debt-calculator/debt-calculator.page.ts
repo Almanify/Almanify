@@ -86,8 +86,10 @@ export class DebtCalculatorPage implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.userID = this.authenticationService.getUserId;
-    this.loadJourney().then(() => this.isLoaded = true);
+    this.authenticationService.expectUserId().then(id => {
+      this.userID = id;
+      this.loadJourney().then(() => this.isLoaded = true);
+    });
   }
 
   getTotalAmountPaidByUser() {

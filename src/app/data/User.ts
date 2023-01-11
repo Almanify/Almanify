@@ -1,9 +1,9 @@
-import {DatabaseEntity} from "./DatabaseEntity";
+import {DatabaseEntity} from './DatabaseEntity';
 
-export class User implements DatabaseEntity{
-   id: string;
-   userCurrency: string;
-   userName: string;
+export class User implements DatabaseEntity {
+  id: string;
+  userCurrency: string;
+  userName: string;
 
   constructor(
     id: string = '',

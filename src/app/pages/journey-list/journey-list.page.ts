@@ -61,21 +61,17 @@ export class JourneyListPage implements OnInit {
     // }
   }
 
-  viewJourney(journey: Journey) {
-    this.router.navigate(['/journey/' + journey.id]);
+  async viewJourney(journey: Journey) {
+    await this.router.navigate(['/journey/' + journey.id]);
   }
 
-  editJourney(journey: Journey) {
-    this.router.navigate(['/journey-editor/' + journey.id]);
+  async editJourney(journey: Journey) {
+    await this.router.navigate(['/journey-editor/' + journey.id]);
   }
 
   ngOnInit() {
-    // initial load of journeys
-    this.userId = this.authenticationService.getUserId;
-    this.loadJourneys();
-    // watch for changes after initial load
-    this.authenticationService.getObservable().subscribe(() => {
-      this.userId = this.authenticationService.getUserId;
+    this.authenticationService.expectUserId().then(id => {
+      this.userId = id;
       this.loadJourneys();
     });
   }
@@ -88,7 +84,7 @@ export class JourneyListPage implements OnInit {
     });
   }
 
-  sortJourneys(){
+  sortJourneys() {
     this.journeys.sort((x, y) => y.start.seconds - x.start.seconds);
   }
 
@@ -110,7 +106,7 @@ export class JourneyListPage implements OnInit {
 
   async alertDelete(journey: Journey) {
     const alert = await this.alertController.create({
-      header: 'Delete journey "' + journey.title +'" and all included payments?',
+      header: 'Delete journey "' + journey.title + '" and all included payments?',
       buttons: [
         {
           text: 'Delete',
@@ -130,7 +126,7 @@ export class JourneyListPage implements OnInit {
 
   async alertArchive(journey: Journey) {
     let alert;
-    if(journey.active) {
+    if (journey.active) {
       alert = await this.alertController.create({
         header: 'Archive journey "' + journey.title + '"?',
         buttons: [

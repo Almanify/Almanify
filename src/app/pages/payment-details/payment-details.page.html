@@ -19,7 +19,7 @@
             {{payment.title || 'No title'}}
           </div>
           <ng-template #titleInput>
-            <ion-item lines="full" fill="outline">
+            <ion-item fill="outline" lines="full">
               <ion-label>Title:</ion-label>
               <ion-input [(ngModel)]="payment.title" disabled="{{!isEditMode}}" placeholder="Enter Title"
                          type="text"></ion-input>
@@ -44,7 +44,7 @@
             Payer
           </ion-label>
           <div *ngIf="!isEditMode; else payerDropdown">
-            {{userIdMap.get(payment.payerID) === undefined ? "loading..." : userIdMap.get(payment.payerID).userName || 'No payer'}}
+            {{!userIdMap.get(payment.payerID) ? "loading..." : userIdMap.get(payment.payerID).userName || 'No payer'}}
           </div>
           <ng-template #payerDropdown>
             <ion-select [(ngModel)]="payment.payerID"
@@ -73,9 +73,9 @@
           <ion-label>
             Value
           </ion-label>
-          <div *ngIf="!isEditMode; else valueCurrencyInput">
+          <span *ngIf="!isEditMode; else valueCurrencyInput">
             {{formatCurrency(payment.value, payment.currency)}}
-          </div>
+          </span>
           <ng-template #valueCurrencyInput>
             <ion-input [(ngModel)]="payment.value" class="ion-text-right" placeholder="Enter Value" slot="end"
                        type="number">
@@ -152,25 +152,26 @@
         </ion-item-group>
 
         <!--Picture of the bill TODO: set img etc-->
-        <ion-button type="file" (change)="saveEvent($event)" (click)="takePic()" *ngIf="isEditMode && (payment.img === null)" expand="block" fill="outline"
-                    size="large">
+        <ion-button (change)="saveEvent($event)" (click)="takePic()" *ngIf="isEditMode && (payment.img === null)"
+                    expand="block" fill="outline" size="large"
+                    type="file">
           <ion-icon name="add"></ion-icon>
           <ion-icon name="camera-outline"></ion-icon>
         </ion-button>
-        <ion-img *ngIf="payment.img != null"
+        <ion-img *ngIf="payment.img"
                  src="{{payment.img}}"></ion-img>
       </ion-list>
-      <ion-row class="ion-justify-content-center" *ngIf="payment.img != null && isEditMode">
+      <ion-row *ngIf="payment.img && isEditMode" class="ion-justify-content-center">
         <ion-col>
-          <ion-button (click)="alertDelete(payment)" expand="block" fill="outline" color="danger">Delete Picture
-            <ion-icon slot="end" name="trash"></ion-icon>
+          <ion-button (click)="alertDelete(payment)" color="danger" expand="block" fill="outline">Delete Picture
+            <ion-icon name="trash" slot="end"></ion-icon>
           </ion-button>
         </ion-col>
       </ion-row>
       <!-- File-input (if no thumbnail has been uploaded) -->
-      <ion-row class="ion-justify-content-center" *ngIf="payment.img == null && isEditMode">
+      <ion-row *ngIf="!payment.img && isEditMode" class="ion-justify-content-center">
         <ion-col>
-          <ion-input type="file" (change)="saveEvent($event)"></ion-input>
+          <ion-input (change)="saveEvent($event)" type="file"></ion-input>
         </ion-col>
       </ion-row>
     </ion-card-content>
@@ -183,7 +184,7 @@
 
   <ion-button (click)="save(); toggleEditMode();" expand="block">
     <ion-text>Save</ion-text>
-    <ion-icon slot="end" name="save"></ion-icon>
+    <ion-icon name="save" slot="end"></ion-icon>
   </ion-button>
 
 </ion-footer>

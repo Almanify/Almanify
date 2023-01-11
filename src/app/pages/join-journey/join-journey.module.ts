@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { JoinJourneyPageRoutingModule } from './join-journey-routing.module';
+import {JoinJourneyPageRoutingModule} from './join-journey-routing.module';
 
-import { JoinJourneyPage } from './join-journey.page';
+import {JoinJourneyPage} from './join-journey.page';
 
 @NgModule({
   imports: [
@@ -17,4 +17,5 @@ import { JoinJourneyPage } from './join-journey.page';
   ],
   declarations: [JoinJourneyPage]
 })
-export class JoinJourneyPageModule {}
+export class JoinJourneyPageModule {
+}

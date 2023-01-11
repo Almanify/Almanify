@@ -42,10 +42,10 @@ export class Payment implements DatabaseEntity {
 }
 
 export enum PaymentCategory {
-  accommodation = 'accommodation',
-  foodAndDrink = 'Food&Drink',
-  entertainment = 'entertainment',
-  transfer = 'transfer',
-  debtRepayment = 'repayment',
-  other = 'other',
+  accommodation = 'Accommodation',
+  foodAndDrink = 'Food and drink',
+  entertainment = 'Entertainment',
+  transfer = 'Transfer',
+  debtRepayment = 'Debt repayment',
+  other = 'Other',
 }

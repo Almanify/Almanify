@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { JourneyEditorPageRoutingModule } from './journey-editor-routing.module';
+import {JourneyEditorPageRoutingModule} from './journey-editor-routing.module';
 
-import { JourneyEditorPage } from './journey-editor.page';
+import {JourneyEditorPage} from './journey-editor.page';
 
 @NgModule({
   imports: [
@@ -17,4 +17,5 @@ import { JourneyEditorPage } from './journey-editor.page';
   ],
   declarations: [JourneyEditorPage]
 })
-export class JourneyEditorPageModule {}
+export class JourneyEditorPageModule {
+}
