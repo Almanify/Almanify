@@ -3,7 +3,6 @@ import {copyAndPrepare} from './copyAndPrepare';
 import {DatabaseEntity} from '../../data/DatabaseEntity';
 import {Observable} from 'rxjs/internal/Observable';
 
-
 export class CrudHandler<Entity extends DatabaseEntity> {
   public collection: AngularFirestoreCollection<Entity>;
 

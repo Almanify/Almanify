@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Payment, PaymentCategory} from '../../data/Payment';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NavController} from '@ionic/angular';
+import {AlertController, NavController} from '@ionic/angular';
 import {DatabaseService} from '../../services/database.service';
 import {AuthenticationService} from '../../services/auth.service';
 import {Journey} from '../../data/Journey';
@@ -19,7 +19,6 @@ export class JourneyDetailsPage implements OnInit {
   journey: Journey;
   payments: Payment[] = [];
   journeyParticipants: User[] = [];
-  filteredPayments: Payment[] = [];
   sortBy = 'date';
   lowToHigh = 'false'; //need as string for binding
   userIdMap: Map<string, User> = new Map();
@@ -28,7 +27,8 @@ export class JourneyDetailsPage implements OnInit {
               private router: Router,
               public navCtrl: NavController,
               private databaseService: DatabaseService,
-              public authenticationService: AuthenticationService) {
+              public authenticationService: AuthenticationService,
+              private alertCtrl: AlertController) {
     this.journey = new Journey();
     this.journey.id = this.activatedRoute.snapshot.paramMap.get('id');
   }
@@ -81,38 +81,51 @@ export class JourneyDetailsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.userId = this.authenticationService.getUserId;
-    this.loadJourney();
-    this.authenticationService.getObservable().subscribe(() => {
-      this.userId = this.authenticationService.getUserId;
+    this.authenticationService.expectUserId().then((id) => {
+      this.userId = id;
       this.loadJourney();
     });
   }
 
-  addPayment() {
-    this.navCtrl.navigateRoot('root');
-    this.router.navigate(['/payment-details/' + true + '/' + this.journey.id]);
+  async addPayment() {
+    await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id);
   }
 
-  deletePayment(payment: Payment) {
-    this.databaseService.paymentCrudHandler.delete(payment).then(() => this.loadJourney());
+  async deletePayment(payment: Payment) {
+    const alert = await this.alertCtrl.create({
+      header: 'Delete Payment',
+      message: 'Do you really want to delete this payment?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Delete',
+          handler: async () => {
+            await this.databaseService.paymentCrudHandler.delete(payment).then(() => this.loadJourney());
+          },
+        }
+      ],
+    });
+    await alert.present();
   }
 
-  viewPayment(payment: Payment) {
-    this.navCtrl.navigateRoot('root');
-    this.router.navigate(['/payment-details/' + false + '/' + this.journey.id + '/' + payment.id]);
+  async viewPayment(payment: Payment) {
+    await this.navCtrl.navigateForward('/payment-details/' + false + '/' + this.journey.id + '/' + payment.id);
   }
 
-  editPayment(payment: Payment) {
-    this.navCtrl.navigateRoot('root');
-    this.router.navigate(['/payment-details/' + true + '/' + '/' + this.journey.id + '/' + payment.id]);
+  async editPayment(payment: Payment) {
+    await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + payment.id);
   }
-  viewDebts() {
-    this.navCtrl.navigateForward(['/debts/' + this.journey.id]);
+
+  async viewDebts() {
+    await this.navCtrl.navigateForward('/debts/' + this.journey.id);
   }
 
 
-  getCategoryIcon(category: PaymentCategory) {
+  getCategoryIcon(category: string) {
     switch (category) {
       case PaymentCategory.accommodation:
         return 'bed';
@@ -128,16 +141,5 @@ export class JourneyDetailsPage implements OnInit {
         return 'infinite';
     }
   }
-
-  /*@ViewChild('accordionGroup', { static: true }) accordionGroup: IonAccordionGroup;
-
-  toggleAccordion = () => {
-    const nativeEl = this.accordionGroup;
-    if (nativeEl.value === 'second') {
-      nativeEl.value = undefined;
-    } else {
-      nativeEl.value = 'second';
-    }
-  };*/
 
 }

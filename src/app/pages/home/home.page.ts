@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {delay} from "rxjs/operators";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -7,12 +6,9 @@ import {delay} from "rxjs/operators";
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  isEaster: boolean = false;
-  constructor() { }
-  ngOnInit() {
+  constructor() {
   }
 
-  showEasterEgg() {
-    this.isEaster = true;
+  ngOnInit() {
   }
 }

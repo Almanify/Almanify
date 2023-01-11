@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Debt Calculator</ion-title>
-    <ion-button slot="end" class="ion-margin-end" [routerLink]="'/journey/'+journey.id" routerDirection="back">
+    <ion-button [routerLink]="'/journey/'+journey.id" class="ion-margin-end" routerDirection="back" slot="end">
       <ion-icon name="close" slot="icon-only"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -16,7 +16,7 @@
     <ion-label>Calculating debts...</ion-label>
   </ion-item>
 
-  <ion-card class="ion-margin-bottom" *ngIf="isLoaded">
+  <ion-card *ngIf="isLoaded" class="ion-margin-bottom">
 
     <!-- amount the user is owed -->
     <div *ngIf="userIsOwed">
@@ -31,7 +31,7 @@
       </ion-card-content>
 
       <ion-button fill="clear">Send reminder</ion-button>
-      <ion-button fill="clear" (click)="insertRepaidDebt()">Someone paid me...</ion-button>
+      <ion-button (click)="insertRepaidDebt()" fill="clear">Someone paid me...</ion-button>
     </div>
 
     <!-- amount the user owes -->
@@ -85,7 +85,9 @@
             owe {{ toSelectedCurrencyString(realDebt[1])}}
             to {{ resolveUserId(realDebt[0]) }}
           </ion-label>
-          <ion-button fill="clear" (click)="payDebt(realDebt[0], convertToCurrency(realDebt[1], journey.defaultCurrency))">Pay</ion-button>
+          <ion-button (click)="payDebt(realDebt[0], convertToCurrency(realDebt[1], journey.defaultCurrency))"
+                      fill="clear">Pay
+          </ion-button>
         </ion-item>
       </ion-list>
       <ng-template #text1>

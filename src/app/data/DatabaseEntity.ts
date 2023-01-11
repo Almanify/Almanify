@@ -1,3 +1,3 @@
-export interface DatabaseEntity{
+export interface DatabaseEntity {
   id: string;
 }

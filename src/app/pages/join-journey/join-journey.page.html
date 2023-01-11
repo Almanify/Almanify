@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-button slot="end" class="ion-margin-end" routerLink="/home" routerDirection="back">
+    <ion-button class="ion-margin-end" routerDirection="back" (click)="router.back()" slot="end">
       <ion-icon name="close" slot="icon-only"></ion-icon>
     </ion-button>
     <ion-title>Join Journey</ion-title>
@@ -8,19 +8,20 @@
 </ion-header>
 
 <ion-content>
-  <ion-item class="round ion-margin" *ngIf="errorText">
+  <ion-item *ngIf="errorText" class="round ion-margin">
     <ion-label color="danger"> {{ errorText }} </ion-label>
   </ion-item>
 
   <ion-item class="round ion-margin">
     <ion-icon name="key" slot="start"></ion-icon>
-    <ion-input type="number" placeholder="Invite Code" [(ngModel)]="inviteCode" (ionChange)="errorText = ''">
+    <ion-input (ionChange)="errorText = ''" [(ngModel)]="inviteCode" placeholder="Invite Code" type="number">
     </ion-input>
   </ion-item>
-  <ion-button class="round ion-margin" expand="block" on-click="joinJourney()" [disabled]="!inviteCode">Apply</ion-button>
+  <ion-button [disabled]="!inviteCode" class="round ion-margin" expand="block" on-click="joinJourney()">Apply
+  </ion-button>
 
   <div *ngIf="!inviteCode">
-    <ion-title  class="ion-text-center" size="large">OR</ion-title>
+    <ion-title class="ion-text-center" size="large">OR</ion-title>
     <ion-img class="round ion-margin"
              src="https://static.giga.de/wp-content/uploads/2020/06/qr-code-scannen.jpg"></ion-img>
 
