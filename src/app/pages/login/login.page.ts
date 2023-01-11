@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.expectUser().then((userId) => this.navigateLoggedInUser(userId));
+    this.authService.expectUserId().then((userId) => this.navigateLoggedInUser(userId));
   }
 
   async logIn(email: IonInput, password: IonInput) {
@@ -62,19 +62,14 @@ export class LoginPage implements OnInit {
   }
 
   async navigateLoggedInUser(userId?: string) {
-    await this.databaseService.getJoinedJourneys(userId ?? await this.authService.expectUser()).then((journeys) => {
+    await this.databaseService.getJoinedJourneys(userId ?? await this.authService.expectUserId()).then((journeys) => {
 
-      if (!journeys || journeys.length === 0) {
-        this.router.navigateRoot('/home');
-        return;
-      }
-
-      const activeJourney = journeys.sort((x, y) => y.start.seconds - x.start.seconds).find(x => x.active);
-      if (activeJourney) {
-        this.router.navigateRoot('/journey/' + activeJourney.id);
+      if (!journeys || journeys.length === 0 || !journeys.find(x => x.active)) {
+        this.router.navigateRoot('/home'); // /journeys would not show anything, so we go to /home
       } else {
         this.router.navigateRoot('/journeys');
       }
+
     }).catch((error) =>
       this.alertController.create({
         header: 'Error while loading journeys',

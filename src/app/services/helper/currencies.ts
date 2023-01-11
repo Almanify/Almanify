@@ -99,13 +99,6 @@ export const currencies = [
   }
 ];
 
-/* converts a value from one currency to another */
-export const convertCurrency = (value: number, fromCode: string, toCode: string): number => {
-  const fromCurrency = currencies.find(currency => currency.code === fromCode);
-  const toCurrency = currencies.find(currency => currency.code === toCode);
-  return Math.round((value / fromCurrency.value) * toCurrency.value * 100) / 100;
-};
-
 /* converts a value from USD to another currency */
 export const convertToCurrency = (value: number, toCode: string): number => {
   const toCurrency = currencies.find(currency => currency.code === toCode);

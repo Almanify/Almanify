@@ -22,7 +22,7 @@ type Page = {
 export class AppComponent implements OnInit {
   userName = '';
   public blockedPages: Array<Page> = [
-    {title: 'Login', url: '/login/login', icon: 'log-in'}
+    {title: 'Login', url: '/login', icon: 'log-in'}
   ];
   public unblockedPages: Array<Page> = [
     {title: 'Home', url: `/home`, icon: 'home'},
@@ -44,26 +44,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getObservable().subscribe(value => {
-      if (value) {
-        this.databaseService.userCrudHandler.readByID(value).then(u => this.userName = u.userName);
-      } else {
-        this.userName = '';
-      }
-    });
+    this.authService.expectUserId().then((id) =>
+      this.databaseService.userCrudHandler.readByID(id).then(u => this.userName = u.userName)
+    );
     this.isOnLogin().then((isOnLogin) => {
       this.show = !isOnLogin;
     });
-
-    /* console.log('app component init');
-    this.authService.isAuthenticated.toPromise() // this doesn't seem to work
-      .then((isAuthenticated) => this.appPages = isAuthenticated ? this.unblockedPages : this.blockedPages);
-
-    console.log(this.authService.isAuthenticated.value); // this works
-
-    this.databaseService.userCrudHandler.readByID(this.authService.getUserId).then(u => {
-      this.userName = u.userName;
-    });*/
   }
 
   async showImprint() {

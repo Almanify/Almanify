@@ -1,6 +1,6 @@
 import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
-import {DatabaseEntity} from "./DatabaseEntity";
+import {DatabaseEntity} from './DatabaseEntity';
 
 export class Journey implements DatabaseEntity {
   public id: string;

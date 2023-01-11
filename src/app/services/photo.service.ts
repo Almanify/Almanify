@@ -1,13 +1,11 @@
 //source https://ionicframework.com/docs/angular/your-first-app/taking-photos
 //source https://ionicframework.com/docs/angular/your-first-app/saving-photos
 import {Injectable} from '@angular/core';
-import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/compat/storage';
+import {AngularFireStorage} from '@angular/fire/compat/storage';
 import {Camera, CameraResultType, CameraSource, Photo} from '@capacitor/camera';
-import {Filesystem, Directory} from '@capacitor/filesystem';
-import {Preferences} from '@capacitor/preferences';
-import {save} from "ionicons/icons";
-import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import {Directory, Filesystem} from '@capacitor/filesystem';
+import {Observable} from 'rxjs';
+import {finalize} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +27,29 @@ export class PhotoService {
     await this.savePic(capturedPhoto);
   }
 
+  uploadPic(event, folderId: string): Promise<Observable<string>> {
+    console.log(event.target);
+    const file = event.target.files[0];
+    const filePath = folderId + '/';
+
+    const fileRef = this.firestorage.ref(filePath + event.target.files[0].name);
+    const task = this.firestorage.upload(filePath + event.target.files[0].name, file);
+
+    return new Promise<Observable<string>>((resolve) => {
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          this.downloadURL = fileRef.getDownloadURL();
+          resolve(this.downloadURL);
+        })
+      ).subscribe();
+    });
+  }
+
+  deletePic(downloadURL: string) {
+    const fileRef = this.firestorage.refFromURL(downloadURL);
+    fileRef.delete();
+  }
+
   private async savePic(photo: Photo) {
     // Convert photo to base64 format, required by Filesystem API to save
     const base64Data = await this.readAsBase64(photo);
@@ -43,34 +64,10 @@ export class PhotoService {
     //TODO erweitern um speichern in cloud
   }
 
-  uploadPic(event, folder_id:string): Promise<Observable<string>> {
-    console.log(event.target);
-    const file = event.target.files[0];
-    const filePath = folder_id + "/";
-    
-    let fileref = this.firestorage.ref(filePath + event.target.files[0].name);
-    const task = this.firestorage.upload(filePath + event.target.files[0].name, file);
-
-    var promise = new Promise<Observable<string>>((resolve, reject) => {
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          this.downloadURL = fileref.getDownloadURL();
-          resolve(this.downloadURL);
-        })
-      ).subscribe();
-    });
-
-    return promise;
-  }
-
-  deletePic(downloadURL:string) {
-    let fileref = this.firestorage.refFromURL(downloadURL);
-    fileref.delete();
-  }
 
   private async readAsBase64(photo: Photo) {
     // Fetch the photo, read as a blob, then convert to base64 format
-    const response = await fetch(photo.webPath!);
+    const response = await fetch(photo.webPath);
     const blob = await response.blob();
 
     return await this.convertBlobToBase64(blob) as string;

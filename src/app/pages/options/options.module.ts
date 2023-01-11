@@ -1,15 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Component, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core/components';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { OptionsPageRoutingModule } from './options-routing.module';
+import {OptionsPageRoutingModule} from './options-routing.module';
 
-import { OptionsPage } from './options.page';
+import {OptionsPage} from './options.page';
 
 @NgModule({
   imports: [
@@ -20,5 +17,6 @@ import { OptionsPage } from './options.page';
   ],
   declarations: [OptionsPage]
 })
-export class OptionsPageModule {}
+export class OptionsPageModule {
+}
 

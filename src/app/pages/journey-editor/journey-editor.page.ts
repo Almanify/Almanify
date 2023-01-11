@@ -9,8 +9,7 @@ import Timestamp = firebase.firestore.Timestamp;
 import {User} from '../../data/User';
 import {currencies} from '../../services/helper/currencies';
 import {PhotoService} from '../../services/photo.service';
-import { Observable } from 'rxjs';
-import { AngularFireStorageReference } from '@angular/fire/compat/storage';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-journey-editor',
@@ -43,12 +42,14 @@ export class JourneyEditorPage implements OnInit {
       this.journey.id = id;
       this.databaseService.journeyCrudHandler.read(this.journey).then(journey => {
         // check if user is allowed to edit
-        if (this.authService.getUserId && journey.creatorID !== this.authService.getUserId) {
-          this.navCtrl.navigateBack('/journey/' + journey.id);
-        }
-
-        this.journey = journey;
-        this.getParticipants(this.journey);
+        this.authService.expectUserId().then(async (uid) => {
+          if (journey.creatorID !== uid) {
+            await this.navCtrl.navigateBack('/journey/' + journey.id);
+          } else {
+            this.journey = journey;
+            this.getParticipants(this.journey);
+          }
+        });
       });
     } else {
       databaseService.generateInviteCode().then(inviteCode => {
@@ -56,16 +57,12 @@ export class JourneyEditorPage implements OnInit {
       });
     }
   }
+
   ngOnInit() {
     if (!this.isEditMode) { // if new journey
-
-      this.journey.creatorID = this.authService.getUserId; // initial fetch
-      this.journey.journeyParticipants = [this.authService.getUserId]; // we assume that the creator is the only participant
-      this.getParticipants(this.journey);
-
-      this.authService.getObservable().subscribe((u) => { // subscribe to changes
-        this.journey.creatorID = u;
-        this.journey.journeyParticipants = [u];
+      this.authService.expectUserId().then((id) => {
+        this.journey.creatorID = id;
+        this.journey.journeyParticipants = [id];
         this.getParticipants(this.journey);
       });
     }
@@ -78,10 +75,10 @@ export class JourneyEditorPage implements OnInit {
         .then(u => this.participants.push(u)));
   }
 
-  deleteUser(user){
-    if (user.id !== this.journey.creatorID){
+  deleteUser(user) {
+    if (user.id !== this.journey.creatorID) {
       const index = this.journey.journeyParticipants.indexOf(user.id, 0);
-      this.journey.journeyParticipants.splice(index,1);
+      this.journey.journeyParticipants.splice(index, 1);
       this.participants = [];
       this.getParticipants(this.journey);
     }
@@ -98,19 +95,19 @@ export class JourneyEditorPage implements OnInit {
   //save with redirect variable for better user experience when trying to update thumbnails
   async save(redirect: boolean) {
     //upload picture
-    if (this.picEvent!=null) {
-      await this.photoService.uploadPic(this.picEvent, this.journey.creatorID).then(value => this.downloadURL=value);
+    if (this.picEvent != null) {
+      await this.photoService.uploadPic(this.picEvent, this.journey.creatorID).then(value => this.downloadURL = value);
     }
     //set downloadURL in journey to reference storage-image
-    if (this.downloadURL!=undefined) {
+    if (this.downloadURL !== undefined) {
       await this.downloadURL.toPromise().then(value => this.journey.img = value);
     }
     //update & redirection if wanted
     if (this.isEditMode) {
       //update database
-      let updatePromise = this.databaseService.journeyCrudHandler.update(this.journey)
+      const updatePromise = this.databaseService.journeyCrudHandler.update(this.journey);
       //redirection
-      if(redirect == true) {
+      if (redirect === true) {
         updatePromise.then((journeyId) => {
           this.navCtrl.navigateRoot('root');
           this.router.navigate(['/journey/' + journeyId]);
@@ -121,7 +118,7 @@ export class JourneyEditorPage implements OnInit {
       this.databaseService.journeyCrudHandler.createAndGetID(this.journey)
         .then((journeyId) => {
           this.navCtrl.navigateRoot('root');
-          this.router.navigate(['/journey/' + journeyId ]);
+          this.router.navigate(['/journey/' + journeyId]);
           this.router.navigate(['/journey/' + journeyId + '/invite']);
         });
     }
@@ -170,15 +167,14 @@ export class JourneyEditorPage implements OnInit {
     await alert.present();
   }
 
-  back() {
+  async back() {
     if (this.outlet.canGoBack()) {
-      this.navCtrl.pop();
+      await this.navCtrl.pop();
     } else {
-      this.navCtrl.navigateRoot('root');
-      this.router.navigateByUrl('/home');
+      await this.navCtrl.navigateRoot('home');
     }
   }
-  
+
   async saveEvent(event) {
     this.picEvent = event;
   }
@@ -186,6 +182,6 @@ export class JourneyEditorPage implements OnInit {
   async deletePic() {
     this.photoService.deletePic(this.journey.img);
     this.journey.img = null;
-    this.save(false);
+    await this.save(false);
   }
 }

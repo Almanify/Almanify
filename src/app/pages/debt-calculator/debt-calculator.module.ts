@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { DebtCalculatorPageRoutingModule } from './debt-calculator-routing.module';
+import {DebtCalculatorPageRoutingModule} from './debt-calculator-routing.module';
 
-import { DebtCalculatorPage } from './debt-calculator.page';
+import {DebtCalculatorPage} from './debt-calculator.page';
 
 @NgModule({
   imports: [
@@ -17,4 +17,5 @@ import { DebtCalculatorPage } from './debt-calculator.page';
   ],
   declarations: [DebtCalculatorPage]
 })
-export class DebtCalculatorPageModule {}
+export class DebtCalculatorPageModule {
+}

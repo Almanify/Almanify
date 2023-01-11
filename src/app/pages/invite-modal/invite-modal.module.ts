@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { InviteModalPageRoutingModule } from './invite-modal-routing.module';
+import {InviteModalPageRoutingModule} from './invite-modal-routing.module';
 
-import { InviteModalPage } from './invite-modal.page';
+import {InviteModalPage} from './invite-modal.page';
 
 @NgModule({
   imports: [
@@ -17,4 +17,5 @@ import { InviteModalPage } from './invite-modal.page';
   ],
   declarations: [InviteModalPage]
 })
-export class InviteModalModule {}
+export class InviteModalModule {
+}
