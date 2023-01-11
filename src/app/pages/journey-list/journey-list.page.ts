@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {DatabaseService} from '../../services/database.service';
 import {Journey} from '../../data/Journey';
+import {User} from '../../data/User';
 import {AuthenticationService} from '../../services/auth.service';
 import {AlertController} from '@ionic/angular';
 
@@ -14,6 +15,7 @@ export class JourneyListPage implements OnInit {
 
   userId = '';
   journeys: Journey[] = [];
+  people: Array<User> = [];
 
   filteredJourneys: Journey[] = [];
 
@@ -80,12 +82,13 @@ export class JourneyListPage implements OnInit {
     });
   }
 
-  loadJourneys() {
-    this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
+  async loadJourneys() {
+    await this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
       this.journeys = journeys;
       this.sortJourneys();
       this.filterJourneys();
     });
+    await this.loadCreators(this.journeys);
   }
 
   sortJourneys(){
@@ -168,5 +171,24 @@ export class JourneyListPage implements OnInit {
       });
     }
     await alert.present();
+  }
+
+  async loadCreators(journeys: Array<Journey>) {
+    await journeys
+      .forEach(journey => this.databaseService.userCrudHandler
+        .readByID(journey.creatorID)
+        .then((u) => {
+          this.people.push(u);
+    }));
+  }
+
+  getJourneyCreator(id: String) {
+    let name: String = 'leer';
+    this.people.forEach(person => {
+      if(id == person.id) {
+        name = person.userName;
+      }
+    });
+    return name;
   }
 }

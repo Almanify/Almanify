@@ -141,6 +141,11 @@
             <ion-label>End date:</ion-label>
             <ion-label slot="end">{{journey.end.toDate() | date:'dd/MM/yyyy'}}</ion-label>
           </ion-item>
+          <ion-item lines="full" slot="content" style="--background: var(--ion-color-step-100)">
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-label>Creator:</ion-label>
+            <ion-label slot="end">{{getJourneyCreator(journey.creatorID)}}</ion-label>
+          </ion-item>
         </ion-accordion>
     </ion-accordion-group>
       <ion-row>
