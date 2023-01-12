@@ -27,6 +27,8 @@ export class DebtCalculatorPage implements OnInit {
   isLoaded = false;
   selectedCurrency: string;
   currencies = currencies;
+  owedBy = [];
+  owedByString = '';
 
   /*
    * we store the debts as a map of the form, where person1 is the person who paid and person2 is the person who owes
@@ -89,8 +91,7 @@ export class DebtCalculatorPage implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.userID = this.authenticationService.getUserId;
-    this.loadJourney().then(() => this.isLoaded = true);
+    this.authenticationService.expectUser().then((id) => this.userID = id).then(() => this.loadJourney().then(() => this.isLoaded = true))
   }
 
   getTotalAmountPaidByUser() {
@@ -182,6 +183,7 @@ export class DebtCalculatorPage implements OnInit {
 
     this.userIsOwed = 0;
     this.amountsToBePaidByUser = [];
+    let owedByIds = [];
     this.amountsToBePaid.forEach((value, key) => {
       const [person1, person2] = key.split('-');
       if (person2 === this.userID) {
@@ -189,11 +191,23 @@ export class DebtCalculatorPage implements OnInit {
         this.amountsToBePaid.delete(key);
       } else if (person1 === this.userID) {
         this.userIsOwed += value;
+        owedByIds.push([person2, value]);
       }
     });
+    owedByIds.forEach((user, value) => this.databaseService.userCrudHandler
+      .readByID(user)
+      .then((u) => {
+        this.owedBy.push([user, u.userName, value]);
+      }));
+    this.owedByString = this.owedBy.map((a) => a[1]).join(', ');
   }
 
   sendReminder() {
-    this.pushMessegingService.sendNotificationToUser(this.userID, 'Testibert', '69$');
+    this.owedBy.forEach(item =>
+      this.pushMessegingService
+        .sendNotificationToUser(item[0], this.resolveUserId(this.userID), formatCurrency(item[2], this.selectedCurrency))
+    );
+    this.pushMessegingService
+      .sendNotificationToUser(this.userID, this.resolveUserId(this.userID), formatCurrency(36.33, this.selectedCurrency))
   }
 }

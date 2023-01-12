@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
               private route: ActivatedRoute,
               private loadingController: LoadingController,
               private router: NavController,
-              private alertController: AlertController) {
+              private alertController: AlertController,) {
     this.route = route;
   }
 
