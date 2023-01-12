@@ -3,10 +3,7 @@ import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from './guards/auth.guard';
 
 const routes: Routes = [
-  {
-    path: 'testing',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  },
+
   {
     path: '',
     redirectTo: 'home',

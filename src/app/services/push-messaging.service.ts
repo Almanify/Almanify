@@ -24,24 +24,29 @@ export class PushMessagingService {
       })
     }
     let body = {
-      to: "/topic/" + targetUserID,
-      notification: {
-        title: 'Offene Schulden',
-        body: "Du schuldest" + debtorUserName + " noch" + value
-      },
-      /*webpush:{
-        headers:{
-          imag: 'https://m.media-amazon.com/images/I/71bVEGMBolS._AC_UL1500_.jpg'
+      to: "/topics/" + targetUserID,
+      notification: this.createDebtNotification(debtorUserName, value),
+      webpush: {
+        headers: {
+          image: 'https://m.media-amazon.com/images/I/71bVEGMBolS._AC_UL1500_.jpg'
         }
-      }*/
+      },
+      android: {
+        notification: {
+          imageUrl: 'https://m.media-amazon.com/images/I/71bVEGMBolS._AC_UL1500_.jpg'
+        }
+      },
     }
     this.http.post(urlString, body, options).subscribe((res) => console.log(res))
   }
 
   createDebtNotification(debtorUserName: string, value: string): admin.messaging.Notification {
+    const pushMessages = require("./pushMessages.json");
+    let index = Math.floor(Math.random() * (Object.keys(pushMessages.notifications[0]).length + 2))
     return {
-      title: 'Offene Schulden',
-      body: debtorUserName + 'erinnert dich daran, dass du ihm noch' + value + 'schuldest'
+      title: pushMessages.notifications[index].title,
+      body: pushMessages.notifications[index].body.replace('[name]', debtorUserName).replace('[value]', value),
+      imageUrl: 'https://m.media-amazon.com/images/I/71bVEGMBolS._AC_UL1500_.jpg'
     }
   }
 

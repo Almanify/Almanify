@@ -7,11 +7,13 @@ import {ImprintComponent} from './components/imprint/imprint.component';
 import {GTCComponent} from './components/gtc/gtc.component';
 import {PrivacyProtectionComponent} from './components/privacy-protection/privacy-protection.component';
 import {Router} from '@angular/router';
-import {PopoverController} from '@ionic/angular';
-import {ImprintComponent} from './components/imprint/imprint.component';
-import {GTCComponent} from './components/gtc/gtc.component';
-import {PrivacyProtectionComponent} from './components/privacy-protection/privacy-protection.component';
-import {PushNotifications} from "@capacitor/push-notifications";
+import {PushNotifications, Token} from "@capacitor/push-notifications";
+import {getMessaging} from "firebase-admin/lib/messaging";
+import {getToken} from "@angular/fire/messaging";
+import {AngularFireMessaging} from '@angular/fire/compat/messaging';
+import {FCM} from "@capacitor-community/fcm";
+import {topic} from "firebase-functions/lib/v1/providers/pubsub";
+
 
 type Page = {
   url?: string;
@@ -36,9 +38,7 @@ export class AppComponent implements OnInit {
     {title: 'Options', url: '/options', icon: 'construct'},
     {title: 'Logout', icon: 'log-out'}
   ];
-
   show = true;
-
   constructor(public authService: AuthenticationService,
               private databaseService: DatabaseService,
               private popoverController: PopoverController,
@@ -60,34 +60,8 @@ export class AppComponent implements OnInit {
     this.isOnLogin().then((isOnLogin) => {
       this.show = !isOnLogin;
     });
-
-    /* console.log('app component init');
-    this.authService.isAuthenticated.toPromise() // this doesn't seem to work
-      .then((isAuthenticated) => this.appPages = isAuthenticated ? this.unblockedPages : this.blockedPages);
-
-    console.log(this.authService.isAuthenticated.value); // this works
-
-    this.databaseService.userCrudHandler.readByID(this.authService.getUserId).then(u => {
-      this.userName = u.userName;
-    });*/
-    this.setupPushNote();
   }
 
-
-  setupPushNote() {
-    // Request permission to use push notifications
-    // iOS will prompt user and return if they granted permission or not
-    // Android will just grant without prompting
-    PushNotifications.requestPermissions().then(result => {
-      if (result.receive === 'granted') {
-        // Register with Apple / Google to receive push via APNS/FCM
-        PushNotifications.register();
-      } else {
-        throw new Error('no push notifications premission')
-      }
-    });
-
-  }
   async showImprint() {
     const popover = await this.popoverController.create({
       component: ImprintComponent,
@@ -117,6 +91,8 @@ export class AppComponent implements OnInit {
   }
 
   public async logOut() {
+    FCM.unsubscribeFrom({topic: await this.authService.expectUser()})
+      .catch((err) => alert(err));
     const loading = await this.loadingController.create({
       message: 'Logging you out...'
     });
@@ -134,5 +110,6 @@ export class AppComponent implements OnInit {
           buttons: ['OK']
         }).then(alert => loading.dismiss().then(() => alert.present())));
   }
+
 }
 
