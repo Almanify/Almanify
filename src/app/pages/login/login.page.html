@@ -1,8 +1,6 @@
-<ion-header>
-</ion-header>
-
-<ion-content style="align-content: center; top: 10%">
-
+<ion-header></ion-header>
+<div style="height: 10%"></div>
+<ion-content [fullscreen]="true" [scrollY]="true">
   <ion-fab *ngIf="isDebug" [edge]="true" horizontal="end" slot="fixed" vertical="top">
     <ion-fab-button>
       <ion-icon name="key"></ion-icon>
@@ -28,8 +26,7 @@
   </ion-fab>
 
   <form [formGroup]="validationForm">
-    <ion-grid [fixed]="true" class="ion-text-center">
-
+    <ion-grid class="ion-text-center">
       <ion-row>
         <ion-col>
           <ion-title class="big-title">Almanify</ion-title>
@@ -215,3 +212,5 @@
     </ion-grid>
   </form>
 </ion-content>
+<div style="height: 10%"></div>
+
