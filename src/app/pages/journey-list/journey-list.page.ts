@@ -181,7 +181,7 @@ export class JourneyListPage implements OnInit {
   getJourneyCreator(id: String) {
     let name: String = 'leer';
     this.people.forEach(person => {
-      if(id == person.id) {
+      if(id === person.id) {
         name = person.userName;
       }
     });
