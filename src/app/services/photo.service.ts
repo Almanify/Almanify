@@ -25,15 +25,33 @@ export class PhotoService {
       quality: 100
     });
     await this.savePic(capturedPhoto);
+    return capturedPhoto;
   }
 
-  uploadPic(event, folderId: string): Promise<Observable<string>> {
+  uploadPicFromEvent(event, folderId: string): Promise<Observable<string>> {
     console.log(event.target);
     const file = event.target.files[0];
     const filePath = folderId + '/';
 
     const fileRef = this.firestorage.ref(filePath + event.target.files[0].name);
     const task = this.firestorage.upload(filePath + event.target.files[0].name, file);
+
+    return new Promise<Observable<string>>((resolve) => {
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          this.downloadURL = fileRef.getDownloadURL();
+          resolve(this.downloadURL);
+        })
+      ).subscribe();
+    });
+  }
+
+  uploadPicFromPhoto(photo: Photo, folderId: string): Promise<Observable<string>> {
+    console.log(photo.base64String);
+    const filePath = folderId + '/';
+
+    const fileRef = this.firestorage.ref(filePath + photo.path);
+    const task = this.firestorage.upload(filePath + photo.path, photo.base64String);
 
     return new Promise<Observable<string>>((resolve) => {
       task.snapshotChanges().pipe(

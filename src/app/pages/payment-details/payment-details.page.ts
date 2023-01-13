@@ -9,8 +9,8 @@ import firebase from 'firebase/compat/app';
 import {ActionSheetController, AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 import {convertFromCurrency, currencies, formatCurrency} from '../../services/helper/currencies';
 import {PhotoService} from '../../services/photo.service';
-import {Observable} from 'rxjs';
 import Timestamp = firebase.firestore.Timestamp;
+import {Photo} from "@capacitor/camera";
 
 @Component({
   selector: 'app-payment-details',
@@ -34,8 +34,7 @@ export class PaymentDetailsPage implements OnInit {
   amount: number = undefined;
   currency: string = undefined;
 
-  picEvent: any = null;
-  downloadURL: Observable<string>;
+  picEvent: any;
 
   constructor(public navCtrl: NavController,
               public outlet: IonRouterOutlet,
@@ -116,16 +115,12 @@ export class PaymentDetailsPage implements OnInit {
 
   async save() {
     //upload picture
-    if (this.picEvent != null) {
-      this.authService.expectUserId().then(async (uid) => {
-        await this.photoService.uploadPic(this.picEvent, uid).then(value => this.downloadURL = value);
-      });
+    if (this.picEvent) {
+      await this.photoService.uploadPicFromEvent(this.picEvent, this.journey.creatorID).then(value =>
+        value.toPromise().then(img => this.journey.img = img)
+      );
     }
-    //set downloadURL in journey to reference storage-image
-    if (this.downloadURL !== undefined) {
-      await this.downloadURL.toPromise().then(value => this.payment.img = value);
-    }
-    if (this.payment.id === null) {
+    if (!this.payment.id) {
       //new payment
       this.databaseService.paymentCrudHandler.createAndGetID(this.payment).then(id => this.payment.id = id);
     } else {
@@ -245,7 +240,7 @@ export class PaymentDetailsPage implements OnInit {
 
 
   async takePic() {
-    await this.photoService.addNewToGallery();
+    await this.photoService.addNewToGallery().then((photo: Photo) => this.photoService.uploadPicFromPhoto(photo, this.userId));
   }
 
   async saveEvent(event) {
