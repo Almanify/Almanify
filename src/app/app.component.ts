@@ -13,6 +13,7 @@ import {getToken} from "@angular/fire/messaging";
 import {AngularFireMessaging} from '@angular/fire/compat/messaging';
 import {FCM} from "@capacitor-community/fcm";
 import {topic} from "firebase-functions/lib/v1/providers/pubsub";
+import {PushMessagingService} from "./services/push-messaging.service";
 
 
 type Page = {
@@ -45,7 +46,8 @@ export class AppComponent implements OnInit {
               private route: ActivatedRoute,
               private loadingController: LoadingController,
               private router: NavController,
-              private alertController: AlertController,) {
+              private alertController: AlertController,
+              public pushMessagingService: PushMessagingService) {
     this.route = route;
   }
 
@@ -91,8 +93,7 @@ export class AppComponent implements OnInit {
   }
 
   public async logOut() {
-    FCM.unsubscribeFrom({topic: await this.authService.expectUser()})
-      .catch((err) => alert(err));
+    await this.pushMessagingService.unsubPushNote();
     const loading = await this.loadingController.create({
       message: 'Logging you out...'
     });

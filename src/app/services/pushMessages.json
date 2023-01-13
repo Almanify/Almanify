@@ -2,7 +2,7 @@
   "notifications": [
     {
       "title": "Outstanding debts",
-      "body": "You still owe [name] [value].\n \uD83D\uDC34 May this be a warning to you!"
+      "body": "You still owe [name] [value].\n\uD83D\uDC34 May this be a warning to you!"
     },
     {
       "title": "You still owe me money \uD83E\uDD13",

@@ -6,8 +6,9 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../data/User';
 import {NavController} from '@ionic/angular';
 import {DatabaseService} from '../../services/database.service';
-import {PushNotifications} from "@capacitor/push-notifications";
+import {PushNotifications, PushNotificationSchema} from "@capacitor/push-notifications";
 import {FCM} from "@capacitor-community/fcm";
+import {PushMessagingService} from "../../services/push-messaging.service";
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,8 @@ export class LoginPage implements OnInit {
               public formBuilder: FormBuilder,
               public databaseService: DatabaseService,
               public loadingController: LoadingController,
-              public alertController: AlertController) {
+              public alertController: AlertController,
+              public pushMessagingService: PushMessagingService) {
     this.prepareFormValidation();
     this.router = router;
   }
@@ -54,7 +56,7 @@ export class LoginPage implements OnInit {
       .then(async (res) => {
         await this.navigateLoggedInUser(res.user.uid);
         await loading.dismiss();
-        await this.setupPushNote();
+        await this.pushMessagingService.setupPushNote();
       })
       .catch((error) =>
         this.alertController.create({
@@ -151,21 +153,6 @@ export class LoginPage implements OnInit {
     }
   }
 
-  async setupPushNote() {
-    // Request permission to use push notifications
-    // iOS will prompt user and return if they granted permission or not
-    // Android will just grant without prompting
-    PushNotifications.requestPermissions().then(result => {
-      if (result.receive === 'granted') {
-        // Register with Apple / Google to receive push via APNS/FCM
-        PushNotifications.register();
-      } else {
-        throw new Error('no push notifications premission')
-      }
-    });
-    FCM.subscribeTo({topic: await this.authService.expectUser()})
-      .catch((err) => console.log(err));
 
-  }
 
 }

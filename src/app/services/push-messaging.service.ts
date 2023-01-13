@@ -1,18 +1,17 @@
-
 import {Injectable} from '@angular/core';
 import * as admin from 'firebase-admin';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Environment} from "@angular/cli/lib/config/workspace-schema";
 import {environment} from "../../environments/environment";
-import {formatCurrency} from "./helper/currencies";
-
+import {ActionPerformed, PushNotifications, PushNotificationSchema} from "@capacitor/push-notifications";
+import {FCM} from "@capacitor-community/fcm";
+import {AuthenticationService} from "./auth.service";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class PushMessagingService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public authService: AuthenticationService) {
   }
 
 
@@ -26,17 +25,7 @@ export class PushMessagingService {
     }
     let body = {
       to: "/topics/" + targetUserID,
-      notification: this.createDebtNotification(debtorUserName, value),
-      webpush: {
-        headers: {
-          image: 'https://m.media-amazon.com/images/I/71bVEGMBolS._AC_UL1500_.jpg'
-        }
-      },
-      android: {
-        notification: {
-          imageUrl: 'https://m.media-amazon.com/images/I/71bVEGMBolS._AC_UL1500_.jpg'
-        }
-      },
+      notification: this.createDebtNotification(debtorUserName, value)
     }
     this.http.post(urlString, body, options).subscribe((res) => console.log(res))
   }
@@ -47,9 +36,45 @@ export class PushMessagingService {
     return {
       title: pushMessages.notifications[index].title,
       body: pushMessages.notifications[index].body.replace('[name]', debtorUserName).replace('[value]', value),
-      imageUrl: 'https://m.media-amazon.com/images/I/71bVEGMBolS._AC_UL1500_.jpg'
     }
   }
 
+  async setupPushNote() {
+    // Request permission to use push notifications
+    // iOS will prompt user and return if they granted permission or not
+    // Android will just grant without prompting
+    PushNotifications.requestPermissions().then(result => {
+      if (result.receive === 'granted') {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register().then(async () => {
+          FCM.subscribeTo({topic: await this.authService.expectUser()})
+            .catch((err) => alert(err))
+        });
+      } else {
+        throw new Error('no push notifications premission')
+      }
+    });
+
+    // Show us the notification payload if the app is open on our device
+    //TODO: not working
+    PushNotifications.addListener(
+      'pushNotificationReceived',
+      (notification: PushNotificationSchema) => {
+        alert('Push received: ' + JSON.stringify(notification));
+      },
+    );
+    // Method called when tapping on a notification
+    PushNotifications.addListener('pushNotificationActionPerformed',
+      (notification: ActionPerformed) => {
+        //alert('Push action performed: ' + JSON.stringify(notification));
+        //TODO: could be used for open a new payment
+      }
+    );
+  }
+
+  async unsubPushNote() {
+    FCM.unsubscribeFrom({topic: await this.authService.expectUser()})
+      .catch((err) => alert(err));
+  }
 }
 

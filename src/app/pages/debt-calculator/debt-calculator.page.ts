@@ -43,7 +43,7 @@ export class DebtCalculatorPage implements OnInit {
               public databaseService: DatabaseService,
               public authenticationService: AuthenticationService,
               public navCtrl: NavController,
-              public pushMessegingService: PushMessagingService) {
+              public pushMessagingService: PushMessagingService) {
     this.journey = new Journey();
     this.journey.id = route.snapshot.paramMap.get('id');
 
@@ -132,8 +132,6 @@ export class DebtCalculatorPage implements OnInit {
       });
     });
 
-    console.log(basicAmounts.entries());
-
     // map person indices to amount to be paid or received
     const moneyOffset = new Map();
     basicAmounts.forEach((amount, key) => {
@@ -146,8 +144,6 @@ export class DebtCalculatorPage implements OnInit {
     const sortedMoneyOffset: Array<[string, number]> = [...moneyOffset.entries()]
       .sort((a, b) => b[1] - a[1])
       .filter(([_, amount]) => amount !== 0);
-
-    console.log(sortedMoneyOffset, sortedMoneyOffset[0]);
 
     // calculate the final amounts to be paid
     const finalAmountsToBePaid = new Map();
@@ -203,11 +199,9 @@ export class DebtCalculatorPage implements OnInit {
   }
 
   sendReminder() {
-    this.owedBy.forEach(item =>
-      this.pushMessegingService
-        .sendNotificationToUser(item[0], this.resolveUserId(this.userID), formatCurrency(item[2], this.selectedCurrency))
-    );
-    this.pushMessegingService
-      .sendNotificationToUser(this.userID, this.resolveUserId(this.userID), formatCurrency(36.33, this.selectedCurrency))
+    this.owedBy.forEach(item => {
+      this.pushMessagingService
+        .sendNotificationToUser(item.userID, this.resolveUserId(this.userID), this.toSelectedCurrencyString(item.value))
+    });
   }
 }
