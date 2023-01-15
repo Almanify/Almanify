@@ -6,9 +6,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../data/User';
 import {NavController} from '@ionic/angular';
 import {DatabaseService} from '../../services/database.service';
-import {PushNotifications, PushNotificationSchema} from "@capacitor/push-notifications";
-import {FCM} from "@capacitor-community/fcm";
-import {PushMessagingService} from "../../services/push-messaging.service";
+import {PushMessagingService} from '../../services/push-messaging.service';
 
 @Component({
   selector: 'app-login',
@@ -56,7 +54,9 @@ export class LoginPage implements OnInit {
       .then(async (res) => {
         await this.navigateLoggedInUser(res.user.uid);
         await loading.dismiss();
-        await this.pushMessagingService.setupPushNote();
+        await this.pushMessagingService.setupPushNote().catch(() => {
+          // ignore
+        });
       })
       .catch((error) =>
         this.alertController.create({
@@ -92,7 +92,12 @@ export class LoginPage implements OnInit {
     const user = new User('', username.value as string);
     this.signUpService.createUser(user, email.value as string, password.value as string)
       .then(_ => this.isLoginMode = true)
-      .catch((error) => window.alert(error.message));
+      .catch((error) =>
+        this.alertController.create({
+          header: 'Error while signing up',
+          message: error.message,
+          buttons: ['OK']
+        }).then(alert => alert.present()));
   }
 
   rememberMeToggle($event: CustomEvent) {

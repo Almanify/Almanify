@@ -6,14 +6,7 @@ import {AlertController, LoadingController, NavController, PopoverController} fr
 import {ImprintComponent} from './components/imprint/imprint.component';
 import {GTCComponent} from './components/gtc/gtc.component';
 import {PrivacyProtectionComponent} from './components/privacy-protection/privacy-protection.component';
-import {Router} from '@angular/router';
-import {PushNotifications, Token} from "@capacitor/push-notifications";
-import {getMessaging} from "firebase-admin/lib/messaging";
-import {getToken} from "@angular/fire/messaging";
-import {AngularFireMessaging} from '@angular/fire/compat/messaging';
-import {FCM} from "@capacitor-community/fcm";
-import {topic} from "firebase-functions/lib/v1/providers/pubsub";
-import {PushMessagingService} from "./services/push-messaging.service";
+import {PushMessagingService} from './services/push-messaging.service';
 
 
 type Page = {
@@ -93,7 +86,9 @@ export class AppComponent implements OnInit {
   }
 
   public async logOut() {
-    await this.pushMessagingService.unsubPushNote();
+    await this.pushMessagingService.unsubPushNote().catch(() => {
+      // do nothing
+    });
     const loading = await this.loadingController.create({
       message: 'Logging you out...'
     });
