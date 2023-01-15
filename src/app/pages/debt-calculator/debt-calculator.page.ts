@@ -27,7 +27,6 @@ export class DebtCalculatorPage implements OnInit {
   selectedCurrency: string;
   currencies = currencies;
   owedBy = [];
-  owedByString = '';
 
   /*
    * we store the debts as a map of the form, where person1 is the person who paid and person2 is the person who owes
@@ -104,13 +103,25 @@ export class DebtCalculatorPage implements OnInit {
     return total;
   }
 
-  payDebt(person: string, amount: number) {
-    this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + person + '/'
+  async payDebt(person: string, amount: number) {
+    await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + person + '/'
       + convertToCurrency(amount, this.selectedCurrency) + '/' + this.selectedCurrency);
   }
 
-  insertRepaidDebt() {
-    this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + this.userID + '/' + 0);
+  async insertRepaidDebt(person?: string, amount?: number) {
+    if (person && amount) {
+      await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + this.userID + '/'
+        + amount + '/' + this.selectedCurrency + '/' + person);
+    } else {
+      await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + this.userID + '/' + 0);
+    }
+  }
+
+  sendReminder() {
+    this.owedBy.forEach(item => {
+      this.pushMessagingService
+        .sendNotificationToUser(item.userID, this.resolveUserId(this.userID), this.toSelectedCurrencyString(item.value));
+    });
   }
 
   private updateDebts() {
@@ -181,7 +192,8 @@ export class DebtCalculatorPage implements OnInit {
 
     this.userIsOwed = 0;
     this.amountsToBePaidByUser = [];
-    let owedByIds = [];
+    const owedByIds = [];
+
     this.amountsToBePaid.forEach((value, key) => {
       const [person1, person2] = key.split('-');
       if (person2 === this.userID) {
@@ -192,18 +204,12 @@ export class DebtCalculatorPage implements OnInit {
         owedByIds.push([person2, value]);
       }
     });
-    owedByIds.forEach((user, value) => this.databaseService.userCrudHandler
-      .readByID(user)
-      .then((u) => {
-        this.owedBy.push([user, u.userName, value]);
-      }));
-    this.owedByString = this.owedBy.map((a) => a[1]).join(', ');
-  }
 
-  sendReminder() {
-    this.owedBy.forEach(item => {
-      this.pushMessagingService
-        .sendNotificationToUser(item.userID, this.resolveUserId(this.userID), this.toSelectedCurrencyString(item.value))
-    });
+    owedByIds.forEach(
+      ([user, value]) => this.databaseService.userCrudHandler
+        .readByID(user)
+        .then((u) => {
+          this.owedBy.push([user, u.userName, value]);
+        }));
   }
 }

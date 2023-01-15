@@ -49,7 +49,7 @@ export class PushMessagingService {
       if (result.receive === 'granted') {
         // Register with Apple / Google to receive push via APNS/FCM
         PushNotifications.register().then(async () => {
-          FCM.subscribeTo({topic: await this.authService.expectUser()})
+          FCM.subscribeTo({topic: await this.authService.expectUserId()})
             .catch((err) => console.log(err));
         });
       } else {
@@ -75,7 +75,7 @@ export class PushMessagingService {
   }
 
   async unsubPushNote() {
-    FCM.unsubscribeFrom({topic: await this.authService.expectUser()})
+    FCM.unsubscribeFrom({topic: await this.authService.expectUserId()})
       .catch((err) => console.log(err));
   }
 }

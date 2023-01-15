@@ -56,6 +56,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'payment-details/:editmode/:journeyId/:to/:amount/:currency/:from',
+    loadChildren: () => import('./pages/payment-details/payment-details.module').then(m => m.PaymentDetailsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'journey-editor',
     loadChildren: () => import('./pages/journey-editor/journey-editor.module').then(m => m.JourneyEditorPageModule),
     canActivate: [AuthGuard]
