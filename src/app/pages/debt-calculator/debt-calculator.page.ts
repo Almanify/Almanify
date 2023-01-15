@@ -7,8 +7,7 @@ import {User} from '../../data/User';
 import {AuthenticationService} from '../../services/auth.service';
 import {convertFromCurrency, convertToCurrency, formatCurrency} from '../../services/helper/currencies';
 import {NavController} from '@ionic/angular';
-import {PushMessagingService} from "../../services/push-messaging.service";
-
+import {PushMessagingService} from '../../services/push-messaging.service';
 import {currencies} from '../../services/helper/currencies';
 
 @Component({
@@ -91,7 +90,10 @@ export class DebtCalculatorPage implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.authenticationService.expectUser().then((id) => this.userID = id).then(() => this.loadJourney().then(() => this.isLoaded = true))
+    this.authenticationService.expectUserId().then(id => {
+      this.userID = id;
+      this.loadJourney().then(() => this.isLoaded = true);
+    });
   }
 
   getTotalAmountPaidByUser() {

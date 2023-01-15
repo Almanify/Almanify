@@ -4,20 +4,29 @@
       <ion-menu-button slot="start"></ion-menu-button>
       <ion-title>Your Journeys</ion-title>
     </ion-buttons>
-    <!-- button for creating a new journey -->
-    <ion-button routerDirection="forward" routerLink="/journey-editor" style="font-weight: bolder; margin: 3vw" expand="block">
-      <ion-icon slot="start" name="add-outline"></ion-icon>
-      Create new journey
-    </ion-button>
+    <!-- 'create' and 'join' buttons -->
+    <ion-row class="ion-justify-content-center" style="margin-left: 3px; margin-right: 7px">
+      <ion-col>
+        <ion-button routerDirection="forward" routerLink="/journey-editor"
+                    style="font-weight: bolder; width: 100%">
+          <ion-icon name="add-outline" slot="start"></ion-icon>
+          Create
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button routerDirection="forward" routerLink="/join-journey"
+                    style="font-weight: bolder; width: 100%">
+          Join
+          <ion-icon name="log-in-outline" slot="end"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- choose to see active, past or all journeys -->
+  <!-- choose to see active or archived journeys -->
   <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="journeyType">
-    <!--ion-segment-button value="all">
-      <ion-label>All</ion-label>
-    </ion-segment-button-->
     <ion-segment-button value="active">
       <ion-label>Active</ion-label>
     </ion-segment-button>
@@ -25,94 +34,94 @@
       <ion-label>Archived</ion-label>
     </ion-segment-button>
   </ion-segment>
-  <!-- choose to see created or joined journeys -->
-  <!--ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="journeyRole">
-    <ion-segment-button value="joined">
-      <ion-label>Joined</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="created">
-      <ion-label>Created</ion-label>
-    </ion-segment-button>
-  </ion-segment-->
 
   <ion-card *ngFor="let journey of filteredJourneys">
-    <ion-card *ngIf="journey.img != null" style="margin: 0px">
+    <!-- card with thumbnail -->
+    <ion-card *ngIf="journey.img" style="margin: 0" (click)="viewJourney(journey)">
         <ion-img style="width: 100%; height: 180px; object-fit: cover;" src="{{journey.img}}"></ion-img>
-        <svg style="width: 100%; height: 180px; position: absolute; z-index: 99; bottom: 0px; background: rgba(0, 0, 0, .3)">
+        <svg style="width: 100%; height: 180px; position: absolute; z-index: 98; bottom: 0; background: rgba(0, 0, 0, .3)">
           <foreignObject x="0" y="0" width="100%" height="100%">
             <div style="display: table; width: 100%; height: 100%;">
-              <p id="cardImg" style="color:rgba(240, 248, 255, .8); -webkit-text-stroke: 1.5px rgba(0, 0, 0, .8);">{{journey.title}}</p>
+              <p class="cardImg" style="color:rgba(240, 248, 255, .8); -webkit-text-stroke: 1.5px rgba(0, 0, 0, .8);">{{journey.title}}</p>
             </div>
           </foreignObject>
         </svg>
     </ion-card>
-    <svg *ngIf="journey.img == null" width="100%" height="180px">
-      <foreignObject x="0" y="0" width="100%" height="100%">
-        <div style="display: table; width: 100%; height: 100%;">
-          <p id="cardImg">{{journey.title}}</p>
-        </div>
-      </foreignObject>
-    </svg>
-    <span style="position: absolute; top: 8px; right: 8px;">
-      <ion-chip style="color: var(--ion-color-step-800); background-color: var(--ion-card-background)">
+
+    <!-- card without thumbnail -->
+    <ion-card *ngIf="!journey.img" style="margin: 0; height: 180px;" (click)="viewJourney(journey)">
+      <svg style="width: 100%; height: 180px; position: absolute; z-index: 98; bottom: 0px; background: rgba(0, 0, 0, .2)">
+        <foreignObject x="0" y="0" width="100%" height="100%">
+          <div style="display: table; width: 100%; height: 100%;">
+            <p class="cardImg" style="color:rgba(240, 248, 255, .8); -webkit-text-stroke: 1.5px rgba(0, 0, 0, .8);">{{journey.title}}</p>
+          </div>
+        </foreignObject>
+      </svg>
+      <svg width="100%" height="180px" style="mask-image: url(assets/logo/almanify-logo-no-bg.svg); mask-size: 100%; mask-position: 0; mask-repeat: no-repeat;">
+      </svg>
+    </ion-card>
+
+    <!-- top left indicator for clickable cards with the default thumbnail -->
+    <span *ngIf="!journey.img" style="pointer-events:none; position: absolute; top: 2px ;">
+      <ion-fab slot="fixed">
+        <ion-fab-button size="small" style="--background: rgba(122, 122, 122, .2)">
+          <ion-icon name="eye" style="color: rgba(240, 248, 255, .4);"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </span>
+    <!-- top left indicator for clickable cards with a user-selected thumbnail (higher background opacity) -->
+    <span *ngIf="journey.img" style="pointer-events:none; position: absolute; top: 2px ;">
+      <ion-fab slot="fixed">
+        <ion-fab-button size="small" style="--background: rgba(122, 122, 122, .4)">
+          <ion-icon name="eye" style="color: rgba(240, 248, 255, .5);"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </span>
+
+    <!-- top right chips with journey date and journey status -->
+    <span style="position: absolute; top: 8px; right: 8px; z-index: 99; pointer-events:none">
+      <ion-chip [outline]="true" style="color: var(--ion-color-step-800); background-color: var(--ion-card-background);">
         <ion-label>{{journey.start.toDate() | date:'y'}}</ion-label>
       </ion-chip>
-      <ion-chip *ngIf="journey.active" style="color: var(--ion-color-success-tint); background-color: var(--ion-card-background)">
+      <ion-chip [outline]="true" *ngIf="journey.active" style="color: var(--ion-color-success-tint); background-color: var(--ion-card-background)">
         Active
       </ion-chip>
-      <ion-chip *ngIf="!journey.active" style="color: var(--ion-color-danger-tint); background-color: var(--ion-card-background)">
+      <ion-chip [outline]="true" *ngIf="!journey.active" style="color: var(--ion-color-danger-tint); background-color: var(--ion-card-background)">
       Archived
     </ion-chip>
     </span>
-    <!--ion-card-header>
-      <ion-card-subtitle>
-        {{journey.start | date:'y'}}</ion-card-subtitle>
-      <ion-card-title>
-        {{journey.name}}
-      </ion-card-title>
-    </ion-card-header-->
+
     <ion-card-content>
-      <!--ion-item-group-->
-        <!--ion-row class="ion-justify-content-end">
-          <ion-col>
-            <ion-label>Start Date</ion-label>
-            <ion-chip style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-              {{journey.start}}
-            </ion-chip>
-          </ion-col>
-          <ion-col *ngIf="journey.end">
-            <ion-label>End Date</ion-label>
-            <ion-chip style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-              {{journey.end}}
-            </ion-chip>
-          </ion-col>
-        </ion-row-->
-        <!-- people -->
-        <!--ion-row>
-          <ion-col>
-            <ion-label>People</ion-label>
-            <ion-chip>
-              <ion-icon color="primary"
-                        name="caret-up-outline"></ion-icon>
-              <p>{{journey.creator}}</p>
-            </ion-chip>
-            <span *ngFor="let person of journey.people">
-          <ion-chip *ngIf="journey.creator !== person">
-          <p>{{person}}</p>
-          </ion-chip>
-        </span>
-          </ion-col>
-        </ion-row-->
-      <!--/ion-item-group-->
+      <!-- journey information drop-down -->
+      <ion-accordion-group>
+        <ion-accordion value="first" style="outline: 1.5px solid var(--ion-color-primary);">
+          <ion-item slot="header" color="var(--ion-color-step-100)">
+            <ion-label>Informationen zur Reise</ion-label>
+          </ion-item>
+          <ion-item lines="full" slot="content" style="--background: var(--ion-color-step-100)">
+            <ion-icon name="logo-euro" slot="start"></ion-icon>
+            <ion-label>Default currency:</ion-label>
+            <ion-label slot="end">{{journey.defaultCurrency}}</ion-label>
+          </ion-item>
+          <ion-item lines="full" slot="content" style="--background: var(--ion-color-step-100)">
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            <ion-label>Start date:</ion-label>
+            <ion-label slot="end">{{journey.start.toDate() | date:'dd/MM/yyyy'}}</ion-label>
+          </ion-item>
+          <ion-item lines="full" slot="content" style="--background: var(--ion-color-step-100)">
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            <ion-label>End date:</ion-label>
+            <ion-label slot="end">{{journey.end.toDate() | date:'dd/MM/yyyy'}}</ion-label>
+          </ion-item>
+          <ion-item lines="full" slot="content" style="--background: var(--ion-color-step-100)">
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-label>Creator:</ion-label>
+            <ion-label slot="end">{{getJourneyCreator(journey.creatorID)}}</ion-label>
+          </ion-item>
+        </ion-accordion>
+      </ion-accordion-group>
+      <!-- button group: invite, edit , delete, archive -->
       <ion-row>
-        <ion-col size="12">
-          <ion-button
-            (click)="viewJourney(journey)"
-            style="width: 100%;"
-          >
-            <ion-icon name="eye"></ion-icon>
-          </ion-button>
-        </ion-col>
         <ion-col *ngIf="journey.creatorID === userId">
           <ion-button
             (click)="viewInviteCode(journey)"

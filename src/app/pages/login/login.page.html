@@ -1,9 +1,7 @@
-<ion-header>
-</ion-header>
-
-<ion-content style="align-content: center; top: 10%">
-
-  <ion-fab *ngIf="isDebug" slot="fixed" vertical="top" horizontal="end" [edge]="true">
+<ion-header></ion-header>
+<div style="height: 10%"></div>
+<ion-content [fullscreen]="true" [scrollY]="true">
+  <ion-fab *ngIf="isDebug" [edge]="true" horizontal="end" slot="fixed" vertical="top">
     <ion-fab-button>
       <ion-icon name="key"></ion-icon>
       <ion-icon name="people"></ion-icon>
@@ -28,8 +26,7 @@
   </ion-fab>
 
   <form [formGroup]="validationForm">
-    <ion-grid align="center" [fixed]="true">
-
+    <ion-grid class="ion-text-center">
       <ion-row>
         <ion-col>
           <ion-title class="big-title">Almanify</ion-title>
@@ -37,8 +34,9 @@
       </ion-row>
 
       <ion-row class="ion-justify-content-center">
-        <ion-col size='3' size-sm="2" class="ion-margin-vertical">
-          <div style="border-radius: 20% !important; background-color: var(--ion-color-step-50); box-shadow: 0 5px 10px 0 var(--ion-box-shadow)">
+        <ion-col class="ion-margin-vertical" size='3' size-sm="2">
+          <div
+            style="border-radius: 20% !important; background-color: var(--ion-color-step-50); box-shadow: 0 5px 10px 0 var(--ion-box-shadow)">
             <ion-img src="assets/logo/almanify-logo-no-bg.svg"></ion-img>
           </div>
         </ion-col>
@@ -46,7 +44,7 @@
 
       <ng-container *ngIf="isLoginMode; else register">
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
+          <ion-col size-md="8" size-sm="12">
 
             <ion-title style="font-size:200%">Login</ion-title>
           </ion-col>
@@ -54,16 +52,16 @@
 
 
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
+          <ion-col size-md="8" size-sm="12">
             <ion-item class="round ion-margin-top">
               <ion-label position="floating">E-Mail</ion-label>
-              <ion-input type="email" #email [required]="true" formControlName="email"></ion-input>
+              <ion-input #email [required]="true" formControlName="email" type="email"></ion-input>
             </ion-item>
             <div class="validation-errors">
               <ng-container *ngFor="let validation of validationMessages.email">
-                <div class="error-massage"
-                     *ngIf="validationForm.get('email').hasError(validation.type) && (validationForm.get('email')
-                     .dirty || validationForm.get('email').touched)">
+                <div *ngIf="validationForm.get('email').hasError(validation.type) && (validationForm.get('email')
+                     .dirty || validationForm.get('email').touched)"
+                     class="error-massage">
                   <ion-text color="danger"> {{validation.message}}</ion-text>
                 </div>
               </ng-container>
@@ -72,16 +70,16 @@
         </ion-row>
 
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
+          <ion-col size-md="8" size-sm="12">
             <ion-item class="round ion-margin-top">
               <ion-label position="floating">Password</ion-label>
-              <ion-input type="password" #password [required]="true" formControlName="password"></ion-input>
+              <ion-input #password [required]="true" formControlName="password" type="password"></ion-input>
             </ion-item>
             <div class="validation-errors">
               <ng-container *ngFor="let validation of validationMessages.password">
-                <div class="error-massage"
-                     *ngIf="validationForm.get('password').hasError(validation.type) && (validationForm.get('password')
-             .dirty || validationForm.get('password').touched)">
+                <div *ngIf="validationForm.get('password').hasError(validation.type) && (validationForm.get('password')
+             .dirty || validationForm.get('password').touched)"
+                     class="error-massage">
                   <ion-text color="danger"> {{validation.message}}</ion-text>
                 </div>
               </ng-container>
@@ -90,7 +88,7 @@
         </ion-row>
 
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
+          <ion-col size-md="8" size-sm="12">
             <ion-item [color]="false" lines="none">
               <ion-toggle (ionChange)="rememberMeToggle($event)"></ion-toggle>
               <ion-label>Remember me</ion-label>
@@ -98,38 +96,38 @@
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
-            <ion-button expand="block" (click)="logIn(email, password)"
-                        [disabled]="!(validationForm.get('password').valid && validationForm.get('email').valid)">
+          <ion-col size-md="8" size-sm="12">
+            <ion-button (click)="logIn(email, password)" [disabled]="!(validationForm.get('password').valid && validationForm.get('email').valid)"
+                        expand="block">
               Login
             </ion-button>
           </ion-col>
         </ion-row>
-        <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
+        <ion-row class="ion-justify-content-center" style="margin-top: 2vh">
           <ion-col>
-            Don't have an account yet? <a style="text-decoration: underline" (click)="isLoginMode = false">Sign up</a>
+            Don't have an account yet? <a (click)="isLoginMode = false" style="text-decoration: underline">Sign up</a>
           </ion-col>
         </ion-row>
       </ng-container>
 
       <ng-template #register>
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
+          <ion-col size-md="8" size-sm="12">
             <ion-title style="font-size:200%">Create Account</ion-title>
           </ion-col>
         </ion-row>
 
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
+          <ion-col size-md="8" size-sm="12">
             <ion-item class="round ion-margin-top">
               <ion-label position="floating">Name</ion-label>
-              <ion-input type="text" #username [required]="true" formControlName="username"></ion-input>
+              <ion-input #username [required]="true" formControlName="username" type="text"></ion-input>
             </ion-item>
             <div class="validation-errors">
               <ng-container *ngFor="let validation of validationMessages.username">
-                <div class="error-massage"
-                     *ngIf="validationForm.get('username').hasError(validation.type) && (validationForm.get('username')
-             .dirty || validationForm.get('username').touched)">
+                <div *ngIf="validationForm.get('username').hasError(validation.type) && (validationForm.get('username')
+             .dirty || validationForm.get('username').touched)"
+                     class="error-massage">
                   <ion-text color="danger"> {{validation.message}}</ion-text>
                 </div>
               </ng-container>
@@ -138,16 +136,16 @@
         </ion-row>
 
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
+          <ion-col size-md="8" size-sm="12">
             <ion-item class="round ion-margin-top">
               <ion-label position="floating">E-Mail</ion-label>
-              <ion-input type="email" #email [required]="true" formControlName="email"></ion-input>
+              <ion-input #email [required]="true" formControlName="email" type="email"></ion-input>
             </ion-item>
             <div class="validation-errors">
               <ng-container *ngFor="let validation of validationMessages.email">
-                <div class="error-massage"
-                     *ngIf="validationForm.get('email').hasError(validation.type) && (validationForm.get('email')
-                     .dirty || validationForm.get('email').touched)">
+                <div *ngIf="validationForm.get('email').hasError(validation.type) && (validationForm.get('email')
+                     .dirty || validationForm.get('email').touched)"
+                     class="error-massage">
                   <ion-text color="danger"> {{validation.message}}</ion-text>
                 </div>
               </ng-container>
@@ -156,16 +154,16 @@
         </ion-row>
 
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
+          <ion-col size-md="8" size-sm="12">
             <ion-item class="round ion-margin-top">
               <ion-label position="floating">Password</ion-label>
-              <ion-input type="password" #password [required]="true" formControlName="password"></ion-input>
+              <ion-input #password [required]="true" formControlName="password" type="password"></ion-input>
             </ion-item>
             <div class="validation-errors">
               <ng-container *ngFor="let validation of validationMessages.password">
-                <div class="error-massage"
-                     *ngIf="validationForm.get('password').hasError(validation.type) && (validationForm.get('password')
-             .dirty || validationForm.get('password').touched)">
+                <div *ngIf="validationForm.get('password').hasError(validation.type) && (validationForm.get('password')
+             .dirty || validationForm.get('password').touched)"
+                     class="error-massage">
                   <ion-text color="danger"> {{validation.message}}</ion-text>
                 </div>
               </ng-container>
@@ -173,24 +171,24 @@
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
+          <ion-col size-md="8" size-sm="12">
             <ion-item class="round ion-margin-top">
               <ion-label position="floating">Confirm Password</ion-label>
-              <ion-input type="password" [required]="true" formControlName="confirmPassword"></ion-input>
+              <ion-input [required]="true" formControlName="confirmPassword" type="password"></ion-input>
             </ion-item>
             <div class="validation-errors">
               <ng-container *ngFor="let validation of validationMessages.confirmPassword">
-                <div class="error-massage"
-                     *ngIf="validationForm.get('confirmPassword').hasError(validation.type) && (validationForm.get('confirmPassword')
-                     .dirty || validationForm.get('confirmPassword').touched)">
+                <div *ngIf="validationForm.get('confirmPassword').hasError(validation.type) && (validationForm.get('confirmPassword')
+                     .dirty || validationForm.get('confirmPassword').touched)"
+                     class="error-massage">
                   <ion-text color="danger"> {{validation.message}}</ion-text>
                 </div>
               </ng-container>
-              <div class="error-message"
-                   *ngIf="!validationForm.get('confirmPassword').errors
+              <div *ngIf="!validationForm.get('confirmPassword').errors
                    && validationForm.hasError('passwordNotMatch')
                    && (validationForm.get('confirmPassword').dirty
-                   || validationForm.get('confirmPassword').touched)">
+                   || validationForm.get('confirmPassword').touched)"
+                   class="error-message">
                 <ion-text color="danger"> Password and Confirm Password fields should match</ion-text>
               </div>
             </div>
@@ -198,19 +196,21 @@
         </ion-row>
 
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
-            <ion-button expand="block" (click)="signUp(email, password, username)"
-                        [disabled]="validationForm.invalid">
+          <ion-col size-md="8" size-sm="12">
+            <ion-button (click)="signUp(email, password, username)" [disabled]="validationForm.invalid"
+                        expand="block">
               Sign Up
             </ion-button>
           </ion-col>
         </ion-row>
-        <ion-row style="margin-top: 2vh" class="ion-justify-content-center">
+        <ion-row class="ion-justify-content-center" style="margin-top: 2vh">
           <ion-col>
-            Already have an account? <a style="text-decoration: underline" (click)="isLoginMode = true">Login</a>
+            Already have an account? <a (click)="isLoginMode = true" style="text-decoration: underline">Login</a>
           </ion-col>
         </ion-row>
       </ng-template>
     </ion-grid>
   </form>
 </ion-content>
+<div style="height: 10%"></div>
+

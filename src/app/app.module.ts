@@ -15,10 +15,9 @@ import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
 import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {AngularFireStorageModule} from '@angular/fire/compat/storage';
 
-
 import {ReactiveFormsModule} from '@angular/forms';
 import {environment} from '../environments/environment';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, ImprintComponent, GTCComponent, PrivacyProtectionComponent],

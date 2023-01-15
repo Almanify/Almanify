@@ -12,7 +12,10 @@ import {copyAndPrepare} from './helper/copyAndPrepare';
 export class SignUPService {
   private userCollection: AngularFirestoreCollection<User>;
 
-  constructor(public firestore: AngularFirestore, private angularFireAuth: AngularFireAuth, private alertController: AlertController, private toastController: ToastController) {
+  constructor(public firestore: AngularFirestore,
+              private angularFireAuth: AngularFireAuth,
+              private alertController: AlertController,
+              private toastController: ToastController) {
     this.angularFireAuth = angularFireAuth;
     this.userCollection = firestore.collection<User>('User');
   }
@@ -20,29 +23,19 @@ export class SignUPService {
 
   createUser(user: User, email: string, password: string) {
     return this.angularFireAuth.createUserWithEmailAndPassword(email, password)
-      .then((data) => {
+      .then(async (data) => {
         user.id = data.user.uid;
-        this.userCollection.doc(user.id).set(copyAndPrepare(user) as User);   //important userdata and user login has same id
-        //this.alertSuccessfullySignUp();
-        this.toastSuccssfullySignUp();
+        await this.userCollection.doc(user.id).set(copyAndPrepare(user) as User);   //important userdata and user login has same id
+        await this.toastSuccessfullySignedUp();
       })
-      .catch(error => {
-        this.alertError(error.message);
+      .catch(async error => {
+        await this.alertError(error.message);
       });
   }
 
-  async alertSuccessfullySignUp() {
-    const alert = await this.alertController.create({
-      header: 'Registration successful',
-      message: 'You can login now and enjoy Almanify.',
-      buttons: ['OK'],
-    });
-
-    await alert.present();
-  }
-  async toastSuccssfullySignUp(){
+  async toastSuccessfullySignedUp() {
     const toast = await this.toastController.create({
-      message: 'You can login now and enjoy Almanify.',
+      message: 'Successfully signed up! You can now login and enjoy Almanify.',
       duration: 5000,
       position: 'top'
     });
@@ -51,8 +44,8 @@ export class SignUPService {
 
   async alertError(error: string) {
     const alert = await this.alertController.create({
-      header: 'Something is wrong',
-      message: error + 'Pleas try again.',
+      header: 'Something went wrong.',
+      message: error,
       buttons: ['OK'],
     });
     await alert.present();

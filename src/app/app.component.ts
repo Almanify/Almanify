@@ -24,7 +24,7 @@ type Page = {
 export class AppComponent implements OnInit {
   userName = '';
   public blockedPages: Array<Page> = [
-    {title: 'Login', url: '/login/login', icon: 'log-in'}
+    {title: 'Login', url: '/login', icon: 'log-in'}
   ];
   public unblockedPages: Array<Page> = [
     {title: 'Home', url: `/home`, icon: 'home'},
@@ -45,13 +45,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getObservable().subscribe(value => {
-      if (value) {
-        this.databaseService.userCrudHandler.readByID(value).then(u => this.userName = u.userName);
-      } else {
-        this.userName = '';
-      }
-    });
+    this.authService.expectUserId().then((id) =>
+      this.databaseService.userCrudHandler.readByID(id).then(u => this.userName = u.userName)
+    );
     this.isOnLogin().then((isOnLogin) => {
       this.show = !isOnLogin;
     });

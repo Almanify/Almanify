@@ -9,7 +9,7 @@ import firebase from 'firebase/compat/app';
 import {ActionSheetController, AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 import {convertFromCurrency, currencies, formatCurrency} from '../../services/helper/currencies';
 import {PhotoService} from '../../services/photo.service';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 import Timestamp = firebase.firestore.Timestamp;
 
 @Component({
@@ -64,16 +64,18 @@ export class PaymentDetailsPage implements OnInit {
         } else {
           const participants = this.to ? [this.to] : [];
           //new payment
-          this.payment = new Payment(
-            null,
-            this.to ? 'Debt Payment' : '',
-            this.authService.getUserId,
-            this.journey.id,
-            this.amount,
-            this.currency || this.journey.defaultCurrency,
-            Timestamp.fromDate(new Date()),
-            this.to ? PaymentCategory.debtRepayment : undefined,
-            participants);
+          this.authService.expectUserId().then((uid) =>
+            this.payment = new Payment(
+              null,
+              this.to ? 'Debt Payment' : '',
+              uid,
+              this.journey.id,
+              this.amount,
+              this.currency || this.journey.defaultCurrency,
+              Timestamp.fromDate(new Date()),
+              this.to ? PaymentCategory.debtRepayment : undefined,
+              participants)
+          );
         }
         this.getJourneyParticipants(this.journey);
       });
@@ -89,18 +91,13 @@ export class PaymentDetailsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.userId = this.authService.getUserId;
-    this.authService.getObservable().subscribe((u) => { // subscribe to changes
-      this.userId = u;
+    this.authService.expectUserId().then((id) => {
+      this.userId = id;
+      if (this.payment.id === null) { //if it's a new payment set payment creator as default payer
+        this.payment.payerID = id;
+        this.payment.currency = this.journey.defaultCurrency;
+      }
     });
-    if (this.payment.id === null) {
-      //if it's a new payment set payment creator as default payer
-      this.payment.payerID = this.authService.getUserId;
-      this.authService.getObservable().subscribe((u) => { // subscribe to changes
-        this.payment.payerID = u;
-      });
-      this.payment.currency = this.journey.defaultCurrency;
-    }
   }
 
   getJourneyParticipants(journey: Journey) {
@@ -119,11 +116,13 @@ export class PaymentDetailsPage implements OnInit {
 
   async save() {
     //upload picture
-    if (this.picEvent!=null) {
-      await this.photoService.uploadPic(this.picEvent, this.authService.getUserId).then(value => this.downloadURL=value);
+    if (this.picEvent != null) {
+      this.authService.expectUserId().then(async (uid) => {
+        await this.photoService.uploadPic(this.picEvent, uid).then(value => this.downloadURL = value);
+      });
     }
     //set downloadURL in journey to reference storage-image
-    if (this.downloadURL!=undefined) {
+    if (this.downloadURL !== undefined) {
       await this.downloadURL.toPromise().then(value => this.payment.img = value);
     }
     if (this.payment.id === null) {
@@ -135,31 +134,31 @@ export class PaymentDetailsPage implements OnInit {
     }
   }
 
-  leave() {
+  async leave() {
     if (!this.isEditMode) {
-      this.back();
-      return;
+      await this.back();
+    } else {
+      await this.alertUnsaved();
     }
-    this.alertUnsaved();
   }
 
   async alertUnsaved() {
-
     const alert = await this.alertController.create({
       header: 'Leave without saving?',
       buttons: [
         {
           text: 'Save',
           role: 'confirm',
-          handler: () => {
-            this.save();
+          handler: async () => {
+            await this.save();
+            await this.back();
           },
         },
         {
           text: 'exit without saving',
           role: 'cancel',
-          handler: () => {
-            this.back();
+          handler: async () => {
+            await this.back();
           },
         },
       ],
@@ -174,8 +173,8 @@ export class PaymentDetailsPage implements OnInit {
         {
           text: 'Delete',
           role: 'confirm',
-          handler: () => {
-            this.deletePic();
+          handler: async () => {
+            await this.deletePic();
           },
         },
         {
@@ -187,11 +186,11 @@ export class PaymentDetailsPage implements OnInit {
     await alert.present();
   }
 
-  back() {
+  async back() {
     if (this.outlet.canGoBack()) {
-      this.navCtrl.pop();
+      await this.navCtrl.pop();
     } else {
-      this.navCtrl.navigateRoot('/journey/' + this.journey.id);
+      await this.navCtrl.navigateRoot('/journey/' + this.journey.id);
     }
   };
 
@@ -245,8 +244,8 @@ export class PaymentDetailsPage implements OnInit {
   }
 
 
-  takePic() {
-    this.photoService.addNewToGallery();
+  async takePic() {
+    await this.photoService.addNewToGallery();
   }
 
   async saveEvent(event) {
@@ -256,7 +255,7 @@ export class PaymentDetailsPage implements OnInit {
   async deletePic() {
     this.photoService.deletePic(this.payment.img);
     this.payment.img = null;
-    this.save();
+    await this.save();
   }
 
 }

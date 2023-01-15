@@ -40,33 +40,13 @@ export class AuthenticationService {
         this.userId = undefined;
       }
     });
-    /*
-    this.angularFireAuth.onAuthStateChanged((user) => {
-      if (user) {
-        this.isAuthenticated.next(true);
-        this.userId = user.uid;
-        this.mail = user.email;
-        this.observer.next(user.uid); //changed to from email to uid
-      } else {
-        this.isAuthenticated.next(false);
-        this.userId = '';
-        this.mail = '';
-        this.observer.next('');
-      }
-    });
-     */
   }
 
   get getUserEmail(): string {
     return this.mail;
   }
 
-
-  get getUserId(): string {
-    return this.userId;
-  }
-
-  async expectUser(): Promise<string> {
+  async expectUserId(): Promise<string> {
     return this.userId ? this.userId : new Promise<string>(resolve => {
       this.userIdSubject.subscribe(userId => {
         if (userId) {
@@ -88,9 +68,4 @@ export class AuthenticationService {
     await this.angularFireAuth.signOut();
     // we expect this to trigger angularFireAuth.user.subscribe
   }
-
-  public getObservable() {
-    return this.userIdSubject.asObservable();
-  }
-
 }

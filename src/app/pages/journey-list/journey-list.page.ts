@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {DatabaseService} from '../../services/database.service';
 import {Journey} from '../../data/Journey';
+import {User} from '../../data/User';
 import {AuthenticationService} from '../../services/auth.service';
 import {AlertController} from '@ionic/angular';
 
@@ -14,6 +15,7 @@ export class JourneyListPage implements OnInit {
 
   userId = '';
   journeys: Journey[] = [];
+  people: Array<User> = [];
 
   filteredJourneys: Journey[] = [];
 
@@ -61,34 +63,31 @@ export class JourneyListPage implements OnInit {
     // }
   }
 
-  viewJourney(journey: Journey) {
-    this.router.navigate(['/journey/' + journey.id]);
+  async viewJourney(journey: Journey) {
+    await this.router.navigate(['/journey/' + journey.id]);
   }
 
-  editJourney(journey: Journey) {
-    this.router.navigate(['/journey-editor/' + journey.id]);
+  async editJourney(journey: Journey) {
+    await this.router.navigate(['/journey-editor/' + journey.id]);
   }
 
   ngOnInit() {
-    // initial load of journeys
-    this.userId = this.authenticationService.getUserId;
-    this.loadJourneys();
-    // watch for changes after initial load
-    this.authenticationService.getObservable().subscribe(() => {
-      this.userId = this.authenticationService.getUserId;
+    this.authenticationService.expectUserId().then(id => {
+      this.userId = id;
       this.loadJourneys();
     });
   }
 
-  loadJourneys() {
-    this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
+  async loadJourneys() {
+    await this.databaseService.getJoinedJourneys(this.userId).then((journeys) => {
       this.journeys = journeys;
       this.sortJourneys();
       this.filterJourneys();
     });
+    await this.loadCreators(this.journeys);
   }
 
-  sortJourneys(){
+  sortJourneys() {
     this.journeys.sort((x, y) => y.start.seconds - x.start.seconds);
   }
 
@@ -110,7 +109,7 @@ export class JourneyListPage implements OnInit {
 
   async alertDelete(journey: Journey) {
     const alert = await this.alertController.create({
-      header: 'Delete journey "' + journey.title +'" and all included payments?',
+      header: 'Delete journey "' + journey.title + '" and all included payments?',
       buttons: [
         {
           text: 'Delete',
@@ -130,7 +129,7 @@ export class JourneyListPage implements OnInit {
 
   async alertArchive(journey: Journey) {
     let alert;
-    if(journey.active) {
+    if (journey.active) {
       alert = await this.alertController.create({
         header: 'Archive journey "' + journey.title + '"?',
         buttons: [
@@ -168,5 +167,24 @@ export class JourneyListPage implements OnInit {
       });
     }
     await alert.present();
+  }
+
+  async loadCreators(journeys: Array<Journey>) {
+    await journeys
+      .forEach(journey => this.databaseService.userCrudHandler
+        .readByID(journey.creatorID)
+        .then((u) => {
+          this.people.push(u);
+    }));
+  }
+
+  getJourneyCreator(id: String) {
+    let name: String = 'leer';
+    this.people.forEach(person => {
+      if(id === person.id) {
+        name = person.userName;
+      }
+    });
+    return name;
   }
 }

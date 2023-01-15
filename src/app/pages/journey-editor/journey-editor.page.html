@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Journey-Editor</ion-title>
-    <ion-button slot="end" class="ion-margin-end" (click)="alertUnsaved()">
+    <ion-button (click)="alertUnsaved()" class="ion-margin-end" slot="end">
       <ion-icon name="close" slot="icon-only"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -22,11 +22,11 @@
           </ng-template>
         </ion-row>
         <!-- journey name -->
-        <ion-row style="display: block" class="ion-justify-content-center">
+        <ion-row class="ion-justify-content-center" style="display: block">
           <ion-col>
-            <ion-item lines="full" fill="outline">
+            <ion-item fill="outline" lines="full">
               <ion-label>Title:</ion-label>
-              <ion-input type="text" maxlength="30" [(ngModel)]="journey.title" required="true"></ion-input>
+              <ion-input [(ngModel)]="journey.title" maxlength="30" required="true" type="text"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -45,7 +45,7 @@
                 </ion-select>
               </ion-item>
               <!-- "start date" field -->
-              <ion-item lines="full" id="dateStart">
+              <ion-item id="dateStart" lines="full">
                 <ion-icon name="calendar-outline" slot="start"></ion-icon>
                 <ion-label>Start date:</ion-label>
 
@@ -53,15 +53,16 @@
 
                 <ion-modal [keepContentsMounted]="true">
                   <ng-template>
-                    <ion-datetime presentation="date" [value]="journey.start.toDate().toISOString()" #startDate
-                                  (ionChange)="updateStartDate(startDate.value)"
-                                  id="datetimeStart"></ion-datetime>
+                    <ion-datetime #startDate (ionChange)="updateStartDate(startDate.value)"
+                                  [value]="journey.start.toDate().toISOString()"
+                                  id="datetimeStart"
+                                  presentation="date"></ion-datetime>
                   </ng-template>
                 </ion-modal>
               </ion-item>
 
               <!-- "end date" field -->
-              <ion-item lines="full" id="dateEnd">
+              <ion-item id="dateEnd" lines="full">
                 <ion-icon name="calendar-outline" slot="start"></ion-icon>
                 <ion-label>End date:</ion-label>
 
@@ -69,8 +70,9 @@
 
                 <ion-modal [keepContentsMounted]="true">
                   <ng-template>
-                    <ion-datetime [value]="journey.end.toDate().toISOString()" presentation="date"
-                                  id="datetimeEnd" #endDate (ionChange)="updateEndDate(endDate.value)"></ion-datetime>
+                    <ion-datetime #endDate (ionChange)="updateEndDate(endDate.value)"
+                                  [value]="journey.end.toDate().toISOString()" id="datetimeEnd"
+                                  presentation="date"></ion-datetime>
                   </ng-template>
                 </ion-modal>
               </ion-item>
@@ -104,9 +106,10 @@
         <ion-row>
           <span *ngFor="let participant of participants">
             <ion-chip>
-              <ion-icon name="caret-up-outline" *ngIf="participant.id === journey.creatorID" ></ion-icon>
+              <ion-icon *ngIf="participant.id === journey.creatorID" name="caret-up-outline"></ion-icon>
               <ion-label>{{participant.userName}}</ion-label>
-              <ion-icon color="danger" name="close-circle-outline" (click)="deleteUser(participant)" *ngIf="participant.id !== journey.creatorID"></ion-icon>
+              <ion-icon (click)="deleteUser(participant)" *ngIf="participant.id !== journey.creatorID" color="danger"
+                        name="close-circle-outline"></ion-icon>
             </ion-chip>
           </span>
         </ion-row>
@@ -118,23 +121,23 @@
           <ion-card-title style="padding: 13px">Journey Thumbnail</ion-card-title>
         </ion-row>
         <!-- Image preview if available -->
-        <ion-row class="ion-justify-content-center" *ngIf="journey.img != null">
+        <ion-row *ngIf="journey.img !== null" class="ion-justify-content-center">
           <ion-col>
             <ion-img src="{{journey.img}}"></ion-img>
           </ion-col>
         </ion-row>
         <!-- 'Change' and 'Delete'-button (if thumbnail has been uploaded) -->
-        <ion-row class="ion-justify-content-center" *ngIf="journey.img != null">
+        <ion-row *ngIf="journey.img !== null" class="ion-justify-content-center">
           <ion-col>
-            <ion-button (click)="alertDelete(journey)" expand="block" fill="outline" color="danger">Delete Thumbnail
-              <ion-icon slot="end" name="trash"></ion-icon>
+            <ion-button (click)="alertDelete(journey)" color="danger" expand="block" fill="outline">Delete Thumbnail
+              <ion-icon name="trash" slot="end"></ion-icon>
             </ion-button>
           </ion-col>
         </ion-row>
         <!-- File-input (if no thumbnail has been uploaded) -->
-        <ion-row class="ion-justify-content-center" *ngIf="journey.img == null">
+        <ion-row *ngIf="journey.img === null" class="ion-justify-content-center">
           <ion-col>
-            <ion-input type="file" (change)="saveEvent($event)"></ion-input>
+            <ion-input (change)="saveEvent($event)" type="file"></ion-input>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -143,10 +146,10 @@
   </ion-card>
 </ion-content>
 
-<ion-footer [translucent]="true" collapse="fade">
-  <ion-button (click)="save(true)" expand="block">
-    <ion-text>Save</ion-text>
-    <ion-icon slot="end" name="save"></ion-icon>
-  </ion-button>
+<ion-footer style="background-color: var(--ion-background-color)" collapse="fade">
+    <ion-button (click)="save(true)" expand="block">
+      <ion-text>Save</ion-text>
+      <ion-icon name="save" slot="end"></ion-icon>
+    </ion-button>
 </ion-footer>
 

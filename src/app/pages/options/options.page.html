@@ -9,32 +9,32 @@
 
 <ion-content style="align-content: center;">
 
-  <ion-grid align="center" [fixed]="true">
+  <ion-grid [fixed]="true">
 
-    <ion-card *ngIf="name">
+    <ion-card *ngIf="isLoaded">
       <ion-card-content>
-        <ion-card-title style="text-align: center;">General Information</ion-card-title>
+        <ion-card-title style="text-align: center;">Options for {{name || '???'}}</ion-card-title>
 
         <!-- Name Field -->
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
+          <ion-col size-md="8" size-sm="12">
             <ion-item>
               <ion-label position="stacked">Name</ion-label>
 
-              <ion-input type="text" maxlength="30" [(ngModel)]="name" disabled={{buttonDisabled}}></ion-input>
+              <ion-input [(ngModel)]="name" disabled={{buttonDisabled}} maxlength="30" type="text"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
 
         <!-- Currency Field w/ "currencies"-service integration-->
         <ion-row class="ion-justify-content-center">
-          <ion-col size-sm="12" size-md="8">
+          <ion-col size-md="8" size-sm="12">
             <ion-list>
               <ion-item>
                 <ion-label position="stacked">Currency</ion-label>
                 <ion-select [(ngModel)]="currency" disabled={{buttonDisabled}}>
                   <ion-select-option *ngFor="let currency of currencies"
-                                      [value]="currency.code">{{currency.name}}</ion-select-option>
+                                     [value]="currency.code">{{currency.name}}</ion-select-option>
                 </ion-select>
               </ion-item>
             </ion-list>
@@ -44,30 +44,32 @@
         <!-- Switchable Button dependent on currently active mode -->
         <ion-row class="ion-justify-content-center">
           <!-- "Edit"-Button in Normal-Mode -->
-          <ion-col size="12" *ngIf="!inEditMode">
-            <ion-button class="round ion-margin" expand="block" (click)="changeEditMode()">
+          <ion-col *ngIf="!inEditMode" size="12">
+            <ion-button (click)="changeEditMode()" class="round ion-margin" expand="block">
               <ion-text>Edit</ion-text>
-              <ion-icon slot="end" name="create"></ion-icon>
+              <ion-icon name="create" slot="end"></ion-icon>
             </ion-button>
           </ion-col>
           <!-- "Cancel" and "Save"-Button in Edit-Mode -->
-          <ion-col size="6" *ngIf="inEditMode">
-            <ion-button class="round ion-margin" expand="block" (click)="save()">
+          <ion-col *ngIf="inEditMode" size="6">
+            <ion-button (click)="save()" class="round ion-margin" expand="block">
               <ion-text>Save</ion-text>
-              <ion-icon slot="end" name="save"></ion-icon>
+              <ion-icon name="save" slot="end"></ion-icon>
             </ion-button>
           </ion-col>
-          <ion-col size="6" *ngIf="inEditMode">
-            <ion-button class="round ion-margin" expand="block" (click)="changeEditMode()">
+          <ion-col *ngIf="inEditMode" size="6">
+            <ion-button (click)="changeEditMode()" class="round ion-margin" expand="block">
               <ion-text>Cancel</ion-text>
-              <ion-icon slot="end" name="exit"></ion-icon>
+              <ion-icon name="exit" slot="end"></ion-icon>
             </ion-button>
           </ion-col>
         </ion-row>
       </ion-card-content>
     </ion-card>
-    <!-- else show spinner -->
-    <ion-spinner *ngIf="!name"></ion-spinner>
+    <!-- else show centered spinner -->
+    <ion-spinner *ngIf="!isLoaded"
+                  style="margin: 30% 46% auto;"
+                  name="crescent"></ion-spinner>
   </ion-grid>
 
 </ion-content>
