@@ -2,6 +2,8 @@
 \documentclass[a4paper,12pt,listof=toc,bibliography=totoc,oneside, titlepage, headsepline,headings=optiontohead]{scrartcl}
 \input{settings.tex}
 \usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{listings}
 
 \subject{
 CS2018 Entwicklung mobiler Anwendungen WS2022/23}
@@ -19,6 +21,20 @@ CS2018 Entwicklung mobiler Anwendungen WS2022/23}
   Prof. Dr. Steffen Vaupel\\
   \vspace{1cm}
   }
+
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+  breaklines=true,
+  breakatwhitespace=true,
+  captionpos=b,
+  commentstyle=\color{blue},
+  deletekeywords={...},
+  escapeinside={\%*}{*)},
+  extendedchars=true,
+  frame=single,
+  keepspaces=true,
+  keywordstyle=\color{blue}
+}
 
 % % % % % % % % % % % % % %
 % % % Dokument Beginn % % %

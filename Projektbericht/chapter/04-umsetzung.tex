@@ -1,1 +1,101 @@
 \section {Umsetzung}
+
+\subsection{Schuldenberechnung}
+
+Für die Schuldenberechnung musste zunächst ein Algorithmus entwickelt werden, der die Schulden berechnet innerhalb einer bestimmten Reise berechnet.
+Es gab eine Reihe von Anforderungen an den Algorithmus, die erfüllt werden mussten:
+
+\begin{itemize}
+\item Der Algorithmus soll alle Zahlungen innerhalb der Reise berücksichtigen.
+\item Hat Person A Person B zweimal Geld \emph{geliehen} (d. h. für diese Person eine Zahlung getätigt), sollen diese Zahlungen zusammengefasst werden.
+\item Zahlungen können mehrere Personen betreffen, z. B. wenn eine Person für mehrere Personen bezahlt. In diesem Fall muss die Schuld aufgeteilt werden.
+\item Die Anzahl an geforderten Ausgleichszahlungen soll minimiert werden.
+\end{itemize}
+
+Besonders der letzte Punkt verursachte Schwierigkeiten, da es sich hier um ein Optimierungsproblem handelt.
+Ein Ansatz war es, die Zahlungen als einen Graphen zu modellieren, in dem die Knoten die Personen und die Kanten die Zahlungen darstellen.
+Ausgehend von diesem Modell sollten dann Kanten vereinfacht werden. Dafür konnten einige Regeln aufgestellt werden:
+
+\begin{enumerate}
+    \item Transitiv: $x>y:A \xrightarrow{x} B \xrightarrow{y} C$ wird zu $A \xrightarrow{x-y} B$ und $A \xrightarrow{y} C$
+    \item Transitiv 2: $x<y:A \xrightarrow{x} B \xrightarrow{y} C$ wird zu $A \xrightarrow{x} C$ und $A \xrightarrow{y-x} C$
+    \item Transitiv 3: $x=y:A \xrightarrow{x} B \xrightarrow{y} C$ wird zu $A \xrightarrow{x} C$
+    \item Reflexiv: $A \xrightarrow{x} A$ wird eleminiert (da die Person sich selbst nichts schuldet)
+    \item Symmetrisch: $A \xrightarrow{x} B \xrightarrow{y} A$ wird zu $A \xrightarrow{x-y} B$ (bzw. $A \xleftarrow{y-x} B$)
+    \item Kreise: Bei einem Kreis wird die kleinste Kante entfernt und die restlichen Kanten um den Betrag der entfernten Kante verkleinert
+\end{enumerate}
+
+Diese händische Vereinfachung stellte sich als übertrieben aufwändig heraus, als eine andere Idee aufkam:
+Statt dem Zahlungsgraphen wird lediglich die Liste der Zahlungen betrachtet.
+Für jede Person wird ein Wert verwaltet, auf welchen für jede Zahlung, in die der Person profitiert hat, der (Teil-)betrag subtrahiert wird.
+Für jede Zahlung, die die Person selbst getätigt hat, wird der Betrag addiert. 
+
+Mit diesen Werten wird dann wie in diesem Pseudocode beschrieben vorgegangen:
+
+\begin{lstlisting}
+sei P eine gefuellte Map [Person, Wert]
+sei S eine leere Liste von zu begleichenden Schulden [Schuldner, Glaeubiger, Betrag]
+sortiere P nach Werten aufsteigend
+solange P nicht leer ist
+    Person A = erste Person in P (Person mit kleinstem Wert, d.h. Person, die am meisten schuldet)
+    Person B = letzte Person in P (Person mit groesstem Wert)
+    Betrag = min(negiere(Wert von A), Wert von B)
+    Fuege in S eine neue Schuld [A, B, Betrag] ein
+    setze Wert von A auf Wert von A - Betrag
+    setze Wert von B auf Wert von B + Betrag
+    entferne A aus P, wenn Wert von A = 0
+    entferne B aus P, wenn Wert von B = 0
+\end{lstlisting}
+
+Mit diesem Algorithmus werden die Schulden berechnet und in einer Liste gespeichert.
+Diese Liste wird dann verwendet, um eventuell relevante Schulden dem Benutzer anzuzeigen.
+Da der Algorithmus sehr simpel ist (Laufzeit $\mathcal{O}(n^2)$, generiert durch das Sortieren der Liste), genügt es, ihn auf Nachfrage im Client zu berechnen und die Schulden nicht im Server zu speichern.
+
+\subsection{CRUD-Handler}
+
+Die App kommuniziert mit mehreren Datenbanktabellen und muss daher für jede Tabelle einen eigenen Handler implementieren.
+Um die Implementierung zu vereinfachen, wurde ein generischer Handler entwickelt, der die CRUD-Operationen für eine beliebige Tabelle erledigt.
+Dieser Handler wird mit dem Namen der Tabelle initialisiert und kann dann die CRUD-Operationen für diese Tabelle ausführen.
+
+\begin{enumerate}
+    \item \textbf{createAndGetID}: Erstellt einen neuen Eintrag in der Tabelle.
+    \item \textbf{readByID}: Liest einen Eintrag aus der Tabelle anhand der ID.
+    \item \textbf{update}: Aktualisiert einen Eintrag in der Tabelle.
+    \item \textbf{delete}: Löscht einen Eintrag aus der Tabelle.
+\end{enumerate}
+
+\subsection{Nichtumsetzung von Funktionen}
+
+\subsubsection{Google-Maps Integration}
+
+Die App sollte für eine Zahlung eine Karte anzeigen können, auf der die Position des Zahlungsortes angezeigt werden könnte.
+Dafür sollte die App die Google Maps API verwenden.
+
+Die Integration der Google Maps API in die App wäre jedoch sehr aufwändig gewesen -- so hätten wir neben der Darstellung auch die Möglichkeit der Suche nach Orten implementieren müssen.
+Zudem müssten GPS-Daten gesammelt werden, um einen Zahlungsort sinnvoll vorzuschlagen.
+
+Diese Funktion wurde nicht umgesetzt, da das Feature nicht zwingend notwendig war und in vielen Fällen keine sinnvollen zusätzlichen Daten liefern würde -- so ist z. B. der Name des Restaurants oft in der Zahlung als Titel angegeben.
+Auch war der generierte Nutzen gering, da Nutzer wenig Nutzen für die Information haben, wo sie eine Zahlung getätigt haben.
+
+\subsubsection{Währungs-API}
+
+Die App sollte die Möglichkeit bieten, die Währung der Zahlungen zu ändern.
+Dies wurde umgesetzt, nicht jedoch das Abrufen der aktuellen Wechselkurse.
+
+Dies hatte mehrere Gründe:
+\begin{enumerate}
+    \item Die API, die wir für die Umrechnung der Währungen verwenden wollten, ist kostenpflichtig. Wir konnten keine kostenlose API finden, die die Wechselkurse aktuell hält.
+    \item Die Schuldenbegleichung könnte durch die Umrechnung der Währungen verfälscht werden, da die Wechselkurse nicht aktuell sind. Dann könnte es z. B. nach einer Woche so aussehen, als ob ein Schuldner etwas zu viel oder zu wenig bezahlt hat, wenn die Wechselkurse sich in der Zwischenzeit geändert haben.
+\end{enumerate}
+
+\subsubsection{QR-Code-Scanner}
+
+Die App sollte die Möglichkeit bieten, einer Reise mittels QR-Code beizutreten.
+Die Generierung des QR-Codes wurde implementiert, jedoch nicht die Funktion, den QR-Code zu scannen.
+Dies wurde nicht umgesetzt, da das Plugin für den QR-Code-Scanner nicht funktioniert hat und wir das Problem trotz Zuhilfenahme von Dokumentation und weiteren Quellen nicht lösen konnten.
+
+\subsection{Designunterschiede unter Android und iOS}
+
+Die App wurde hauptsächlich für Web und Android entwickelt.
+Die iOS-Version wird beim Ionic-Framework automatisch generiert, das Styling wurde aber für Android angepasst.
+Es wurden nachträglich einige Änderungen vorgenommen, um das Design auf iOS zu verbessern.
