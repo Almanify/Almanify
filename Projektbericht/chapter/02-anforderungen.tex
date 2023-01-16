@@ -1,13 +1,14 @@
 \section{Anforderungen}
 
+\subsection{Grundlegende Funktionsbeschreibung}
+
 Bei Öffnung der App können sich Benutzer einloggen oder registrieren.
 Dabei wird ein Benutzerprofil erstellt, das den Nutzernamen enthält.
 Reisen können innerhalb der mobilen Anwendung erstellt werden.
-Weitere Nutzer können über einen Invitecode oder QR-Code beitreten.
+Weitere Nutzer können über einen Invite-Code beitreten.
 Getätigte Ausgaben können den beigetretenen Reisen hinzugefügt werden.
 Einträge für Ausgaben umfassen einen Titel, die Person, die bezahlt hat, die Summe,
-Währung, eine Kategorie, Zahldatum, die Beteiligten, die Ausgaben verursacht haben,
-eine optionale Markierung auf Google Maps wo die Zahlung getätigt wurde und ein optionales Bild vom Kassenbon.
+Währung, eine Kategorie, Zahldatum, die Beteiligten, die Ausgaben verursacht haben und ein optionales Bild (z. B. vom Kassenbon).
 Für Währung, Kategorie und Beteiligte gibt es vorgegebene Auswahlmöglichkeiten.
 Einträge für Ausgaben können entsprechend der Attribute sortiert werden.
 Nutzer können Einträge für Ausgaben nachträglich bearbeiten.
@@ -16,9 +17,9 @@ Die App schlägt einen effizienten finanziellen Ausgleich unter den Beteiligten 
 Schulden des Nutzers gegenüber anderen werden in eine von ihm angegebene Währung umgerechnet.
 Nach Abschluss einer Reise kann dies archiviert werden.
 
-\subsection{Grundlegende Funktionsbeschreibung}
+\subsection{Funktionale Anforderungen}
+Nun werden die funktionalen Anforderungen anhand von Use Cases beschrieben.
 
-Funktionsbeschreibung anhand von User Stories:
 \setlist{nolistsep}
 
 \begin{table}[H]
@@ -413,13 +414,46 @@ Funktionsbeschreibung anhand von User Stories:
 	\end{tabularx}
 \end{table}
 
+\subsection{Nichtfunktionale Anforderungen}
 
-\subsection{Funktionale Anforderungen}
-
-\subsection{ Nicht funktionale Anforderungen}
+\begin{enumerate}
+	\item \textbf{Sicherheit:} Die App soll sicher sein, d. h. keine sensiblen Daten wie Passwörter oder Kreditkartendaten speichern.\\
+	So soll die Menge an Daten, die von Nutzern in der App oder auf dem Server gespeichert werden, möglichst klein gehalten werden.
+	\item \textbf{Benutzerfreundlichkeit:} Die App soll einfach zu bedienen sein, damit die Nutzer schnell und einfach mit ihr arbeiten können.\\
+	Dazu soll die App eine intuitive Benutzeroberfläche haben, die den Nutzern die Bedienung der App erleichtert.
+	\item \textbf{Schnelligkeit:} Die App soll schnell reagieren, damit die Nutzer nicht lange auf die Ergebnisse warten müssen.
+	\item \textbf{Robustheit:} Die App soll robust sein, d. h. sie soll auch bei Fehlern oder unerwarteten Eingaben nicht abstürzen.\\
+	Dazu soll die App Fehlermeldungen ausgeben, wenn sie nicht mit den Eingaben umgehen kann, und in einen sicheren Zustand zurückkehren.
+	\item \textbf{Wartbarkeit:} Die App soll einfach zu warten sein, damit die Entwickler schnell und einfach Fehler beheben können.\\
+	Dazu soll die App gut dokumentiert sein und eine gute Struktur haben.
+	Code soll sinnvoll aufgeteilt sein und in einzelne Funktionen ausgelagert werden.
+	Wenn möglich soll der Code wiederverwendet werden, um Redundanzen zu vermeiden.
+	\item \textbf{Portierbarkeit:} Die App soll auf möglichst vielen Geräten laufen, damit möglichst viele Nutzer sie verwenden können.\\
+	Dazu soll die App auf Android und iOS laufen und das Design der App an die jeweiligen Geräte angepasst sein.
+	\item \textbf{Korrektheit:} Die App soll den funktionalen Anforderungen genügen.
+	\item \textbf{Zuverlässigkeit:} Die App soll den Vorstellungen der Nutzer entsprechen.
+\end{enumerate}
 
 \subsection{(Benutzer) Schnittstellen / Ein-Ausgabeformate}
 
+Die App soll mit dem Server kommunizieren, um die Daten zu erhalten und zu speichern.
+Es gibt festgelegte Datenstrukturen zu Nutzern, Reisen und Zahlungen, die der Server und die App verwenden.
+
+\begin{itemize}
+	\item \textbf{Nutzer:} Ein Nutzer hat einen Namen und eine Standardwährung\footnote{Die E-Mail-Adresse und das Passwort wird von Firebase verwaltet.}.
+	\item \textbf{Reise:} Eine Reise hat einen Namen, eine Beschreibung, ein Startdatum, ein Enddatum, eine Standardwährung, einen Invite-Code, einen Reiseleiter und eine Liste von Reisemitgliedern.
+	\item \textbf{Zahlung:} Eine Zahlung hat eine zugeordnete Reise, einen Betrag, einen Absender, einen Empfänger, eine Beschreibung, ein Datum und eine Währung und ein optionales Bild.
+\end{itemize}
+
 \subsection{Fehlverhalten}
 
+Werden invalide Daten eingegeben, soll die App eine Fehlermeldung ausgeben und in einen sicheren Zustand zurückkehren.
+Dies soll ebenfalls für zu große Datenmengen gelten.
+Um solche Fehler zu vermeiden, soll die App die Eingaben validieren.
+
 \subsection{Abnahmekriterien}
+
+Die App soll die nicht- und funktionalen Anforderungen erfüllen.
+Dabei haben die funktionalen Anforderungen Priorität.
+Die App soll die Datenstrukturen (ggf. nach Bedarf angepasst) verwenden, um mit dem Server zu kommunizieren.
+Sie soll die Daten validieren und sicher Fehlermeldungen ausgeben, wenn die Eingaben nicht valide sind.
