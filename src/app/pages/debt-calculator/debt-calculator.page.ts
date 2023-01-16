@@ -117,13 +117,6 @@ export class DebtCalculatorPage implements OnInit {
     }
   }
 
-  sendReminder() {
-    this.owedBy.forEach(item => {
-      this.pushMessagingService
-        .sendNotificationToUser(item.userID, this.resolveUserId(this.userID), this.toSelectedCurrencyString(item.value));
-    });
-  }
-
   private updateDebts() {
     const basicAmounts = new Map();
 
@@ -206,10 +199,19 @@ export class DebtCalculatorPage implements OnInit {
     });
 
     owedByIds.forEach(
-      ([user, value]) => this.databaseService.userCrudHandler
-        .readByID(user)
+      ([userId, value]) => this.databaseService.userCrudHandler
+        .readByID(userId)
         .then((u) => {
-          this.owedBy.push([user, u.userName, value]);
+          this.owedBy.push([userId, u.userName, value, u.userCurrency]);
         }));
+  }
+  sendReminder() {
+    this.owedBy.forEach(item => {
+      let id = item[0];
+      let value :number = item[2];
+      let currency :string = item[3];
+      this.pushMessagingService
+        .sendNotificationToUser(id, this.resolveUserId(this.userID), formatCurrency(convertToCurrency(value, currency), currency));
+    });
   }
 }
