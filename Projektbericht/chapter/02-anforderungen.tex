@@ -261,25 +261,33 @@ Funktionsbeschreibung anhand von User Stories:
 	\caption{Use Case: Zahlung einsehen}
 	\begin{tabularx}{0.95\textwidth}{ |l|X| }
 		\hline
-		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                                                                    \\
 		\hline
-		Primärer Akteur                        & Reisemitglied         \\
+		Primärer Akteur                        & Reisemitglied                                                                                      \\
 		\hline
-		Weitere Akteure                        & (Keine)               \\
+		Weitere Akteure                        & (Keine)                                                                                            \\
 		\hline
-		Auslösende Ereignisse                  & [--TODO--]            \\
+		Auslösende Ereignisse                  & Ein Reisemitglied möchte eine eingetragene Zahlung einsehen.                                       \\
 		\hline
-		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                                                              \\
 		\hline
-		Hauptszenario                          & [--TODO--]            \\
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Das Reisemitglied ist auf der Seite der Reise.
+			                                         \item Er tippt auf eine Zahlung.
+			                                         \item Die Zahlung weitet sich aus und zeigt grundlegende Informationen wie Zahler und Zahldatum an.
+			                                         \item Der Nutzer tippt auf das Auge, um die Details der Zahlung einzusehen.
+			                                         \item Die Zahlungsdetails werden angezeigt.
+		                                         \end{enumerate} \\
 		\hline
-		Alternativszenarien                    & [--TODO--]            \\
+		Alternativszenarien                    & (Keine)                                                                                            \\
 		\hline
-		Ausnahmeszenarien                      & [--TODO--]            \\
+		Ausnahmeszenarien                      & (Keine)                                                                                            \\
 		\hline
-		\rowcolor{lightgray}                   &                       \\
+		\rowcolor{lightgray}                   &                                                                                                    \\
 		\hline
-		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		Vor-/ Nachbedingungen                  & \begin{enumerate}
+			                                         \item[Vor1.] Es existiert eine Zahlung.
+		                                         \end{enumerate}                                                             \\
 		\hline
 	\end{tabularx}
 \end{table}
@@ -290,26 +298,42 @@ Funktionsbeschreibung anhand von User Stories:
 	\caption{Use Case: Schulden einsehen}
 	\begin{tabularx}{0.95\textwidth}{ |l|X| }
 		\hline
-		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                                                                                                        \\
 		\hline
-		Primärer Akteur                        & Reisemitglied         \\
+		Primärer Akteur                        & Reisemitglied                                                                                                                          \\
 		\hline
-		Weitere Akteure                        & (Keine)               \\
+		Weitere Akteure                        & (Keine)                                                                                                                                \\
 		\hline
-		Auslösende Ereignisse                  & [--TODO--]            \\
+		Auslösende Ereignisse                  & Ein Reisemitglied möchte einsehen, welche Schulden er hat bzw. was ihm geschuldet wird.                                                \\
 
 		\hline
-		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                                                                                                  \\
 		\hline
-		Hauptszenario                          & [--TODO--]            \\
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Das Reisemitglied ist auf der Seite der Reise.
+			                                         \item Er tippt auf \emph{Debts}.
+			                                         \item Der Schuldenrechner öffnet sich.
+			                                         \item Dem Nutzer wird die Gesamtsumme an Geld angezeigt, das er anderen Reisemitgliedern schuldet.
+			                                         \item Darunter werden die einzelnen Schulden aufgeführt.
+			                                         \item Der Nutzer kann die Währung ändern, indem er auf \emph{Currency} tippt.
+			                                         \item Der Nutzer kann eine getätigte Ausgleichszahlung eintragen, indem er auf \emph{Pay} neben einem Betrag tippt.
+		                                         \end{enumerate}                     \\
 		\hline
-		Alternativszenarien                    & [--TODO--]            \\
+		Alternativszenarien                    & \begin{enumerate}
+			                                         \item[4a.] Der Nutzer hat keine Schulden, aber andere Reisemitglieder schulden ihm Geld.
+				                                         \subitem[4a1.] Dem Nutzer wird die Gesamtsumme an Geld angezeigt, die andere Reisemitglieder ihm schulden.
+				                                         \subitem[4a2.] Darunter werden die einzelnen Schulden aufgeführt.
+				                                         \subitem[4a3.] Der Nutzer kann die Währung ändern, indem er auf \emph{Currency} tippt.
+				                                         \subitem[4a4.] Der Nutzer kann eine getätigte Ausgleichszahlung eintragen, indem er auf \emph{Mark as repaid} neben einem Betrag tippt.
+			                                         \item[4b.] Der Nutzer hat keine Schulden, und andere Reisemitglieder schulden ihm auch nichts.
+				                                         \subitem[4b1.] Dem Nutzer wird angezeigt, dass er keine Schulden hat.
+		                                         \end{enumerate} \\
 		\hline
-		Ausnahmeszenarien                      & [--TODO--]            \\
+		Ausnahmeszenarien                      & (Keine)                                                                                                                                \\
 		\hline
-		\rowcolor{lightgray}                   &                       \\
+		\rowcolor{lightgray}                   &                                                                                                                                        \\
 		\hline
-		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		Vor-/ Nachbedingungen                  & (Keine)                                                                                                                                \\
 		\hline
 	\end{tabularx}
 \end{table}
@@ -320,26 +344,34 @@ Funktionsbeschreibung anhand von User Stories:
 	\caption{Use Case: Reise archivieren}
 	\begin{tabularx}{0.95\textwidth}{ |l|X| }
 		\hline
-		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                              \\
 		\hline
-		Primärer Akteur                        & Reiseleiter           \\
+		Primärer Akteur                        & Reiseleiter                                                  \\
 		\hline
-		Weitere Akteure                        & (Keine)               \\
+		Weitere Akteure                        & (Keine)                                                      \\
 		\hline
-		Auslösende Ereignisse                  & [--TODO--]            \\
+		Auslösende Ereignisse                  & Ein Reiseleiter möchte eine Reise archivieren.               \\
 
 		\hline
-		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                        \\
 		\hline
-		Hauptszenario                          & [--TODO--]            \\
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Der Reiseleiter ist auf der Liste aller Reisen.
+			                                         \item Er scrollt zur seiner Reise, die er archivieren möchte.
+			                                         \item Er tippt auf das Schlosssymbol.
+			                                         \item Er bestätigt die Archivierung.
+		                                         \end{enumerate} \\
 		\hline
-		Alternativszenarien                    & [--TODO--]            \\
+		Alternativszenarien                    & (Keine)                                                      \\
 		\hline
-		Ausnahmeszenarien                      & [--TODO--]            \\
+		Ausnahmeszenarien                      & (Keine)                                                      \\
 		\hline
-		\rowcolor{lightgray}                   &                       \\
+		\rowcolor{lightgray}                   &                                                              \\
 		\hline
-		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		Vor-/ Nachbedingungen                  & \begin{enumerate}
+			                                         \item[Vor1.] Die Reise darf nicht bereits archiviert sein.
+			                                         \item[Nach1.] Die Reise ist archiviert.
+		                                         \end{enumerate}    \\
 		\hline
 	\end{tabularx}
 \end{table}
@@ -350,26 +382,33 @@ Funktionsbeschreibung anhand von User Stories:
 	\caption{Use Case: Reisen einsehen}
 	\begin{tabularx}{0.95\textwidth}{ |l|X| }
 		\hline
-		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                                  \\
 		\hline
-		Primärer Akteur                        & Reisemitglied         \\
+		Primärer Akteur                        & Reisemitglied                                                    \\
 		\hline
-		Weitere Akteure                        & (Keine)               \\
+		Weitere Akteure                        & (Keine)                                                          \\
 		\hline
-		Auslösende Ereignisse                  & [--TODO--]            \\
+		Auslösende Ereignisse                  & Das Reisemitglied möchte eine Reise mit deren Zahlungen einsehen \\
 
 		\hline
-		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                            \\
 		\hline
-		Hauptszenario                          & [--TODO--]            \\
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Das Reisemitglied ist auf der Liste aller Reisen.
+			                                         \item Er scrollt zur Reise, die er einsehen möchte.
+			                                         \item Er tippt auf das Bild der Reise.
+			                                         \item Er wird auf die Reise weitergeleitet.
+		                                         \end{enumerate}           \\
 		\hline
-		Alternativszenarien                    & [--TODO--]            \\
+		Alternativszenarien                    & (Keine)                                                          \\
 		\hline
-		Ausnahmeszenarien                      & [--TODO--]            \\
+		Ausnahmeszenarien                      & (Keine)                                                          \\
 		\hline
-		\rowcolor{lightgray}                   &                       \\
+		\rowcolor{lightgray}                   &                                                                  \\
 		\hline
-		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		Vor-/ Nachbedingungen                  & \begin{enumerate}
+			                                         \item[Nach1.] Das Reisemitglied ist auf der Seite der Reise.
+		                                         \end{enumerate}      \\
 		\hline
 	\end{tabularx}
 \end{table}
