@@ -80,6 +80,7 @@ Auf dieser Seite kann der User eine Reise erstellen oder bearbeiten. Entsprechen
 	\item Ersteller einer Reise wird mit Dreieckicon markiert.
 	\item Nicht-Ersteller einer Reise können mit x-Button aus der Reise gekickt werde.
 	\item Button zum Speichern des Eintrags.
+	\item Mit Dateiauswahl-Button kann der Reise ein Banner hinzugefügt werden. Das Banner wird dann in der Reiseliste angezeigt.
 \end{enumerate}
 
 \subsubsection{Detailansicht einer Reise}\label{Journey-Details}
@@ -117,7 +118,7 @@ Der Nutzer gelangt nach Login auf diese Seite, wenn es sich um die aktuellste Re
 		Accommodation                        & \includegraphics[width=0.05\textwidth]{paymentcategories/bed.pdf}             &
 		Ausgaben für Unterkunft.                                                                                                                                               \\
 		\hline
-		Food \& Drink                          & \includegraphics[width=0.05\textwidth]{paymentcategories/fast-food.pdf}       & Ausgaben für Essen und Trinken.                 \\
+		Food and drink                          & \includegraphics[width=0.05\textwidth]{paymentcategories/fast-food.pdf}       & Ausgaben für Essen und Trinken.                 \\
 		\hline
 		Entertaiment                         & \includegraphics[width=0.05\textwidth]{paymentcategories/game-controller.pdf} & Ausgaben für Unterhaltung.                      \\
 		\hline
@@ -125,7 +126,7 @@ Der Nutzer gelangt nach Login auf diese Seite, wenn es sich um die aktuellste Re
 		\hline
 		Repayment                            & \includegraphics[width=0.05\textwidth]{paymentcategories/cash.pdf}            & Rückzahlung von Schulden an andere Mitreisende. \\
 		\hline
-		Other                                & \includegraphics[width=0.05\textwidth]{paymentcategories/infinite.pdf}        & alles was in keine andere Kategorie passt.      \\
+		Other                                & \includegraphics[width=0.05\textwidth]{paymentcategories/infinite.pdf}        & Alles was in keine andere Kategorie passt.      \\
 		\hline
 	\end{tabularx}
 	\label{Tab:paymentcategories}
@@ -144,17 +145,17 @@ Auf dieser Seite hat der Nutzer eine Übersicht aller beigetretenen Reisen.
 
 \begin{enumerate}[label=\protect\circled{\arabic*}]
 	\item Button zum Erstellen einer neuen Reise: der Nutzer gelangt zur Reiseerstellenseite  (Siehe \ref{Journey-Editor}).
+	\item Button zum Beitreten einer existierenden Reise: der Nutzer gelangt zur Reisebeitretenseite (Siehe [TODO]).
 	\item Auswahl zwischen aktiven und archivierten Reisen.
 	\item Anzeige, ob es sich um eine aktive oder archivierte Reise handelt.
-	\item Button zu Details einer Reise: der Nutzer gelangt zu einer Listenansicht aller Reisezahlungen  (Siehe \ref{Journey-Details}).
-	\item Der Nutzer bekommt das Einladungsmodal angezeigt (Siehe \ref{invite-modal}).
-	\item Button zum Reisebearbeiten: der Nutzer gelangt zur Reisebearbeitenseite (Siehe \ref{Journey-Editor}).
-	\item Button zum Löschen einer Reise.
-	\item Button zum Archivieren einer Reise.
-	\item Titel der Reise als Vektorbild; kann vom Nutzer durch eigenes Bild ersetzt werden.
-	\item Ist der Nutzer nicht Ersteller einer Reise, wird ihm nur der Button zu den Details einer Reise angezeigt.
+	\item Dropdown mit allen wichtigen Infos zu einer Reise.
+	\item Durch klicken auf das Reisebanner gelangt der Nutzer zu  den Details einer Reise: der Nutzer gelangt zu einer Listenansicht aller Reisezahlungen  (Siehe \ref{Journey-Details}). Das Banner kann vom Nutzer zu einem beliebigen Bild geändert werden.
+	\item Der Nutzer bekommt das Einladungsmodal angezeigt (Siehe \ref{invite-modal}).*
+	\item Button zum Reisebearbeiten: der Nutzer gelangt zur Reisebearbeitenseite (Siehe \ref{Journey-Editor}).*
+	\item Button zum Löschen einer Reise.*
+	\item Button zum Archivieren einer Reise.*
 \end{enumerate}
-
+* Werden dem Nutzer nur angezeigt, wenn dieser Ersteller der Reise ist.
 \subsubsection{Details einer Zahlung}\label{payment-details}
 \begin{figure}[H]
 	\centering
@@ -191,6 +192,7 @@ Auf dieser Seite kann der Nutzer die Informationen zu einer Zahlung erstellen od
 	\item Durch den x-Button können Nutzer als Zahlungsverursacher entfernt werden.
 	\item Mit dem Plus-Button können einzelne Nutzer oder alle Nutzer hinzugefügt werden. Zusätzlich gibt es die Möglichkeit alle Nutzer zu entfernen.
 	\item Button um die Kamera zu öffnen und um ein Bild der Rechnung festzuhalten.
+	Alternativ kann der Nutzer ein Bild aus der Galerie hochladen.
 	\item Button zum Speichern des Eintrags.
 \end{enumerate}
 
@@ -207,6 +209,7 @@ Auf dieser Seite sieht der Nutzer sein Guthaben bzw. seine Schulden gegenüber a
 \begin{enumerate}[label=\protect\circled{\arabic*}]
 	\item Der Betrag, was einem die Mitreisenden noch schulden.
 	\item Sendet eine Push-Nachricht als Erinnerung an alle Schuldner.
+	\item Dropdown zur Auswahl der Schuldenwährung.
 	\item Öffnet Zahlung erstellen, um den gezahlten Betrag festzuhalten.
 	\item Als Reiseersteller hat man zusätzlich die Übersicht über alle offene Schulden einer Reise.
 \end{enumerate}
