@@ -1,1 +1,74 @@
 \section{Evaluation}
+In diesem Kapitel wird evaluiert, inwiefern die Software die gestellten Anforderungen umsetzt. Dabei werden die funktionalen Anforderungen betrachtet.
+
+\subsection{Funktionale Anforderungen}
+
+\textbf{Use Case 1: Einen Account erstellen}\\
+\begin{addmargin}{10pt}
+\underline{Hauptszenario}: Alle Kriterien wurden erfüllt.\\
+\underline{Ausnahmeszenarien}: Das Szenario 4b wurde nicht umgesetzt, da für die Passworteingabe keine Regelvalidierung umgesetzt wurde. Dementsprechend wird keine Fehlermeldung wie z.B. 'Das Passwort muss mindestens 8 Zeichen lang sein, einen Großbuchstaben und ein Sonderzeichen enthalten.' angezeigt. Dies wäre Aufgabe des Teammitglieds gewesen, das abgesprungen ist.\\
+\end{addmargin}
+\\
+\textbf{Use Case 2: In Account einloggen}\\
+
+\begin{addmargin}{10pt}
+\underline{Hauptszenario}: Der Nutzer wird nicht wie Punkt 5 beschreibt auf seine aktive Reise weitergeleitet. Hier haben wir uns dazu entschieden, stattdessen auf die Liste aller aktiven Reisen weiterzuleiten, weil es als verwirrend empfunden wurde nach dem Login nicht in einer Form von Übersicht zu landen. Alle anderen Kriterien wurden erfüllt.\\
+\underline{Alternativszenarien}: Alle Kriterien wurden erfüllt.\\
+\underline{Ausnahmeszenarien}: Der Login-Button ist nicht wie gefordert ausgegraut, wenn der Nutzer eine ungültige E-Mail-Adresse eingibt. Dies wäre Aufgabe des Teammitglieds gewesen, das abgesprungen ist. Der Button ist lediglich ausgegraut, solange noch keine E-Mail-Adresse bzw. Passwort eingegeben wurde. Alle anderen Kriterien wurden erfüllt.\\
+\end{addmargin}
+\\
+\textbf{Use Case 3: Eine Reise erstellen}\\
+
+\begin{addmargin}{10pt}
+\underline{Hauptszenario}: Alle Kriterien wurden erfüllt.\\
+\underline{Ausnahmeszenarien}: Es können ungültige Reisezeiträume eingegeben werden (Enddatum liegt vor Startdatum). Dies wäre Aufgabe des Teammitglieds gewesen, das abgesprungen ist.\\
+\end{addmargin}
+\\
+\textbf{Use Case 4: Eine Reise betreten}\\
+
+\begin{addmargin}{10pt}
+\underline{Hauptszenario}: Alle Kriterien wurden erfüllt.\\
+\underline{Alternativszenarien}: Der QR-Scanner wurde nicht implementiert. Grund dafür war, dass wir das \href{https://ionicframework.com/docs/v3/native/qr-scanner/}{QR-Scanner Plugin} nicht lauffähig bekommen haben.\\
+\underline{Ausnahmeszenarien}: Alle Kriterien wurden erfüllt.\\
+\end{addmargin}
+\\
+\textbf{Use Case 5: Zahlung festhalten}\\
+
+\begin{addmargin}{10pt}
+\underline{Hauptszenario}: Alle Kriterien wurden erfüllt.\\
+\underline{Alternativszenarien}: Der Nutzer kann ein Bild hochladen, allerdings nur Bilder aus dem Gerätespeicher und nicht per Kamera. Wir haben dafür die \href{https://ionicframework.com/docs/angular/your-first-app/taking-photos}{Camera API von Capacitor} verwendet. Die Kamera konnte geöffnet werden und ein Foto konnte ebenfalls geschossen werden, allerdings wurde das geschossene Foto nicht hochgeladen; diesen Fehler konnten wir nicht beheben.\\
+\underline{Ausnahmeszenarien}: Der Nutzer kann negative Beträge eingeben, ohne dass die App dies verhindert oder meldet. Dies wäre Aufgabe des Teammitglieds gewesen, das abgesprungen ist.\\
+\end{addmargin}
+\\
+\textbf{Use Case 6: Zahlung einsehen}\\
+
+\begin{addmargin}{10pt}
+\underline{Hauptszenario}: Alle Kriterien wurden erfüllt.\\
+\end{addmargin}
+\\
+\textbf{Use Case 7: Schulden einsehen}\\
+
+\begin{addmargin}{10pt}
+\underline{Hauptszenario}: Alle Kriterien wurden erfüllt.\\
+\underline{Alternativszenarien}: Alle Kriterien wurden erfüllt.\\
+\end{addmargin}
+\\
+\textbf{Use Case 8: Reise archivieren}\\
+
+\begin{addmargin}{10pt}
+\underline{Hauptszenario}: Alle Kriterien wurden erfüllt.\\
+\end{addmargin}
+\\
+\textbf{Use Case 9: Reisen einsehen}\\
+
+\begin{addmargin}{10pt}
+\underline{Hauptszenario}: Alle Kriterien wurden erfüllt.\\
+\end{addmargin}
+\\
+Somit wurden bis auf die genannten Punkte alle funktionalen Anforderungen, die in Form von Use Cases formuliert wurden, umgesetzt.
+
+
+
+
+
+
