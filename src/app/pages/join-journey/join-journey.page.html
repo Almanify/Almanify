@@ -8,24 +8,39 @@
 </ion-header>
 
 <ion-content>
-  <ion-item *ngIf="errorText" class="round ion-margin">
-    <ion-label color="danger"> {{ errorText }} </ion-label>
-  </ion-item>
+  <ion-card class="ion-margin-top">
+    <ion-card-content>
+      <ion-row class="ion-padding">
+        <ion-col>
 
-  <ion-item class="round ion-margin">
-    <ion-icon name="key" slot="start"></ion-icon>
-    <ion-input (ionChange)="errorText = ''" [(ngModel)]="inviteCode" placeholder="Invite Code" type="number">
-    </ion-input>
-  </ion-item>
-  <ion-button [disabled]="!inviteCode" class="round ion-margin" expand="block" on-click="joinJourney()">Apply
-  </ion-button>
+          <ion-row>
+            <ion-col class="ion-align-self-center ion-text-center">
+              <ion-icon size="large" name="key"></ion-icon>
+            </ion-col>
+            <ion-col size="10">
+              <ion-item class="round ion-margin">
+                <ion-label color="primary" position="stacked">Invite Code</ion-label>
+                <ion-input (ionChange)="errorText = ''" [(ngModel)]="inviteCode" placeholder="Enter Code" type="number"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
 
-  <div *ngIf="!inviteCode">
-    <ion-title class="ion-text-center" size="large">OR</ion-title>
-    <ion-img class="round ion-margin"
-             src="https://static.giga.de/wp-content/uploads/2020/06/qr-code-scannen.jpg"></ion-img>
+          <ion-note *ngIf="errorText" class="round ion-margin" color="danger">
+            {{ errorText }}
+          </ion-note>
 
-    <ion-text>Hier wird es später nicht so lehr der QR-Scanner wird größer ist nur ein beispiel Bild</ion-text>
-  </div>
-
+          <ion-button [disabled]="!inviteCode" class="round ion-margin" expand="block" on-click="joinJourney()">
+            Apply
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-padding ion-text-center">
+        <ion-col>
+          <ion-text>
+            In order to join a journey, ask the journey's creator for the corresponding invite code and enter it in the field above.
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
