@@ -51,7 +51,7 @@ export class PaymentDetailsPage implements OnInit {
     this.journey.id = this.activatedRoute.snapshot.paramMap.get('journeyId');
     this.payment.id = this.activatedRoute.snapshot.paramMap.get('paymentId');
     this.to = this.activatedRoute.snapshot.paramMap.get('to');
-    this.amount = Number(this.activatedRoute.snapshot.paramMap.get('amount') ?? 0);
+    this.amount = Number(this.activatedRoute.snapshot.paramMap.get('amount') ?? undefined);
     this.currency = this.activatedRoute.snapshot.paramMap.get('currency');
     this.from = this.activatedRoute.snapshot.paramMap.get('from');
     this.databaseService.journeyCrudHandler.read(this.journey).then(
