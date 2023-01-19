@@ -9,8 +9,8 @@ import firebase from 'firebase/compat/app';
 import {ActionSheetController, AlertController, IonRouterOutlet, NavController} from '@ionic/angular';
 import {convertFromCurrency, currencies, formatCurrency} from '../../services/helper/currencies';
 import {PhotoService} from '../../services/photo.service';
-import {Observable} from 'rxjs';
 import Timestamp = firebase.firestore.Timestamp;
+import {Photo} from '@capacitor/camera';
 
 @Component({
   selector: 'app-payment-details',
@@ -36,7 +36,6 @@ export class PaymentDetailsPage implements OnInit {
   from: string;
 
   picEvent: any;
-  downloadURL: Observable<string>;
 
   constructor(public navCtrl: NavController,
               public outlet: IonRouterOutlet,
@@ -118,14 +117,12 @@ export class PaymentDetailsPage implements OnInit {
 
   async save() {
     //upload picture
-    if (!this.picEvent) {
-      this.authService.expectUserId().then(async (uid) => {
-        await this.photoService.uploadPic(this.picEvent, uid).then(value => this.downloadURL = value);
-      });
-    }
-    //set downloadURL in journey to reference storage-image
-    if (!this.downloadURL) {
-      await this.downloadURL.toPromise().then(value => this.payment.img = value);
+    if (this.picEvent) {
+      await this.photoService.uploadPicFromEvent(this.picEvent, this.userId).then(value =>
+        value.toPromise().then(img =>
+          this.payment.img = img
+        )
+      );
     }
     if (!this.payment.id) {
       //new payment
@@ -247,7 +244,7 @@ export class PaymentDetailsPage implements OnInit {
 
 
   async takePic() {
-    await this.photoService.addNewToGallery();
+    await this.photoService.addNewToGallery().then((photo: Photo) => this.photoService.uploadPicFromPhoto(photo, this.userId));
   }
 
   async saveEvent(event) {
@@ -257,6 +254,7 @@ export class PaymentDetailsPage implements OnInit {
   async deletePic() {
     this.photoService.deletePic(this.payment.img);
     this.payment.img = null;
+    this.picEvent = null;
     await this.save();
   }
 
