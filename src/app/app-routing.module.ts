@@ -92,7 +92,8 @@ const routes: Routes = [
   },
   {
     path: 'options',
-    loadChildren: () => import('./pages/options/options.module').then(m => m.OptionsPageModule)
+    loadChildren: () => import('./pages/options/options.module').then(m => m.OptionsPageModule),
+    canActivate: [AuthGuard]
   }
 ];
 
