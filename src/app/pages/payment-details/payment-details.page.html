@@ -70,7 +70,7 @@
         <!--paid value-->
         <ion-item>
           <ion-icon name="cash-outline" slot="start"></ion-icon>
-          <ion-label>
+          <ion-label style="width: 90%">
             Value
           </ion-label>
           <span *ngIf="!isEditMode; else valueCurrencyInput">
@@ -152,7 +152,7 @@
         </ion-item-group>
 
         <!--Picture of the bill TODO: set img etc-->
-        <ion-button (change)="saveEvent($event)" (click)="takePic()" *ngIf="isEditMode && (payment.img === null)"
+        <ion-button (change)="saveEvent($event)" (click)="takePic()" *ngIf="isEditMode && !payment.img"
                     expand="block" fill="outline" size="large"
                     type="file">
           <ion-icon name="add"></ion-icon>

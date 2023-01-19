@@ -3,11 +3,13 @@ import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from './guards/auth.guard';
 
 const routes: Routes = [
+
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
   },
+
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
@@ -17,6 +19,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule),
   },
+
   {
     path: 'debts/:id',
     loadChildren: () => import('./pages/debt-calculator/debt-calculator.module').then(m => m.DebtCalculatorPageModule),
@@ -53,6 +56,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'payment-details/:editmode/:journeyId/:to/:amount/:currency/:from',
+    loadChildren: () => import('./pages/payment-details/payment-details.module').then(m => m.PaymentDetailsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'journey-editor',
     loadChildren: () => import('./pages/journey-editor/journey-editor.module').then(m => m.JourneyEditorPageModule),
     canActivate: [AuthGuard]
@@ -84,7 +92,8 @@ const routes: Routes = [
   },
   {
     path: 'options',
-    loadChildren: () => import('./pages/options/options.module').then(m => m.OptionsPageModule)
+    loadChildren: () => import('./pages/options/options.module').then(m => m.OptionsPageModule),
+    canActivate: [AuthGuard]
   }
 ];
 

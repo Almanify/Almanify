@@ -7,6 +7,7 @@ import {User} from '../../data/User';
 import {AuthenticationService} from '../../services/auth.service';
 import {convertFromCurrency, convertToCurrency, formatCurrency} from '../../services/helper/currencies';
 import {NavController} from '@ionic/angular';
+import {PushMessagingService} from '../../services/push-messaging.service';
 import {currencies} from '../../services/helper/currencies';
 
 @Component({
@@ -25,6 +26,7 @@ export class DebtCalculatorPage implements OnInit {
   isLoaded = false;
   selectedCurrency: string;
   currencies = currencies;
+  owedBy = [];
 
   /*
    * we store the debts as a map of the form, where person1 is the person who paid and person2 is the person who owes
@@ -38,7 +40,8 @@ export class DebtCalculatorPage implements OnInit {
   constructor(route: ActivatedRoute,
               public databaseService: DatabaseService,
               public authenticationService: AuthenticationService,
-              public navCtrl: NavController) {
+              public navCtrl: NavController,
+              public pushMessagingService: PushMessagingService) {
     this.journey = new Journey();
     this.journey.id = route.snapshot.paramMap.get('id');
 
@@ -100,13 +103,18 @@ export class DebtCalculatorPage implements OnInit {
     return total;
   }
 
-  payDebt(person: string, amount: number) {
-    this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + person + '/'
+  async payDebt(person: string, amount: number) {
+    await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + person + '/'
       + convertToCurrency(amount, this.selectedCurrency) + '/' + this.selectedCurrency);
   }
 
-  insertRepaidDebt() {
-    this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + this.userID + '/' + 0);
+  async insertRepaidDebt(person?: string, amount?: number) {
+    if (person && amount) {
+      await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + this.userID + '/'
+        + amount + '/' + this.selectedCurrency + '/' + person);
+    } else {
+      await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + this.userID + '/' + 0);
+    }
   }
 
   private updateDebts() {
@@ -130,8 +138,6 @@ export class DebtCalculatorPage implements OnInit {
       });
     });
 
-    console.log(basicAmounts.entries());
-
     // map person indices to amount to be paid or received
     const moneyOffset = new Map();
     basicAmounts.forEach((amount, key) => {
@@ -144,8 +150,6 @@ export class DebtCalculatorPage implements OnInit {
     const sortedMoneyOffset: Array<[string, number]> = [...moneyOffset.entries()]
       .sort((a, b) => b[1] - a[1])
       .filter(([_, amount]) => amount !== 0);
-
-    console.log(sortedMoneyOffset, sortedMoneyOffset[0]);
 
     // calculate the final amounts to be paid
     const finalAmountsToBePaid = new Map();
@@ -181,6 +185,8 @@ export class DebtCalculatorPage implements OnInit {
 
     this.userIsOwed = 0;
     this.amountsToBePaidByUser = [];
+    const owedByIds = [];
+
     this.amountsToBePaid.forEach((value, key) => {
       const [person1, person2] = key.split('-');
       if (person2 === this.userID) {
@@ -188,7 +194,24 @@ export class DebtCalculatorPage implements OnInit {
         this.amountsToBePaid.delete(key);
       } else if (person1 === this.userID) {
         this.userIsOwed += value;
+        owedByIds.push([person2, value]);
       }
+    });
+
+    owedByIds.forEach(
+      ([userId, value]) => this.databaseService.userCrudHandler
+        .readByID(userId)
+        .then((u) => {
+          this.owedBy.push([userId, u.userName, value, u.userCurrency]);
+        }));
+  }
+  sendReminder() {
+    this.owedBy.forEach(item => {
+      let id = item[0];
+      let value :number = item[2];
+      let currency :string = item[3];
+      this.pushMessagingService
+        .sendNotificationToUser(id, this.resolveUserId(this.userID), formatCurrency(convertToCurrency(value, currency), currency));
     });
   }
 }

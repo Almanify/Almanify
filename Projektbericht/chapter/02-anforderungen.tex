@@ -1,13 +1,14 @@
 \section{Anforderungen}
 
+\subsection{Grundlegende Funktionsbeschreibung}
+
 Bei Öffnung der App können sich Benutzer einloggen oder registrieren.
 Dabei wird ein Benutzerprofil erstellt, das den Nutzernamen enthält.
 Reisen können innerhalb der mobilen Anwendung erstellt werden.
-Weitere Nutzer können über einen Invitecode oder QR-Code beitreten.
+Weitere Nutzer können über einen Invite-Code beitreten.
 Getätigte Ausgaben können den beigetretenen Reisen hinzugefügt werden.
 Einträge für Ausgaben umfassen einen Titel, die Person, die bezahlt hat, die Summe,
-Währung, eine Kategorie, Zahldatum, die Beteiligten, die Ausgaben verursacht haben,
-eine optionale Markierung auf Google Maps wo die Zahlung getätigt wurde und ein optionales Bild vom Kassenbon.
+Währung, eine Kategorie, Zahldatum, die Beteiligten, die Ausgaben verursacht haben und ein optionales Bild (z. B. vom Kassenbon).
 Für Währung, Kategorie und Beteiligte gibt es vorgegebene Auswahlmöglichkeiten.
 Einträge für Ausgaben können entsprechend der Attribute sortiert werden.
 Nutzer können Einträge für Ausgaben nachträglich bearbeiten.
@@ -16,9 +17,9 @@ Die App schlägt einen effizienten finanziellen Ausgleich unter den Beteiligten 
 Schulden des Nutzers gegenüber anderen werden in eine von ihm angegebene Währung umgerechnet.
 Nach Abschluss einer Reise kann dies archiviert werden.
 
-\subsection{Grundlegende Funktionsbeschreibung}
+\subsection{Funktionale Anforderungen}
+Nun werden die funktionalen Anforderungen anhand von Use Cases beschrieben.
 
-Funktionsbeschreibung anhand von User Stories:
 \setlist{nolistsep}
 
 \begin{table}[H]
@@ -261,25 +262,33 @@ Funktionsbeschreibung anhand von User Stories:
 	\caption{Use Case: Zahlung einsehen}
 	\begin{tabularx}{0.95\textwidth}{ |l|X| }
 		\hline
-		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                                                                    \\
 		\hline
-		Primärer Akteur                        & Reisemitglied         \\
+		Primärer Akteur                        & Reisemitglied                                                                                      \\
 		\hline
-		Weitere Akteure                        & (Keine)               \\
+		Weitere Akteure                        & (Keine)                                                                                            \\
 		\hline
-		Auslösende Ereignisse                  & [--TODO--]            \\
+		Auslösende Ereignisse                  & Ein Reisemitglied möchte eine eingetragene Zahlung einsehen.                                       \\
 		\hline
-		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                                                              \\
 		\hline
-		Hauptszenario                          & [--TODO--]            \\
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Das Reisemitglied ist auf der Seite der Reise.
+			                                         \item Er tippt auf eine Zahlung.
+			                                         \item Die Zahlung weitet sich aus und zeigt grundlegende Informationen wie Zahler und Zahldatum an.
+			                                         \item Der Nutzer tippt auf das Auge, um die Details der Zahlung einzusehen.
+			                                         \item Die Zahlungsdetails werden angezeigt.
+		                                         \end{enumerate} \\
 		\hline
-		Alternativszenarien                    & [--TODO--]            \\
+		Alternativszenarien                    & (Keine)                                                                                            \\
 		\hline
-		Ausnahmeszenarien                      & [--TODO--]            \\
+		Ausnahmeszenarien                      & (Keine)                                                                                            \\
 		\hline
-		\rowcolor{lightgray}                   &                       \\
+		\rowcolor{lightgray}                   &                                                                                                    \\
 		\hline
-		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		Vor-/ Nachbedingungen                  & \begin{enumerate}
+			                                         \item[Vor1.] Es existiert eine Zahlung.
+		                                         \end{enumerate}                                                             \\
 		\hline
 	\end{tabularx}
 \end{table}
@@ -290,26 +299,42 @@ Funktionsbeschreibung anhand von User Stories:
 	\caption{Use Case: Schulden einsehen}
 	\begin{tabularx}{0.95\textwidth}{ |l|X| }
 		\hline
-		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                                                                                                        \\
 		\hline
-		Primärer Akteur                        & Reisemitglied         \\
+		Primärer Akteur                        & Reisemitglied                                                                                                                          \\
 		\hline
-		Weitere Akteure                        & (Keine)               \\
+		Weitere Akteure                        & (Keine)                                                                                                                                \\
 		\hline
-		Auslösende Ereignisse                  & [--TODO--]            \\
+		Auslösende Ereignisse                  & Ein Reisemitglied möchte einsehen, welche Schulden er hat bzw. was ihm geschuldet wird.                                                \\
 
 		\hline
-		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                                                                                                  \\
 		\hline
-		Hauptszenario                          & [--TODO--]            \\
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Das Reisemitglied ist auf der Seite der Reise.
+			                                         \item Er tippt auf \emph{Debts}.
+			                                         \item Der Schuldenrechner öffnet sich.
+			                                         \item Dem Nutzer wird die Gesamtsumme an Geld angezeigt, das er anderen Reisemitgliedern schuldet.
+			                                         \item Darunter werden die einzelnen Schulden aufgeführt.
+			                                         \item Der Nutzer kann die Währung ändern, indem er auf \emph{Currency} tippt.
+			                                         \item Der Nutzer kann eine getätigte Ausgleichszahlung eintragen, indem er auf \emph{Pay} neben einem Betrag tippt.
+		                                         \end{enumerate}                     \\
 		\hline
-		Alternativszenarien                    & [--TODO--]            \\
+		Alternativszenarien                    & \begin{enumerate}
+			                                         \item[4a.] Der Nutzer hat keine Schulden, aber andere Reisemitglieder schulden ihm Geld.
+				                                         \subitem[4a1.] Dem Nutzer wird die Gesamtsumme an Geld angezeigt, die andere Reisemitglieder ihm schulden.
+				                                         \subitem[4a2.] Darunter werden die einzelnen Schulden aufgeführt.
+				                                         \subitem[4a3.] Der Nutzer kann die Währung ändern, indem er auf \emph{Currency} tippt.
+				                                         \subitem[4a4.] Der Nutzer kann eine getätigte Ausgleichszahlung eintragen, indem er auf \emph{Mark as repaid} neben einem Betrag tippt.
+			                                         \item[4b.] Der Nutzer hat keine Schulden, und andere Reisemitglieder schulden ihm auch nichts.
+				                                         \subitem[4b1.] Dem Nutzer wird angezeigt, dass er keine Schulden hat.
+		                                         \end{enumerate} \\
 		\hline
-		Ausnahmeszenarien                      & [--TODO--]            \\
+		Ausnahmeszenarien                      & (Keine)                                                                                                                                \\
 		\hline
-		\rowcolor{lightgray}                   &                       \\
+		\rowcolor{lightgray}                   &                                                                                                                                        \\
 		\hline
-		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		Vor-/ Nachbedingungen                  & (Keine)                                                                                                                                \\
 		\hline
 	\end{tabularx}
 \end{table}
@@ -320,26 +345,34 @@ Funktionsbeschreibung anhand von User Stories:
 	\caption{Use Case: Reise archivieren}
 	\begin{tabularx}{0.95\textwidth}{ |l|X| }
 		\hline
-		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                              \\
 		\hline
-		Primärer Akteur                        & Reiseleiter           \\
+		Primärer Akteur                        & Reiseleiter                                                  \\
 		\hline
-		Weitere Akteure                        & (Keine)               \\
+		Weitere Akteure                        & (Keine)                                                      \\
 		\hline
-		Auslösende Ereignisse                  & [--TODO--]            \\
+		Auslösende Ereignisse                  & Ein Reiseleiter möchte eine Reise archivieren.               \\
 
 		\hline
-		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                        \\
 		\hline
-		Hauptszenario                          & [--TODO--]            \\
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Der Reiseleiter ist auf der Liste aller Reisen.
+			                                         \item Er scrollt zur seiner Reise, die er archivieren möchte.
+			                                         \item Er tippt auf das Schlosssymbol.
+			                                         \item Er bestätigt die Archivierung.
+		                                         \end{enumerate} \\
 		\hline
-		Alternativszenarien                    & [--TODO--]            \\
+		Alternativszenarien                    & (Keine)                                                      \\
 		\hline
-		Ausnahmeszenarien                      & [--TODO--]            \\
+		Ausnahmeszenarien                      & (Keine)                                                      \\
 		\hline
-		\rowcolor{lightgray}                   &                       \\
+		\rowcolor{lightgray}                   &                                                              \\
 		\hline
-		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		Vor-/ Nachbedingungen                  & \begin{enumerate}
+			                                         \item[Vor1.] Die Reise darf nicht bereits archiviert sein.
+			                                         \item[Nach1.] Die Reise ist archiviert.
+		                                         \end{enumerate}    \\
 		\hline
 	\end{tabularx}
 \end{table}
@@ -350,37 +383,77 @@ Funktionsbeschreibung anhand von User Stories:
 	\caption{Use Case: Reisen einsehen}
 	\begin{tabularx}{0.95\textwidth}{ |l|X| }
 		\hline
-		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}       \\
+		\rowcolor{gray} \textbf{Abschnitt}     & \textbf{Inhalt}                                                  \\
 		\hline
-		Primärer Akteur                        & Reisemitglied         \\
+		Primärer Akteur                        & Reisemitglied                                                    \\
 		\hline
-		Weitere Akteure                        & (Keine)               \\
+		Weitere Akteure                        & (Keine)                                                          \\
 		\hline
-		Auslösende Ereignisse                  & [--TODO--]            \\
+		Auslösende Ereignisse                  & Das Reisemitglied möchte eine Reise mit deren Zahlungen einsehen \\
 
 		\hline
-		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung} \\
+		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                            \\
 		\hline
-		Hauptszenario                          & [--TODO--]            \\
+		Hauptszenario                          & \begin{enumerate}
+			                                         \item Das Reisemitglied ist auf der Liste aller Reisen.
+			                                         \item Er scrollt zur Reise, die er einsehen möchte.
+			                                         \item Er tippt auf das Bild der Reise.
+			                                         \item Er wird auf die Reise weitergeleitet.
+		                                         \end{enumerate}           \\
 		\hline
-		Alternativszenarien                    & [--TODO--]            \\
+		Alternativszenarien                    & (Keine)                                                          \\
 		\hline
-		Ausnahmeszenarien                      & [--TODO--]            \\
+		Ausnahmeszenarien                      & (Keine)                                                          \\
 		\hline
-		\rowcolor{lightgray}                   &                       \\
+		\rowcolor{lightgray}                   &                                                                  \\
 		\hline
-		Vor-/ Nachbedingungen                  & [--TODO--]            \\
+		Vor-/ Nachbedingungen                  & \begin{enumerate}
+			                                         \item[Nach1.] Das Reisemitglied ist auf der Seite der Reise.
+		                                         \end{enumerate}      \\
 		\hline
 	\end{tabularx}
 \end{table}
 
+\subsection{Nichtfunktionale Anforderungen}
 
-\subsection{Funktionale Anforderungen}
-
-\subsection{ Nicht funktionale Anforderungen}
+\begin{enumerate}
+	\item \textbf{Sicherheit:} Die App soll sicher sein, d. h. keine sensiblen Daten wie Passwörter oder Kreditkartendaten speichern.\\
+	So soll die Menge an Daten, die von Nutzern in der App oder auf dem Server gespeichert werden, möglichst klein gehalten werden.
+	\item \textbf{Benutzerfreundlichkeit:} Die App soll einfach zu bedienen sein, damit die Nutzer schnell und einfach mit ihr arbeiten können.\\
+	Dazu soll die App eine intuitive Benutzeroberfläche haben, die den Nutzern die Bedienung der App erleichtert.
+	\item \textbf{Schnelligkeit:} Die App soll schnell reagieren, damit die Nutzer nicht lange auf die Ergebnisse warten müssen.
+	\item \textbf{Robustheit:} Die App soll robust sein, d. h. sie soll auch bei Fehlern oder unerwarteten Eingaben nicht abstürzen.\\
+	Dazu soll die App Fehlermeldungen ausgeben, wenn sie nicht mit den Eingaben umgehen kann, und in einen sicheren Zustand zurückkehren.
+	\item \textbf{Wartbarkeit:} Die App soll einfach zu warten sein, damit die Entwickler schnell und einfach Fehler beheben können.\\
+	Dazu soll die App gut dokumentiert sein und eine gute Struktur haben.
+	Code soll sinnvoll aufgeteilt sein und in einzelne Funktionen ausgelagert werden.
+	Wenn möglich soll der Code wiederverwendet werden, um Redundanzen zu vermeiden.
+	\item \textbf{Portierbarkeit:} Die App soll auf möglichst vielen Geräten laufen, damit möglichst viele Nutzer sie verwenden können.\\
+	Dazu soll die App auf Android und iOS laufen und das Design der App an die jeweiligen Geräte angepasst sein.
+	\item \textbf{Korrektheit:} Die App soll den funktionalen Anforderungen genügen.
+	\item \textbf{Zuverlässigkeit:} Die App soll den Vorstellungen der Nutzer entsprechen.
+\end{enumerate}
 
 \subsection{(Benutzer) Schnittstellen / Ein-Ausgabeformate}
 
+Die App soll mit dem Server kommunizieren, um die Daten zu erhalten und zu speichern.
+Es gibt festgelegte Datenstrukturen zu Nutzern, Reisen und Zahlungen, die der Server und die App verwenden.
+
+\begin{itemize}
+	\item \textbf{Nutzer:} Ein Nutzer hat einen Namen und eine Standardwährung\footnote{Die E-Mail-Adresse und das Passwort wird von Firebase verwaltet.}.
+	\item \textbf{Reise:} Eine Reise hat einen Namen, eine Beschreibung, ein Startdatum, ein Enddatum, eine Standardwährung, einen Invite-Code, einen Reiseleiter und eine Liste von Reisemitgliedern.
+	\item \textbf{Zahlung:} Eine Zahlung hat eine zugeordnete Reise, einen Betrag, einen Absender, einen Empfänger, eine Beschreibung, ein Datum und eine Währung und ein optionales Bild.
+\end{itemize}
+
 \subsection{Fehlverhalten}
 
+Werden invalide Daten eingegeben, soll die App eine Fehlermeldung ausgeben und in einen sicheren Zustand zurückkehren.
+Dies soll ebenfalls für zu große Datenmengen gelten.
+Um solche Fehler zu vermeiden, soll die App die Eingaben validieren.
+
 \subsection{Abnahmekriterien}
+
+Die App soll die nicht- und funktionalen Anforderungen erfüllen.
+Dabei haben die funktionalen Anforderungen Priorität.
+Die App soll die Datenstrukturen (ggf. nach Bedarf angepasst) verwenden, um mit dem Server zu kommunizieren.
+Sie soll die Daten validieren und sicher Fehlermeldungen ausgeben, wenn die Eingaben nicht valide sind.

@@ -31,6 +31,7 @@ npm-debug.log*
 /**/plugins
 /**/www
 /**/.idea
+environment.ts
 
 # latex files
 *.aux
@@ -43,3 +44,4 @@ npm-debug.log*
 *.log
 *.toc
 *.out
+

@@ -39,7 +39,7 @@ export class CrudHandler<Entity extends DatabaseEntity> {
         })
         .catch(error => Promise.reject(error));
     } catch (e) {
-      console.log(e);
+      console.log('readByID', e);
       return Promise.reject(e);
     }
   }

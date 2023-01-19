@@ -28,6 +28,13 @@
 \usepackage{multirow}
 \usepackage{float}
 
+%for barchart
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+\usepackage{xcolor}
+\def\mybar#1{%%
+  #1 & {\color{red}\rule{#1cm}{8pt}}}
+
 %-- colorize blindtext--
 \LetLtxMacro{\blindtextblindtext}{\blindtext}
 \RenewDocumentCommand{\blindtext}{O{\value{blindtext}}}{%

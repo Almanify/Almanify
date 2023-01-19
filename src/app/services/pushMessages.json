@@ -1,0 +1,20 @@
+{
+  "notifications": [
+    {
+      "title": "Outstanding debts",
+      "body": "You still owe [name] [value].\n\uD83D\uDC34 May this be a warning to you!"
+    },
+    {
+      "title": "You still owe me money \uD83E\uDD13",
+      "body": "That is [value] for [name]."
+    },
+    {
+      "title": "You have debts",
+      "body": "[name] waits for his/her [value]."
+    },
+    {
+      "title": "I have no more money for beer.",
+      "body": "[name] is soon sober. pay the debt of [value]."
+    }
+  ]
+}

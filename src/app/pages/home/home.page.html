@@ -8,49 +8,57 @@
 </ion-header>
 
 <ion-content>
+  <div *ngIf="!isEastern; else easterEgg">
+    <ion-grid [fixed]="true">
 
-  <ion-grid [fixed]="true">
+      <ion-row style="height: 10vh"></ion-row>
 
-    <ion-row style="height: 10vh"></ion-row>
-
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="8" size-lg="4" size-md="6" size-xl="3">
-        <a href="https://www.youtube.com/watch?v=mQSmVZU5EL4" target="_blank">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="8" size-lg="4" size-md="6" size-xl="3">
           <div
             style="border-radius: 20% !important; background-color: var(--ion-color-step-50); box-shadow: 0 5px 10px 0 var(--ion-box-shadow)">
-            <ion-img src="assets/logo/almanify-logo-no-bg.svg"></ion-img>
+            <ion-img src="assets/logo/almanify-logo-no-bg.svg" (click)="startEasterEgg()"></ion-img>
           </div>
-        </a>
-      </ion-col>
-    </ion-row>
+        </ion-col>
+      </ion-row>
 
-    <ion-row style="height: 5vh"></ion-row>
+      <ion-row style="height: 5vh"></ion-row>
 
-    <ion-row class="ion-justify-content-center ion-margin-horizontal">
-      <ion-col>
-        <ion-button expand="block" routerDirection="forward" routerLink="/journey-editor" shape="round"
-                    size="large" style="height: 125%">
-          <ion-icon name="caret-forward-circle-outline" slot="end" style="font-size: 7vh"></ion-icon>
-          <ion-text>Create Journey</ion-text>
-        </ion-button>
-      </ion-col>
-    </ion-row>
+      <ion-row class="ion-justify-content-center ion-margin-horizontal">
+        <ion-col>
+          <ion-button expand="block" routerDirection="forward" routerLink="/journey-editor" shape="round"
+                      size="large" style="height: 125%">
+            <ion-icon name="caret-forward-circle-outline" slot="end" style="font-size: 7vh"></ion-icon>
+            <ion-text>Create Journey</ion-text>
+          </ion-button>
+        </ion-col>
+      </ion-row>
 
-    <ion-row style="height: 7vh"></ion-row>
+      <ion-row style="height: 7vh"></ion-row>
 
-    <ion-row class="ion-justify-content-center ion-margin-horizontal">
-      <ion-col>
-        <ion-button expand="block" routerDirection="forward" routerLink="/join-journey" shape="round"
-                    size="large" style="height: 125%">
-          <ion-icon name="enter-outline" slot="end" style="font-size: 7vh"></ion-icon>
-          <ion-text>Join Journey</ion-text>
-        </ion-button>
-      </ion-col>
-    </ion-row>
+      <ion-row class="ion-justify-content-center ion-margin-horizontal">
+        <ion-col>
+          <ion-button expand="block" routerDirection="forward" routerLink="/join-journey" shape="round"
+                      size="large" style="height: 125%">
+            <ion-icon name="enter-outline" slot="end" style="font-size: 7vh"></ion-icon>
+            <ion-text>Join Journey</ion-text>
+          </ion-button>
+        </ion-col>
+      </ion-row>
 
-    <ion-row style="height: 7vh"></ion-row>
+      <ion-row style="height: 7vh"></ion-row>
+    </ion-grid>
+  </div>
 
-  </ion-grid>
+
 </ion-content>
 
-
+<div class="video">
+<ng-template #easterEgg>
+  <video id="myVideo" width="100%" height="100%" controls autoplay #isEggVideo (ended)="endEasterEgg()">
+    <source src="assets/easterEgg.mp4" type="video/mp4">
+    <source src="assets/easterEgg.ogv" type="video/ogg">
+    video not supported
+  </video>
+</ng-template >
+</div>

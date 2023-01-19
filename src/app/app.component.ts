@@ -6,6 +6,8 @@ import {AlertController, LoadingController, NavController, PopoverController} fr
 import {ImprintComponent} from './components/imprint/imprint.component';
 import {GTCComponent} from './components/gtc/gtc.component';
 import {PrivacyProtectionComponent} from './components/privacy-protection/privacy-protection.component';
+import {PushMessagingService} from './services/push-messaging.service';
+
 
 type Page = {
   url?: string;
@@ -30,16 +32,15 @@ export class AppComponent implements OnInit {
     {title: 'Options', url: '/options', icon: 'construct'},
     {title: 'Logout', icon: 'log-out'}
   ];
-
   show = true;
-
   constructor(public authService: AuthenticationService,
               private databaseService: DatabaseService,
               private popoverController: PopoverController,
               private route: ActivatedRoute,
               private loadingController: LoadingController,
               private router: NavController,
-              private alertController: AlertController) {
+              private alertController: AlertController,
+              public pushMessagingService: PushMessagingService) {
     this.route = route;
   }
 
@@ -81,6 +82,9 @@ export class AppComponent implements OnInit {
   }
 
   public async logOut() {
+    await this.pushMessagingService.unsubPushNote().catch(() => {
+      // do nothing
+    });
     const loading = await this.loadingController.create({
       message: 'Logging you out...'
     });
@@ -98,5 +102,6 @@ export class AppComponent implements OnInit {
           buttons: ['OK']
         }).then(alert => loading.dismiss().then(() => alert.present())));
   }
+
 }
 

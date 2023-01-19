@@ -8,7 +8,7 @@ export class User implements DatabaseEntity {
   constructor(
     id: string = '',
     userName: string = '',
-    userCurrency: string = '€') {
+    userCurrency: string = 'EUR') {
 
     this.id = id;
     this.userCurrency = userCurrency;

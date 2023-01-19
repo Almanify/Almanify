@@ -30,11 +30,13 @@ export class PaymentDetailsPage implements OnInit {
   convertFromCurrency = convertFromCurrency;
 
   // only used for debt payments
-  to: string = undefined;
-  amount: number = undefined;
-  currency: string = undefined;
+  to: string;
+  amount: number;
+  currency: string;
+  from: string;
 
   picEvent: any;
+  downloadURL: Observable<string>;
 
   constructor(public navCtrl: NavController,
               public outlet: IonRouterOutlet,
@@ -52,10 +54,11 @@ export class PaymentDetailsPage implements OnInit {
     this.to = this.activatedRoute.snapshot.paramMap.get('to');
     this.amount = Number(this.activatedRoute.snapshot.paramMap.get('amount') ?? 0);
     this.currency = this.activatedRoute.snapshot.paramMap.get('currency');
+    this.from = this.activatedRoute.snapshot.paramMap.get('from');
     this.databaseService.journeyCrudHandler.read(this.journey).then(
       (journey) => {
         this.journey = journey;
-        if (this.payment.id !== null) {
+        if (this.payment.id) {
           //existing payment
           this.databaseService.paymentCrudHandler.read(this.payment).then((payment) => {
             this.payment = payment;
@@ -67,7 +70,7 @@ export class PaymentDetailsPage implements OnInit {
             this.payment = new Payment(
               null,
               this.to ? 'Debt Payment' : '',
-              uid,
+              this.from ? this.from : uid,
               this.journey.id,
               this.amount,
               this.currency || this.journey.defaultCurrency,
@@ -92,7 +95,7 @@ export class PaymentDetailsPage implements OnInit {
   ngOnInit() {
     this.authService.expectUserId().then((id) => {
       this.userId = id;
-      if (this.payment.id === null) { //if it's a new payment set payment creator as default payer
+      if (!this.payment.id) { //if it's a new payment set payment creator as default payer
         this.payment.payerID = id;
         this.payment.currency = this.journey.defaultCurrency;
       }
