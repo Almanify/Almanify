@@ -107,19 +107,19 @@ export class JourneyEditorPage implements OnInit {
       //update database
       const updatePromise = this.databaseService.journeyCrudHandler.update(this.journey);
       //redirection
-      if (redirect === true) {
-        updatePromise.then((journeyId) => {
-          this.navCtrl.navigateRoot('root');
-          this.router.navigate(['/journey/' + journeyId]);
+      if (redirect) {
+        updatePromise.then(async (journeyId) => {
+          await this.navCtrl.navigateRoot('/journeys');
+          await this.navCtrl.navigateForward('/journey/' + journeyId);
         });
       }
     } else {
       //create new entry
       this.databaseService.journeyCrudHandler.createAndGetID(this.journey)
-        .then((journeyId) => {
-          this.navCtrl.navigateRoot('root');
-          this.router.navigate(['/journey/' + journeyId]);
-          this.router.navigate(['/journey/' + journeyId + '/invite']);
+        .then(async (journeyId) => {
+          await this.navCtrl.navigateRoot('/journeys');
+          await this.navCtrl.navigateForward('/journey/' + journeyId);
+          await this.navCtrl.navigateForward('/journey/' + journeyId + '/invite');
         });
     }
   }
