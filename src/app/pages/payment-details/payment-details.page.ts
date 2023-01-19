@@ -11,6 +11,7 @@ import {convertFromCurrency, currencies, formatCurrency} from '../../services/he
 import {PhotoService} from '../../services/photo.service';
 import Timestamp = firebase.firestore.Timestamp;
 import {Photo} from "@capacitor/camera";
+import {Observable} from "rxjs/internal/Observable";
 
 @Component({
   selector: 'app-payment-details',
@@ -36,7 +37,6 @@ export class PaymentDetailsPage implements OnInit {
   from: string;
 
   picEvent: any;
-  downloadURL: Observable<string>;
 
   constructor(public navCtrl: NavController,
               public outlet: IonRouterOutlet,
