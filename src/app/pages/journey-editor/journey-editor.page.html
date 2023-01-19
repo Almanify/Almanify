@@ -121,13 +121,13 @@
           <ion-card-title style="padding: 13px">Journey Thumbnail</ion-card-title>
         </ion-row>
         <!-- Image preview if available -->
-        <ion-row *ngIf="journey.img !== null" class="ion-justify-content-center">
+        <ion-row *ngIf="journey.img" class="ion-justify-content-center">
           <ion-col>
             <ion-img src="{{journey.img}}"></ion-img>
           </ion-col>
         </ion-row>
         <!-- 'Change' and 'Delete'-button (if thumbnail has been uploaded) -->
-        <ion-row *ngIf="journey.img !== null" class="ion-justify-content-center">
+        <ion-row *ngIf="journey.img" class="ion-justify-content-center">
           <ion-col>
             <ion-button (click)="alertDelete(journey)" color="danger" expand="block" fill="outline">Delete Thumbnail
               <ion-icon name="trash" slot="end"></ion-icon>
@@ -135,7 +135,7 @@
           </ion-col>
         </ion-row>
         <!-- File-input (if no thumbnail has been uploaded) -->
-        <ion-row *ngIf="journey.img === null" class="ion-justify-content-center">
+        <ion-row *ngIf="!journey.img" class="ion-justify-content-center">
           <ion-col>
             <ion-input (change)="saveEvent($event)" type="file"></ion-input>
           </ion-col>

@@ -9,7 +9,6 @@ import Timestamp = firebase.firestore.Timestamp;
 import {User} from '../../data/User';
 import {currencies} from '../../services/helper/currencies';
 import {PhotoService} from '../../services/photo.service';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-journey-editor',
@@ -25,7 +24,6 @@ export class JourneyEditorPage implements OnInit {
 
   // image variables
   picEvent: any;
-  downloadURL: Observable<string>;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -95,12 +93,10 @@ export class JourneyEditorPage implements OnInit {
   //save with redirect variable for better user experience when trying to update thumbnails
   async save(redirect: boolean) {
     //upload picture
-    if (this.picEvent != null) {
-      await this.photoService.uploadPic(this.picEvent, this.journey.creatorID).then(value => this.downloadURL = value);
-    }
-    //set downloadURL in journey to reference storage-image
-    if (this.downloadURL !== undefined) {
-      await this.downloadURL.toPromise().then(value => this.journey.img = value);
+    if (this.picEvent) {
+      await this.photoService.uploadPicFromEvent(this.picEvent, this.journey.creatorID).then(value =>
+        value.toPromise().then(img => this.journey.img = img)
+      );
     }
     //update & redirection if wanted
     if (this.isEditMode) {

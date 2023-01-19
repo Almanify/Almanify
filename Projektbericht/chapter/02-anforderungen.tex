@@ -445,7 +445,7 @@ Es gibt festgelegte Datenstrukturen zu Nutzern, Reisen und Zahlungen, die der Se
 	\item \textbf{Zahlung:} Eine Zahlung hat eine zugeordnete Reise, einen Betrag, einen Absender, einen Empfänger, eine Beschreibung, ein Datum und eine Währung und ein optionales Bild.
 \end{itemize}
 
-\subsection{Fehlverhalten}
+\subsubsection{Validierung}
 
 Werden invalide Daten eingegeben, soll die App eine Fehlermeldung ausgeben und in einen sicheren Zustand zurückkehren.
 Dies soll ebenfalls für zu große Datenmengen gelten.
@@ -457,3 +457,17 @@ Die App soll die nicht- und funktionalen Anforderungen erfüllen.
 Dabei haben die funktionalen Anforderungen Priorität.
 Die App soll die Datenstrukturen (ggf. nach Bedarf angepasst) verwenden, um mit dem Server zu kommunizieren.
 Sie soll die Daten validieren und sicher Fehlermeldungen ausgeben, wenn die Eingaben nicht valide sind.
+
+\subsubsection{Benutzeraudits}
+
+Im Rahmen eines Benutzeraudits soll die App auf funktionale wie nichtfunktionale Anforderungen hin überprüft werden.
+Dabei soll die App in einer Studie mit echten Nutzern getestet werden.
+Es soll ein Protokoll mit einer Reihe von Aufgaben erstellt werdem, die die Nutzer ausführen sollen.
+
+\subsubsection{Ausgelieferte Artefakte}
+
+\begin{enumerate}
+	\item \textbf{Dokumentation:} Die Dokumentation soll die Architektur der App beschreiben und die einzelnen Komponenten erklären und ist Teil des Projektberichts.
+	\item \textbf{Code:} Der Code soll die Architektur der App umsetzen und die einzelnen Komponenten implementieren.
+	\item \textbf{Testprotokoll:} Das Protokoll soll die Ergebnisse des Benutzeraudits beschreiben und ist Teil des Projektberichts.
+\end{enumerate}
