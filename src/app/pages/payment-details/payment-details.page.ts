@@ -10,8 +10,7 @@ import {ActionSheetController, AlertController, IonRouterOutlet, NavController} 
 import {convertFromCurrency, currencies, formatCurrency} from '../../services/helper/currencies';
 import {PhotoService} from '../../services/photo.service';
 import Timestamp = firebase.firestore.Timestamp;
-import {Photo} from "@capacitor/camera";
-import {Observable} from "rxjs/internal/Observable";
+import {Photo} from '@capacitor/camera';
 
 @Component({
   selector: 'app-payment-details',
@@ -119,8 +118,10 @@ export class PaymentDetailsPage implements OnInit {
   async save() {
     //upload picture
     if (this.picEvent) {
-      await this.photoService.uploadPicFromEvent(this.picEvent, this.journey.creatorID).then(value =>
-        value.toPromise().then(img => this.journey.img = img)
+      await this.photoService.uploadPicFromEvent(this.picEvent, this.userId).then(value =>
+        value.toPromise().then(img =>
+          this.payment.img = img
+        )
       );
     }
     if (!this.payment.id) {
@@ -253,6 +254,7 @@ export class PaymentDetailsPage implements OnInit {
   async deletePic() {
     this.photoService.deletePic(this.payment.img);
     this.payment.img = null;
+    this.picEvent = null;
     await this.save();
   }
 

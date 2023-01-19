@@ -29,7 +29,6 @@ export class PhotoService {
   }
 
   uploadPicFromEvent(event, folderId: string): Promise<Observable<string>> {
-    console.log(event.target);
     const file = event.target.files[0];
     const filePath = folderId + '/';
 
@@ -47,11 +46,12 @@ export class PhotoService {
   }
 
   uploadPicFromPhoto(photo: Photo, folderId: string): Promise<Observable<string>> {
-    console.log(photo.base64String);
+    console.log(photo);
     const filePath = folderId + '/';
 
-    const fileRef = this.firestorage.ref(filePath + photo.path);
-    const task = this.firestorage.upload(filePath + photo.path, photo.base64String);
+    // get image from webpath
+    const fileRef = this.firestorage.ref(filePath + photo.webPath);
+    const task = this.firestorage.upload(filePath + photo.webPath, photo.webPath);
 
     return new Promise<Observable<string>>((resolve) => {
       task.snapshotChanges().pipe(
