@@ -38,8 +38,8 @@
               <!-- "default currency" field -->
               <ion-item lines="full">
                 <ion-icon name="logo-euro" slot="start"></ion-icon>
-                <ion-label>Default currency:</ion-label>
-                <ion-select [(ngModel)]="journey.defaultCurrency" placeholder="Select Currency" slot="end">
+                <ion-label class="ion-text-wrap">Default currency:</ion-label>
+                <ion-select [(ngModel)]="journey.defaultCurrency" placeholder="Select" slot="end">
                   <ion-select-option *ngFor="let currency of currencies"
                                      [value]="currency.code">{{currency.name}}</ion-select-option>
                 </ion-select>
@@ -47,7 +47,7 @@
               <!-- "start date" field -->
               <ion-item id="dateStart" lines="full">
                 <ion-icon name="calendar-outline" slot="start"></ion-icon>
-                <ion-label>Start date:</ion-label>
+                <ion-label>Start:</ion-label>
 
                 <ion-datetime-button datetime="datetimeStart"></ion-datetime-button>
 
@@ -64,7 +64,7 @@
               <!-- "end date" field -->
               <ion-item id="dateEnd" lines="full">
                 <ion-icon name="calendar-outline" slot="start"></ion-icon>
-                <ion-label>End date:</ion-label>
+                <ion-label>End:</ion-label>
 
                 <ion-datetime-button datetime="datetimeEnd"></ion-datetime-button>
 
@@ -121,13 +121,13 @@
           <ion-card-title style="padding: 13px">Journey Thumbnail</ion-card-title>
         </ion-row>
         <!-- Image preview if available -->
-        <ion-row *ngIf="journey.img !== null" class="ion-justify-content-center">
+        <ion-row *ngIf="journey.img" class="ion-justify-content-center">
           <ion-col>
             <ion-img src="{{journey.img}}"></ion-img>
           </ion-col>
         </ion-row>
         <!-- 'Change' and 'Delete'-button (if thumbnail has been uploaded) -->
-        <ion-row *ngIf="journey.img !== null" class="ion-justify-content-center">
+        <ion-row *ngIf="journey.img" class="ion-justify-content-center">
           <ion-col>
             <ion-button (click)="alertDelete(journey)" color="danger" expand="block" fill="outline">Delete Thumbnail
               <ion-icon name="trash" slot="end"></ion-icon>
@@ -135,7 +135,7 @@
           </ion-col>
         </ion-row>
         <!-- File-input (if no thumbnail has been uploaded) -->
-        <ion-row *ngIf="journey.img === null" class="ion-justify-content-center">
+        <ion-row *ngIf="!journey.img" class="ion-justify-content-center">
           <ion-col>
             <ion-input (change)="saveEvent($event)" type="file"></ion-input>
           </ion-col>

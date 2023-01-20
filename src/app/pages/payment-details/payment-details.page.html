@@ -77,7 +77,7 @@
             {{formatCurrency(payment.value, payment.currency)}}
           </span>
           <ng-template #valueCurrencyInput>
-            <ion-input [(ngModel)]="payment.value" class="ion-text-right" placeholder="Enter Value" slot="end"
+            <ion-input [(ngModel)]="payment.value" class="ion-text-right" placeholder="0" slot="end"
                        type="number">
             </ion-input>
             <ion-note *ngIf="payment.currency && payment.value && payment.currency !== 'USD'"
@@ -132,32 +132,36 @@
 
         <!--people that are involved in payment-->
         <ion-item-group>
-          <ion-item>
-            <ion-label class="ion-text-center ion-align-self-center">
-              <ion-icon name="people"></ion-icon>
+          <ion-item lines="none">
+            <ion-icon slot="start" name="people"></ion-icon>
+            <ion-label>
               Involved
             </ion-label>
+            <ion-button
+              (click)="presentActionSheet()"
+              *ngIf="isEditMode"
+              color="primary"
+              size="small"
+              style="text-transform: unset"
+              shape="round"
+            >
+              <ion-icon slot="icon-only" name="add"></ion-icon>
+            </ion-button>
           </ion-item>
-          <span *ngFor="let participant of payment.paymentParticipants">
+        </ion-item-group>
+        <span *ngFor="let participant of payment.paymentParticipants">
             <ion-chip on-click="isEditMode && removeInvolved(participant)">
               {{userIdMap.get(participant) === undefined ? "loading..." : userIdMap.get(participant).userName}}
               <ion-icon *ngIf="isEditMode" color="danger" name="close-circle-outline"></ion-icon>
             </ion-chip>
           </span>
-          <ion-fab-button (click)="presentActionSheet()" *ngIf="isEditMode"
-                          color="primary" size="small">
-            <ion-icon name="add"></ion-icon>
-          </ion-fab-button>
 
-        </ion-item-group>
-
-        <!--Picture of the bill TODO: set img etc-->
-        <ion-button (change)="saveEvent($event)" (click)="takePic()" *ngIf="isEditMode && !payment.img"
+        <!--ion-button (change)="saveEvent($event)" (click)="takePic()" *ngIf="isEditMode && !payment.img"
                     expand="block" fill="outline" size="large"
                     type="file">
           <ion-icon name="add"></ion-icon>
           <ion-icon name="camera-outline"></ion-icon>
-        </ion-button>
+        </ion-button-->
         <ion-img *ngIf="payment.img"
                  src="{{payment.img}}"></ion-img>
       </ion-list>
@@ -171,7 +175,7 @@
       <!-- File-input (if no thumbnail has been uploaded) -->
       <ion-row *ngIf="!payment.img && isEditMode" class="ion-justify-content-center">
         <ion-col>
-          <ion-input (change)="saveEvent($event)" type="file"></ion-input>
+          <ion-input (change)="saveEvent($event)" accept="image/*" type="file"></ion-input>
         </ion-col>
       </ion-row>
     </ion-card-content>
