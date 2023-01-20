@@ -119,7 +119,7 @@
             {{ realDebt[1] }}
             owes you {{ toSelectedCurrencyString(realDebt[2])}}
           </ion-label>
-          <ion-button (click)="insertRepaidDebt(realDebt[0], realDebt[2])" fill="clear">Mark as<br/> repaid</ion-button>
+          <ion-button (click)="insertRepaidDebt(realDebt[0], convertToCurrency(realDebt[2], journey.defaultCurrency))" fill="clear">Mark as<br/> repaid</ion-button>
         </ion-item>
       </ion-list>
       <ng-template #text2>

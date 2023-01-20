@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
     {title: 'Logout', icon: 'log-out'}
   ];
   show = true;
+
   constructor(public authService: AuthenticationService,
               private databaseService: DatabaseService,
               private popoverController: PopoverController,
@@ -93,7 +94,7 @@ export class AppComponent implements OnInit {
       .then(async () => {
         await this.router.navigateRoot('/login');
         await loading.dismiss();
-        // window.location.reload();
+        this.userName = '';
       })
       .catch((error) =>
         this.alertController.create({

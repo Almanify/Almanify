@@ -186,7 +186,7 @@
 <ion-footer *ngIf="isEditMode"
             [translucent]="true" collapse="fade">
 
-  <ion-button (click)="save(); toggleEditMode();" expand="block">
+  <ion-button (click)="save(); toggleEditMode();" expand="block" [disabled]="!payment.payerID || !payment.value || !payment.payday || !payment.category">
     <ion-text>Save</ion-text>
     <ion-icon name="save" slot="end"></ion-icon>
   </ion-button>

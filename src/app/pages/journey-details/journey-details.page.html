@@ -63,7 +63,7 @@
     <ion-accordion class="ion-margin-vertical ">
       <ion-item slot="header">
         <ion-icon class="ion-margin-end" name="{{getCategoryIcon(payment.category)}}"></ion-icon>
-        <ion-label>{{payment.title}}</ion-label>
+        <ion-label>{{payment.title || 'Untitled payment'}}</ion-label>
         <ion-chip>
           <ion-icon name="cash-outline"></ion-icon>
           <ion-label>{{formatCurrency(payment.value, payment.currency)}}</ion-label>

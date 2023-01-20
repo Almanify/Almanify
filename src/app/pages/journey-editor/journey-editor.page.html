@@ -147,7 +147,7 @@
 </ion-content>
 
 <ion-footer style="background-color: var(--ion-background-color)" collapse="fade">
-    <ion-button (click)="save(true)" expand="block">
+    <ion-button (click)="save(true)" expand="block" [disabled]="!journey.title || !journey.defaultCurrency">
       <ion-text>Save</ion-text>
       <ion-icon name="save" slot="end"></ion-icon>
     </ion-button>

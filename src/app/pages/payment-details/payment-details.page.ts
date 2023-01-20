@@ -186,11 +186,7 @@ export class PaymentDetailsPage implements OnInit {
   }
 
   async back() {
-    if (this.outlet.canGoBack()) {
-      await this.navCtrl.pop();
-    } else {
-      await this.navCtrl.navigateRoot('/journey/' + this.journey.id);
-    }
+    await this.navCtrl.pop();
   };
 
 

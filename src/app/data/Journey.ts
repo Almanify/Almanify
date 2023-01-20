@@ -22,7 +22,7 @@ export class Journey implements DatabaseEntity {
     start: Timestamp = Timestamp.fromDate(new Date()),
     end: Timestamp = Timestamp.fromDate(new Date()),
     journeyParticipants: string[] = [],
-    defaultCurrency: string = '€',
+    defaultCurrency: string = 'EUR',
     active: boolean = true,
     img: string = null) {
 

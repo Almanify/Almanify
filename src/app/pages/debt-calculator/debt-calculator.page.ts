@@ -42,6 +42,14 @@ export class DebtCalculatorPage implements OnInit {
               public authenticationService: AuthenticationService,
               public navCtrl: NavController,
               public pushMessagingService: PushMessagingService) {
+    route.url.subscribe(() => {
+      if(this.journey && this.isLoaded) { // if the page is already loaded, we need to reload the journey
+        this.payments = [];
+        this.owedBy = [];
+        this.loadPayments(this.journey);
+      }
+    });
+
     this.journey = new Journey();
     this.journey.id = route.snapshot.paramMap.get('id');
 
@@ -115,6 +123,16 @@ export class DebtCalculatorPage implements OnInit {
     } else {
       await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + this.userID + '/' + 0);
     }
+  }
+
+  sendReminder() {
+    this.owedBy.forEach(item => {
+      const id = item[0];
+      const value: number = item[2];
+      const currency: string = item[3];
+      this.pushMessagingService
+        .sendNotificationToUser(id, this.resolveUserId(this.userID), formatCurrency(convertToCurrency(value, currency), currency));
+    });
   }
 
   private updateDebts() {
@@ -204,14 +222,5 @@ export class DebtCalculatorPage implements OnInit {
         .then((u) => {
           this.owedBy.push([userId, u.userName, value, u.userCurrency]);
         }));
-  }
-  sendReminder() {
-    this.owedBy.forEach(item => {
-      let id = item[0];
-      let value :number = item[2];
-      let currency :string = item[3];
-      this.pushMessagingService
-        .sendNotificationToUser(id, this.resolveUserId(this.userID), formatCurrency(convertToCurrency(value, currency), currency));
-    });
   }
 }

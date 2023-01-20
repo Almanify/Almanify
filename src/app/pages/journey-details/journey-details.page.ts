@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Payment, PaymentCategory} from '../../data/Payment';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {AlertController, NavController} from '@ionic/angular';
 import {DatabaseService} from '../../services/database.service';
 import {AuthenticationService} from '../../services/auth.service';
@@ -22,13 +22,20 @@ export class JourneyDetailsPage implements OnInit {
   sortBy = 'date';
   lowToHigh = 'false'; //need as string for binding
   userIdMap: Map<string, User> = new Map();
+  isLoaded = false;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
               public navCtrl: NavController,
               private databaseService: DatabaseService,
               public authenticationService: AuthenticationService,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private route: ActivatedRoute) {
+    this.route.url.subscribe(() => {
+      if(this.journey && this.isLoaded) {
+        this.loadPayments(this.journey);
+      }
+    });
+
     this.journey = new Journey();
     this.journey.id = this.activatedRoute.snapshot.paramMap.get('id');
   }
@@ -45,6 +52,7 @@ export class JourneyDetailsPage implements OnInit {
     this.databaseService.getJourneyPayments(journey.id).then((payments) => {
       this.payments = payments;
       this.sortPayments();
+      this.isLoaded = true;
     });
   }
 

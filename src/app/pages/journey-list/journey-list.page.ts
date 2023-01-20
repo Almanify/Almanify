@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {DatabaseService} from '../../services/database.service';
 import {Journey} from '../../data/Journey';
 import {User} from '../../data/User';
 import {AuthenticationService} from '../../services/auth.service';
-import {AlertController} from '@ionic/angular';
+import {AlertController, NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-journey-list',
   templateUrl: './journey-list.page.html',
   styleUrls: ['./journey-list.page.scss'],
 })
+
 export class JourneyListPage implements OnInit {
 
   userId = '';
@@ -21,15 +22,18 @@ export class JourneyListPage implements OnInit {
 
   journeyType = 'active';
   journeyRole = 'joined';
-  databaseService: DatabaseService;
-  authenticationService: AuthenticationService;
+  isLoaded = false;
 
-  constructor(private router: Router,
-              private db: DatabaseService,
-              private as: AuthenticationService,
-              private alertController: AlertController) {
-    this.databaseService = db;
-    this.authenticationService = as;
+  constructor(private navController: NavController,
+              private databaseService: DatabaseService,
+              private authenticationService: AuthenticationService,
+              private alertController: AlertController,
+              private route: ActivatedRoute) {
+    this.route.url.subscribe(() => {
+      if(this.isLoaded) {
+        this.loadJourneys();
+      }
+    });
   }
 
   segmentChanged(event) {
@@ -64,11 +68,11 @@ export class JourneyListPage implements OnInit {
   }
 
   async viewJourney(journey: Journey) {
-    await this.router.navigate(['/journey/' + journey.id]);
+    await this.navController.navigateForward('/journey/' + journey.id);
   }
 
   async editJourney(journey: Journey) {
-    await this.router.navigate(['/journey-editor/' + journey.id]);
+    await this.navController.navigateForward('/journey-editor/' + journey.id);
   }
 
   ngOnInit() {
@@ -85,6 +89,7 @@ export class JourneyListPage implements OnInit {
       this.filterJourneys();
     });
     await this.loadCreators(this.journeys);
+    this.isLoaded = true;
   }
 
   sortJourneys() {
@@ -104,7 +109,7 @@ export class JourneyListPage implements OnInit {
   }
 
   viewInviteCode(journey: Journey) {
-    this.router.navigate(['/journey/' + journey.id + '/invite']);
+    this.navController.navigateForward('/journey/' + journey.id + '/invite');
   }
 
   async alertDelete(journey: Journey) {
@@ -178,8 +183,8 @@ export class JourneyListPage implements OnInit {
     }));
   }
 
-  getJourneyCreator(id: String) {
-    let name: String = 'leer';
+  getJourneyCreator(id: string) {
+    let name = 'leer';
     this.people.forEach(person => {
       if(id === person.id) {
         name = person.userName;
