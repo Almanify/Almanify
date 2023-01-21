@@ -56,9 +56,14 @@
   </ion-row>
 
   <!--each accordion is in its own group so they stay open when you open another one-->
-  <ion-text *ngIf="!payments.length" class="ion-padding">
-    This journey does not have any payments yet.
-  </ion-text>
+  <ion-row class="ion-justify-content-center ion-text-center">
+    <ion-col>
+      <ion-text *ngIf="!payments.length">
+        This journey does not have any payments yet.
+      </ion-text>
+    </ion-col>
+  </ion-row>
+
   <ion-accordion-group *ngFor="let payment of payments">
     <ion-accordion class="ion-margin-vertical ">
       <ion-item slot="header">
