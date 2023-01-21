@@ -1,9 +1,13 @@
 \section{Qualitätssicherung (Testprotokoll)} \label{Tests}
 
+ 	\subsection{Erläuterung der Userteststudie}
 Um die Qualität zu gewährleisten, haben wir uns ein Studienkonzept überlegt. Dabei stellen wir unseren Probanden verschiedene Aufgaben in unserer App. Während sie die Aufgaben erfüllen, beobachten wir sie und bewerten ihre Leistungen mit vier möglichen Ausprägungen: 'sehr gut', 'gut', 'ok' und 'schlecht'. Wenn bei einer Aufgabe mehrheitlich mit 'ok' oder 'schlecht' bewertet wird, können wir daraus Verbesserungspotenzial ableiten.
 Aus zeitlichen Gründen ist es uns nicht möglich eine größer angelegte Studie durchzuführen. Unsere Probanden beschränken sich auf Verwandte und Bekannte. Optimaler wäre eine größere und diversere Anzahl an Probanden ohne persönlichen Bezug.
-
-	\subsection{Registrieren Sie sich.}
+Der Test beginnt für jeden User auf der Loginseite (Siehe Abschnitt \ref{Login}).
+	
+	\subsection{Useraufgaben und Bewertungen}
+	
+	\subsubsection{Registrieren Sie sich.}
 	Verwenden Sie:
 	\begin{itemize}
 		\item E-Mail: [vorname]@mail.de
@@ -12,168 +16,247 @@ Aus zeitlichen Gründen ist es uns nicht möglich eine größer angelegte Studie
 	\ \\
 	\begin{tabular}{|>{$\rhd$ }lrl|}
 		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
+		sehr gut  & \mybar{2}\\
+		gut  & \mybar{4}\\
+		ok               & \mybar{0}\\
+		schlecht         & \mybar{0}\\
 		\hline
 	\end{tabular}
 	
-	\subsection{Melden Sie sich mit Ihren Nutzerdaten an.}
+	\paragraph{Kommentar:}\ \\
+	Zwei Probanden mit Bewertung \textbf{gut} haben zunächst anmelden mit Registrieren verwechselt.
+Ein Probanden mit Bewertung \textbf{gut} hatte Probleme den 'Sign up'-Knopf zu finden.
+
+	
+	\subsubsection{Melden Sie sich mit Ihren Nutzerdaten an.}
 	\begin{tabular}{|>{$\rhd$ }lrl|}
 		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
+		sehr gut  & \mybar{6}\\
+		gut  & \mybar{0}\\
+		ok               & \mybar{0}\\
+		schlecht         & \mybar{0}\\
 		\hline
 	\end{tabular}
 	
-	\subsection{Erstellen Sie eine Reise.}
-	\begin{tabular}{|>{$\rhd$ }lrl|}
-		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
-		\hline
-	\end{tabular}
+	\paragraph{Kommentar:}\ \\
+	Passiert nach der Registrierung automatisch.
 	
-	\subsection{Öffnen Sie die Einladungsseite ihrer Reise.}
+	\subsubsection{Erstellen Sie eine Reise.}
 	\begin{tabular}{|>{$\rhd$ }lrl|}
 		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
+		sehr gut  & \mybar{4}\\
+		gut  & \mybar{2}\\
+		ok               & \mybar{0}\\
+		schlecht         & \mybar{0}\\
 		\hline
 	\end{tabular}
+		
+	\paragraph{Kommentar:}\ \\
+	Ein Proband mit Bewertung \textbf{sehr gut} empfand den 'currently involved'-Reiter auf der Reiseerstellenseite als verwirrend.
 	
-	\subsection{Versuchen Sie einer Reise beizutreten, wenn Ihnen folgendes Bild geschickt wurde: (sieh Abb. \ref{fig:user_test_invite}).}
+	\subsubsection{Öffnen Sie die Einladungsseite ihrer Reise.}
 	\begin{tabular}{|>{$\rhd$ }lrl|}
 		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
+		sehr gut  & \mybar{5}\\
+		gut  & \mybar{0}\\
+		ok               & \mybar{1}\\
+		schlecht         & \mybar{0}\\
 		\hline
 	\end{tabular}
+			
+	\paragraph{Kommentar:}\ \\
+	Ein Proband mit Bewertung \textbf{ok} blieb ohne Kommentar. Erstaunlich daran ist, dass die Einladungsseite automatisch nach erstellen der Reise aufgerufen wird.
+
+	\subsubsection{Versuchen Sie einer Reise beizutreten, wenn Ihnen folgendes Bild geschickt wurde: (sieh Abb. \ref{fig:user_test_invite}).}
 	
 	\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.3
+		\centering
+		\includegraphics[width=0.3
 		\textwidth]{img/user_test_invite}
-	\caption[Usertest Einladung]{Usertesteinladung}
-	%\captionsource{}
-	\label{fig:user_test_invite}
-\end{figure}
+		\caption[Usertest Einladung]{Usertesteinladung}
+		%\captionsource{}
+		\label{fig:user_test_invite}
+	\end{figure}
+	
+	\begin{tabular}{|>{$\rhd$ }lrl|}
+		\hline
+		sehr gut  & \mybar{4}\\
+		gut  & \mybar{0}\\
+		ok               & \mybar{1}\\
+		schlecht         & \mybar{1}\\
+		\hline
+	\end{tabular}
+			
+	\paragraph{Kommentar:}\ \\
+	Ein Proband mit Bewertung \textbf{sehr gut} empfand die Anweisung als verwirrend. Ein Proband
+mit Bewertung \textbf{ok} bemängelt eine fehlende deutsche Übersetzung. 
 
-	\subsection{Erstellen Sie in der Reise 'User\_Test\_Reise' eine Ausgabe, bei der Sie 50 € für ein Mittagessen mit Hanz und Maria gezahlt haben.}
+\newpage
+
+	\subsubsection{Erstellen Sie in der Reise 'User\_Test\_Reise' eine Ausgabe, bei der Sie 50 € für ein Mittagessen mit Hanz und Marie gezahlt haben.}
 	\begin{tabular}{|>{$\rhd$ }lrl|}
 		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
+		sehr gut  & \mybar{2}\\
+		gut  & \mybar{2}\\
+		ok               & \mybar{2}\\
+		schlecht         & \mybar{0}\\
+		\hline
+	\end{tabular}
+			
+	\paragraph{Kommentar:}\ \\
+	Ein Proband mit Bewertung \textbf{ok}:
+	\begin{itemize}
+		\item hätte Kategorie und Ausgabenbeteiligte fast übersprungen
+		\item hat die Aufgabe zunächst missverstanden und sich nicht als Ausgabenbeteiligter eingetragen.
+		\item wollte Teilnehmer mit in den Titel eingeben.
+	\end{itemize}
+	Ein Proband mit Bewertung \textbf{ok} hat den Titel vergessen.
+
+
+	\subsubsection{Bearbeite Sie die Zahlung zu 85 €.}
+	\begin{tabular}{|>{$\rhd$ }lrl|}
+		\hline
+		sehr gut  & \mybar{5}\\
+		gut  & \mybar{0}\\
+		ok               & \mybar{1}\\
+		schlecht         & \mybar{0}\\
+		\hline
+	\end{tabular}
+			
+				
+	\paragraph{Kommentar:}\ \\
+	-
+
+	\subsubsection{Lassen Sie sich die Schulden der Reise anzeigen.}
+	\begin{tabular}{|>{$\rhd$ }lrl|}
+		\hline
+		sehr gut  & \mybar{4}\\
+		gut  & \mybar{2}\\
+		ok               & \mybar{0}\\
+		schlecht         & \mybar{0}\\
 		\hline
 	\end{tabular}
 	
-	\subsection{Bearbeite Sie die Zahlung zu 85 €.}
+	\paragraph{Kommentar:}\ \\
+	Ein Proband mit Bewertung \textbf{gut} hatte zunächst in Ausgabe gesucht, dann aber die Seite
+gefunden. Ein Proband mit Bewertung \textbf{gut} hat Zahlungen und Schulden verwechselt.
+
+	\subsubsection{Vermerken Sie, dass Marie 5 € zurückgezahlt hat.}
 	\begin{tabular}{|>{$\rhd$ }lrl|}
 		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
+		sehr gut  & \mybar{2}\\
+		gut  & \mybar{2}\\
+		ok               & \mybar{2}\\
+		schlecht         & \mybar{0}\\
 		\hline
 	\end{tabular}
+			
+	\paragraph{Kommentar:}\ \\
+	Zwei Probanden mit Bewertung \textbf{gut} und \textbf{ok} empfanden verwirrend, dass bei festhalten einer
+Zahlung bereits der Betrag der Gesamtschulden eingetragen ist.
+
+	\subsubsection{Erstellen Sie in der Reise 'User\_Test\_Reise' eine Ausgabe bei der Hanz für Sie beide ein Taxi am 03.01.23 für 100 € gezahlt hat.}
+	\begin{tabular}{|>{$\rhd$ }lrl|}
+		\hline
+		sehr gut  & \mybar{5}\\
+		gut  & \mybar{0}\\
+		ok               & \mybar{1}\\
+		schlecht         & \mybar{0}\\
+		\hline
+	\end{tabular}
+			
+	\paragraph{Kommentar:}\ \\
+	Ein Proband mit Bewertung \textbf{ok} hat Beteiligte und Titel vergessen.
+
+	\subsubsection{Lassen Sie sich die Schulden der Reise erneut anzeigen. Ändern Sie die Währung zu £.}
+	\begin{tabular}{|>{$\rhd$ }lrl|}
+		\hline
+		sehr gut  & \mybar{6}\\
+		gut  & \mybar{0}\\
+		ok               & \mybar{0}\\
+		schlecht         & \mybar{0}\\
+		\hline
+	\end{tabular}
+			
+	\paragraph{Kommentar:}\ \\
+	-
 	
-	\subsection{Lassen Sie sich die Schulden der Reise anzeigen.}
+	\subsubsection{Halten Sie fest, dass Sie Marie die Schulden zurückgezahlt haben.}
 	\begin{tabular}{|>{$\rhd$ }lrl|}
 		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
+		sehr gut  & \mybar{5}\\
+		gut  & \mybar{0}\\
+		ok               & \mybar{0}\\
+		schlecht         & \mybar{1}\\
 		\hline
 	\end{tabular}
+			
+	\paragraph{Kommentar:}\ \\
+	Auf der Umfrageseite stand zeitweise Hanz anstelle von Marie, dieser besitzt aber zu diesem
+Zeitpunkt keine Schulden.
+
+
+	\subsubsection{Ändern Sie die Sortierung für die Ausgaben der Reise 'User\_Test\_Reise'.}
+	\begin{tabular}{|>{$\rhd$ }lrl|}
+		\hline
+		sehr gut  & \mybar{5}\\
+		gut  & \mybar{1}\\
+		ok               & \mybar{0}\\
+		schlecht         & \mybar{0}\\
+		\hline
+	\end{tabular}
+			
+	\paragraph{Kommentar:}\ \\
+	Es wurde ein Bug festgestellt. Reise sowie Reiseliste aktualisieren sich nicht. Ausgaben werden
+nicht eingefügt, sondern sind erst nach neu laden da. 
 	
-	\subsection{Vermerken Sie, dass Maria 5 € zurückgezahlt hat.}
+	\subsubsection{Löschen Sie alle Ausgaben der Reise 'User\_Test\_Reise'.}
 	\begin{tabular}{|>{$\rhd$ }lrl|}
 		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
+		sehr gut  & \mybar{6}\\
+		gut  & \mybar{0}\\
+		ok               & \mybar{0}\\
+		schlecht         & \mybar{0}\\
 		\hline
 	\end{tabular}
+			
+	\paragraph{Kommentar:}\ \\
+	-
 	
-	\subsection{Erstellen Sie in der Reise 'User\_Test\_Reise' eine Ausgabe bei der Hanz für Sie beide ein Taxi am 03.01.23 für 100 € gezahlt hat.}
+	\subsubsection{Archivieren Sie die von Ihnen erstellte Reise.}\label{Archivieren Sie die von Ihnen erstellte Reise.}
 	\begin{tabular}{|>{$\rhd$ }lrl|}
 		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
+		sehr gut  & \mybar{0}\\
+		gut  & \mybar{4}\\
+		ok               & \mybar{0}\\
+		schlecht         & \mybar{2}\\
 		\hline
 	\end{tabular}
+			
+	\paragraph{Kommentar:}\ \\
+	Zwei Probanden mit Bewertung schlecht haben den Button nicht gefunden und hatten auch
+keine Idee wo er sein könnte.
 	
-	\subsection{Lassen Sie sich die Schulden der Reise erneut anzeigen. Ändern Sie die Währung zu £.}
+	\subsubsection{Loggen Sie sich aus der App aus.}
 	\begin{tabular}{|>{$\rhd$ }lrl|}
 		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
+		sehr gut  & \mybar{5}\\
+		gut  & \mybar{1}\\
+		ok               & \mybar{0}\\
+		schlecht         & \mybar{0}\\
 		\hline
 	\end{tabular}
+			
+	\paragraph{Kommentar:}\ \\
+	-
 	
-	\subsection{Halten Sie fest, dass Sie Hanz die Schulden zurückgezahlt haben.}
-	\begin{tabular}{|>{$\rhd$ }lrl|}
-		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
-		\hline
-	\end{tabular}
-	
-	\subsection{Ändern Sie die Sortierung für die Ausgaben der Reise 'User\_Test\_Reise'.}
-	\begin{tabular}{|>{$\rhd$ }lrl|}
-		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
-		\hline
-	\end{tabular}
-	
-	\subsection{Löschen Sie alle Ausgaben der Reise 'User\_Test\_Reise'.}
-	\begin{tabular}{|>{$\rhd$ }lrl|}
-		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
-		\hline
-	\end{tabular}
-	
-	\subsection{Archivieren Sie die von Ihnen erstellte Reise.}
-	\begin{tabular}{|>{$\rhd$ }lrl|}
-		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
-		\hline
-	\end{tabular}
-	
-	\subsection{Loggen Sie sich aus der App aus.}
-	\begin{tabular}{|>{$\rhd$ }lrl|}
-		\hline
-		sehr gut  & \mybar{10}\\
-		gut  & \mybar{5}\\
-		ok               & \mybar{3}\\
-		schlecht         & \mybar{4}\\
-		\hline
-	\end{tabular}
+\subsection{Fazit der Userteststudie}
+Wir sind mit dem Ergebnis der Userteststudie zufrieden. Die Probanden sind für erstmaliges Nutzen der App gut zurechtgekommen. Aus dem Ergebnis von Anweisung \ref{Archivieren Sie die von Ihnen erstellte Reise.} leiten wir
+Verbesserdungsbedarf ab, z. B. durch ein anderes Icon. Beim Archivieren-Button hatten wir
+zeitweise ein passenderes Icon, aber Ionic bietet kein passendes Icon für die Umkehrfunktion zum entarchivieren daher hatten wir das Schloss-Icon verwendet.
+Allgemein ein größeres Problem war die fehlende Validierung. Eine Validierung von Nutzereingaben war eigentlich einem Gruppenmitglied zugeteilt worden, dieses hat uns kurz vor Abgabe
+verlassen. Eine Erkenntnis für unsere Gruppe daraus ist, dass man eine solche wichtige Aufgabe jemand geben sollte, der verantwortungsbewusst und verlässlich ist. Man sollte die Validierung
+auf keinen Fall jemanden zuteilen, der trotz mehrfacher Hilfestellungen, vielen YouTube Tutorials, einer 90 min Vorlesung und einer 4-wöchigen Bearbeitungszeit nicht in der Lage ist ein
+Inputtext auf einen vorhandenen Inhalt zu prüfen. 
+Es war das erstmal, dass wir eine solche Studie durchgeführt haben und wir wurden in unserem vorherigen Studium für so etwas nicht ausgebildet. Für eine solche Studie selbst haben wir
+gelernt, dass man die Anweisungen noch präziser formulieren sollte.
