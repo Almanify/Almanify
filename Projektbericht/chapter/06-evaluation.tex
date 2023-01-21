@@ -1,13 +1,13 @@
 \section{Evaluation}
-In diesem Kapitel wird evaluiert, inwiefern die Software die gestellten Anforderungen umsetzt. Dabei werden die funktionalen Anforderungen betrachtet.
+In diesem Kapitel wird evaluiert, inwiefern die Software die gestellten Anforderungen umsetzt. Dabei werden die funktionalen sowie nichtfunktionalen Anforderungen betrachtet.
 
-\subsection{Funktionale Anforderungen}
+\subsection{Funktionale Anforderungen}\label{funktionale-anforderungen}
 
 \subsubsection*{Use Case 1: Einen Account erstellen}
 \begin{addmargin}{10pt}
 \underline{Hauptszenario}: Alle Kriterien wurden erfüllt.\\
 \underline{Ausnahmeszenarien}: Das Szenario 4b wurde nicht umgesetzt, da für die Passworteingabe keine Regelvalidierung umgesetzt wurde. 
-Dementsprechend wird keine Fehlermeldung wie z. B. 'Das Passwort muss mindestens 8 Zeichen lang sein, einen Großbuchstaben und ein Sonderzeichen enthalten.' angezeigt. 
+Dementsprechend wird keine Fehlermeldung wie zum Beispiel 'Das Passwort muss mindestens 8 Zeichen lang sein, einen Großbuchstaben und ein Sonderzeichen enthalten.' angezeigt. 
 Diese Aufgabe konnte aufgrund von organisatorischen Problemen nicht umgesetzt werden\footnote{Das Fehlen von Validierungen wurde in Absprache mit dem Dozenten akzeptiert.}.
 \end{addmargin}
 
@@ -74,11 +74,24 @@ ohne dass die App dies verhindert oder meldet.
 \subsubsection*{Use Case 9: Reisen einsehen}
 
 \begin{addmargin}{10pt}
-\underline{Hauptszenario}: Alle Kriterien wurden erfüllt.
+\underline{Hauptszenario}: Alle Kriterien wurden erfüllt.\\
 \end{addmargin}
-
 Somit wurden bis auf die genannten Punkte alle funktionalen Anforderungen, 
 die in Form von Use Cases formuliert wurden, umgesetzt.
+
+\subsection{Nichtfunktionale Anforderungen}
+\begin{enumerate}
+	\item \underline{Sicherheit}: Für die Authentifizierung der Nutzer verwenden wir die von Firebase bereitgestellten Funktionen. Die Almanify-App speichert grundlegend keine sensiblen Daten, die die eindeutige Identifikation einer Person ermöglichen, abgesehen von Nutzernamen, E-Mail-Adressen und Bildern mit persönlichem Inhalt. Hier liegt es an den Nutzern zu entscheiden, welche Informationen sie preisgeben möchten. 
+	\item \underline{Benutzerfreundlichkeit}: Hierbei handelt es sich um ein subjektives Kriterium. Die Bewertung dessen findet sich in der Nutzerstudie. (Siehe Kapitel \ref{Tests})
+	\item \underline{Schnelligkeit}: Hierbei handelt es sich um ein subjektives Kriterium. Die Bewertung dessen findet sich in der Nutzerstudie. (Siehe Kapitel \ref{Tests})
+	\item \underline{Robustheit}: Trotz größtenteils fehlender Validierung der Eingaben führen Fehleingaben nicht dazu, dass die App abstürzt. Kritische Fehleingaben, wie beispielsweise der Login mit einem unbekannten Account werden mit Fehlermeldungen abgefangen. Weniger kritische Fehleingaben, wie beispielsweise das Eingeben eines negativen Geldbetrags, verursachen keine Probleme. Die Anzeige der Daten sowie Funktionen wie die Schuldenberechnung funktionieren weiterhin unter Verwendung dieser Daten.
+	\item \underline{Wartbarkeit}: Der Code der App ist sinnvoll gegliedert. Es gibt Seiten, Komponenten und Services sowie zusätzliche Dateien für die Datentypen und Authentifizierung. Seiten sind ihrerseits unterteilt in CSS, HTML, Routing und Logik.
+	Außerdem setzen wir auf Wiederverwendbarkeit, indem wir für die Registrierung und den Login sowie die Seiten zum Erstellen und Bearbeiten von Einträgen (Journeys, Payments) jeweils eine Komponente statt zwei verwenden, in der wir zwischen den beiden Zuständen unterscheiden. Die Dokumentation des Code in Form von Kommentaren wurde aus zeitlichen Gründen nur teilweise umgesetzt.
+	\item \underline{Portierbarkeit}: Die App läuft auf Android sowie iOS und ist damit von dem Großteil der Mobilgerätnutzer verwendbar. Das Design ist teilweise für iOS angepasst. (Siehe Kapitel \ref{Design})
+	\item \underline{Korrektheit}: Inwiefern die App den funktionalen Anforderungen genügt wurde in diesem Kapitel erörtert. (Siehe Kapitel \ref{funktionale-anforderungen})
+	\item \underline{Zuverlässigkeit}: Hierbei handelt es sich um ein subjektives Kriterium. Die Bewertung dessen findet sich in der Nutzerstudie. (Siehe Kapitel \ref{Tests})
+				
+\end{enumerate}
 
 
 
