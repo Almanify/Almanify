@@ -20,7 +20,11 @@ export class DatabaseService {
     this.paymentCrudHandler = new CrudHandler<Payment>(firestore, 'Payment');
   }
 
-
+  /**
+   * Returns all payments for a journey
+   *
+   * @param journeyId the id of the journey
+   */
   public async getJourneyPayments(journeyId: string): Promise<Payment[]> {
     return this.paymentCrudHandler.collection.ref.where('journeyID', '==', journeyId).get()
       .then(snapshot => snapshot.docs.map(doc => {
@@ -31,6 +35,11 @@ export class DatabaseService {
       .catch(error => Promise.reject(error));
   }
 
+  /**
+   * Returns all journeys a user is part of
+   *
+   * @param userId the id of the user
+   */
   public async getJoinedJourneys(userId: string): Promise<Journey[]> {
     return this.journeyCrudHandler.collection.ref.where('journeyParticipants', 'array-contains', userId).get()
       .then(snapshot => snapshot.docs.map(doc => {
@@ -41,6 +50,11 @@ export class DatabaseService {
       .catch(error => Promise.reject(error));
   }
 
+  /**
+   * Returns the journey with the given invite code
+   *
+   * @param inviteCode the invite code of the journey
+   */
   public async getJourneyByInviteCode(inviteCode: string): Promise<Journey> {
     return this.journeyCrudHandler.collection.ref.where('inviteCode', '==', inviteCode).get()
       .then(snapshot => {
@@ -54,7 +68,12 @@ export class DatabaseService {
       });
   }
 
-
+  /**
+   * Adds a user to a journey
+   *
+   * @param journey the journey to add the user to
+   * @param userId the id of the user to add
+   */
   public async addUserToJourney(journey: Journey, userId: string): Promise<string> {
     if (!userId || !journey.id) {
       return Promise.reject('Invalid parameters');
@@ -67,10 +86,18 @@ export class DatabaseService {
     }
   }
 
+  /**
+   * Checks if an invite code is valid
+   *
+   * @param inviteCode the invite code to check
+   */
   public async isInviteCodeValid(inviteCode: string): Promise<boolean> {
     return !!await this.journeyCrudHandler.collection.ref.where('inviteCode', '==', inviteCode).get();
   }
 
+  /**
+   * Generates a random invite code that is not used yet
+   */
   public async generateInviteCode(): Promise<string> {
     // generates a random 6-digit number and checks if it is already used
     let inviteCode = Math.floor(100000 + Math.random() * 900000).toString();

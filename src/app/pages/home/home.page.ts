@@ -6,18 +6,20 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  isEastern:boolean = false
-  @ViewChild("isEggVideo", { static: false }) videoplayer: ElementRef;
+  @ViewChild('isEggVideo', {static: false}) videoplayer: ElementRef;
+  isEastern = false;
+
   constructor() {
   }
 
   ngOnInit() {
   }
 
-  startEasterEgg(){
+  startEasterEgg() {
     this.isEastern = true;
   }
-  endEasterEgg(){
+
+  endEasterEgg() {
     this.isEastern = false;
   }
 }

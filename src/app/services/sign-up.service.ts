@@ -20,7 +20,13 @@ export class SignUPService {
     this.userCollection = firestore.collection<User>('User');
   }
 
-
+  /**
+   * Creates a new user in the database
+   *
+   * @param user the user object
+   * @param email the email address
+   * @param password the password
+   */
   createUser(user: User, email: string, password: string) {
     return this.angularFireAuth.createUserWithEmailAndPassword(email, password)
       .then(async (data) => {
@@ -33,6 +39,9 @@ export class SignUPService {
       });
   }
 
+  /**
+   * Shows a toast that the user has successfully signed up
+   */
   async toastSuccessfullySignedUp() {
     const toast = await this.toastController.create({
       message: 'Successfully signed up! You can now login and enjoy Almanify.',
@@ -42,6 +51,11 @@ export class SignUPService {
     await toast.present();
   }
 
+  /**
+   * Shows an alert that something went wrong
+   *
+   * @param error the error message
+   */
   async alertError(error: string) {
     const alert = await this.alertController.create({
       header: 'Something went wrong.',

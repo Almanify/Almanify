@@ -35,7 +35,7 @@ export class JourneyEditorPage implements OnInit {
               public photoService: PhotoService) {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     this.journey = new Journey();
-    if (id != null) {
+    if (id) {
       this.isEditMode = true;
       this.journey.id = id;
       this.databaseService.journeyCrudHandler.read(this.journey).then(journey => {
@@ -56,6 +56,9 @@ export class JourneyEditorPage implements OnInit {
     }
   }
 
+  /**
+   * Angular lifecycle hook that is called after the page is initialized
+   */
   ngOnInit() {
     if (!this.isEditMode) { // if new journey
       this.authService.expectUserId().then((id) => {
@@ -66,6 +69,11 @@ export class JourneyEditorPage implements OnInit {
     }
   }
 
+  /**
+   * Get the participants of a journey
+   *
+   * @param journey the journey to get the participants from
+   */
   getParticipants(journey: Journey) {
     journey.journeyParticipants
       .forEach(participant => this.databaseService.userCrudHandler
@@ -73,6 +81,11 @@ export class JourneyEditorPage implements OnInit {
         .then(u => this.participants.push(u)));
   }
 
+  /**
+   * Delete a user from the journey
+   *
+   * @param user the user to delete
+   */
   deleteUser(user) {
     if (user.id !== this.journey.creatorID) {
       const index = this.journey.journeyParticipants.indexOf(user.id, 0);
@@ -82,15 +95,29 @@ export class JourneyEditorPage implements OnInit {
     }
   }
 
+  /**
+   * Update the start date of the journey
+   *
+   * @param value the new start date
+   */
   updateStartDate(value) {
     this.journey.start = Timestamp.fromDate(new Date(value));
   }
 
+  /**
+   * Update the end date of the journey
+   *
+   * @param value the new end date
+   */
   updateEndDate(value) {
     this.journey.end = Timestamp.fromDate(new Date(value));
   }
 
-  //save with redirect variable for better user experience when trying to update thumbnails
+  /**
+   * Save the journey. Will upload the picture if there is one and then update or create the journey
+   *
+   * @param redirect if true, the user will be redirected to the journey page after saving
+   */
   async save(redirect: boolean) {
     //upload picture
     if (this.picEvent) {
@@ -102,7 +129,7 @@ export class JourneyEditorPage implements OnInit {
     if (this.isEditMode) {
       //update database
       const updatePromise = this.databaseService.journeyCrudHandler.update(this.journey);
-      //redirection
+      // save with redirect variable for better user experience when trying to update thumbnails
       if (redirect) {
         updatePromise.then(async (journeyId) => {
           await this.navCtrl.navigateRoot('/journeys');

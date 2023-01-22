@@ -57,6 +57,9 @@ export class DebtCalculatorPage implements OnInit {
     this.amountsToBePaidByUser = [];
   }
 
+  /**
+   * Load the journey and call the functions to load the participants and payments
+   */
   async loadJourney() {
     await this.databaseService.journeyCrudHandler.readByID(this.journey.id).then(async journey => {
       this.journey = journey;
@@ -65,6 +68,11 @@ export class DebtCalculatorPage implements OnInit {
     });
   }
 
+  /**
+   * Load the payments and then update the debts
+   *
+   * @param journey the journey for which the payments should be loaded
+   */
   async loadPayments(journey: Journey) {
     await this.databaseService.getJourneyPayments(journey.id).then(async payments => {
       this.payments = payments;
@@ -72,6 +80,11 @@ export class DebtCalculatorPage implements OnInit {
     });
   }
 
+  /**
+   * Load participants of the journey
+   *
+   * @param journey the journey for which the participants should be loaded
+   */
   async loadParticipants(journey: Journey) {
     await journey.journeyParticipants
       .forEach(participant => this.databaseService.userCrudHandler
@@ -81,21 +94,36 @@ export class DebtCalculatorPage implements OnInit {
         }));
   }
 
+  /**
+   * Get the currency of the user
+   */
   async getUserCurrency() {
     await this.databaseService.userCrudHandler.readByID(this.userID).then(user => {
       this.selectedCurrency = user.userCurrency;
     });
   }
 
-
+  /**
+   * Get the name of a user by their id
+   *
+   * @param id the id of the user
+   */
   resolveUserId(id: string) {
     return this.people.find(person => person.id === id)?.userName ?? 'Unknown';
   }
 
+  /**
+   * Convert the amount to the selected currency
+   *
+   * @param amount the amount to be converted
+   */
   toSelectedCurrencyString(amount: number) {
     return formatCurrency(convertToCurrency(amount, this.selectedCurrency), this.selectedCurrency);
   }
 
+  /**
+   * Angular lifecycle hook that is called when the page is loaded
+   */
   async ngOnInit(): Promise<void> {
     this.authenticationService.expectUserId().then(id => {
       this.userID = id;
@@ -103,6 +131,9 @@ export class DebtCalculatorPage implements OnInit {
     });
   }
 
+  /**
+   * Get the total amount that the user has to pay
+   */
   getTotalAmountPaidByUser() {
     let total = 0;
     this.amountsToBePaidByUser.forEach((value) => {
@@ -111,11 +142,23 @@ export class DebtCalculatorPage implements OnInit {
     return total;
   }
 
+  /**
+   * Send the user to the payment details page to mark a debt of his as paid
+   *
+   * @param person the person the user has to pay
+   * @param amount the amount the user has to pay (will be filled in automatically)
+   */
   async payDebt(person: string, amount: number) {
     await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + person + '/'
       + convertToCurrency(amount, this.selectedCurrency) + '/' + this.selectedCurrency);
   }
 
+  /**
+   * Send the user to the payment details page to mark a debt of someone else as paid
+   *
+   * @param person the person who paid
+   * @param amount the amount the person paid (will be filled in automatically)
+   */
   async insertRepaidDebt(person?: string, amount?: number) {
     if (person && amount) {
       await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + this.userID + '/'
@@ -125,6 +168,9 @@ export class DebtCalculatorPage implements OnInit {
     }
   }
 
+  /**
+   * Send reminders to all users who owe money to the user
+   */
   sendReminder() {
     this.owedBy.forEach(item => {
       const id = item[0];
@@ -135,6 +181,11 @@ export class DebtCalculatorPage implements OnInit {
     });
   }
 
+  /**
+   * Calculate the debts between all users
+   *
+   * @private
+   */
   private updateDebts() {
     const basicAmounts = new Map();
 

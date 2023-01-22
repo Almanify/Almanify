@@ -42,10 +42,16 @@ export class AuthenticationService {
     });
   }
 
+  /**
+   * Getter for the user email
+   */
   get getUserEmail(): string {
     return this.mail;
   }
 
+  /**
+   * Returns a promise that resolves to the user id. If the user is already logged in, the promise resolves immediately.
+   */
   async expectUserId(): Promise<string> {
     return this.userId ? this.userId : new Promise<string>(resolve => {
       this.userIdSubject.subscribe(userId => {
@@ -56,6 +62,13 @@ export class AuthenticationService {
     });
   }
 
+  /**
+   * Signs in the user with the given email and password
+   *
+   * @param email the email address
+   * @param password the password
+   * @param rememberMe whether the data should be stored locally or not
+   */
   async signIn(email: string, password: string, rememberMe: boolean) {
     await this.angularFireAuth.setPersistence(rememberMe
       ? firebase.auth.Auth.Persistence.LOCAL
@@ -63,7 +76,9 @@ export class AuthenticationService {
     return await this.angularFireAuth.signInWithEmailAndPassword(email, password);
   }
 
-
+  /**
+   * Signs the user out
+   */
   async signOut() {
     await this.angularFireAuth.signOut();
     // we expect this to trigger angularFireAuth.user.subscribe

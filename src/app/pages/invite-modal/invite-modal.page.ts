@@ -41,6 +41,11 @@ export class InviteModalPage implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Get all participants of a journey
+   *
+   * @param journey the journey to get the participants from
+   */
   getParticipants(journey: Journey) {
     this.participants = [];
     journey.journeyParticipants

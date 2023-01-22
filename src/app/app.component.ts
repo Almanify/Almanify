@@ -45,6 +45,9 @@ export class AppComponent implements OnInit {
     this.route = route;
   }
 
+  /**
+   * Angular lifecycle hook that is called after the page is initialized
+   */
   ngOnInit() {
     this.authService.expectUserId().then((id) =>
       this.databaseService.userCrudHandler.readByID(id).then(u => this.userName = u.userName)
@@ -54,6 +57,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Show the imprint popover
+   */
   async showImprint() {
     const popover = await this.popoverController.create({
       component: ImprintComponent,
@@ -62,6 +68,9 @@ export class AppComponent implements OnInit {
     await popover.present();
   }
 
+  /**
+   * Show the privacy protection popover
+   */
   async showPrivacy() {
     const popover = await this.popoverController.create({
       component: PrivacyProtectionComponent,
@@ -70,6 +79,9 @@ export class AppComponent implements OnInit {
     await popover.present();
   }
 
+  /**
+   * Show the general terms and conditions popover
+   */
   async showGTC() {
     const popover = await this.popoverController.create({
       component: GTCComponent,
@@ -78,10 +90,16 @@ export class AppComponent implements OnInit {
     await popover.present();
   }
 
+  /**
+   * Check if the user is on the login page
+   */
   async isOnLogin(): Promise<boolean> {
     return await this.route.url.toPromise().then((url) => url[0].path.includes('login'));
   }
 
+  /**
+   * Log the user out
+   */
   public async logOut() {
     await this.pushMessagingService.unsubPushNote().catch(() => {
       // do nothing

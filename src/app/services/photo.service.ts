@@ -17,6 +17,9 @@ export class PhotoService {
   constructor(public firestorage: AngularFireStorage) {
   }
 
+  /**
+   * Take a photo with the device camera and save it to the Photos gallery.
+   */
   public async addNewToGallery() {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
@@ -28,6 +31,12 @@ export class PhotoService {
     return capturedPhoto;
   }
 
+  /**
+   * Upload a photo from a file event
+   *
+   * @param event the file event
+   * @param folderId the folder id
+   */
   uploadPicFromEvent(event, folderId: string): Promise<Observable<string>> {
     const file = event.target.files[0];
     const filePath = folderId + '/';
@@ -45,6 +54,12 @@ export class PhotoService {
     });
   }
 
+  /**
+   * Upload a photo from a photo object. Does not work.
+   *
+   * @param photo the photo object
+   * @param folderId the folder id
+   */
   uploadPicFromPhoto(photo: Photo, folderId: string): Promise<Observable<string>> {
     console.log(photo);
     const filePath = folderId + '/';
@@ -63,11 +78,22 @@ export class PhotoService {
     });
   }
 
+  /**
+   * Delete a picture from the database
+   *
+   * @param downloadURL the download url of the picture
+   */
   deletePic(downloadURL: string) {
     const fileRef = this.firestorage.refFromURL(downloadURL);
     fileRef.delete();
   }
 
+  /**
+   * Save picture to the filesystem of the device
+   *
+   * @param photo the photo object
+   * @private
+   */
   private async savePic(photo: Photo) {
     // Convert photo to base64 format, required by Filesystem API to save
     const base64Data = await this.readAsBase64(photo);
@@ -82,7 +108,12 @@ export class PhotoService {
     //TODO erweitern um speichern in cloud
   }
 
-
+  /**
+   * Read the photo into base64 format
+   *
+   * @param photo the photo object
+   * @private
+   */
   private async readAsBase64(photo: Photo) {
     // Fetch the photo, read as a blob, then convert to base64 format
     const response = await fetch(photo.webPath);
@@ -91,6 +122,11 @@ export class PhotoService {
     return await this.convertBlobToBase64(blob) as string;
   }
 
+  /**
+   * Convert a blob to base64 format
+   *
+   * @param blob the blob°
+   */
   private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onerror = reject;

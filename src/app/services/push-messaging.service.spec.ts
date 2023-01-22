@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { PushMessagingService } from './push-messaging.service';
 
-describe('PushMessegingService', () => {
+describe('PushMessagingService', () => {
   let service: PushMessagingService;
 
   beforeEach(() => {

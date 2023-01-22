@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import * as admin from 'firebase-admin';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {ActionPerformed, PushNotifications, PushNotificationSchema} from '@capacitor/push-notifications';
+import {PushNotifications, PushNotificationSchema} from '@capacitor/push-notifications';
 import {FCM} from '@capacitor-community/fcm';
 import {AuthenticationService} from './auth.service';
 
@@ -14,7 +14,13 @@ export class PushMessagingService {
   constructor(private http: HttpClient, public authService: AuthenticationService) {
   }
 
-
+  /**
+   * Sends a push notification to the user with the given id
+   *
+   * @param targetUserID the id of the user to send the notification to
+   * @param debtorUserName the name of the user who owes the money
+   * @param value the value of the debt
+   */
   sendNotificationToUser(targetUserID: string, debtorUserName: string, value: string) {
     const urlString = 'https://fcm.googleapis.com/fcm/send';
     const options = {
@@ -32,6 +38,12 @@ export class PushMessagingService {
     this.http.post(urlString, body, options).subscribe((res) => console.log(res));
   }
 
+  /**
+   * Creates a random push notification
+   *
+   * @param debtorUserName the name of the user who owes the money
+   * @param value the value of the debt
+   */
   createDebtNotification(debtorUserName: string, value: string): admin.messaging.Notification {
     const pushMessages = require('./pushMessages.json');
     const index = Math.floor(Math.random() * (Object.keys(pushMessages.notifications[0]).length + 2));
@@ -41,6 +53,9 @@ export class PushMessagingService {
     };
   }
 
+  /**
+   * Sets up push notifications
+   */
   async setupPushNote() {
     // Request permission to use push notifications
     // iOS will prompt user and return if they granted permission or not
@@ -58,22 +73,25 @@ export class PushMessagingService {
     }).catch((err) => console.log(err));
 
     // Show us the notification payload if the app is open on our device
-    //TODO: not working
     PushNotifications.addListener(
       'pushNotificationReceived',
       (notification: PushNotificationSchema) => {
         alert('Push received: ' + JSON.stringify(notification));
       },
     ).catch((err) => console.log(err));
+
     // Method called when tapping on a notification
-    PushNotifications.addListener('pushNotificationActionPerformed',
+    /* PushNotifications.addListener('pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
-        //alert('Push action performed: ' + JSON.stringify(notification));
-        //TODO: could be used to open a new payment
+        alert('Push action performed: ' + JSON.stringify(notification));
+        // could be used to open a new payment
       }
-    ).catch((err) => console.log(err));
+    ).catch((err) => console.log(err)); */
   }
 
+  /**
+   * Unsubscribes from push notifications
+   */
   async unsubPushNote() {
     FCM.unsubscribeFrom({topic: await this.authService.expectUserId()})
       .catch((err) => console.log(err));

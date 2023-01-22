@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonModal} from '@ionic/angular';
-import {OverlayEventDetail} from '@ionic/core/components';
 import {User} from '../../data/User';
 import {DatabaseService} from '../../services/database.service';
 import {AuthenticationService} from '../../services/auth.service';
@@ -31,25 +30,23 @@ export class OptionsPage implements OnInit {
     this.user = new User();
   }
 
+  /**
+   * Angular lifecycle hook that is called after the page is initialized
+   */
   ngOnInit() {
     this.getUserInformation();
   }
 
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
-  }
-
+  /**
+   * Closes the modal
+   */
   confirm() {
-    this.modal.dismiss(this.user.userName, 'confirm');
+    return this.modal.dismiss(this.user.userName, 'confirm');
   }
 
-  onWillDismiss(event: Event) {
-    const ev = event as CustomEvent<OverlayEventDetail<string>>;
-    if (ev.detail.role === 'confirm') {
-      this.message = `Hello, ${ev.detail.data}!`;
-    }
-  }
-
+  /**
+   * Get the user information from the database
+   */
   async getUserInformation() {
     this.authService.expectUserId().then(async (uid) => {
       await this.databaseService.userCrudHandler.readByID(uid).then(u => {
@@ -62,6 +59,9 @@ export class OptionsPage implements OnInit {
     });
   }
 
+  /**
+   * Change the edit mode
+   */
   changeEditMode() {
     this.buttonDisabled = !this.buttonDisabled;
     this.inEditMode = !this.inEditMode;
@@ -71,6 +71,9 @@ export class OptionsPage implements OnInit {
     this.currency = this.user.userCurrency;
   }
 
+  /**
+   * Save the user information
+   */
   save() {
     this.user.userName = this.name;
     this.user.userCurrency = this.currency;

@@ -31,7 +31,7 @@ export class JourneyDetailsPage implements OnInit {
               private alertCtrl: AlertController,
               private route: ActivatedRoute) {
     this.route.url.subscribe(() => {
-      if(this.journey && this.isLoaded) {
+      if (this.journey && this.isLoaded) {
         this.loadPayments(this.journey);
       }
     });
@@ -40,6 +40,9 @@ export class JourneyDetailsPage implements OnInit {
     this.journey.id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
+  /**
+   * Loads the journey and calls the functions to load the payments and participants
+   */
   loadJourney() {
     this.databaseService.journeyCrudHandler.readByID(this.journey.id).then(journey => {
       this.journey = journey;
@@ -48,6 +51,11 @@ export class JourneyDetailsPage implements OnInit {
     });
   }
 
+  /**
+   * Loads the payments for the journey
+   *
+   * @param journey the journey to load the payments for
+   */
   loadPayments(journey: Journey) {
     this.databaseService.getJourneyPayments(journey.id).then((payments) => {
       this.payments = payments;
@@ -56,7 +64,11 @@ export class JourneyDetailsPage implements OnInit {
     });
   }
 
-
+  /**
+   * Loads the participants of the journey
+   *
+   * @param journey the journey to load the participants of
+   */
   loadParticipants(journey: Journey) {
     journey.journeyParticipants
       .forEach(participant => this.databaseService.userCrudHandler
@@ -67,11 +79,17 @@ export class JourneyDetailsPage implements OnInit {
         }));
   }
 
+  /**
+   * Toggles the sorting of the payments between ascending and descending
+   */
   toggleSort() {
     this.lowToHigh = this.lowToHigh === 'false' ? 'true' : 'false';
     this.sortPayments();
   }
 
+  /**
+   * Sorts the payments by the selected sorting method
+   */
   sortPayments() {
     switch (this.sortBy) {
       case 'payer':
@@ -88,6 +106,9 @@ export class JourneyDetailsPage implements OnInit {
     }
   }
 
+  /**
+   * Angular lifecycle hook that is called when the page is initialized
+   */
   ngOnInit() {
     this.authenticationService.expectUserId().then((id) => {
       this.userId = id;
@@ -95,10 +116,18 @@ export class JourneyDetailsPage implements OnInit {
     });
   }
 
+  /**
+   * Navigates to the payment details page to add a new payment
+   */
   async addPayment() {
     await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id);
   }
 
+  /**
+   * Deletes a payment after the user confirmed the deletion
+   *
+   * @param payment the payment to delete
+   */
   async deletePayment(payment: Payment) {
     const alert = await this.alertCtrl.create({
       header: 'Delete Payment',
@@ -120,19 +149,36 @@ export class JourneyDetailsPage implements OnInit {
     await alert.present();
   }
 
+  /**
+   * Navigates to the payment details page to view the details of a payment
+   *
+   * @param payment the payment to view
+   */
   async viewPayment(payment: Payment) {
     await this.navCtrl.navigateForward('/payment-details/' + false + '/' + this.journey.id + '/' + payment.id);
   }
 
+  /**
+   * Navigates to the payment details page to edit a payment
+   *
+   * @param payment the payment to edit
+   */
   async editPayment(payment: Payment) {
     await this.navCtrl.navigateForward('/payment-details/' + true + '/' + this.journey.id + '/' + payment.id);
   }
 
+  /**
+   * Navigates to the debts page to view the debts of the journey
+   */
   async viewDebts() {
     await this.navCtrl.navigateForward('/debts/' + this.journey.id);
   }
 
-
+  /**
+   * Returns the icon for the category of a payment
+   *
+   * @param category the category of the payment
+   */
   getCategoryIcon(category: string) {
     switch (category) {
       case PaymentCategory.accommodation:
