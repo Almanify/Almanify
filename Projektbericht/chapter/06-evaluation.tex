@@ -15,7 +15,7 @@ Diese Aufgabe konnte aufgrund von organisatorischen Problemen nicht umgesetzt we
 
 \begin{addmargin}{10pt}
 \underline{Hauptszenario}: Der Nutzer wird nicht wie Punkt 5 beschreibt auf seine aktive Reise weitergeleitet. 
-Hier haben wir uns dazu entschieden, stattdessen auf die Liste aller aktiven Reisen weiterzuleiten, weil es als verwirrend empfunden wurde nach dem Login nicht in einer Form von Übersicht zu landen. 
+Hier haben wir uns dazu entschieden, stattdessen auf die Liste aller aktiven Reisen weiterzuleiten, weil es als verwirrend empfunden wurde, nach dem Login nicht in einer Form von Übersicht zu landen. 
 lle anderen Kriterien wurden erfüllt.\\
 \underline{Alternativszenarien}: Alle Kriterien wurden erfüllt.\\
 \underline{Ausnahmeszenarien}: Der Login-Button ist nicht wie gefordert ausgegraut, wenn der Nutzer eine ungültige E-Mail-Adresse eingibt. 
@@ -81,15 +81,29 @@ die in Form von Use Cases formuliert wurden, umgesetzt.
 
 \subsection{Nichtfunktionale Anforderungen}
 \begin{enumerate}
-	\item \underline{Sicherheit}: Für die Authentifizierung der Nutzer verwenden wir die von Firebase bereitgestellten Funktionen. Die Almanify-App speichert grundlegend keine sensiblen Daten, die die eindeutige Identifikation einer Person ermöglichen, abgesehen von Nutzernamen, E-Mail-Adressen und Bildern mit persönlichem Inhalt. Hier liegt es an den Nutzern zu entscheiden, welche Informationen sie preisgeben möchten. 
-	\item \underline{Benutzerfreundlichkeit}: Hierbei handelt es sich um ein subjektives Kriterium. Die Bewertung dessen findet sich in der Nutzerstudie. (Siehe Kapitel \ref{Tests})
-	\item \underline{Schnelligkeit}: Hierbei handelt es sich um ein subjektives Kriterium. Die Bewertung dessen findet sich in der Nutzerstudie. (Siehe Kapitel \ref{Tests})
-	\item \underline{Robustheit}: Trotz größtenteils fehlender Validierung der Eingaben führen Fehleingaben nicht dazu, dass die App abstürzt. Kritische Fehleingaben, wie beispielsweise der Login mit einem unbekannten Account werden mit Fehlermeldungen abgefangen. Weniger kritische Fehleingaben, wie beispielsweise das Eingeben eines negativen Geldbetrags, verursachen keine Probleme. Die Anzeige der Daten sowie Funktionen wie die Schuldenberechnung funktionieren weiterhin unter Verwendung dieser Daten.
-	\item \underline{Wartbarkeit}: Der Code der App ist sinnvoll gegliedert. Es gibt Seiten, Komponenten und Services sowie zusätzliche Dateien für die Datentypen und Authentifizierung. Seiten sind ihrerseits unterteilt in CSS, HTML, Routing und Logik.
-	Außerdem setzen wir auf Wiederverwendbarkeit, indem wir für die Registrierung und den Login sowie die Seiten zum Erstellen und Bearbeiten von Einträgen (Journeys, Payments) jeweils eine Komponente statt zwei verwenden, in der wir zwischen den beiden Zuständen unterscheiden. Die Dokumentation des Code in Form von Kommentaren wurde aus zeitlichen Gründen nur teilweise umgesetzt.
-	\item \underline{Portierbarkeit}: Die App läuft auf Android sowie iOS und ist damit von dem Großteil der Mobilgerätnutzer verwendbar. Das Design ist teilweise für iOS angepasst. (Siehe Kapitel \ref{Design})
-	\item \underline{Korrektheit}: Inwiefern die App den funktionalen Anforderungen genügt wurde in diesem Kapitel erörtert. (Siehe Kapitel \ref{funktionale-anforderungen})
-	\item \underline{Zuverlässigkeit}: Hierbei handelt es sich um ein subjektives Kriterium. Die Bewertung dessen findet sich in der Nutzerstudie. (Siehe Kapitel \ref{Tests})
+	\item \underline{Sicherheit}: Für die Authentifizierung der Nutzer verwenden wir die von Firebase bereitgestellten Funktionen.
+	Die Almanify-App speichert grundlegend keine sensiblen Daten, die die eindeutige Identifikation einer Person ermöglichen, abgesehen von Nutzernamen, E-Mail-Adressen und Bildern mit persönlichem Inhalt.
+	Hier liegt es an den Nutzern zu entscheiden, welche Informationen sie preisgeben möchten. 
+	\item \underline{Benutzerfreundlichkeit}: Hierbei handelt es sich um ein subjektives Kriterium.
+	Die Bewertung dessen findet sich in der Nutzerstudie. (Siehe Kapitel \ref{Tests})
+	\item \underline{Schnelligkeit}: Hierbei handelt es sich um ein subjektives Kriterium.
+	Die Bewertung dessen findet sich in der Nutzerstudie. (Siehe Kapitel \ref{Tests})
+	\item \underline{Robustheit}: Trotz größtenteils fehlender Validierung der Eingaben führen Fehleingaben nicht dazu, dass die App abstürzt.
+	Kritische Fehleingaben, wie beispielsweise der Login mit einem unbekannten Account werden mit Fehlermeldungen abgefangen.
+	Weniger kritische Fehleingaben, wie beispielsweise das Eingeben eines negativen Geldbetrags, verursachen keine Probleme.
+	Die Anzeige der Daten sowie Funktionen wie die Schuldenberechnung funktionieren weiterhin unter Verwendung dieser Daten.
+	\item \underline{Wartbarkeit}: Der Code der App ist sinnvoll gegliedert.
+	Es gibt Seiten, Komponenten und Services sowie zusätzliche Dateien für die Datentypen und Authentifizierung.
+	Seiten sind ihrerseits unterteilt in CSS, HTML, Routing und Logik.
+	Außerdem setzen wir auf Wiederverwendbarkeit, indem wir für die Registrierung und den Login sowie die Seiten zum Erstellen und Bearbeiten von Einträgen (Journeys, Payments) jeweils eine Komponente statt zwei verwenden, in der wir zwischen den beiden Zuständen unterscheiden.
+	In den TypeScript-Dateien liegen JSDoc-Kommentare vor, die die Funktionen und Klassen beschreiben.
+	Außerdem sind die Funktionen und Klassen so benannt, dass in der Regel ersichtclich ist, was sie tun.
+	\item \underline{Portierbarkeit}: Die App läuft auf Android sowie iOS und ist damit von dem Großteil der Mobilgerätnutzer verwendbar.
+	Das Design ist teilweise für iOS angepasst. (Siehe Kapitel \ref{Design})
+	\item \underline{Korrektheit}: Inwiefern die App den funktionalen Anforderungen genügt wurde in diesem Kapitel erörtert.
+	(Siehe Kapitel \ref{funktionale-anforderungen})
+	\item \underline{Zuverlässigkeit}: Hierbei handelt es sich um ein subjektives Kriterium.
+	Die Bewertung dessen findet sich in der Nutzerstudie. (Siehe Kapitel \ref{Tests})
 				
 \end{enumerate}
 
