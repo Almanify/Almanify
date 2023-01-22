@@ -17,6 +17,7 @@ Ein Ansatz war es, die Zahlungen als einen Graphen zu modellieren, in dem die Kn
 Ausgehend von diesem Modell sollten dann Kanten vereinfacht werden. Dafür konnten einige Regeln aufgestellt werden:
 
 \begin{enumerate}
+    \item Parallel: $A \xrightarrow{x, y} B$ wird zu $A \xrightarrow{x+y} B$ (Zusammenfassung von zwei Zahlungen)
     \item Transitiv: $x>y:A \xrightarrow{x} B \xrightarrow{y} C$ wird zu $A \xrightarrow{x-y} B$ und $A \xrightarrow{y} C$
     \item Transitiv 2: $x<y:A \xrightarrow{x} B \xrightarrow{y} C$ wird zu $A \xrightarrow{x} C$ und $A \xrightarrow{y-x} C$
     \item Transitiv 3: $x=y:A \xrightarrow{x} B \xrightarrow{y} C$ wird zu $A \xrightarrow{x} C$
