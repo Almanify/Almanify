@@ -2,7 +2,7 @@
 
 \subsection{Schuldenberechnung}
 
-Für die Schuldenberechnung musste zunächst ein Algorithmus entwickelt werden, der die Schulden berechnet innerhalb einer bestimmten Reise berechnet.
+Für die Schuldenberechnung musste zunächst ein Algorithmus entwickelt werden, der die Schulden innerhalb einer bestimmten Reise berechnet.
 Es gab eine Reihe von Anforderungen an den Algorithmus, die erfüllt werden mussten:
 
 \begin{itemize}
@@ -28,10 +28,10 @@ Ausgehend von diesem Modell sollten dann Kanten vereinfacht werden. Dafür konnt
 
 Diese händische Vereinfachung stellte sich als übertrieben aufwändig heraus, als eine andere Idee aufkam:
 Statt dem Zahlungsgraphen wird lediglich die Liste der Zahlungen betrachtet.
-Für jede Person wird ein Wert verwaltet, auf welchen für jede Zahlung, in die der Person profitiert hat, der (Teil-)betrag subtrahiert wird.
+Für jede Person wird ein Wert verwaltet, von welchem für jede Zahlung, in die der Person profitiert hat, der (Teil-)betrag subtrahiert wird.
 Für jede Zahlung, die die Person selbst getätigt hat, wird der Betrag addiert. 
 
-Mit diesen Werten wird dann wie in diesem Pseudocode beschrieben vorgegangen:
+Mit diesen Werten wird dann wie in dem folgenden Pseudocode beschrieben vorgegangen:
 
 \begin{lstlisting}
 sei P eine gefuellte Map [Person, Wert]
@@ -49,7 +49,7 @@ solange P nicht leer ist
 \end{lstlisting}
 
 Mit diesem Algorithmus werden die Schulden berechnet und in einer Liste gespeichert.
-Diese Liste wird dann verwendet, um eventuell relevante Schulden dem Benutzer anzuzeigen.
+Diese Liste wird dann verwendet, um dem Benutzer eventuell relevante Schulden anzuzeigen.
 Da der Algorithmus sehr simpel ist (Laufzeit $\mathcal{O}(n^2)$, generiert durch das Sortieren der Liste), genügt es, ihn auf Nachfrage im Client zu berechnen und die Schulden nicht im Server zu speichern.
 
 \subsection{CRUD-Handler}
@@ -69,7 +69,7 @@ Dieser Handler wird mit dem Namen der Tabelle initialisiert und kann dann die CR
 
 \subsubsection{Google-Maps Integration}
 
-Die App sollte für eine Zahlung eine Karte anzeigen können, auf der die Position des Zahlungsortes angezeigt werden könnte.
+Die App sollte für eine Zahlung eine Karte anzeigen können, auf der die Position des Zahlungsortes angezeigt würde.
 Dafür sollte die App die Google Maps API verwenden.
 
 Die Integration der Google Maps API in die App wäre jedoch sehr aufwändig gewesen -- so hätten wir neben der Darstellung auch die Möglichkeit der Suche nach Orten implementieren müssen.

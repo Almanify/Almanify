@@ -16,12 +16,12 @@
 Auf dieser Seite kann sich der User anmelden.
 
 \begin{enumerate}[label=\protect\circled{\arabic*}]
-	\item Schnelllogin: ermöglicht das schnelle Anmelden mit verschiedenen Testuseren. (nur im Debugmodus vorhanden)
+	\item Schnelllogin: ermöglicht das schnelle Anmelden mit verschiedenen Testnutzern. (nur im Debugmodus vorhanden)
 	\item Eingabefeld für die E-Mail-Adresse des Nutzers, mit der er sich registriert hat.
 	\item Eingabefeld für das Passwort des Nutzers.
 	\item \emph{Rememeber Me}: der User kann auswählen, ob er sich nach Schließen der App erneut anmelden möchte.
 	\item Button um sich einzuloggen.
-	\item Wenn der Nutzer noch keinen Account hat gelangt er hier zur Registrierungsseite (Siehe \ref{Signup}).
+	\item Wenn der Nutzer noch keinen Account hat, gelangt er hier zur Registrierungsseite (Siehe \ref{Signup}).
 \end{enumerate}
 
 \subsubsection{Registrierungsseite}\label{Signup}
@@ -39,9 +39,9 @@ Auf dieser Seite kann sich der User registrieren.
 	\item Eingabefeld für den Nutzernamen, welcher den Mitreisenden später angezeigt wird.
 	\item Eingabefeld für die E-Mail-Adresse des Nutzers.
 	\item Eingabefeld für das Passwort des Nutzers.
-	\item Eingabefeld um das Passwort des Nutzers zu bestätigen.
-	\item Button um sich zu registrieren.
-	\item Wenn der Nutzer einen Account hat gelangt er hier zurück zu Loginseite (Siehe \ref{Login}).
+	\item Eingabefeld, um das Passwort des Nutzers zu bestätigen.
+	\item Button, um sich zu registrieren.
+	\item Wenn der Nutzer einen Account hat, gelangt er hier zurück zu Loginseite (Siehe \ref{Login}).
 \end{enumerate}
 
 \subsubsection{Home}\label{Home}
@@ -53,14 +53,14 @@ Auf dieser Seite kann sich der User registrieren.
 	\label{fig:Home}
 \end{figure}
 
-Auf diese Seite gelangt der User nach Login, wenn keine aktive Reise vorhanden ist.
+Auf diese Seite gelangt der User nach dem Login, wenn keine aktive Reise vorhanden ist.
 
 \begin{enumerate}[label=\protect\circled{\arabic*}]
-	\item Button zum Erstellen einer neuen Reise: der Nutzer gelangt zur Reiseerstellenseite (Siehe \ref{Journey-Editor}).
-	\item Button zum Beitreten einer existierenden Reise: der Nutzer gelangt zur Reisebeitretenseite (Siehe \ref{Reisebeitretenseite}).
+	\item Button zum Erstellen einer neuen Reise: der Nutzer gelangt zur Seite zum Erstellen einer Reise (Siehe \ref{Journey-Editor}).
+	\item Button zum Beitreten einer existierenden Reise: der Nutzer gelangt zur Seite zum Beitreten einer Reise (Siehe \ref{Reisebeitretenseite}).
 \end{enumerate}
 
-\subsubsection{Reisebearbeiten/erstellen}\label{Journey-Editor}
+\subsubsection{Reiseerstellung/-bearbeitung}\label{Journey-Editor}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.3\textwidth]{img/pages_numbers/journey-editor.drawio}
@@ -72,18 +72,18 @@ Auf diese Seite gelangt der User nach Login, wenn keine aktive Reise vorhanden i
 Auf dieser Seite kann der User eine Reise erstellen oder bearbeiten. Entsprechend der Situation ist der Titel  "`New Journey"' oder "`Edit Journey"'.
 
 \begin{enumerate}[label=\protect\circled{\arabic*}]
-	\item Eingabefeld um der Reise einen Titel zugeben der später für alle Angezeigt wird.
+	\item Eingabefeld, um der Reise einen Titel zugeben der später für alle Angezeigt wird.
 	\item Dropdown zur Auswahl einer Standardwährung auf der Reise.
 	      Die Standardwährung ist später beim Erstellen von Zahlungen voreingestellt.
 	\item Öffnet Modal zur Wahl des Startdatums der Reise.
 	\item Öffnet Modal zur Wahl des Enddatums der Reise.
 	\item Ersteller einer Reise wird mit Dreieckicon markiert.
-	\item Nicht-Ersteller einer Reise können mit x-Button aus der Reise gekickt werde.
+	\item Nicht-Ersteller einer Reise können mit x-Button aus der Reise gekickt werden.
 	\item Button zum Speichern des Eintrags.
-	\item Mit Dateiauswahl-Button kann der Reise ein Banner hinzugefügt werden. Das Banner wird dann in der Reiseliste angezeigt.
+	\item Mit dem Dateiauswahl-Button kann der Reise ein Titelbild hinzugefügt werden. Dieses wird dann in der Reiseliste angezeigt.
 \end{enumerate}
 
-\subsubsection{Reisebeitretenseite}\label{Reisebeitretenseite}
+\subsubsection{Reisebeitritt-Seite}\label{Reisebeitretenseite}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.3\textwidth]{img/pages_numbers/join-journey.drawio}
@@ -93,8 +93,8 @@ Auf dieser Seite kann der User eine Reise erstellen oder bearbeiten. Entsprechen
 \end{figure}
 
 \begin{enumerate}[label=\protect\circled{\arabic*}]
-	\item Eingabefeld, um einen zu gesendeten Einladungscode zu einer Reise 		einzugeben.
-	\item Button um Eingabe zu bestätigen und einer Reise beizutreten.
+	\item Eingabefeld, um den erhaltenen Einladungscode zu einer Reise einzugeben.
+	\item Button, um die Eingabe zu bestätigen und der Reise beizutreten.
 \end{enumerate}
 
 \subsubsection{Detailansicht einer Reise}\label{Journey-Details}
@@ -107,17 +107,17 @@ Auf dieser Seite kann der User eine Reise erstellen oder bearbeiten. Entsprechen
 \end{figure}
 
 Auf dieser Seite hat der Nutzer eine Übersicht aller Zahlungen einer Reise.
-Der Nutzer gelangt nach Login auf diese Seite, wenn es sich um die aktuellste Reise handelt.
+Der Nutzer gelangt nach dem Login auf diese Seite, wenn es sich um die aktuellste Reise handelt.
 
 \begin{enumerate}[label=\protect\circled{\arabic*}]
-	\item Button zum Erstellen einer neuen Zahlung: der Nutzer gelangt zur Zahlungerstellenseite (Siehe \ref{payment-details_(edit-mode)}).
-	\item Button zur Schuldenübersicht: der Nutzer gelangt zu Schuldenübersicht der Reise (Siehe \ref{debt-calculator_(owe)} und \ref{debt-calculator_(owed)}).
-	\item Icon sagt über Kategorie der Zahlung aus (siehe Tabelle \ref{Tab:paymentcategories}).
+	\item Button zum Erstellen einer neuen Zahlung: der Nutzer gelangt zur Seite der Zahlungserstellung (Siehe \ref{payment-details_(edit-mode)}).
+	\item Button zur Schuldenübersicht: der Nutzer gelangt zur Schuldenübersicht der Reise (Siehe \ref{debt-calculator_(owe)} und \ref{debt-calculator_(owed)}).
+	\item Icon kennzeichnet die Kategorie der Zahlung (siehe Tabelle \ref{Tab:paymentcategories}).
 	\item Betrag und Währung einer Zahlung.
 	\item Öffnen von weiteren Optionen zu einer Zahlung.
-	\item Zahlung können auf- und absteigend anhand des Zahlers, des Betrags und des Zahldatums sortiert werden.
-	\item Button zum Bearbeiten einer Zahlung: Der Nutzer gelangt zur Zahlungbearbeitenseite  (Siehe \ref{payment-details_(edit-mode)}).
-	\item Button zu Details einer Ausgabe: Der Nutzer gelangt zur Detailansicht einer Zahlung  (Siehe \ref{payment-details}).
+	\item Zahlungen können auf- und absteigend anhand des Zahlers, des Betrags sowie des Zahldatums sortiert werden.
+	\item Button zum Bearbeiten einer Zahlung: Der Nutzer gelangt zur Seite der Zahlungsbearbeitung  (Siehe \ref{payment-details_(edit-mode)}).
+	\item Button zu den Details einer Ausgabe: Der Nutzer gelangt zur Detailansicht einer Zahlung  (Siehe \ref{payment-details}).
 	\item Button zum Löschen einer Zahlung.
 	\item Nutzername des Zahlers.
 	\item Zahldatum.
@@ -136,11 +136,11 @@ Der Nutzer gelangt nach Login auf diese Seite, wenn es sich um die aktuellste Re
 		\hline
 		Entertaiment                         & \includegraphics[width=0.05\textwidth]{paymentcategories/game-controller.pdf} & Ausgaben für Unterhaltung.                      \\
 		\hline
-		Transfer                             & \includegraphics[width=0.05\textwidth]{paymentcategories/airplane.pdf}        & Ausgaben die Transportmittel betreffen.         \\
+		Transfer                             & \includegraphics[width=0.05\textwidth]{paymentcategories/airplane.pdf}        & Ausgaben, die Transportmittel betreffen.         \\
 		\hline
 		Repayment                            & \includegraphics[width=0.05\textwidth]{paymentcategories/cash.pdf}            & Rückzahlung von Schulden an andere Mitreisende. \\
 		\hline
-		Other                                & \includegraphics[width=0.05\textwidth]{paymentcategories/infinite.pdf}        & Alles was in keine andere Kategorie passt.      \\
+		Other                                & \includegraphics[width=0.05\textwidth]{paymentcategories/infinite.pdf}        & Alles, was in keine der anderen Kategorien passt.      \\
 		\hline
 	\end{tabularx}
 	\label{Tab:paymentcategories}
@@ -158,14 +158,14 @@ Der Nutzer gelangt nach Login auf diese Seite, wenn es sich um die aktuellste Re
 Auf dieser Seite hat der Nutzer eine Übersicht aller beigetretenen Reisen.
 
 \begin{enumerate}[label=\protect\circled{\arabic*}]
-	\item Button zum Erstellen einer neuen Reise: der Nutzer gelangt zur Reiseerstellenseite  (Siehe \ref{Journey-Editor}).
-	\item Button zum Beitreten einer existierenden Reise: der Nutzer gelangt zur Reisebeitretenseite (Siehe \ref{Reisebeitretenseite}).
+	\item Button zum Erstellen einer neuen Reise: der Nutzer gelangt zur Seite der Reiseerstellung  (Siehe \ref{Journey-Editor}).
+	\item Button zum Beitreten einer existierenden Reise: der Nutzer gelangt zur Reisebeitritts-Seite (Siehe \ref{Reisebeitretenseite}).
 	\item Auswahl zwischen aktiven und archivierten Reisen.
 	\item Anzeige, ob es sich um eine aktive oder archivierte Reise handelt.
-	\item Dropdown mit allen wichtigen Infos zu einer Reise.
-	\item Durch klicken auf das Reisebanner gelangt der Nutzer zu  den Details einer Reise: der Nutzer gelangt zu einer Listenansicht aller Reisezahlungen  (Siehe \ref{Journey-Details}). Das Banner kann vom Nutzer zu einem beliebigen Bild geändert werden.
+	\item Dropdown mit allen wichtigen Informationen zu einer Reise.
+	\item Durch Klicken auf das Reisebanner gelangt der Nutzer zu den Details einer Reise: der Nutzer gelangt zu einer Listenansicht aller Reisezahlungen  (Siehe \ref{Journey-Details}). Das Banner kann vom Nutzer zu einem beliebigen Bild geändert werden.
 	\item Der Nutzer bekommt das Einladungsmodal angezeigt (Siehe \ref{invite-modal}).*
-	\item Button zum Reisebearbeiten: der Nutzer gelangt zur Reisebearbeitenseite (Siehe \ref{Journey-Editor}).*
+	\item Button zum Reisebearbeiten: der Nutzer gelangt zur Seite der Reisebearbeitung (Siehe \ref{Journey-Editor}).*
 	\item Button zum Löschen einer Reise.*
 	\item Button zum Archivieren einer Reise.*
 \end{enumerate}
@@ -182,7 +182,7 @@ Auf dieser Seite hat der Nutzer eine Übersicht aller beigetretenen Reisen.
 Auf dieser Seite sieht der Nutzer alle Informationen zu einer Zahlung.
 
 \begin{enumerate}[label=\protect\circled{\arabic*}]
-	\item Wechseln in den Bearbeitenmodus (Siehe \ref{payment-details_(edit-mode)}).
+	\item Wechseln in den Modus zum Bearbeiten (Siehe \ref{payment-details_(edit-mode)}).
 \end{enumerate}
 
 \subsubsection{Details einer Zahlung beim Erstellen/Bearbeiten}\label{payment-details_(edit-mode)}
@@ -199,13 +199,13 @@ Auf dieser Seite kann der Nutzer die Informationen zu einer Zahlung erstellen od
 \begin{enumerate}[label=\protect\circled{\arabic*}]
 	\item Titel der Zahlung
 	\item Dropdown mit allen Reisebeteiligten zur Auswahl des Zahlers. Der Ersteller einer Zahlung ist hier 			vorausgewählt.
-	\item Dropdown für die Wahl der Währung. Die Standartwährung der Reise ist beim Erstellen vorausgewählt.
+	\item Dropdown für die Wahl der Währung. Die Standardwährung der Reise ist beim Erstellen vorausgewählt.
 	\item Input für den Betrag der Zahlung.
-	\item Öffnet Modal, um den Zahltag auszuwählen.
+	\item Öffnet ein Modal, um den Zahltag auszuwählen.
 	\item Dropdown zur Auswahl der Zahlungskategorie.
 	\item Durch den x-Button können Nutzer als Zahlungsverursacher entfernt werden.
-	\item Mit dem Plus-Button können einzelne Nutzer oder alle Nutzer hinzugefügt werden. Zusätzlich gibt es die Möglichkeit alle Nutzer zu entfernen.
-	\item Bild aus der Galerie hochladen z.B. um Rechnung festzuhalten.
+	\item Mit dem Plus-Button können einzelne oder alle Nutzer hinzugefügt werden. Zusätzlich gibt es die Möglichkeit alle Nutzer zu entfernen.
+	\item Bild aus der Galerie hochladen, zum Beispiel um die Rechnung festzuhalten.
 	\item Button zum Speichern des Eintrags.
 \end{enumerate}
 
@@ -218,12 +218,12 @@ Auf dieser Seite kann der Nutzer die Informationen zu einer Zahlung erstellen od
 	%\captionsource{}
 	\label{fig:debt-calculator_(owed)}
 \end{figure}
-Auf dieser Seite sieht der Nutzer sein Guthaben bzw. seine Schulden gegenüber anderen (Siehe \ref{debt-calculator_(owe)}).
+Auf dieser Seite sieht der Nutzer sein Guthaben bzw. seine Schulden gegenüber Anderen (Siehe \ref{debt-calculator_(owe)}).
 \begin{enumerate}[label=\protect\circled{\arabic*}]
-	\item Der Betrag, was einem die Mitreisenden noch schulden.
+	\item Der Betrag, welchen einem die Mitreisenden noch schulden.
 	\item Sendet eine Push-Nachricht als Erinnerung an alle Schuldner.
 	\item Dropdown zur Auswahl der Schuldenwährung.
-	\item Öffnet Zahlung erstellen, um den gezahlten Betrag festzuhalten.
+	\item Öffnet die Seite zum Erstellen einer Zahlung, um den zurückgezahlten Betrag festzuhalten.
 	\item Als Reiseersteller hat man zusätzlich die Übersicht über alle offene Schulden einer Reise.
 \end{enumerate}
 
@@ -236,9 +236,9 @@ Auf dieser Seite sieht der Nutzer sein Guthaben bzw. seine Schulden gegenüber a
 	\label{fig:debt-calculator_(owe)}
 \end{figure}
 \begin{enumerate}[label=\protect\circled{\arabic*}]
-	\item Der Betrag, was man den Mitreisenden noch schuldet.
+	\item Der Betrag, welchen man den Mitreisenden noch schuldet.
 	\item Dropdown zur Auswahl der Schuldenwährung.
-	\item Öffnet Zahlung erstellen mit vor gefüllten Werten, um die Übermittlung einer Zahlung festzuhalten.
+	\item Öffnet die Seite zum Erstellen einer Zahlung mit vordefinierten Werten, um das Zurückzahlen einer Schuld festzuhalten.
 \end{enumerate}
 
 \subsubsection{Einladungsmodal}\label{invite-modal}
@@ -253,10 +253,10 @@ Auf dieser Seite sieht der Nutzer sein Guthaben bzw. seine Schulden gegenüber a
 Auf dieser Seite erhält der Reiseersteller alle Informationen, um weitere Nutzer in seine Reise einzuladen.
 
 \begin{enumerate}[label=\protect\circled{\arabic*}]
-	\item Title der Reise für die eingeladen wird.
+	\item Title der Reise, zu der eingeladen wird.
 	\item Liveansicht aller der Reise beigetretenen Nutzer.
-	\item Invitecode zur Eingabe auf der Reisebeitrittseite um der Reise beizutreten.
-	\item Der Invitecode als QR-Code zum einfachen Scannen auf der Reisebeitrittseite um der Reise beizutreten.
+	\item Invitecode zur Eingabe auf der Reisebeitrittseite, um der Reise beizutreten.
+	\item Der Invitecode als QR-Code zum einfachen Scannen auf der Reisebeitrittseite, um der Reise beizutreten.
 \end{enumerate}
 
 \subsubsection{Optionen}\label{options}

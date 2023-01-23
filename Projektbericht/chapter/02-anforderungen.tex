@@ -2,20 +2,19 @@
 
 \subsection{Grundlegende Funktionsbeschreibung}
 
-Bei Öffnung der App können sich Benutzer einloggen oder registrieren.
+Bei Öffnen der App können sich Benutzer einloggen oder registrieren.
 Dabei wird ein Benutzerprofil erstellt, das den Nutzernamen enthält.
-Reisen können innerhalb der mobilen Anwendung erstellt werden.
-Weitere Nutzer können über einen Invite-Code beitreten.
+Innerhalb der mobilen Anwendung können Reisen erstellt werden. Dieser können über einen Invite-Code weitere Nutzer beitreten.
 Getätigte Ausgaben können den beigetretenen Reisen hinzugefügt werden.
-Einträge für Ausgaben umfassen einen Titel, die Person, die bezahlt hat, die Summe,
-Währung, eine Kategorie, Zahldatum, die Beteiligten, die Ausgaben verursacht haben und ein optionales Bild (z. B. vom Kassenbon).
+Einträge für Ausgaben umfassen einen Titel, die zahlende Person, die Summe,
+Währung, eine Kategorie, Zahldatum, die Beteiligten, die Ausgaben verursacht haben sowie ein optionales Bild (z. B. vom Kassenbon).
 Für Währung, Kategorie und Beteiligte gibt es vorgegebene Auswahlmöglichkeiten.
 Einträge für Ausgaben können entsprechend der Attribute sortiert werden.
 Nutzer können Einträge für Ausgaben nachträglich bearbeiten.
 Es ist möglich, Schulden bzw. Ansprüche gegenüber anderen auszuwerten.
 Die App schlägt einen effizienten finanziellen Ausgleich unter den Beteiligten vor, sodass möglichst wenige Transaktionen nötig sind.
-Schulden des Nutzers gegenüber anderen werden in eine von ihm angegebene Währung umgerechnet.
-Nach Abschluss einer Reise kann dies archiviert werden.
+Schulden des Nutzers gegenüber Anderen werden in eine von ihm angegebene Währung umgerechnet.
+Nach Abschluss einer Reise kann diese archiviert werden.
 
 \subsection{Funktionale Anforderungen}
 Nun werden die funktionalen Anforderungen anhand von Use Cases beschrieben.
@@ -41,7 +40,7 @@ Nun werden die funktionalen Anforderungen anhand von Use Cases beschrieben.
 			                                         \item Der Nutzer öffnet die App.
 			                                         \item Die App zeigt die Anmeldeseite an.
 			                                         \item Der Nutzer wählt auf der Anmeldeseite \enquote{Sign up} aus.
-			                                         \item Er füllt dann seinen Namen, seine E-Mail-Adresse, und sein Passwort ein.
+			                                         \item Er gibt daraufhin seinen Namen, seine E-Mail-Adresse und sein Passwort ein.
 			                                         \item Er bestätigt sein Passwort durch erneute Eingabe.
 			                                         \item Der Nutzer tippt auf \enquote{Sign up}, um seinen Account zu erstellen.
 			                                         \item Die App zeigt erneut die Anmeldeseite mit nun vorausgefüllten Feldern an.
@@ -57,7 +56,7 @@ Nun werden die funktionalen Anforderungen anhand von Use Cases beschrieben.
 			                                         \item[4b.] Der Nutzer gibt ein Passwort ein, das nicht den Anforderungen entspricht.
 				                                         \subitem[4b1.] Die App zeigt eine Fehlermeldung an und fordert den Nutzer auf, ein Passwort einzugeben, das die Anforderungen erfüllt.
 				                                         \subitem[4b2.] Der \emph{Sign up}-Knopf ist ausgegraut, bis der Nutzer ein Passwort eingegeben hat, das die Anforderungen erfüllt. \emph{Zurück zu 4.}
-			                                         \item[5a.] Der Nutzer gibt bei der Bestätigung des Passworts ein anderes Passwort ein.
+			                                         \item[5a.] Der Nutzer gibt bei Bestätigen des Passworts ein anderes Passwort ein.
 				                                         \subitem[5a1.] Die App zeigt eine Fehlermeldung an und fordert den Nutzer auf, das gleiche Passwort erneut einzugeben.
 				                                         \subitem[5a2.] Der \emph{Sign up}-Knopf ist ausgegraut, bis der Nutzer das gleiche Passwort erneut eingegeben hat. \emph{Zurück zu 5.}
 		                                         \end{enumerate} \\
@@ -305,7 +304,7 @@ Nun werden die funktionalen Anforderungen anhand von Use Cases beschrieben.
 		\hline
 		Weitere Akteure                        & (Keine)                                                                                                                                \\
 		\hline
-		Auslösende Ereignisse                  & Ein Reisemitglied möchte einsehen, welche Schulden er hat bzw. was ihm geschuldet wird.                                                \\
+		Auslösende Ereignisse                  & Ein Reisemitglied möchte einsehen, welche Schulden er hat bzw. welche Beträge ihm geschuldet werden.                                                \\
 
 		\hline
 		\rowcolor{lightgray} \textbf{Szenario} & \textbf{Beschreibung}                                                                                                                  \\
@@ -419,7 +418,7 @@ Nun werden die funktionalen Anforderungen anhand von Use Cases beschrieben.
 \begin{enumerate}
 	\item \textbf{Sicherheit:} Die App soll sicher sein, d. h. keine sensiblen Daten speichern, die nicht zwingend benötigt werden.\\
 	So soll die Menge an Daten, die von Nutzern in der App oder auf dem Server gespeichert werden, möglichst klein gehalten werden.
-	\item \textbf{Benutzerfreundlichkeit:} Die App soll einfach zu bedienen sein, damit die Nutzer schnell und einfach mit ihr arbeiten können.\\
+	\item \textbf{Benutzerfreundlichkeit:} Die App soll einfach zu bedienen sein, damit die Nutzer schnell und einfach mit dieser arbeiten können.\\
 	Dazu soll die App eine intuitive Benutzeroberfläche haben, die den Nutzern die Bedienung der App erleichtert.
 	\item \textbf{Schnelligkeit:} Die App soll schnell reagieren, damit die Nutzer nicht lange auf die Ergebnisse warten müssen.
 	\item \textbf{Robustheit:} Die App soll robust sein, d. h. sie soll auch bei Fehlern oder unerwarteten Eingaben nicht abstürzen.\\
@@ -455,19 +454,19 @@ Um solche Fehler zu vermeiden, soll die App die Eingaben validieren.
 
 Die App soll die nicht- und funktionalen Anforderungen erfüllen.
 Dabei haben die funktionalen Anforderungen Priorität.
-Die App soll die Datenstrukturen (ggf. nach Bedarf angepasst) verwenden, um mit dem Server zu kommunizieren.
+Die App soll die Datenstrukturen (gegebenenfalls nach Bedarf angepasst) verwenden, um mit dem Server zu kommunizieren.
 Sie soll die Daten validieren und sicher Fehlermeldungen ausgeben, wenn die Eingaben nicht valide sind.
 
 \subsubsection{Benutzeraudits}
 
-Im Rahmen eines Benutzeraudits soll die App auf funktionale wie nichtfunktionale Anforderungen hin überprüft werden.
+Im Rahmen eines Benutzeraudits soll die App auf funktionale wie nichtfunktionale Anforderungen überprüft werden.
 Dabei soll die App in einer Studie mit echten Nutzern getestet werden.
-Es soll ein Protokoll mit einer Reihe von Aufgaben erstellt werdem, die die Nutzer ausführen sollen.
+Es soll ein Protokoll mit einer Reihe von Aufgaben erstellt werden, die die Nutzer ausführen sollen.
 
 \subsubsection{Ausgelieferte Artefakte}
 
 \begin{enumerate}
-	\item \textbf{Dokumentation:} Die Dokumentation soll die Architektur der App beschreiben und die einzelnen Komponenten erklären und ist Teil des Projektberichts.
+	\item \textbf{Dokumentation:} Die Dokumentation ist Teil des Projektberichts und soll die Architektur der App beschreiben sowie die einzelnen Komponenten erklären.
 	\item \textbf{Code:} Der Code soll die Architektur der App umsetzen und die einzelnen Komponenten implementieren.
 	\item \textbf{Testprotokoll:} Das Protokoll soll die Ergebnisse des Benutzeraudits beschreiben und ist Teil des Projektberichts.
 \end{enumerate}
