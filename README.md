@@ -1,4 +1,8 @@
 # Almanify
+
+⚠️ The app is not executable because the environment.ts is missing, which contains the API keys to firebase.
+For reasons of security, this is not included in the repo.
+
 ## Note
 The project is the exam for the module 'Entwicklung mobiler Applikationen' (Development of mobile applications), which we have visited in the winter semester 22/23 at the Technischen Hochschule Mittelhessen.
 
